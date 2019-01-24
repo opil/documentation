@@ -1,0 +1,8 @@
+site_name: OPIL
+nav:
+    - Home: index.md
+    - Platform: opil.md
+    - Deployment: deployment.md
+    - Getting Started: gettingstarted.md
+    - Further Information: furtherinformation.md
+theme: readthedocs
