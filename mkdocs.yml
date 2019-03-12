@@ -1,0 +1,59 @@
+site_name: OPIL
+site_url: https://opil-documentation.readthedocs.org
+repo_url: https://github.com/opil/documentation.git
+site_description: OPIL Documentation
+site_author: OPIL Team
+docs_dir: docs
+site_dir: html
+
+markdown_extensions:
+    - toc:
+        baselevel: 3
+    - fenced_code
+
+use_directory_urls: false
+
+theme:
+    name: mkdocs
+    highlightjs: true
+    hljs_languages:
+        - yaml
+        - django
+nav:
+    - Home: index.md
+    - Getting Started: 
+        - Introduction to OPIL: start/index.md
+        - Deployment: start/deployment.md
+    - Showcases:
+        - Introduction: showcases/index.md 
+        - Chemi: showcases/chemi.md
+        - Engino: showcases/engino.md
+        - Chemi: showcases/muraplast.md
+    - Administrator's Guide: 
+        - Introduction: admin/index.md
+        - Installation:
+            - OPIL Networking: admin/opil_networking.md
+            - OPIL Server: 
+                - Introduction: admin/opil_server.md
+                - OCB: admin/opil_server_ocb.md
+                - TP: admin/opil_server_tp.md
+                - HMI: admin/opil_server_hmi.md
+                - S&P: admin/opil_server_sp.md
+            - IoT Nodes:
+                - Introduction: admin/opil_iot.md
+                - RAN: admin/opil_iot_ran.md
+                - SAN: admin/opil_iot_san.md
+        - Developer's Guide:
+            - Introduction: develop/index.md
+            - Technology Guidelines: develop/technology_guidelines.md
+            - Programming Guidelines: develop/technology_programming.md 
+            - API Documentation:
+                - TP: develop/opil_api_tp.md
+                - HMI: develop/opil_api_hmi.md
+                - S&P: develop/opil_api_sp.md
+                - RAN: develop/opil_api_ran.md
+                - SAN: develop/opil_api_san.md
+                - Examples: develop/examples.md
+theme: readthedocs
+plugins:
+    - search
