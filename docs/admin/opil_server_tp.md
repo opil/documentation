@@ -1,3 +1,9 @@
+#Introduction
+ 
+Welcome to Module's Installation & Administration Guide!
+
+Any feedback on this document is highly welcome, including bug reports, typos or stuff you think should be included but is not. Please send the feedback through email to: module@l4ms.eu. Thanks in advance!
+
 # From Scratch
 Currently we are recommending *NOT* to install this Task Planner from scratch. We are having a lot of dependencies (ROS, FIROS, Python Packages, ...) therefore we are focussing on the Docker deployment. A installation from scratch will follow soon.
 
