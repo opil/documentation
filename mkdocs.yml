@@ -48,7 +48,9 @@ nav:
             - Technology Guidelines: develop/technology_guidelines.md
             - Programming Guidelines: develop/technology_programming.md 
             - API Documentation:
-                - TP: develop/opil_api_tp.md
+                - TP:  
+                    - Introduction: develop/opil_api_tp.md
+                    - BPO:  develop/opil_api_tp_bpo.md
                 - HMI: develop/opil_api_hmi.md
                 - S&P: develop/opil_api_sp.md
                 - RAN: develop/opil_api_ran.md
