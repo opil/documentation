@@ -45,7 +45,7 @@ nav:
                 - SAN: admin/opil_iot_san.md
         - Configuration:
                 TP:
-                    - Introduction:
+                    - Introduction: develop/opil_api_tp_intro.md
                     - BPO:  develop/opil_api_tp_bpo.md
                     - MPP:  develop/opil_api_tp_mpp.md
                     - TS:   develop/opil_api_tp_tasksupervisor.md
@@ -59,7 +59,7 @@ nav:
             - Programming Guidelines: develop/technology_programming.md 
             - API Documentation:
                 - TP:  
-                    - Introduction: develop/opil_api_tp.md
+                    - Introduction: 
                     - BPO:  
                     - MPP:  
                     - TS:   
