@@ -43,6 +43,16 @@ nav:
                 - Introduction: admin/opil_iot.md
                 - RAN: admin/opil_iot_ran.md
                 - SAN: admin/opil_iot_san.md
+        - Configuration:
+                TP:
+                    - Introduction:
+                    - BPO:  develop/opil_api_tp_bpo.md
+                    - MPP:  develop/opil_api_tp_mpp.md
+                    - TS:   develop/opil_api_tp_tasksupervisor.md
+                SP:
+                HMI:
+                SAN:
+                RAN:
         - Developer's Guide:
             - Introduction: develop/index.md
             - Technology Guidelines: develop/technology_guidelines.md
@@ -50,7 +60,9 @@ nav:
             - API Documentation:
                 - TP:  
                     - Introduction: develop/opil_api_tp.md
-                    - BPO:  develop/opil_api_tp_bpo.md
+                    - BPO:  
+                    - MPP:  
+                    - TS:   
                 - HMI: develop/opil_api_hmi.md
                 - S&P: develop/opil_api_sp.md
                 - RAN: develop/opil_api_ran.md
