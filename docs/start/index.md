@@ -77,6 +77,17 @@ OPIL platform enables new specific developments built on top of the enablers pro
 ### Modules:
 
 #### MOD.SW.TP (Task Planner)
+*Task Planner (TP)* is one of the three high-level components of OPIL and it comprises of three sub-modules: 
+ - **Business Process Optimization (BPO)**
+ - **Motion Task Planning (MTP)** and
+ - **Task Supervisor (TS)** 
+
+**BPO** module decides and optimizes the sequence of operations to be dispatched to the different agents (robot agent, human agent). *BPO* receives a description of the sought logistic state, the available system transitions as well as the transition constraints on the logistic states from the *TS*, and it calculates the optimal task plan as the optimal required resource allocation and their schedule so that the logistic system can reach the sought logistic state with minimal resources (time or energy), fulfilling the high level task specification that was provided to the *TS*. 
+
+**TS** module serves two major roles. The first role is to receive a specification of the sought logistic task *(task specification)* in a programming language introduced in OPIL that is appropriate for logistics operations. *TS* parses the *task specification* to generate the sought logistic state, the available system transitions on logistic states as well as the transition constraints on the logistic states that are then passed to the *BPO*. In its second role, the *TS* receives the sequence of logistic operations from the *BPO* (*task plan*) and dispatches it to the corresponding agents and monitors the execution of the sequence of operations received from *BPO*. In case of a failed execution, *TS* informs the *BPO* to provide an alternative sequence to execute the given task.
+
+**MTP** module plans the motion tasks for the robot agents. *MTP* provides to the *BPO* operation costs in terms of time needed and travel distance for each motion operation. Considering these, *MTP* finds out the solution of the (multi-) robot motion planning problem.
+
 The task planner components are in charge of:
 
 1. Deciding and optimizing the tasks to be dispatched to the different agents in the OPIL architecture by means of a Business Process Optimization functional block.
@@ -85,7 +96,10 @@ The task planner components are in charge of:
 
 3. Monitor the execution of the task dispatched to the agents by means of the Task Supervisor.
 
+
 #### MOD.SW.AHMI (Advanced HMI)
+HMI is a web application server with its own local database for storing data needed in this module. HMI serves a web browser user interface for the human agents to monitor and control OPIL data entities.
+
 This OPIL node consists of three different sub-modules. 
 The Task Monitoring and Control enables continuous monitoring and control of tasks. Subscription and visualisation of information available in
 OPIL, and the controllability of the operations, tasks and other actions planned by OPIL and human actors are the key functionalities. 

@@ -33,32 +33,48 @@ nav:
         - Introduction: admin/index.md
         - Installation:
             - OPIL Networking: admin/opil_networking.md
-            - OPIL Server: 
-                - Introduction: admin/opil_server.md
-                - OCB: admin/opil_server_ocb.md
-                - TP: admin/opil_server_tp.md
-                - HMI: admin/opil_server_hmi.md
-                - S&P: admin/opil_server_sp.md
+            - OPIL Server: admin/opil_server.md
+            - OPIL Modules:
+                - Task Planner: 
+                    - Installation: admin/opil_server_tp_install.md
+                    - Deinstallation: admin/opil_server_tp_deinstall.md
+                    - Upgrades: admin/opil_server_upgrade.md
+                    - Deprecated: admind/opil_server_tp_deprecated.md 
+                - Human Machine Interaction: admin/opil_server_hmi.md
+                - Sensing and Perception: admin/opil_server_sp.md
             - IoT Nodes:
                 - Introduction: admin/opil_iot.md
                 - RAN: admin/opil_iot_ran.md
                 - SAN: admin/opil_iot_san.md
         - Configuration:
-                TP:
-                    - Introduction: develop/opil_api_tp_intro.md
-                    - BPO:  develop/opil_api_tp_bpo.md
-                    - MPP:  develop/opil_api_tp_mpp.md
-                    - TS:   develop/opil_api_tp_tasksupervisor.md
-        - Developer's Guide:
-            - Introduction: develop/index.md
-            - Technology Guidelines: develop/technology_guidelines.md
-            - Programming Guidelines: develop/technology_programming.md 
-            - API Documentation:
-                - HMI: develop/opil_api_hmi.md
-                - S&P: develop/opil_api_sp.md
-                - RAN: develop/opil_api_ran.md
-                - SAN: develop/opil_api_san.md
-                - Examples: develop/examples.md
+                - Introduction: admin/opil_conf_intro.md
+                - Modules:
+                    -  Task Planner:
+                        - Introduction: develop/opil_config_tp_intro.md
+                        - Business Process Optimization:  develop/opil_config_tp_bpo.md
+                        - Motion Path Planning:  develop/opil_config_tp_mpp.md
+                        - Task Supervisor:   develop/opil_config_tp_tasksupervisor.md
+                    -   Human Machine Interaction:
+                        - Introduction: admin/opil_config_HMI_intro.md
+
+                    -   Sesing & Perception:        
+    - Developer's Guide:
+        - Introduction: develop/index.md
+        - Technology Guidelines: develop/technology_guidelines.md
+        - Programming Guidelines: develop/technology_programming.md 
+        - API Documentation:
+            - Module:
+                - Task Planner:
+                    - Introduction: develop/opil_tp_API_intro
+                    - API: develop/tp_api.md
+                    - Interfaces: develop/opil_tp_interfaces.md
+                - Human Machine Interaction: develop/opil_api_hmi.md
+                - Sensing & Perception: develop/opil_api_sp.md
+            - Nodes:
+                - Robot Agent Node (RAN): develop/opil_api_ran.md
+                - Sensor Agent Node (SAN): develop/opil_api_san.md
+                - Human Agent Node (HAN):  
+            - Examples: develop/examples.md
 theme: readthedocs
 plugins:
     - search
