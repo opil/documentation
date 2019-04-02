@@ -65,22 +65,23 @@ nav:
                 - SAN VC Actuator: admin/SANVCACT/opil_vc_sanvcact.md
         - Modules Description:
             - Introduction: admin/OPIL/opil_conf_intro.md
-            - IoT Devices Nodes:
-                - Introduction:
-                - RAN:
-                - SAN:
-                - HAN:
-            - IoT Visual Components Nodes:
-                - VC RAN:
-                - VC SAN:
-                - VC SAN Actuator:
             - Functional Modules:                              
                 - Task Planner:
                     - Introduction: develop/opil_config_tp_intro.mkdocs
                     - Business Process Optimization:  develop/opil_config_tp_bpo.md
                     - Motion Path Planning:  develop/opil_config_tp_mpp.md
                     - Task Supervisor:   develop/opil_config_tp_tasksupervisor.md
-                - Sesing & Perception:
+                - Sensing & Perception:            
+            - IoT Devices Nodes:
+                - Introduction: admin/opil_desc_node_intro.md
+                - RAN: admin/RAN/opil_desc_ran.md
+                - SAN: admin/SAN/opil_desc_san.md
+                - HAN: admin/HAN/opil_desc_han.md
+            - IoT Visual Components Nodes:
+                - Introduction: admin/opil_desc_vc_node_intro.md
+                - VC RAN: admin/RANVC/opil_desc_vc_ran.md
+                - VC SAN: admin/SANVC/opil_desc_vc_san.md
+                - VC SAN Actuator: admin/SANVCACT/opil_desc_vc_sanvcact.md
         - Human Machine Interaction:
             -   Introduction: admin/opil_config_HMI_intro.md        
     - Developer's Guide:
@@ -90,15 +91,19 @@ nav:
         - API Documentation:
             - Module:
                 - Task Planner:
-                    - Introduction: develop/opil_tp_API_intro
-                    - API: develop/tp_api.md
-                    - Interfaces: develop/opil_tp_interfaces.md
-                - Human Machine Interaction: develop/opil_api_hmi.md
-                - Sensing & Perception: develop/opil_api_sp.md
-            - Nodes:
-                - Robot Agent Node (RAN): develop/opil_api_ran.md
-                - Sensor Agent Node (SAN): develop/opil_api_san.md
-                - Human Agent Node (HAN):  
+                    - Introduction: develop/TP/opil_tp_API_intro
+                    - API: develop/TP/tp_api.md
+                    - Interfaces: develop/TP/opil_tp_interfaces.md
+                - Human Machine Interaction: develop/HMI/opil_api_hmi.md
+                - Sensing & Perception: develop/HMI/opil_api_sp.md
+            - IoT Devide Nodes:
+                - Robot Agent Node (RAN): develop/RAN/opil_api_ran.md
+                - Sensor Agent Node (SAN): develop/SAN/opil_api_san.md
+                - Human Agent Node (HAN):  develop/HAN/opil_api_han.md
+            - IoT Visual Components Nodes:
+                - VC RAN: develop/RANVC/opil_api_vc_ran.md
+                - VC SAN: develop/SANVC/opil_api_vc_san.md
+                - VC SAN Actuator: develop/SANVCACT/opil_api_vc_sanvcact.md
             - Examples: develop/examples.md
 theme: readthedocs
 plugins:

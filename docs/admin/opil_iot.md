@@ -1,0 +1,1 @@
+Here comes the introduction to installation of IoT nodes
