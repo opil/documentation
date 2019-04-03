@@ -59,3 +59,4 @@ In our agent model the auctions for orders takes place between the logical agent
 ![Sequence diagram of a transport order auction: the participating agents as well as the communication process between them are shown.](../imgs/TransportOrderAssignment.png)
 
 
+
