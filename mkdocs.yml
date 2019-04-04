@@ -75,15 +75,15 @@ nav:
                 - HAN (missing): admin/HAN/opil_desc_han.md
             - IoT Visual Components Nodes:
                 - Introduction (missing): admin/opil_desc_vc_node_intro.md
-                - VC RAN: admin/RANVC/opil_desc_vc_ran.md
-                - VC SAN: admin/SANVC/opil_desc_vc_san.md
-                - VC SAN Actuator: admin/SANVCACT/opil_desc_vc_sanvcact.md
+                - VC RAN (missing): admin/RANVC/opil_desc_vc_ran.md
+                - VC SAN (missing): admin/SANVC/opil_desc_vc_san.md
+                - VC SAN Actuator (missing): admin/SANVCACT/opil_desc_vc_sanvcact.md
         - Human Machine Interaction:
             -   Introduction (needs more info): admin/HMI/opil_desc_HMI_intro.md        
     - Developer's Guide:
-        - Introduction: develop/index.md
-        - Technology Guidelines: develop/technology_guidelines.md
-        - Programming Guidelines: develop/technology_programming.md 
+        - Introduction (missing): develop/index.md
+        - Technology Guidelines (missing): develop/technology_guidelines.md
+        - Programming Guidelines (missing): develop/technology_programming.md 
         - API Documentation:
             - Module:
                 - Task Planner (Done):
@@ -98,10 +98,17 @@ nav:
                     - Interfaces (done): develop/HMI/opil_interfaces_hmi.md
                 - Sensing & Perception: develop/HMI/opil_api_sp.md
             - IoT Devide Nodes:
-                - Robot Agent Node (RAN): develop/RAN/opil_api_ran.md
-                - Sensor Agent Node (SAN): develop/SAN/opil_api_san.md
-                - Human Agent Node (HAN):  develop/HAN/opil_api_han.md
-            - IoT Visual Components Nodes:
+                - Robot Agent Node (RAN) (done): 
+                    - API: develop/RAN/opil_api_ran.md
+                    - Interfaces: develop/RAN/opil_interfaces_ran.md
+                    - Introduction: develop/RAN/opil_introd_ran.md
+                - Sensor Agent Node (SAN) (done): develop/SAN/opil_api_san.md
+                    - API: develop/SAN/opil_api_san.md
+                    - Drivers: develop/SAN/opil_drivers_san.md
+                    - Introduction: develop/SAN/opil_introd_san.md
+                    - Run: develop/SAN/opil_run_san.md
+                - Human Agent Node (HAN) (all docs missing):  develop/HAN/opil_api_han.md
+            - IoT Visual Components Nodes (All docs missing):
                 - VC RAN: develop/RANVC/opil_api_vc_ran.md
                 - VC SAN: develop/SANVC/opil_api_vc_san.md
                 - VC SAN Actuator: develop/SANVCACT/opil_api_vc_sanvcact.md
