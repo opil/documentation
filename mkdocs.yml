@@ -64,22 +64,22 @@ nav:
                 - SAN VC: admin/SANVC/opil_vc_sanvc.md
                 - SAN VC Actuator: admin/SANVCACT/opil_vc_sanvcact.md
         - Modules Description:
-            - Introduction: admin/OPIL/opil_conf_intro.md
+            - Introduction: admin/OPIL/opil_desc_intro.md
             - Functional Modules:                              
-                - Task Planner (Done): develop/opil_desc_tp_intro.md
-                - Sensing & Perception (done): opil_desc_HMI_intro.md            
+                - Task Planner (Done): admin/TP/opil_desc_tp_intro.md
+                - Sensing & Perception (done): admin/SP/opil_desc_HMI_intro.md            
             - IoT Devices Nodes:
-                - Introduction: admin/opil_desc_node_intro.md
-                - RAN: admin/RAN/opil_desc_ran.md
-                - SAN: admin/SAN/opil_desc_san.md
-                - HAN: admin/HAN/opil_desc_han.md
+                - Introduction (missing): admin/opil_desc_node_intro.md
+                - RAN (Done): admin/RAN/opil_desc_ran.md
+                - SAN (done): admin/SAN/opil_desc_san.md
+                - HAN (missing): admin/HAN/opil_desc_han.md
             - IoT Visual Components Nodes:
-                - Introduction: admin/opil_desc_vc_node_intro.md
+                - Introduction (missing): admin/opil_desc_vc_node_intro.md
                 - VC RAN: admin/RANVC/opil_desc_vc_ran.md
                 - VC SAN: admin/SANVC/opil_desc_vc_san.md
                 - VC SAN Actuator: admin/SANVCACT/opil_desc_vc_sanvcact.md
         - Human Machine Interaction:
-            -   Introduction: admin/opil_config_HMI_intro.md        
+            -   Introduction (needs more info): admin/HMI/opil_desc_HMI_intro.md        
     - Developer's Guide:
         - Introduction: develop/index.md
         - Technology Guidelines: develop/technology_guidelines.md
