@@ -5,7 +5,7 @@ There are two ways of installing the SP module. You can use the docker container
 
 There are two docker containers - the Central SP and the Local SP.
 
-## The Central SP docker
+## The Central SP docker 
 
 The docker container is located at 
 <https://hub.docker.com/r/l4ms/opil.sw.sp>
@@ -67,7 +67,7 @@ To check if everything is working properly follow the guide [Starting from Docke
 
 ## The Local SP docker
 
-The current version of the Local SP contains the Stage simulator. This will be removed soon and will be used from the RAN directly communicating through ROS.
+ The current version of the Local SP contains the Stage simulator. This will be removed soon and will be used from the RAN directly communicating through ROS.
 
 The docker container is located at 
 <https://hub.docker.com/r/l4ms/opil.sw.sp>
@@ -104,7 +104,7 @@ services:
 ```
 
 
-# Install from Scratch
+# Install from Scratch 
 
 If you are using older version of Firos (v1) use this:
 
@@ -140,4 +140,6 @@ catkin_make
 ```
 Sometimes you need to repeat `catkin_make` due to the dependencies between the packages.
 To check if everything is working properly follow the guide [Starting from Scratch.](../start.md#fromscratch)
+
+
 

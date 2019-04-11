@@ -5,7 +5,7 @@
 *  HMI web app uses its own instance of Mongo DB
 *  Start http://hostname:8081
 *  App is started with initial user configured in environment variables
-    *  although id or password changed here, user's name and role is always 'admin'
+    *  although ID or password changed here, user's name and role is always 'admin'
     *  password could be changed from UI as well
 
 docker-compose.yml:
@@ -57,5 +57,8 @@ or run containers in the background:
 Remove dangling images if needed:
 
     docker system prune -f
+
+
+
 
 

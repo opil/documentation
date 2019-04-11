@@ -1,9 +1,9 @@
-# How to use the RAN module
+# How to use the RAN module 
 How to start the RAN depends on how you get it and how you installed it. 
 
 ## How to start the RAN
 ### Docker
- If you are using Docker, to start the RAN, run the following commands on the terminal:
+: If you are using Docker, to start the RAN, run the following commands on the terminal:
  
 	xhost local:root
 	
@@ -12,29 +12,30 @@ How to start the RAN depends on how you get it and how you installed it.
 	
 Both solutions might require a ‘sudo’ prefix
 
-The first command is used in order to give the container access to the host display. It is required for the running of stage – a ROS simulator – which requires the access to the display to show the movement of the robot in the simulated environment. This dependence from display will be removed in the next versions.
+ The first command is used in order to give the container access to the host display. It is required for the running of stage – a ROS simulator – which requires the access to the display to show the movement of the robot in the simulated environment. This dependence from display will be removed in the next versions.
 
-The other parameters create some evnvironment variables used in the Doker image.
+The other parameters create some environment variables used in the Docker image.
 
 
-The FIWAREHOST parameter has to be set to the IP of the machine on which the Orion Context Broker is running.
+ The FIWAREHOST parameter has to be set to the IP of the machine on which the Orion Context Broker is running.
 
-The HOST parameter is used to set the IP hosting the docker machine (if not in a Virtual Machine, this should be your IP)
+ The HOST parameter is used to set the IP hosting the docker machine (if not in a Virtual Machine, this should be your IP)
 
 The NETINTERFACE is used to specify which network interface is used for communication. It is possible to get that name by using the ifconfig command and using the same interface name whose IP is the one used as HOST
 
 
 
-### Source code:
+### Source code: 
 Using the source code, you just need to execute the <b>robot_launcher.launch</b> file present in the Source folder. BE SURE FIWARE-OCB IS UP.
 
-In order to launch the file, open the terminal and type: 
+ In order to launch the file, open the terminal and type: 
 
 	roslaunch robot_launcher.launch
 	
 In the launch file it is possible to personalize and custom some aspects of the RAN. The most relevant information that has to be provided is the <b>AGV/Robot identifcator</b>, so the integer values that identifies the HW in the architecture. We recommend to use incremental integer numbers to identify each single machine.
 
 
-## How to interact with the RAN
+## How to interact with the RAN 
 
 It is possible to interact with the RAN via REST calls. These calls allow to set a target for the robot to reach, to order the robot to perform an action or to modify or cancel an existing assignment. There are no dependence between the Calls and the starting method, so the procedure is the same for both Docker and Source code. These APIs are defined in [here](../api)
+

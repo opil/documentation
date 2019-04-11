@@ -3,14 +3,14 @@
 ## Standard entity format
 SAN is connected to HMI (Human Machine Interface) in OPIL, which processes the received data and monitors it/redirects to TP. 
 However, because the end result is present in Orion Context Broker, HMI can be replaced by your solution/system. 
-Alternatively, you can even replace SAN with your solution, but if you want to link it to HMI,
-you will have to keep the entity format what is output by SAN.
+Alternatively, you can even replace SAN with your solution, but if you want to link it to HMI, 
+you will have to keep the entity format what is output by SAN. 
 
 First, introduce yourself with how 
 [entities and attributes](https://fiware-orion.readthedocs.io/en/master/user/walkthrough_apiv2/index.html#entity-creation) 
 in Orion Context Broker.
 
-Next, observe the example of a generic entity output by SAN:
+ Next, observe the example of a generic entity output by SAN:
 
 ```json
 [
@@ -58,8 +58,8 @@ Below is the explanation of the entity along with its attributes:
 
 |    Attribute    | Data Type |                                                                                              Description                                                                                             |
 |:---------------:|:---------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|    sensorData   |   Array   | sensorData is one of the main attributes and it  corresponds to the particular data regarding sensors  which submitted this data                                                                     |
-|     sensorId    |   String  | sensorID attribute contains a unique ID of the particular sensor.  ID will tell the user which sensor exactly has sent the data,  regardless is there are other sensors that are totally the same.   |
+|    sensorData   |   Array   | sensorData is one of the main attributes and it corresponds to the particular data regarding sensors  which submitted this data                                                                     |
+|     sensorId    |   String  | sensorID attribute contains a unique ID of the particular sensor.  ID will tell the user which sensor exactly has sent the data, regardless of whether there are other sensors that are totally the same.  |
 |    sensorType   |   String  | sensorType attribute contains the name of the sensor and  determines the type of the sensor.                                                                                                         |
 | measurementType |   String  | measurementType contains the information which tells user what has been measured exactly. Sensors of the same type  may measure different things and it is essential to specify.                     |
 |   manufacturer  |   String  | manufacturer contains the name of the manufacturer of the sensor                                                                                                                                     |
@@ -125,6 +125,7 @@ The example of a subscription can look like this:
   "throttling": 2
 }
 ```
-*Above: Instead of http://yoururl.com insert the endpoint you want to get data to*
+*Above: Instead of http://yoururl.com insert the endpoint you want to get data to *
 
 Do not forget to include the following header: "Content-type" - "application/json"
+

@@ -74,9 +74,9 @@ Floorplan image is saved in: /public/uploads/ and is retrievable from http://ser
 Parameter:
 id - Mongo _id of the floorplan document
 
-Update floorplan with only fields: `name`, `scale`, `xoffset`, `yoffset`.
+ Update floorplan with only fields: `name`, `scale`, `xoffset`, `yoffset`.
 
-Image is not possible to update, you should delete and create a new floorplan.
+Image is not possible to update, you should delete and create a new floorplan. 
 
 Use either of enctypes for the payload:
 - application/x-www-form-urlencoded
@@ -96,7 +96,7 @@ Response is the updated floorplan object in json.
 >    [DELETE] http://serveraddress:8081/api/fp/{id}
 
 Parameter:
-id - Mongo _id of the floorplan document
+id - Mongo _id of the floorplan document 
 
 Response is the deleted floorplan object in json.
 
@@ -118,3 +118,4 @@ Response is the deleted floorplan object in json.
 
 #### Delete a user
 >    [DELETE] http://serveraddress:8081/api/user/{id}
+

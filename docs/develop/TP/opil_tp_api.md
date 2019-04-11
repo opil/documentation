@@ -1,23 +1,23 @@
 # Introduction
  
-Welcome to Module's User & Programmers Manual Guide!
+Welcome to Module's User & Programmers Manual Guide! 
 
-Any feedback on this document is highly welcome, including bug reports, typos or stuff you think should be included but is not. Please send the feedback through email to: module@l4ms.eu. Thanks in advance!
+Any feedback on this document is highly welcome, including bug reports, typos or information you think should be included but is not. Please send the feedback through email to: module@l4ms.eu. Thank you in advance.
 
 # Interfaces Produced
-We recommend to read the TaskPlanner/Tasksupervisor introduction to understand our concept of the TaskSupervisor (including the TaskScheduling, TaskManagers and Tasks).
+ We recommend to read the TaskPlanner/TaskSupervisor introduction to understand our concept of the TaskSupervisor (including the TaskScheduling, TaskManagers and Tasks).
 
-## TaskManager
-The TaskManager is using the parsed output of the specified Task Specification (via TaskLanguage). Once the task specification is valid, the set of task are the input for the TaskManager. For example a set of three task has been described:
+## TaskManager 
+The TaskManager is using the parsed output of the specified Task Specification (via TaskLanguage). Once the Task Specification is valid, the set of task are the input for the TaskManager. For example a set of three task has been described:
 
 ```
 Transport_moldingPallet -> Charge -> Refill
 ```
 
 
-The first task which will be executed is the `Transport_moldingPallet`. Once this task is finished, `Charge` is the follow up task. Once `Charge` is finished, the follow up task `Refill` will be executed. As soon the end of the last task of this task set has been reached, in our case `Refill`, the lifecycle of this TaskManager ends. The TaskSupervisor is responsible to respawn the TaskManager.
+The first task which will be executed is the `Transport_moldingPallet`. Once this task is finished, `Charge` is the follow up task. Once `Charge` is finished, the follow up task `Refill` will be executed. As soon the end of the last task of this task-set has been reached, in our case `Refill`, the lifecycle of this TaskManager ends. The TaskSupervisor is responsible to respawn the TaskManager.
 
-As already mentioned, a TaskManager can have multiple tasks in the queue (taskList) while only one single task is running at the same time. Multiple instances of the taskManager are able to run, identified by their unique id (UUID).
+ As already mentioned, a TaskManager can have multiple tasks in the queue (taskList) while only one single task is running at the same time. Multiple instances of the taskManager are able to run, identified by their unique ID (UUID).
 
 ```json
 {
@@ -55,7 +55,7 @@ As already mentioned, a TaskManager can have multiple tasks in the queue (taskLi
 *  **time**: date and time of this entity
 
 
-## Task
+## Task 
 A task is a running instance of task, which has been defined in the taskManager. 
 ```json
 {
@@ -85,12 +85,12 @@ A task is a running instance of task, which has been defined in the taskManager.
 ```
 
 * **state**: Idle : 0, Running : 1, Waiting : 2, Active : 3, Finished : 4, Aborted : 5, Error : 6
-* **taskManagerId**: the id of the taskManager, who is responsible for spawning this task
+* **taskManagerId**: the ID of the taskManager, who is responsible for spawning this task
 * **taskName**: current name of this ongoing task
 * **time**: date and time of this entity
 
 
-## TaskSpecState
+## TaskSpecState 
 This entity provides information about the TaskSpec and the processed TaskLanguage.
 ```json
 {
@@ -115,10 +115,10 @@ This entity provides information about the TaskSpec and the processed TaskLangua
 ```
 * *state*:  Idle : 0, Ok: 1, Error = -1
 * *message*: A message according to the state. In case of an error, it will inform you with some more detail information about the error
-* *refId*: reference id of the TaskSpec entity
+* *refId*: reference ID of the TaskSpec entity
 
 # Interfaces Consumed
-In order to work as designed, the TaskPlanner requires a TaskSpecification, which is based on the TaskLanguage. This entity is explained below.
+ In order to work as designed, the TaskPlanner requires a TaskSpecification, which is based on the TaskLanguage. This entity is explained below.
 ## TaskSpec
 
 ```json
@@ -133,4 +133,5 @@ In order to work as designed, the TaskPlanner requires a TaskSpecification, whic
 }
 ```
 * **TaskSPec**: TaskLanguage specification, forbidden characters inside Orion (comma separated): <, >, ", ', =, ; (, ).
+    
     

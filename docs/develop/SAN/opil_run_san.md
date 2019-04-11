@@ -2,7 +2,7 @@
 
 ## Configuration
 
-Assuming you have downloaded the SAN on Raspberry Pi or Revolution Pi, proceed with the following steps.
+ Assuming you have downloaded the SAN on Raspberry Pi or Revolution Pi, proceed with the following steps. 
 
 First, go to mod.iot.san/PythonSAN repository and locate the following file - *config.json*
 
@@ -68,14 +68,14 @@ You should simply change the value written in quotation marks (" ") according to
 
 ## Running the SAN
 
-After you have installed the SAN and configured the SAN to run with the necessary sensors and proper IP address of the OCB:
-1) Open a Terminal
-2) Execute the command "san"
+ After you have installed the SAN and configured the SAN to run with the necessary sensors and proper IP address of the OCB:
+ 1) Open a Terminal
+ 2) Execute the command "san"
 
 
 ```>> san```
 
 ## Stopping SAN
-Because SAN uses threads to process and submit data, you will have to do the following to stop SAN:
+Because SAN uses threads to process and submit data, you will have to do the following to stop SAN: 
 1) Find the terminal where the SAN is running
 2) Type in Ctrl+C

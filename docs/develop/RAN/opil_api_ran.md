@@ -1,16 +1,16 @@
-# RAN APIs
+# RAN APIs 
 
-It is possible to interact with the RAN via REST calls. With these calls it is possible to add, update or cancel tasks and assignments or access data.
+It is possible to interact with the RAN via REST calls. With these calls it is possible to add, update or cancel tasks and assignments or access data. 
 
-All the shown calls use the OCB APIs, that are exploted by passing an appropriate body message.
+All the shown calls use the OCB APIs, that are exploted by passing an appropriate body message. 
 
 An important element is thus the IP of the machine on which the Fiware Orion Context Broker is running - it is indicated as <b>OCB_IP</b>
 
-All the highlighted attributesare detailed [here](../interfaces)
+All the highlighted attributes are detailed [here](../interfaces)
 
 ## POST Motion
 
-With this, it is possible to set a new target for the robot (sending a new assignment) or to update an existing one.
+ With this, it is possible to set a new target for the robot (sending a new assignment) or to update an existing one.
 
 	POST OCB_IP:1026/v1/updateContext
 				"header": [
@@ -58,7 +58,7 @@ Relevant attributes of the body are:
 
 the definition of the target, with coordinates
 
-- sequence
+- sequence 
 
 put the motion in the correct sequence position
 
@@ -66,7 +66,7 @@ put the motion in the correct sequence position
 
 ## POST Action
 
-With this, it is possible to set a new action for the robot to perform (sending a new assignment) or to update an existing one.
+ With this, it is possible to set a new action for the robot to perform (sending a new assignment) or to update an existing one.
 
 	POST OCB_IP:1026/v1/updateContext
 	
@@ -107,7 +107,7 @@ The relevant attibutes are:
 
 ## POST Cancel Assignmet or Task
 
-With this, it is possible to set a cancel any assignment or a whole task.
+ With this, it is possible to set a cancel any assignment or a whole task.
 
 	POST OCB_IP:1026/v1/updateContext
 	
@@ -153,4 +153,5 @@ With this method it is possible to retieve informations about one enity. This mi
 
 ## Other services
 
-All of the previosuly presented calls are derived from Orion Context Broker APIs, that are documented in [here](https://fiware-orion.readthedocs.io/en/master/user/walkthrough_apiv2/index.html#query-entity). It is possible to take advantage of all the methods that are listed in the documentation availabe at the provided link.
+All of the previosuly presented calls are derived from Orion Context Broker APIs, that are documented in [here](https://fiware-orion.readthedocs.io/en/master/user/walkthrough_apiv2/index.html#query-entity). It is possible to take advantage of all the methods that are listed in the documentation available at the provided link.
+

@@ -1,9 +1,7 @@
 # OPIL Deployment Scheme
-The purpose of this page is to give an overview of a **recommended deployment scheme** for OPIL-based systems. 
-The individual modules may be deployed in various other ways but in general the deployment scheme described in this page is good approach for most use cases.
-  
-  
-This deployment scheme is based on two main categories of components:
+ The purpose of this page is to give an overview of a **recommended deployment scheme** for OPIL-based systems. 
+The individual modules may be deployed in other ways but generally the deployment scheme described in this page is a good approach for most use cases.
+  This deployment scheme is based on two main categories of components:
 
 * **A centralized server** to host OPIL modules that provide services connected to all other modules.
 * **IoT-nodes** on the field connected to different hardware, including (but not limited to) mobile robots, AGVs, forklifts and sensors.
@@ -19,7 +17,7 @@ All standard OPIL modules are deployed as [Docker](https://www.docker.com/) cont
 All OPIL docker images are available fully functional ready-packages on [Docker Hub](https://hub.docker.com/u/l4ms). However, they are not pre-configured, and configuration has to be done using configuration files as **docker volumes** and  **docker environmental variables**. The specific configuration options are different for every module.
 
 # OPIL Modules
-The following diagram shows how the various OPIL modules may be deployed. Each subsystem, module and their purpose are explained more in detail later on this page.
+ The following diagram shows how the various OPIL modules may be deployed. Each subsystem, module and their purpose are explained in detail later on this page.
   
 ![OPIL deployment scheme](./SCHEME.PNG)
 
@@ -47,7 +45,7 @@ Sensing & Perception provides mapping of logical positions to points (x, y, thet
 ## OPIL Sensor Computer
 ![OPIL SAN](./SAN.PNG)   
 
-**OPIL Sensor Computer** is computer on the field that provides hardware connection possibilities for various sensors.
+**OPIL Sensor Computer** is a computer on the field that provides hardware connection possibilities for various sensors.
 
 * **SAN = Sensor Agent Node**  
 SAN is one of the IoT modules of OPIL. SAN is responsible for connecting sensors of different types with the Context Management and providing data from the sensors to the OPIL system. For further details, see SAN documentation (Link missing!).
@@ -71,4 +69,6 @@ Sensing & Perception continuously updates the AGV's position and builds and upda
 
 * **AGV Native Controller**  
 AGV Native Controller is a pre-existing (non-OPIL) controller of the AGV that controls the motors and motion of the AGV. RAN provides low level commands to the controller over a local connection.
+
+
 

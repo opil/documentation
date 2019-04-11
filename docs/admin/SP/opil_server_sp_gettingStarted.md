@@ -22,7 +22,7 @@ This docker container starts the creation of topology (nodes, edges) from the gi
 
 ![IML topology](./img/IMLtopology.png)
 
-To use arbitrary annotations file and map file you should create these files and put it in the same folder next to the docker-compose.yml and uncomment the lines containing these files. These example files can be found in the folder test/docker_compose_files/Central_SP_docker.
+To use arbitrary annotations file and map file you should create these files and put it in the same folder next to the docker-compose.yml and uncomment the lines containing these files. These example files can be found in the folder test/docker_compose_files/Central_SP_docker. 
 
 Here is a quick guide how to create these files:
 
@@ -107,7 +107,7 @@ After restarting docker-compose.yml this is what should be the result:
 
 The current version of the Local SP contains the Stage simulator, which will be removed in the future version since it will be connected to the RAN through ROS master.
 
-Prepare a following docker-compose to start both Central and Local SP. You can also start them on the different machines.
+ Prepare a following docker-compose to start both Central and Local SP. You can also start them on the different machines.
 
 ```
 version: "3"
@@ -151,9 +151,9 @@ services:
 This will start everything with the IML lab. The following figure presents the output after moving the green box in the Stage simulator:
 ![Local and central SP](./img/localcentralupdateIML.png)
 
-One rviz window is from the Local SP, where you can see the AGV's pose (red arrow) and local updates (red tiny squares). Another rviz window is from the Central SP, where you can see the updates of the topology and new obstacles presented with blue tiny squares presenting only the current position of the new obstacle. All new obstacles are processed as they are received so only new ones are sent. That is the reason why in the Local SP you can see a trail of the obstacle, while in the Central SP there is no trail but the topology is permanently changed.
+One rviz window is from the Local SP, where you can see the AGV's pose (red arrow) and local updates (red tiny squares). Another rviz window is from the Central SP, where you can see the updates of the topology and new obstacles presented with blue tiny squares showing only the current position of the new obstacle. All new obstacles are processed as they are received so only new ones are sent. That is the reason why in the Local SP you can see a trail of the obstacle, while in the Central SP there is no trail but the topology is permanently changed.
 
-You can test more maps, and here is the examle how to change the map to ICENT lab.
+ You can test more maps, and here is the examle how to change the map to ICENT lab. 
 Prepare the file **local_robot_sim.launch** and put it next to your **docker-compose.yml**:
 
 ```
@@ -197,7 +197,7 @@ Prepare the file **local_robot_sim.launch** and put it next to your **docker-com
 </launch>
 ```
 In this launch files you can set various parameters: **cell_size** defines the fine gridmap for calculating new obstacles (tiny red squares); robot ID as an argument of _pubPoseWithCovariance_ and _mapupdates_ for having more robots, **scan_topic**, etc.
-For testing Local SP and Central SP on the same ICENT map, you also need to prepare a new **topology.launch**:
+ For testing Local SP and Central SP on the same ICENT map, you also need to prepare a new **topology.launch**:
 ```
 <launch>
 <node name="map_server" pkg="map_server" type="map_server" args="$(find maptogridmap)/launch/Andamapa.yaml" respawn="false" >
@@ -260,7 +260,7 @@ After moving the green box in the simulator the result can be seen like in this 
 
 This section explains connecting Local SP, where Local SP does not contain the Stage simulator and it is connected directly to RAN through a single ROS master (has tag l3.0). For that purpose RAN docker container is changed so that it does not contain map_server and amcl localization and right now temporal version is used from opilsp/ran:3.0.
 
-Prepare a following docker-compose to start both Central and Local SP:
+ Prepare a following docker-compose to start both Central and Local SP:
 
 ```
 version: "3"
@@ -341,7 +341,7 @@ rostopic echo /robot_0/newObstacles
 ```
 You can change the resolution of the local map updates by following the guide in Section [Map updates](./user/api.md#mapupdates).
 
-All previous steps can be replaced by calling a single launch file for the Local SP:
+ All previous steps can be replaced by calling a single launch file for the Local SP:
 ```
 roslaunch sensing_and_perception local_robot_sim.launch 
 ```
@@ -351,9 +351,13 @@ This launch file starts the localization, local map updates and module for publi
 ```
 terminal 4: roslaunch maptogridmap startmaptogridmap.launch
 ```
-You can change the resolution of the global gridmap and topology (the distance between the nodes) by checking the Section [Topology](./users/api.md#topology). There you can also find about annotations and how to change theirs parameters.
+You can change the resolution of the global gridmap and topology (the distance between the nodes) by checking the Section [Topology](./users/api.md#topology). There you can also find about annotations and how to change theirs parameters. 
 
 Now, you can reproduce the figures from [Home](./index.md#mapupdates1) by moving the green box in front of the AGV (use the left click of the mouse and hold it while dragging the box around).
+
+ 
+
+
 
  
 

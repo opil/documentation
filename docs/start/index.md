@@ -21,12 +21,12 @@ Layer level | Layer name                 | Module Identifier  | Module name
 # OPIL Layers:
 
 ## Layer 1 (IoT Nodes Layer): 
-Agent nodes of Layer 1 are the components of the [Architecture](#architecture) that interact with the physical world. For instance, they can interact by sensing, e.g., Sensor Agent node, by acting, e.g., Robot Agent nodes, or by interfacing with humans, e.g., Human Agent nodes. The OPIL modules of which these nodes are made of, can interact with Layer 3 by exchanging messages with Layer 2 and they either directly operate on these messages or translate them to an appropriate format for internal use through their Communication/Messaging sub-modules.
+Agent nodes of Layer 1 are the components of the [Architecture](#architecture) that interact with the physical world. For instance, they can interact by sensing, e.g., Sensor Agent node, by acting; e.g., Robot Agent nodes; or by interfacing with humans, e.g., Human Agent nodes. The OPIL modules of which these nodes are made of, can interact with Layer 3 by exchanging messages with Layer 2 and they either directly operate on these messages or translate them to an appropriate format for internal use through their Communication/Messaging sub-modules.
 
 ### Modules:
 
 #### MOD.IOT.RAN (Robot Agent Node)
-The RAN (Robot Agent Node) allows controlling the robot and, as such, in OPIL it sits at layer 1, namely between the Cyber Physical Middleware and the Robot Hardware. It provides two main functionalities: it manages robot navigation, based on ROS, and works as an interface between the robot hardware and the OPIL Cyber Physical Middleware, based on FIWARE Orion Context Broker. In order to accomplish the second functionality, the RAN "translates" and adapts FIWARE entities into something understandable by ROS, i.e., messages and services, and vice versa; in doing so, it accomplishes the goal set for the Communication/Messaging sub-module depicted by the OPIL [Architecture](#architecture).
+The RAN (Robot Agent Node) allows controlling the robot and, as such, in OPIL it sits at Layer 1, namely between the Cyber Physical Middleware and the Robot Hardware. It provides two main functionalities: it manages robot navigation, based on ROS, and works as an interface between the robot hardware and the OPIL Cyber Physical Middleware, based on FIWARE Orion Context Broker. In order to accomplish the second functionality, the RAN "translates" and adapts FIWARE entities into something understandable by ROS, i.e., messages and services, and viceversa; in doing so, it accomplishes the goal set for the Communication/Messaging sub-module depicted by the OPIL [Architecture](#architecture).
 
 #### MOD.IOT.HAN (Human Agent Node)
 Human Agent Node (HAN) is the component, which is responsible for displaying various information and data of the system for the human agents. The human agents can also give commands for the system via HAN. Currently, the human agents are capable to monitor the robot and the sensors of the system. With HAN, the human agents can also control and give commands to RAN. HAN can be divided into background and foreground software components according to the used middleware component Wirecloud.
@@ -37,14 +37,14 @@ The SAN working principle is the following: every sensor that is attached to SAN
 ____
 
 ## Layer 2 (Cyber Physical Middleware layer):
-The intermediate Layer 2, in the OPIL [Architecture](#architecture), has a twofold role: on the one hand it allows interoperability
-between components of the platform, as well as with external ones, which can be based on multiple operating systems and network protocols.
+The intermediate Layer 2, in the OPIL [Architecture](#architecture), has a twofold role: on one hand it allows interoperability
+ between components of the platform, as well as with external ones, which can be based on multiple operating systems and network protocols.
 This capability is implemented at each OPIL module level and it is identified by the orange color of the boxes; for example, IoT nodes at 
-layer 1 can talk to each other and with the other components of the OPIL. 
+Layer 1 can talk to each other and with the other components of the OPIL. 
 This communication is enabled by specific modules of this layer such as the MOD.MW.CM (Context Management); 
 in the case of Layer 1, Communication/Messaging sub-modules are tasked with translating toward the MOD.MW.CM which has the goal 
 of dispatching information to the other OPIL actors involved by the specific scenario.
-On the other hand, this layer provides also further FIWARE Generic Enablers suitable for accelerating the development of the OPIL platform.
+ On the other hand, this layer provides also further FIWARE Generic Enablers suitable for accelerating the development of the OPIL platform.
 
 ### Modules:
 
@@ -88,27 +88,27 @@ OPIL platform enables new specific developments built on top of the enablers pro
 
 **MTP** module plans the motion tasks for the robot agents. *MTP* provides to the *BPO* operation costs in terms of time needed and travel distance for each motion operation. Considering these, *MTP* finds out the solution of the (multi-) robot motion planning problem.
 
-The task planner components are in charge of:
+The task planner components are in charge of: 
 
-1. Deciding and optimizing the tasks to be dispatched to the different agents in the OPIL architecture by means of a Business Process Optimization functional block.
+1. Deciding and optimizing the tasks to be dispatched to the different agents in the OPIL architecture by means of a Business Process Optimization functional block. 
 
 2. Plan the motion tasks for the robot agents in the OPIL architecture by means of the Motion Task Planning. 
 
 3. Monitor the execution of the task dispatched to the agents by means of the Task Supervisor.
 
 
-#### MOD.SW.AHMI (Advanced HMI)
+#### MOD.SW.AHMI (Advanced HMI) 
 HMI is a web application server with its own local database for storing data needed in this module. HMI serves a web browser user interface for the human agents to monitor and control OPIL data entities.
 
 This OPIL node consists of three different sub-modules. 
 The Task Monitoring and Control enables continuous monitoring and control of tasks. Subscription and visualisation of information available in
-OPIL, and the controllability of the operations, tasks and other actions planned by OPIL and human actors are the key functionalities. 
+ OPIL, and the controllability of the operations, tasks and other actions planned by OPIL and human actors are the key functionalities. 
 The Task Parameterization collects and parameterizes data collected from Enterprise Applications.
-The Task Specification receives task related information from Task Monitoring and Control, and task specific parameters from the Task Parameterization.
+ The Task Specification receives task related information from Task Monitoring and Control, and task specific parameters from the Task Parameterization.
 The Task Specification formulates a task based on the task parameters.
 
 #### MOD.SW.SP (Sensing and Perception)
-The sensing and perception components allow OPIL to provide information suitable for safe and accurate motion planning to the actors of an OPIL system, i.e., the Robot
+ The sensing and perception components allow OPIL to provide information suitable for safe and accurate motion planning to the actors of an OPIL system, i.e., the Robot
 Agent Nodes or the Motion Task Planning. The Localization functional block provides 2D pose and/or 3D pose estimates for the agents and for all the items, e.g., goods and products, in the manufacturing system. 
 The Mapping functional block provides information about the structure of the manufacturing shop‐floor for the components involved in navigation.
 
@@ -118,4 +118,5 @@ ____
 # OPIL External modules:
 
 ##“Visual Component® (VC) for OPIL” integration: 
-This 3D simulation SW component VC is a transparent substitute of the physical components, like the Robot, Human and Sensor Agent Node. It is depicted in white by the [Architecture](#architecture) because it is an external component, but it has orange edges as well in order to highlight its capability to be integrated with OPIL through L2 layer. The idea behind this approach is to have within this component, modules (Robot, Human and Sensor) that are identical in their behaviour to the other components of the layer 1 that interact with the real world. The implementation adopted into OPIL is the 3D simulator Visual Components® which helps to virtualize the intra-factory logistics automation completely. Due to the identical behaviour of the virtual agents inside Visual Components and the real physical agents, the adoption to the real world will be smooth and easy. This approach helps to reduce the planning and installation time; it will be an easy and fast process for the end-users and the integrators.
+This 3D simulation SW component VC is a transparent substitute of the physical components, like the Robot, Human and Sensor Agent Node. It is depicted in white by the [Architecture](#architecture) because it is an external component, but it has orange edges as well in order to highlight its capability to be integrated with OPIL through L2 Layer. The idea behind this approach is to have within this component, modules (Robot, Human and Sensor) that are identical in their behaviour to the other components of the Layer 1 that interact with the real world. The implementation adopted into OPIL is the 3D simulator Visual Components® which helps to virtualize the intra-factory logistics automation completely. Due to the identical behaviour of the virtual agents inside Visual Components and the real physical agents, the adoption to the real world will be smooth and easy. This approach helps to reduce the planning and installation time; it will be an easy and fast process for the end-users and the integrators.
+

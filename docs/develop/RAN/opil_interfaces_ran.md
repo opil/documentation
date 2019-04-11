@@ -1,5 +1,5 @@
-# RAN interfaces
-As said before, one of the tasks of the RAN is to work as a bridge between the various components of the OPIL architecture.
+# RAN interfaces 
+As said before, one of the tasks of the RAN is to work as a bridge between the various components of the OPIL architecture. 
 
 ## Channels, Topics and messages
 
@@ -15,8 +15,8 @@ The entities exchanged with the RAN and various components are defined as ROS me
 
 ### Motion Assignment
 
-The MotionAssignment is exchanged on the motion_channel topic and contains attributes that influence the movement of the robot from the starting point (the actual position) to a destination (waypoint or goal). Each time one Motion Assignment is received, it is saved into a list.
-With the same message it is also possible to update an existing motion assignment.
+ The MotionAssignment is exchanged on the motion_channel topic and contains attributes that influence the movement of the robot from the starting point (the actual position) to a destination (waypoint or goal). Each time one MotionAssignment is received, it is saved into a list.
+ With the same message it is also possible to update an existing motion assignment. 
 
 | Attribute name | ROS type | description |
 | --- | --- | --- |
@@ -35,7 +35,7 @@ With the same message it is also possible to update an existing motion assignmen
 
 ### ActionAssignment
 
-The ActionAssignment is exchanged on the action_channel and defines what the robot is expected to do when it reaches the goal. The Action defines what the robot needs to do when it has reached the final motion goal. Each received Action assignment is saved into a list. With the same message, it is also possible to update an existing Action Assignment
+ The ActionAssignment is exchanged on the action_channel and defines what the robot is expected to do when it reaches the goal. The Action defines what the robot needs to do when it has reached the final motion goal. Each received Action assignment is saved into a list. With the same message, it is also possible to update an existing Action Assignment
 
 
 | Attribute name | ROS type | description |
@@ -48,9 +48,9 @@ The ActionAssignment is exchanged on the action_channel and defines what the rob
 | action | uint8 (enumeration) | the type of action to be performed once the goal is reached |
 
 Both of these entities are “produced” by the Task Planner (TP) and are then sent via FIWARE – Orion Context Broker (F-OCB) to the Robot Agent Node (RAN). The RAN then uses the data contained in the MotionAssignment to manage the navigation of the robot, while the ActionAssignment is simply sent as-it-is to the robot base to be accomplished. It will be on the robot manufacturer to manage the implementation of the action.
-It is assumed that a task is a combination of points (MotionAssignments) and actions (ActionAssignments). Accomplishing a task means moving to a target goal through many waypoints and, upon reaching destination, performing a succession of actions. The link between points and actions is set using the task_id field. Actions and motions with the same task_id belong to the same task and therefore create a sequence. Notice that in a task there cannot be an action followed by a movement. In order to do so, the task has to be splitted in smaller sub-task.
+ It is assumed that a task is a combination of points (MotionAssignments) and actions (ActionAssignments). Accomplishing a task means moving to a target goal through many waypoints and, upon reaching destination, performing a succession of actions. The link between points and actions is set using the task_id field. Actions and motions with the same task_id belong to the same task and therefore create a sequence. Notice that in a task there cannot be an action followed by a movement. In order to do so, the task has to be splitted in smaller sub-task.
 
-### ActionDefinition
+### ActionDefinition 
 
 The same data structure of ActionAssignment is also exchanged on the action_channel_AGV, but with the name of Action Definition. This structure is just a placeholder and will be then redefined with the help of other members of OPIL.
 
@@ -62,7 +62,7 @@ The same data structure of ActionAssignment is also exchanged on the action_chan
 | task_id | Id | |
 | sequence | Sequence | in which position into a sequence the action is |
 | action | uint8 (enumeration) | the type of action to be performed once the goal is reached |
-### CancelTask
+### CancelTask 
 
 In order to remove a task, an action or a motion from the internal queue, the CancelTask message (exchanged on the task_management_channel) can be used, specifying the ID of the task (task_id) or the action (task_id and action_id, with motion_id = 0) or the motion (task_id and motion_id, with action_id = 0) to be cancelled.
 
@@ -74,7 +74,7 @@ In order to remove a task, an action or a motion from the internal queue, the Ca
 | action_id | Id | the action to cancel – 0 if sent for a motion |
 | motion_id | Id | the motion to cancel – 0 if sent for an action |
 
-### RANState
+### RANState 
 
 The RAN periodically receives updates from the robots. These messages concern the robot status, the battery level, the current position and so on. They are then converted into the RANState message and forwarded through the status_channel.
 
@@ -97,8 +97,8 @@ The assignment_queue attribute contains the list of active (not cancelled) assig
 *- Task ID: # - Motion ID: # - Action ID: #\n
 
 The # placed here represent the value for the IDs of the assignment.
-As an assignment can be only of one type (Action or Motion), any assignment cannot have both Motion ID and Action ID different from zero.
-An example of this message can be:
+ As an assignment can be only of one type (Action or Motion), any assignment cannot have both Motion ID and Action ID different from zero.
+ An example of this message can be:
 
 *- Task ID: 1 - Motion ID: 1 - Action ID: 0\n ------ 1st motion assignment
 
@@ -108,7 +108,7 @@ An example of this message can be:
 
 ### RobotDescription
 
-While booting, the robot publishes information about its mechanical parameters. These parameters are collected by the RAN, converted into the RobotDescription message and forwarded through the description_channel.
+ While booting, the robot publishes information about its mechanical parameters. These parameters are collected by the RAN, converted into the RobotDescription message and forwarded through the description_channel.
 | Attribute name | ROS type | description |
 | --- | --- | --- |
 | header | std_msgs/Header | |
@@ -117,11 +117,11 @@ While booting, the robot publishes information about its mechanical parameters. 
 
 ### Twist
 
-This is a basic ROS message, that is used to represent velocities over three axes. In cmd_vel topic, it commands the movement of the robot. Its structure is described [here](http://docs.ros.org/kinetic/api/geometry_msgs/html/msg/Twist.html)
+ This is a basic ROS message, that is used to represent velocities over three axes. In cmd_vel topic, it commands the movement of the robot. Its structure is described [here](http://docs.ros.org/kinetic/api/geometry_msgs/html/msg/Twist.html)
 
 ### RobotState
 
-The RAN periodically receives updates from the robots on the status_channel_AGV topic. These messages concern the robot status, the battery level, the current position and so on. They are received by the RAN as a RobotState message, then converted into the RANState message and forwarded through the status_channel.
+ The RAN periodically receives updates from the robots on the status_channel_AGV topic. These messages concern the robot status, the battery level, the current position and so on. They are received by the RAN as a RobotState message, then converted into the RANState message and forwarded through the status_channel.
 
 | Attribute name | ROS type | description |
 | --- | --- | --- |
@@ -137,7 +137,7 @@ It is possible to omit some of the attributes of the message, in case they are n
 
 ### RobotDescriptionAGV
 
-While booting, the robot publishes information about its mechanical parameters. These parameters are collected by the RAN as a RobotDescriptionAGV message on the description_channel_AGV, then converted into the RobotDescription message and forwarded through the description_channel.
+ While booting, the robot publishes information about its mechanical parameters. These parameters are collected by the RAN as a RobotDescriptionAGV message on the description_channel_AGV, then converted into the RobotDescription message and forwarded through the description_channel.
 
 | Attribute name | ROS type | description |
 | --- | --- | --- |
@@ -164,13 +164,13 @@ While booting, the robot publishes information about its mechanical parameters. 
 | min_turning_radius | float32 | |
 | batt_capacity | float32 | |
 | vehicle_type | string | |
-| vendor | string |
+| vendor | string | 
 
 It is possible to omit some of the attributes of the message, in case they are not available for the machine.
 
-### ErrorAGV
+### ErrorAGV 
 
-The ErrorAGV message circulates in the error_channel_AGV and it is sent by the AGV to the RAN when an error occurred. Its structure is to be refined through further call with other OPIL memebrs
+The ErrorAGV message circulates in the error_channel_AGV and it is sent by the AGV to the RAN when an error occurred. Its structure is to be refined through further call with other OPIL members
 
 | Attribute name | ROS type | description |
 | --- | --- | --- |
@@ -181,7 +181,7 @@ The ErrorAGV message circulates in the error_channel_AGV and it is sent by the A
 
 ### ErrorRAN
 
-The ErrorRAN message circulates in the error_channel and it is sent by the RAN to the OCB when an error occurred. It can be a RAN error or it might forward an AGV error.  Its structure is to be refined through further call with other OPIL members
+ The ErrorRAN message circulates in the error_channel and it is sent by the RAN to the OCB when an error occurred. It can be a RAN error or it might forward an AGV error.  Its structure is to be refined through further call with other OPIL members
 
 | Attribute name | ROS type | description |
 | --- | --- | --- |
@@ -214,4 +214,5 @@ The AssignmentId message collects the numeric IDs of an assignment. Action assig
 | task_id | uint32 | numeric task ID |
 | motion_id | uint32 | numeric motion ID |
 | action_id | uint32 | numeric action ID |
+
 
