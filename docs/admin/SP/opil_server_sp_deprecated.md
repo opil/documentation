@@ -2,7 +2,7 @@ Deprecated features are features that SP still supports but that are not maintai
 
 # Firos v1 did not allow arrays of custom ROS messages
 
-. The topology is composed of nodes and edges. Since Firos is not supporting arrays of custom ROS messages it is divided into two ROS messages: nodes and edges.
+The topology is composed of nodes and edges. Since Firos is not supporting arrays of custom ROS messages it is divided into two ROS messages: nodes and edges.
 
 Nodes.msg
 
@@ -23,7 +23,7 @@ Edges.msg
 	string[] uuid	# unique id of an edge
 
 # Sending larger data on demand - a service mockup 
-since there is no service call supported yet in Firos, topic _do_serve_ is used as a service mockup. On another machine that wants to obtain the data, on topic _do_serve_ needs to be sent value "true" or 1. Large data are a) map topic created with _map_server_ from PNG or PGM file and b) gridmap topic created from the map by resampling to cells of size given by the parameter _cell_size_.
+Since there is no service call supported yet in Firos, topic _do_serve_ is used as a service mockup. On another machine that wants to obtain the data, on topic _do_serve_ needs to be sent value "true" or 1. Large data are a) map topic created with _map_server_ from PNG or PGM file and b) gridmap topic created from the map by resampling to cells of size given by the parameter _cell_size_.
 
 ## Testing sending map topic on request on machine_1:
 Remark: only a small map can be tested here around 10m x 7m - Andamapa.yaml.
@@ -45,7 +45,7 @@ Refresh firefox on http://OPIL_SERVER_IP:1026/v2/entities.
 There should be under ID "map" the topic "realmap".
 
 ## Testing sending gridmap topic on request:
-To test the sending of gridmap topic the _mux_topics.py_ program needs to be started which sends the gridmap on the whitelisted topic only when master requests.
+To test the sending of the gridmap topic, the _mux_topics.py_ program needs to be started which sends the gridmap on the whitelisted topic only when master requests.
 Start all previous steps (terminal 1, ..., terminal 7), but it works with starting only terminals 1,2,3.
 ```
 terminal 8: rosrun maptogridmap mux_topics.py

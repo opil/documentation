@@ -2,12 +2,13 @@
 
 ## Introduction
 
-Welcome to the Sensor Agent Node documentation! Here you will find everything you need to set-up,
-configure and run the Sensor Agent Node.
+Welcome to the Sensor Agent Node documentation.
+
+Here you will find all information required to set-up, confire and run this node.
 
 ### What is SAN?
 
- Sensor Agent Node (SAN) is one of modules in IoT layer defined by [OPIL](http://project.l4ms.eu/OPIL-Documentation) architecture. SAN is responsible for connecting various sensors with OPIL and providing context data about them to [Orion Context Broker](https://fiware-orion.readthedocs.io/en/master).
+Sensor Agent Node (SAN) is one of modules in IoT layer defined by [OPIL](http://project.l4ms.eu/OPIL-Documentation) architecture. SAN is responsible for connecting various sensors with OPIL and providing context data about them to [Orion Context Broker](https://fiware-orion.readthedocs.io/en/master).
 
 ![img1.png](https://gitlab.com/opil_group/mod.iot.san/blob/develop/doc/docs/img/img1.png)
 

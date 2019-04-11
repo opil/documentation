@@ -34,7 +34,7 @@ nav:
         - Installation:
             - OPIL Networking: admin/OPIL/opil_networking.md
             - OPIL Server: admin/OPIL/opil_server.md
-            - OPIL Modules:
+            - OPIL Server Nodes:
                 - Task Planner (Done): 
                     - Installation: admin/TP/opil_server_tp_install.md
                     - Getting started: admin/TP/opil_server_tp_gettingStarted.md
@@ -53,27 +53,57 @@ nav:
                     - Deinstallation: admin/SP/opil_server_sp_deinstall.md
                     - Upgrades: admin/SP/opil_server_sp_upgrades.md
                     - Deprecated: admin/SP/opil_server_sp_deprecated.md                
-            - IoT Device Nodes:
+            - OPIL IoT Nodes:
                 - Introduction: admin/opil_iot.md
                 - RAN: admin/RAN/opil_iot_ran.md
+                    - Installation: admin/RAN/opil_server_ran_install.md
+                    - Getting started: admin/RAN/opil_server_ran_gettingStarted.md
+                    - Deinstallation: admin/RAN/opil_server_ran_deinstallation.md
+                    - Upgrades: admin/RAN/opil_server_ran_upgrades.md
+                    - Deprecated: admin/RAN/opil_server_ran_deprecated.md 
                 - SAN: admin/SAN/opil_iot_san.md
+                    - Installation: admin/SAN/opil_server_san_install.md
+                    - Getting started: admin/SAN/opil_server_san_gettingStarted.md
+                    - Deinstallation: admin/SAN/opil_server_san_deinstallation.md
+                    - Upgrades: admin/SAN/opil_server_san_upgrades.md
+                    - Deprecated: admin/SAN/opil_server_san_deprecated.md
                 - HAN: admin/HAN/opil_iot_han.md
-            - IoT Visual Components Nodes:
-                - Introduction: admin/opil_vc.md
+                    - Installation: admin/HAN/opil_server_han_install.md
+                    - Getting started: admin/HAN/opil_server_han_gettingStarted.md
+                    - Deinstallation: admin/HAN/opil_server_han_deinstallation.md
+                    - Upgrades: admin/HAN/opil_server_han_upgrades.md
+                    - Deprecated: admin/HAN/opil_server_han_deprecated.md
+            - Opil VC Nodes:
+                - Deployment: admin/opil_vc.md
                 - RAN VC: admin/RANVC/opil_vc_ran.md
+                    - Installation: admin/RANVC/opil_server_ranvc_install.md
+                    - Getting started: admin/RANVC/opil_server_ranvc_gettingStarted.md
+                    - Deinstallation: admin/RANVC/opil_server_ranvc_deinstallation.md
+                    - Upgrades: admin/RANVC/opil_server_ranvc_upgrades.md
+                    - Deprecated: admin/RANVC/opil_server_ranvc_deprecated.md
                 - SAN VC: admin/SANVC/opil_vc_sanvc.md
+                    - Installation: admin/SANVC/opil_server_sanvc_install.md
+                    - Getting started: admin/SANVC/opil_server_sanvc_gettingStarted.md
+                    - Deinstallation: admin/SANVC/opil_server_sanvc_deinstallation.md
+                    - Upgrades: admin/SANVC/opil_server_sanvc_upgrades.md
+                    - Deprecated: admin/SANVC/opil_server_sanvc_deprecated.md
                 - SAN VC Actuator: admin/SANVCACT/opil_vc_sanvcact.md
+                    - Installation: admin/SANVCACT/opil_server_sanvcact_install.md
+                    - Getting started: admin/SANVCACT/opil_server_sanvcact_gettingStarted.md
+                    - Deinstallation: admin/SANVCACT/opil_server_sanvcact_deinstallation.md
+                    - Upgrades: admin/SANVCACT/opil_server_sanvcact_upgrades.md
+                    - Deprecated: admin/SANVCACT/opil_server_sanvcact_deprecated.md
         - Modules Description:
             - Introduction: admin/OPIL/opil_desc_intro.md
-            - Functional Modules:                              
+            - OPIL Server Nodes:                              
                 - Task Planner (Done): admin/TP/opil_desc_tp_intro.md
                 - Sensing & Perception (done): admin/SP/opil_desc_HMI_intro.md            
-            - IoT Devices Nodes:
+            - OPIL IoT Nodes:
                 - Introduction (missing): admin/opil_desc_node_intro.md
                 - RAN (Done): admin/RAN/opil_desc_ran.md
                 - SAN (done): admin/SAN/opil_desc_san.md
                 - HAN (missing): admin/HAN/opil_desc_han.md
-            - IoT Visual Components Nodes:
+            - OPIL VC Nodes:
                 - Introduction (missing): admin/opil_desc_vc_node_intro.md
                 - VC RAN (missing): admin/RANVC/opil_desc_vc_ran.md
                 - VC SAN (missing): admin/SANVC/opil_desc_vc_san.md
@@ -85,7 +115,7 @@ nav:
         - Technology Guidelines (missing): develop/technology_guidelines.md
         - Programming Guidelines (missing): develop/technology_programming.md 
         - API Documentation:
-            - Module:
+            - OPIL Server Nodes:
                 - Task Planner (Done):
                     - Business Process Optimization (Done):  develop/TP/opil_config_tp_bpo.md
                     - Motion Path Planning (Done): develop/TP/opil_config_tp_mpp.md
@@ -97,7 +127,7 @@ nav:
                     - API (done): develop/HMI/opil_api_hmi.md
                     - Interfaces (done): develop/HMI/opil_interfaces_hmi.md
                 - Sensing & Perception: develop/HMI/opil_api_sp.md
-            - IoT Devide Nodes:
+            - OPIL IoT Nodes:
                 - Robot Agent Node (RAN) (done): 
                     - API: develop/RAN/opil_api_ran.md
                     - Interfaces: develop/RAN/opil_interfaces_ran.md
@@ -108,7 +138,7 @@ nav:
                     - Introduction: develop/SAN/opil_introd_san.md
                     - Run: develop/SAN/opil_run_san.md
                 - Human Agent Node (HAN) (all docs missing):  develop/HAN/opil_api_han.md
-            - IoT Visual Components Nodes (All docs missing):
+            - OPIL VC Nodes (All docs missing):
                 - VC RAN: develop/RANVC/opil_api_vc_ran.md
                 - VC SAN: develop/SANVC/opil_api_vc_san.md
                 - VC SAN Actuator: develop/SANVCACT/opil_api_vc_sanvcact.md
