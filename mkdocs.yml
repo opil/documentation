@@ -35,19 +35,19 @@ nav:
             - OPIL Networking: admin/OPIL/opil_networking.md
             - OPIL Server: admin/OPIL/opil_server.md
             - OPIL Server Nodes:
-                - Task Planner (Done): 
+                - Task Planner: 
                     - Installation: admin/TP/opil_server_tp_install.md
                     - Getting started: admin/TP/opil_server_tp_gettingStarted.md
                     - Deinstallation: admin/TP/opil_server_tp_deinstall.md
                     - Upgrades: admin/TP/opil_server_upgrade.md
                     - Deprecated: admin/TP/opil_server_tp_deprecated.md 
-                - Human Machine Interaction (Done): 
+                - Human Machine Interaction: 
                     - Installation: admin/HMI/opil_server_hmi.md
                     - Getting started: admin/HMI/opil_server_hmi_gettingStarted.md
                     - Deinstallation: admin/HMI/opil_server_hmi_deinstall.md
                     - Upgrades: admin/HMI/opil_server_hmi_upgrades.md
                     - Deprecated: admin/HMI/opil_server_hmi_deprecated.md
-                - Sensing and Perception (done):
+                - Sensing and Perception:
                     - Installation: admin/SP/opil_server_sp_install.md
                     - Getting started: admin/SP/opil_server_sp_gettingStarted.md
                     - Deinstallation: admin/SP/opil_server_sp_deinstall.md
@@ -96,49 +96,49 @@ nav:
         - Modules Description:
             - Introduction: admin/OPIL/opil_desc_intro.md
             - OPIL Server Nodes:                              
-                - Task Planner (Done): admin/TP/opil_desc_tp_intro.md
-                - Sensing & Perception (done): admin/SP/opil_desc_HMI_intro.md            
+                - Task Planner: admin/TP/opil_desc_tp_intro.md
+                - Sensing & Perception: admin/SP/opil_desc_HMI_intro.md            
             - OPIL IoT Nodes:
-                - Introduction (missing): admin/opil_desc_node_intro.md
-                - RAN (Done): admin/RAN/opil_desc_ran.md
-                - SAN (done): admin/SAN/opil_desc_san.md
-                - HAN (missing): admin/HAN/opil_desc_han.md
+                - Introduction: admin/opil_desc_node_intro.md
+                - RAN: admin/RAN/opil_desc_ran.md
+                - SAN: admin/SAN/opil_desc_san.md
+                - HAN: admin/HAN/opil_desc_han.md
             - OPIL VC Nodes:
-                - Introduction (missing): admin/opil_desc_vc_node_intro.md
-                - VC RAN (missing): admin/RANVC/opil_desc_vc_ran.md
-                - VC SAN (missing): admin/SANVC/opil_desc_vc_san.md
-                - VC SAN Actuator (missing): admin/SANVCACT/opil_desc_vc_sanvcact.md
+                - Introduction: admin/opil_desc_vc_node_intro.md
+                - VC RAN: admin/RANVC/opil_desc_vc_ran.md
+                - VC SAN: admin/SANVC/opil_desc_vc_san.md
+                - VC SAN Actuator: admin/SANVCACT/opil_desc_vc_sanvcact.md
         - Human Machine Interaction:
-            -   Introduction (needs more info): admin/HMI/opil_desc_HMI_intro.md        
+            -   Introduction: admin/HMI/opil_desc_HMI_intro.md        
     - Developer's Guide:
-        - Introduction (missing): develop/index.md
-        - Technology Guidelines (missing): develop/technology_guidelines.md
-        - Programming Guidelines (missing): develop/technology_programming.md 
+        - Introduction: develop/index.md
+        - Technology Guidelines: develop/technology_guidelines.md
+        - Programming Guidelines: develop/technology_programming.md 
         - API Documentation:
             - OPIL Server Nodes:
-                - Task Planner (Done):
-                    - Business Process Optimization (Done):  develop/TP/opil_config_tp_bpo.md
-                    - Motion Path Planning (Done): develop/TP/opil_config_tp_mpp.md
-                    - Task Supervisor (Done): develop/TP/opil_config_tp_tasksupervisor.md
-                    - Introduction (Done): develop/TP/opil_tp_API_intro
-                    - API (Done): develop/TP/tp_api.md
-                    - Interfaces (Done): develop/TP/opil_tp_interfaces.md
+                - Task Planner:
+                    - Business Process Optimization:  develop/TP/opil_config_tp_bpo.md
+                    - Motion Path Planning: develop/TP/opil_config_tp_mpp.md
+                    - Task Supervisor: develop/TP/opil_config_tp_tasksupervisor.md
+                    - Introduction: develop/TP/opil_tp_API_intro
+                    - API: develop/TP/tp_api.md
+                    - Interfaces: develop/TP/opil_tp_interfaces.md
                 - Human Machine Interaction: 
-                    - API (done): develop/HMI/opil_api_hmi.md
-                    - Interfaces (done): develop/HMI/opil_interfaces_hmi.md
+                    - API: develop/HMI/opil_api_hmi.md
+                    - Interfaces: develop/HMI/opil_interfaces_hmi.md
                 - Sensing & Perception: develop/HMI/opil_api_sp.md
             - OPIL IoT Nodes:
-                - Robot Agent Node (RAN) (done): 
+                - Robot Agent Node (RAN): 
                     - API: develop/RAN/opil_api_ran.md
                     - Interfaces: develop/RAN/opil_interfaces_ran.md
                     - Introduction: develop/RAN/opil_introd_ran.md
-                - Sensor Agent Node (SAN) (done): develop/SAN/opil_api_san.md
+                - Sensor Agent Node (SAN): develop/SAN/opil_api_san.md
                     - API: develop/SAN/opil_api_san.md
                     - Drivers: develop/SAN/opil_drivers_san.md
                     - Introduction: develop/SAN/opil_introd_san.md
                     - Run: develop/SAN/opil_run_san.md
-                - Human Agent Node (HAN) (all docs missing):  develop/HAN/opil_api_han.md
-            - OPIL VC Nodes (All docs missing):
+                - Human Agent Node (HAN):  develop/HAN/opil_api_han.md
+            - OPIL VC Nodes:
                 - VC RAN: develop/RANVC/opil_api_vc_ran.md
                 - VC SAN: develop/SANVC/opil_api_vc_san.md
                 - VC SAN Actuator: develop/SANVCACT/opil_api_vc_sanvcact.md
