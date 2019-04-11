@@ -13,7 +13,7 @@ effective navigation, in addition to the sequence of points, the RAN should rece
 
 ## RAN structure
 
-   ![overall architecture](imgs/ranArch1.jpg)
+   ![overall architecture](./ranArch1.jpg)
    
   This scheme shows how the RAN connects OPIL with the Hardware (AGV/Robot)
    
