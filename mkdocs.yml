@@ -55,19 +55,22 @@ nav:
                     - Deprecated: admin/SP/opil_server_sp_deprecated.md                
             - OPIL IoT Nodes:
                 - Introduction: admin/opil_iot.md
-                - RAN: admin/RAN/opil_iot_ran.md
+                - RAN: 
+                    - Introduction: admin/RAN/opil_iot_ran.md
                     - Installation: admin/RAN/opil_server_ran_install.md
                     - Getting started: admin/RAN/opil_server_ran_gettingStarted.md
                     - Deinstallation: admin/RAN/opil_server_ran_deinstallation.md
                     - Upgrades: admin/RAN/opil_server_ran_upgrades.md
                     - Deprecated: admin/RAN/opil_server_ran_deprecated.md 
-                - SAN: admin/SAN/opil_iot_san.md
+                - SAN: 
+                    - Introduction: admin/SAN/opil_iot_san.md
                     - Installation: admin/SAN/opil_server_san_install.md
                     - Getting started: admin/SAN/opil_server_san_gettingStarted.md
                     - Deinstallation: admin/SAN/opil_server_san_deinstallation.md
                     - Upgrades: admin/SAN/opil_server_san_upgrades.md
                     - Deprecated: admin/SAN/opil_server_san_deprecated.md
-                - HAN: admin/HAN/opil_iot_han.md
+                - HAN: 
+                    - Introduction: admin/HAN/opil_iot_han.md
                     - Installation: admin/HAN/opil_server_han_install.md
                     - Getting started: admin/HAN/opil_server_han_gettingStarted.md
                     - Deinstallation: admin/HAN/opil_server_han_deinstallation.md
@@ -75,19 +78,22 @@ nav:
                     - Deprecated: admin/HAN/opil_server_han_deprecated.md
             - Opil VC Nodes:
                 - Deployment: admin/opil_vc.md
-                - RAN VC: admin/RANVC/opil_vc_ran.md
+                - RAN VC: 
+                    - Introduction: admin/RANVC/opil_vc_ran.md
                     - Installation: admin/RANVC/opil_server_ranvc_install.md
                     - Getting started: admin/RANVC/opil_server_ranvc_gettingStarted.md
                     - Deinstallation: admin/RANVC/opil_server_ranvc_deinstallation.md
                     - Upgrades: admin/RANVC/opil_server_ranvc_upgrades.md
                     - Deprecated: admin/RANVC/opil_server_ranvc_deprecated.md
-                - SAN VC: admin/SANVC/opil_vc_sanvc.md
+                - SAN VC: 
+                    - Introduction: admin/SANVC/opil_vc_sanvc.md
                     - Installation: admin/SANVC/opil_server_sanvc_install.md
                     - Getting started: admin/SANVC/opil_server_sanvc_gettingStarted.md
                     - Deinstallation: admin/SANVC/opil_server_sanvc_deinstallation.md
                     - Upgrades: admin/SANVC/opil_server_sanvc_upgrades.md
                     - Deprecated: admin/SANVC/opil_server_sanvc_deprecated.md
-                - SAN VC Actuator: admin/SANVCACT/opil_vc_sanvcact.md
+                - SAN VC Actuator: 
+                    - Introduction: admin/SANVCACT/opil_vc_sanvcact.md
                     - Installation: admin/SANVCACT/opil_server_sanvcact_install.md
                     - Getting started: admin/SANVCACT/opil_server_sanvcact_gettingStarted.md
                     - Deinstallation: admin/SANVCACT/opil_server_sanvcact_deinstallation.md
@@ -134,7 +140,8 @@ nav:
                     - API: develop/RAN/opil_api_ran.md
                     - Interfaces: develop/RAN/opil_interfaces_ran.md
                     - Introduction: develop/RAN/opil_introd_ran.md
-                - Sensor Agent Node (SAN): develop/SAN/opil_api_san.md
+                - Sensor Agent Node (SAN): 
+                    - Introduction: develop/SAN/opil_api_san.md
                     - API: develop/SAN/opil_api_san.md
                     - Drivers: develop/SAN/opil_drivers_san.md
                     - Introduction: develop/SAN/opil_introd_san.md
