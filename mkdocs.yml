@@ -117,16 +117,18 @@ nav:
         - API Documentation:
             - OPIL Server Nodes:
                 - Task Planner:
+                    - Introduction to API: develop/TP/opil_tp_API_intro
                     - Business Process Optimization:  develop/TP/opil_config_tp_bpo.md
                     - Motion Path Planning: develop/TP/opil_config_tp_mpp.md
                     - Task Supervisor: develop/TP/opil_config_tp_tasksupervisor.md
-                    - Introduction: develop/TP/opil_tp_API_intro
                     - API: develop/TP/tp_api.md
                     - Interfaces: develop/TP/opil_tp_interfaces.md
                 - Human Machine Interaction: 
                     - API: develop/HMI/opil_api_hmi.md
                     - Interfaces: develop/HMI/opil_interfaces_hmi.md
-                - Sensing & Perception: develop/HMI/opil_api_sp.md
+                - Sensing & Perception: 
+                    - API: develop/SP/opil_api_sp.md
+                    - Interfaces: develop/SP/opil_sp_interfaces.md
             - OPIL IoT Nodes:
                 - Robot Agent Node (RAN): 
                     - API: develop/RAN/opil_api_ran.md
