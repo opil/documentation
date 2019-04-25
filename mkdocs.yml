@@ -139,7 +139,8 @@ nav:
                     - Drivers: develop/SAN/opil_drivers_san.md
                     - Introduction: develop/SAN/opil_introd_san.md
                     - Run: develop/SAN/opil_run_san.md
-                - Human Agent Node (HAN):  develop/HAN/opil_api_han.md
+                - Human Agent Node (HAN):
+                    - API: develop/HAN/opil_api_han.md
             - OPIL VC Nodes:
                 - VC RAN: develop/RANVC/opil_api_vc_ran.md
                 - VC SAN: develop/SANVC/opil_api_vc_san.md
