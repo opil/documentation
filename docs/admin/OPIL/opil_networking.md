@@ -5,6 +5,6 @@
 On the production enviroment  **OPIL** network needs to be created.
 
 
-![OPIL deployment scheme](./NETWORK.PNG)  
+![OPIL deployment scheme](img/NETWORK.PNG)  
 
 AGVs can send information out the components in AGV by WiFi. RA
