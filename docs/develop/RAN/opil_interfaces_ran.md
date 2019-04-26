@@ -3,9 +3,9 @@ As said before, one of the tasks of the RAN is to work as a bridge between the v
 
 ## Channels, Topics and messages
 
-   ![communication architecture](../imgs/comArc.jpg)
+   ![communication architecture](../img/comArc.jpg)
    
-   ![channels details](../imgs/archMex.png)
+   ![channels details](../img/archMex.png)
   
 ## Messages Structure
 

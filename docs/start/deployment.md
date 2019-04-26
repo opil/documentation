@@ -6,12 +6,12 @@ The individual modules may be deployed in other ways but generally the deploymen
 * **A centralized server** to host OPIL modules that provide services connected to all other modules.
 * **IoT-nodes** on the field connected to different hardware, including (but not limited to) mobile robots, AGVs, forklifts and sensors.
   
-![OPIL Server and IoT Nodes](./OPIL-SERVER-NODES.PNG)  
+![OPIL Server and IoT Nodes](./img/OPIL-SERVER-NODES.PNG)  
 
 # Docker
 All standard OPIL modules are deployed as [Docker](https://www.docker.com/) containers. All OPIL modules are available as Docker images via [Docker Hub](https://hub.docker.com/u/l4ms). Docker is supported by most Linux- and Windows-based operating systems.
 
-![OPIL Docker deployment](./DOCKER.PNG)  
+![OPIL Docker deployment](./img/DOCKER.PNG)  
 
 ## Configuration
 All OPIL docker images are available fully functional ready-packages on [Docker Hub](https://hub.docker.com/u/l4ms). However, they are not pre-configured, and configuration has to be done using configuration files as **docker volumes** and  **docker environmental variables**. The specific configuration options are different for every module.
@@ -19,10 +19,10 @@ All OPIL docker images are available fully functional ready-packages on [Docker 
 # OPIL Modules
  The following diagram shows how the various OPIL modules may be deployed. Each subsystem, module and their purpose are explained in detail later on this page.
   
-![OPIL deployment scheme](./SCHEME.PNG)
+![OPIL deployment scheme](./img/SCHEME.PNG)
 
 ## OPIL Server
-![OPIL Server](./OPILSERVER.PNG)  
+![OPIL Server](./img/OPILSERVER.PNG)  
 
 **OPIL Server** is a computer dedicated to OPIL and where the OPIL software is installed. The following is a break-down of different OPIL modules to be installed on the server.
 
@@ -43,7 +43,7 @@ Sensing & Perception provides mapping of logical positions to points (x, y, thet
 
 
 ## OPIL Sensor Computer
-![OPIL SAN](./SAN.PNG)   
+![OPIL SAN](./img/SAN.PNG)   
 
 **OPIL Sensor Computer** is a computer on the field that provides hardware connection possibilities for various sensors.
 
@@ -54,7 +54,7 @@ SAN is one of the IoT modules of OPIL. SAN is responsible for connecting sensors
 Any number of sensors of various types may be connected to SAN, the limiting factor is the connection options on the hardware. Some sensor types are natively supported by the SAN module and support for other sensor types may be implemented and attached to SAN.
 
 ## AGV
-![OPIL AGV](./AGV.PNG) 
+![OPIL AGV](./img/AGV.PNG) 
   
 **OPIL computer on the AGV** is a computer on-board the AGV. In most cases this computer is installed by the system integrator to enable OPIL connectivity. Some OPIL modules are executed locally on this PC on the AGV to reduce the amount of data on the network and minimize the delay.
 

@@ -3,7 +3,7 @@
 ## Formal Specification
 The *BPO* module is tasked with generating the optimal sequence of tasks based on the provided task specification. The *task specification (tspec)* is provided in the OPIL Task Specification Language. The *tspec* is then parsed by a parser in the Task Supervision module to generate the required input to *BPO*. The output of *BPO* is fed to the *Task Supervisor* in order to handle the task execution. As an example consider the following topology with two locations of interest (A and B). We assume that we want a worker to load items at location A to a robot and the robot to transport them to location B.
 
-![Topology example with A, B the locations of interest](../imgs/topo1.png)
+![Topology example with A, B the locations of interest](../img/topo1.png)
 
 ### Input Requirements 
 Below is the input to the BPO to carry out the sought task. 
