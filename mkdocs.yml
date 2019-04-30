@@ -103,7 +103,7 @@ nav:
             - Introduction: admin/OPIL/opil_desc_intro.md
             - OPIL Server Nodes:                              
                 - Task Planner: admin/TP/opil_desc_tp_intro.md
-                - Sensing & Perception: admin/SP/opil_desc_HMI_intro.md            
+                - Sensing & Perception: admin/SP/opil_desc_SP_intro.md            
             - OPIL IoT Nodes:
                 - Introduction: admin/opil_desc_node_intro.md
                 - RAN: admin/RAN/opil_desc_ran.md
