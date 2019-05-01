@@ -1,8 +1,4 @@
-# Overview
-
-The module Sensing and Perception (SP) is a software module as part of OPIL (Open Platform for Innovation in Logistics). 
-It provides the pose of the AGV inside the built map of the environment in which the AGV is navigating and updates the map with the new sensor readings.
-Additionally, it can build the map with SLAM (Simultaneous Localization And Mapping) if no map is given initially. It uses the laser scan data for map building and updating the map, and odometry sensors (encoders, IMU) together with lasers and map for localization.
+# Sensing & Perception (SP) @OPIL
 
 Link to other modules of OPIL (opil-MODULENAME.l4ms.eu):
 
@@ -12,6 +8,14 @@ Link to other modules of OPIL (opil-MODULENAME.l4ms.eu):
 * [Task Planner (TP)](http://opil-tp.l4ms.eu)
 * [Human Machine Interface (HMI)](http://opil-hmi.l4ms.eu)
 * [Context Management (CM)](http://opil-cm.l4ms.eu) 
+
+## What is SP?
+
+SP (Sensing & Perception) is a software module as part of OPIL (Open Platform for Innovation in Logistics). 
+It provides the pose of the AGV inside the built map of the environment in which the AGV is navigating and updates the map with the new sensor readings.
+Additionally, it can build the map with SLAM (Simultaneous Localization And Mapping) if no map is given initially. It uses the range data (laser, kinect) for map building and updating the map, and odometry sensors (encoders, IMU) with range data and map for localization inside the map.
+
+## SP structure
 
 There are two instances of SP module: 
 
@@ -121,6 +125,6 @@ In this last figure, the new local updates changed the topology even more and on
 
 # Next steps
 
-Follow the [Install instructions](./install/install.md) and then the [Start guide.](./start.md)   
-For more details how everything works check the [API.](./user/api.md)     
+Follow the [Install instructions](./opil_server_sp_install.md) and then the [Start guide.](./opil_server_sp_gettingStarted.md)   
+For more details how everything works check the [API.](./../../develop/SP/opil_api_sp.md)     
         

@@ -1,4 +1,4 @@
-The following sections describe how other modules needs to be connected to the SP module. First, the workflow is listed with the repeated image from [Home](../index.md) describing it. Then, each section is dedicated to the computer running the module to which SP is connected.
+The following sections describe how other modules needs to be connected to the SP module. First, the workflow is listed with the repeated image from [SP introduction](./../../admin/SP/opil_desc_SP_intro.md) describing it. Then, each section is dedicated to the computer running the module to which SP is connected.
 
 # Workflow
 * Local SP is on every AGV next to RAN
@@ -11,7 +11,7 @@ The following sections describe how other modules needs to be connected to the S
 * Map updates are sent through firos, which are calculated from the new sensor readings that hit the free grid cells
 * Map merging is done in the Central SP from map updates of one Local SP (one AGV) into one global gridmap from which the updated topology is calculated (later it will be from more Local SPs, i.e., AGVs)
 * HMI should have the initial map file, and ability to present map updates over the initial map 
-![SP module architecture](../img/sp.png)
+![SP module architecture](./img/sp.png)
 
 # AGV's computer with the Local SP
 The main reason having the Local SP on the AGV's computer is to have high-rate closed navigation loop when relying on laser data and odometry for pose calculation, with no delay introduced when using the large data flow (lasers) through wifi. 
@@ -26,8 +26,8 @@ terminal 1: roslaunch lam_simulator AndaOmnidriveamcltestZagrebdemo.launch
 terminal 2: roslaunch sensing_and_perception send_posewithcovariance.launch 
 ```
 
-To test different example maps repeat the commands from Section [Pose with covariance](api.md#poswithcov).
-The successful transmission of data can be seen as example in [topic /robot_0/pose_channel](api.md#examplepose).
+To test different example maps repeat the commands from Section [Pose with covariance](opil_api_sp.md#poswithcov).
+The successful transmission of data can be seen as example in [topic /robot_0/pose_channel](opil_api_sp.md#examplepose).
 
 ## Map updates collected at the AGV (laser data)
 
@@ -38,7 +38,7 @@ Then start the package _mapupdates_. This is an example with the simulator Stage
 terminal 1: roslaunch lam_simulator AndaOmnidriveamcltestZagrebdemo.launch
 terminal 2: roslaunch mapupdates startmapupdates.launch
 ```
-More detailed explanations and examples can be seen in Section [Map updates](api.md#mapupdates).
+More detailed explanations and examples can be seen in Section [Map updates](opil_api_sp.md#mapupdates).
 
 ## Sending the map updates and pose with covariance from AGV with ID name robot_0 through firos
 
@@ -85,12 +85,12 @@ To start the calculation of the topology, a _map_server_ needs to be started fir
 terminal 1: roslaunch maptogridmap startmapserver.launch 
 terminal 2: roslaunch maptogridmap startmaptogridmap.launch
 ```
-More detailed explanations and examples can be seen in Section [Topology](api.md#topology).
+More detailed explanations and examples can be seen in Section [Topology](opil_api_sp.md#topology).
 
 
 ## Topology update from the local map updates from the Local SP
 
-For this _mapupdates_ needs to be started on a Local SP. New obstacles are merged and new topology is calculated if _maptogridmap_ is running. An example can be seen in Section [Illustration of localization, topology and map updates](../index.md#topologyupdates).
+For this _mapupdates_ needs to be started on a Local SP. New obstacles are merged and new topology is calculated if _maptogridmap_ is running. An example can be seen in Section [Illustration of localization, topology and map updates](./../../admin/SP/opil_desc_SP_intro.md#topologyupdates).
 
 ## Sending the topology through firos for TP and HMI and receiving the map updates from AGV with ID name robot_0
 
@@ -99,17 +99,13 @@ For sending the topology and receiving the map updates through firos, robots.jso
 ```
 {
 	"map":{
-		"topics": {
-			"nodes": {
-				"msg": "maptogridmap.msg.Nodes",
-				"type": "subscriber"
-			},
-			"edges": {
-				"msg": "maptogridmap.msg.Edges",
-				"type": "subscriber"
-			}
-		}
-	},
+        "topics": {
+            "graph": {
+                "msg": "maptogridmap.msg.Graph",
+                "type": "subscriber"
+            }
+        }
+    },
 	"robot_0":{
 		"topics": {
 			"newObstacles": {
@@ -124,7 +120,7 @@ For sending the topology and receiving the map updates through firos, robots.jso
 ```
 {
     "map": {
-        "subscriber": ["nodes","edges"],
+        "subscriber": ["graph"],
         "publisher": []
     },
     "robot_0": {
@@ -150,19 +146,13 @@ For receiving the topics through firos, robots.json and whitelist.json should lo
 ```
 {
    "map":{
-       "topics": {
-            	"nodes": {
-                	"msg": "maptogridmap.msg.Nodes",
-                	"type": "publisher"
-
-            	},
-            	"edges": {
-                	"msg": "maptogridmap.msg.Edges",
-                	"type": "publisher"
-
-            	}
-       }
-   }
+        "topics": {
+            "graph": {
+                "msg": "maptogridmap.msg.Graph",
+                "type": "publisher"
+            }
+        }
+    },
    "robot_0":{
        "topics": {
             	"pose_channel": {
@@ -177,7 +167,7 @@ For receiving the topics through firos, robots.json and whitelist.json should lo
 ```
 {
     "map": {
-        "publisher": ["nodes","edges"],
+        "publisher": ["graph"],
         "subscriber": []
     },
     "robot_0": {
@@ -185,7 +175,7 @@ For receiving the topics through firos, robots.json and whitelist.json should lo
     }
 }
 ```
-Start firos and write a subscriber for the topics as suggested in Section [Writing a simple listener explaining the maplistener package](api.md#writelis).
+Start firos and write a subscriber for the topics as suggested in Section [Writing a simple listener explaining the maplistener package](opil_api_sp.md#writelis).
 You can find the firos config files in test/config_files/TP_HMI_computer.
 
 # OPIL server computer with the Human Machine Interface - HMI
