@@ -22,7 +22,7 @@ theme:
 nav:
     - Home: index.md
     - Getting Started: 
-        - Introduction to OPIL: start/index.md
+        - Introduction to OPIL architecture: start/index.md
         - Deployment: start/deployment.md
     - Showcases:
         - Introduction: showcases/index.md 
@@ -39,10 +39,10 @@ nav:
                     - Installation: admin/TP/opil_server_tp_install.md
                     - Getting started: admin/TP/opil_server_tp_gettingStarted.md
                     - Deinstallation: admin/TP/opil_server_tp_deinstall.md
-                    - Upgrades: admin/TP/opil_server_upgrade.md
+                    - Upgrades: admin/TP/opil_server_tp_upgrade.md
                     - Deprecated: admin/TP/opil_server_tp_deprecated.md 
                 - Human Machine Interaction: 
-                    - Installation: admin/HMI/opil_server_hmi.md
+                    - Installation: admin/HMI/opil_server_hmi_install.md
                     - Getting started: admin/HMI/opil_server_hmi_gettingStarted.md
                     - Deinstallation: admin/HMI/opil_server_hmi_deinstall.md
                     - Upgrades: admin/HMI/opil_server_hmi_upgrades.md

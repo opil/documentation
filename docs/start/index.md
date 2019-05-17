@@ -102,13 +102,13 @@ HMI is a web application server with its own local database for storing data nee
 
 This OPIL node consists of three different sub-modules. 
 The Task Monitoring and Control enables continuous monitoring and control of tasks. Subscription and visualisation of information available in
- OPIL, and the controllability of the operations, tasks and other actions planned by OPIL and human actors are the key functionalities. 
+OPIL, and the controllability of the operations, tasks and other actions planned by OPIL and human actors are the key functionalities. 
 The Task Parameterization collects and parameterizes data collected from Enterprise Applications.
- The Task Specification receives task related information from Task Monitoring and Control, and task specific parameters from the Task Parameterization.
+The Task Specification receives task related information from Task Monitoring and Control, and task specific parameters from the Task Parameterization.
 The Task Specification formulates a task based on the task parameters.
 
 #### MOD.SW.SP (Sensing and Perception)
- The sensing and perception components allow OPIL to provide information suitable for safe and accurate motion planning to the actors of an OPIL system, i.e., the Robot
+The sensing and perception components allow OPIL to provide information suitable for safe and accurate motion planning to the actors of an OPIL system, i.e., the Robot
 Agent Nodes or the Motion Task Planning. The Localization functional block provides 2D pose and/or 3D pose estimates for the agents and for all the items, e.g., goods and products, in the manufacturing system. 
 The Mapping functional block provides information about the structure of the manufacturing shop‐floor for the components involved in navigation.
 

@@ -1,5 +1,5 @@
 # OPIL Deployment Scheme
- The purpose of this page is to give an overview of a **recommended deployment scheme** for OPIL-based systems. 
+The purpose of this page is to give an overview of a **recommended deployment scheme** for OPIL-based systems. 
 The individual modules may be deployed in other ways but generally the deployment scheme described in this page is a good approach for most use cases.
   This deployment scheme is based on two main categories of components:
 

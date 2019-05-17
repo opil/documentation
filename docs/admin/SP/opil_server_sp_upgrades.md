@@ -1,1 +1,1 @@
-Needs to be updates or deleted from toc
+This is the first appearance of SP module so there is no upgrade procedure.
