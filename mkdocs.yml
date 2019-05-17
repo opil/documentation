@@ -2,12 +2,14 @@ site_name: OPIL
 site_url: https://opil-documentation.readthedocs.org
 repo_url: https://github.com/opil/documentation.git
 site_description: OPIL Documentation
+site_author: OPIL Team
 docs_dir: docs
 site_dir: html
 
 markdown_extensions:
     - toc:
         baselevel: 3
+    - fenced_code
 
 use_directory_urls: false
 
@@ -17,11 +19,10 @@ theme:
     hljs_languages:
         - yaml
         - django
-        
 nav:
     - Home: index.md
     - Getting Started: 
-        - Introduction to OPIL: start/index.md
+        - Introduction to OPIL architecture: start/index.md
         - Deployment: start/deployment.md
     - Showcases:
         - Introduction: showcases/index.md 
@@ -122,11 +123,11 @@ nav:
         - API Documentation:
             - OPIL Server Nodes:
                 - Task Planner:
-                    - Introduction to API: develop/TP/opil_tp_API_intro
+                    - Introduction to API: develop/TP/opil_tp_API_intro.md
                     - Business Process Optimization:  develop/TP/opil_config_tp_bpo.md
                     - Motion Path Planning: develop/TP/opil_config_tp_mpp.md
                     - Task Supervisor: develop/TP/opil_config_tp_tasksupervisor.md
-                    - API: develop/TP/tp_api.md
+                    - API: develop/TP/opil_tp_api.md
                     - Interfaces: develop/TP/opil_tp_interfaces.md
                 - Human Machine Interaction: 
                     - API: develop/HMI/opil_api_hmi.md
