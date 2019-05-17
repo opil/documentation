@@ -19,6 +19,7 @@ theme:
     hljs_languages:
         - yaml
         - django
+        
 nav:
     - Home: index.md
     - Getting Started: 
