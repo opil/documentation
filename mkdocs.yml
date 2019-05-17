@@ -2,7 +2,6 @@ site_name: OPIL
 site_url: https://opil-documentation.readthedocs.org
 repo_url: https://github.com/opil/documentation.git
 site_description: OPIL Documentation
-site_author: OPIL Team
 docs_dir: docs
 site_dir: html
 
