@@ -19,7 +19,7 @@ theme:
     hljs_languages:
         - yaml
         - django
-nav:
+pages:
     - Home: index.md
     - Getting Started: 
         - Introduction to OPIL architecture: start/index.md
