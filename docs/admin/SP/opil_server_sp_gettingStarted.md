@@ -328,8 +328,8 @@ You can type 'rostopic echo' to see the message of pose with covariance:
 ```
 rostopic echo /robot_0/pose_channel
 ```
-You can start some other simulation example following [this guide.](./user/api.md#poswithcov)
-You can also prepare your own simulation following [the guide for preparing the map.](./user/api.md#preparingmap)
+You can start some other simulation example following [this guide.](../../develop/SP/opil_api_sp.md#mapupdates#poswithcov)
+You can also prepare your own simulation following [the guide for preparing the map.](../../develop/SP/opil_api_sp.mdpreparingmap)
 
 * Start the calculation of local map updates that the AGV sees as new obstacles which are not mapped in the initial map.
 ```
@@ -339,7 +339,7 @@ You can check the topic of local map updates by typing:
 ```
 rostopic echo /robot_0/newObstacles
 ```
-You can change the resolution of the local map updates by following the guide in Section [Map updates](./user/api.md#mapupdates).
+You can change the resolution of the local map updates by following the guide in Section [Map updates]../../develop/SP/opil_api_sp.md#mapupdates).
 
 All previous steps can be replaced by calling a single launch file for the Local SP:
 ```
@@ -351,6 +351,6 @@ This launch file starts the localization, local map updates and module for publi
 ```
 terminal 4: roslaunch maptogridmap startmaptogridmap.launch
 ```
-You can change the resolution of the global gridmap and topology (the distance between the nodes) by checking the Section [Topology](./users/api.md#topology). There you can also find about annotations and how to change theirs parameters.
+You can change the resolution of the global gridmap and topology (the distance between the nodes) by checking the Section [Topology](../../develop/SP/opil_api_sp.md#topology). There you can also find about annotations and how to change theirs parameters.
 
 Now, you can reproduce the figures from [Home](./index.md#mapupdates1) by moving the green box in front of the AGV (use the left click of the mouse and hold it while dragging the box around).
