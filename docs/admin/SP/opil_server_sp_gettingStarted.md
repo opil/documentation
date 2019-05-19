@@ -1,6 +1,6 @@
 # Start Guide
 
-Before starting the SP module follow the [Install guide](./install/install.md).
+Before starting the SP module follow the [Install guide](./opil_server_sp_install.md).
 
 <!--
  and [API Walkthrough](./user/api.md) procedures.
