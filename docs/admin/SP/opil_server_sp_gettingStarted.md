@@ -308,7 +308,7 @@ You can also add Central SP in the docker-compose and obtain results similar to 
 
 ## <a name="fromscratch">Starting from Scratch</a>
 
-In this quick guide, everything will be started on the same computer where you installed ROS and this source code. For advanced configuration of starting at different computers check [Interfaces](./user/interfaces.md).
+In this quick guide, everything will be started on the same computer where you installed ROS and this source code. For advanced configuration of starting at different computers check [Interfaces](./develop/SP/opil_sp_interfaces.md).
 
 * First, start the Stage simulator with the loaded example map and one AGV inside the map (red) and one box as the unknown obstacle (green):
 
