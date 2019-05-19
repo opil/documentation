@@ -11,7 +11,7 @@ In the following, two start options will be described, depending if you installe
 
 ## <a name="fromdocker">Starting from Docker - Central SP</a>
 
-Go to the folder where you put your [docker-compose.yml](./install/install.md#dockercompose) file and type:
+Go to the folder where you put your [docker-compose.yml](./opil_server_sp_install.md#dockercompose) file and type:
 ```
 xhost local:root (call this only once - this is for display)
 sudo docker-compose up
@@ -38,7 +38,7 @@ distance = 1.8
 ```
 where **point_x**, **point_y** are coordinates of the annotation, and **theta** and **distance** determine where the topology node should be so that Task Planner can use this node as the goal distanced (1.8 m in this example) from the annotation and oriented towards the annotation so that AGV has heading of **theta** (180 degrees in this example) with respect to the positive x-axis.
 
-* Uncomment the line in the [docker-compose.yml](./install/install.md#dockercompose):
+* Uncomment the line in the [docker-compose.yml](./opil_server_sp_install.md#dockercompose):
 ```
             - ./annotations.ini:/root/catkin_ws/src/mod.sw.sp/src/maptogridmap/launch/annotations.ini:ro
 ```
@@ -67,7 +67,7 @@ free_thresh: 0.001
 ```
 Here, the line ```image: map.png``` should not be ever changed since, on the docker side, the name **map.png** will always be used, while the file names can be arbitrary since they are copied to the **map.png** and **map.yaml**. The parameter ```resolution: 0.12``` means the size of the pixel of the png file is 0.12 m wide. To calculate the **resolution**, you need to know the width of the image in meters. Then, simply divide the width of the image with the number of pixels. Adjust the parameters **occupied_thresh** and **free_thresh** to different values, depending on which shade of grey should be considered as occupied. In this example, thresholds are quite low, which means almost only white is considered as a free area.
 
-* Uncomment the lines in the [docker-compose.yml](./install/install.md#dockercompose):
+* Uncomment the lines in the [docker-compose.yml](./opil_server_sp_install.md#dockercompose):
 ```
             - ./map.yaml:/root/catkin_ws/src/mod.sw.sp/src/maptogridmap/launch/map.yaml:ro
             - ./map.png:/root/catkin_ws/src/mod.sw.sp/src/maptogridmap/launch/map.png:ro
@@ -95,7 +95,7 @@ It can be seen that here the topology nodes are too rare and we are missing some
 ```
 where we put the parameter **cell_size** to 1.25 m.
 
-* Uncomment the line in the [docker-compose.yml](./install/install.md#dockercompose):
+* Uncomment the line in the [docker-compose.yml](./opil_server_sp_install.md#dockercompose):
 ```
             - ./topology.launch:/root/catkin_ws/src/mod.sw.sp/src/maptogridmap/launch/topology.launch:ro
 ```
@@ -354,10 +354,3 @@ terminal 4: roslaunch maptogridmap startmaptogridmap.launch
 You can change the resolution of the global gridmap and topology (the distance between the nodes) by checking the Section [Topology](./users/api.md#topology). There you can also find about annotations and how to change theirs parameters.
 
 Now, you can reproduce the figures from [Home](./index.md#mapupdates1) by moving the green box in front of the AGV (use the left click of the mouse and hold it while dragging the box around).
-
- 
-
-
-
- 
-
