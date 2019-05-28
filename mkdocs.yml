@@ -141,7 +141,6 @@ nav:
                     - Interfaces: develop/RAN/opil_interfaces_ran.md
                     - Introduction: develop/RAN/opil_introd_ran.md
                 - Sensor Agent Node (SAN): 
-                    - Introduction: develop/SAN/opil_api_san.md
                     - API: develop/SAN/opil_api_san.md
                     - Drivers: develop/SAN/opil_drivers_san.md
                     - Introduction: develop/SAN/opil_introd_san.md
