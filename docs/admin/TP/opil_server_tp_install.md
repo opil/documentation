@@ -17,7 +17,7 @@ Docker Compose allows you to set up the OPIL TaskPlanner in a few minutes. For t
 
 Follow these steps:
 
- 1. Create a directory on your system on which to work (for example, ~/opil). 
+1. Create a directory on your system on which to work (for example, ~/opil). 
 
 2. Create a new file called docker-compose.yml inside your directory with the following contents:
     ```
@@ -152,12 +152,11 @@ host= orion
 port=1026
 ```
 
-# Other info
 
 ## 5. Other Information: 
 
 Things to keep in mind while working with docker containers and OPIL's TaskPlanner.
 
-### 5.1 Data persistence: once you are closing the docker container, data will be non-persistent.
+5.1 Data persistence: once you are closing the docker container, data will be non-persistent.
 
-### 5.2 Subscriptions: close the docker container by using the `Ctrl-C` command. While we are receiving this command, we are unsubscribing from the Orion Context Broker. If you close this container improperly, some old subscription may mess up the behaviour.
+5.2 Subscriptions: close the docker container by using the `Ctrl-C` command. While we are receiving this command, we are unsubscribing from the Orion Context Broker. If you close this container improperly, some old subscription may mess up the behaviour.
