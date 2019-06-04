@@ -54,7 +54,7 @@ SAN is one of the IoT modules of OPIL. SAN is responsible for connecting sensors
 Any number of sensors of various types may be connected to SAN, the limiting factor is the connection options on the hardware. Some sensor types are natively supported by the SAN module and support for other sensor types may be implemented and attached to SAN.
 
 ## AGV
-![OPIL AGV](./img/AGV.png) 
+![OPIL AGV](./img/AGV.PNG) 
   
 **OPIL computer on the AGV** is a computer on-board the AGV. In most cases this computer is installed by the system integrator to enable OPIL connectivity. Some OPIL modules are executed locally on this PC on the AGV to reduce the amount of data on the network and minimize the delay.
 
