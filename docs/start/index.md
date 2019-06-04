@@ -5,17 +5,17 @@ OPIL architectural design, as depicted by the picture below, is based on three d
 
 The table below listes the OPIL layers along with the modules of which they are made of.
  
-Layer level | Layer name                 | Module Identifier  | Module name
-------------|:--------------------------:|:------------------:|:----------------
-1           | IoT Nodes                  | MOD.IOT.RAN        | Robot Agent Node
-            |                            | MOD.IOT.HAN        | Human Agent Node
-            |                            | MOD.IOT.SAN        | Sensor Agent Node
-2           | Cyber Physical Middleware  | MOD.MW.CM          | Context Management
-            |                            | MOD.MW.BDM         | Backend Device Management and protocol adapter
-            |                            | MOD.MW.WDGT        | Advanced Widget mash-up HMI
-3           | SW System                  | MOD.SW.TP          | Task Planner
-            |                            | MOD.SW.AHMI        | Advanced HMI
-            |                            | MOD.SW.SP          | Sensing & Perception
+|Layer level | Layer name                 | Module Identifier  | Module name
+|-----------:|:--------------------------:|:------------------:|:----------------
+|1           | IoT Nodes                  | MOD.IOT.RAN        | Robot Agent Node
+|            |                            | MOD.IOT.HAN        | Human Agent Node
+|            |                            | MOD.IOT.SAN        | Sensor Agent Node
+|2           | Cyber Physical Middleware  | MOD.MW.CM          | Context Management
+|            |                            | MOD.MW.BDM         | Backend Device Management and protocol adapter
+|            |                            | MOD.MW.WDGT        | Advanced Widget mash-up HMI
+|3           | SW System                  | MOD.SW.TP          | Task Planner
+|            |                            | MOD.SW.AHMI        | Advanced HMI
+|            |                            | MOD.SW.SP          | Sensing & Perception
  
 # OPIL Layers:
 
