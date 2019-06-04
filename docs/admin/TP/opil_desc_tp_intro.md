@@ -10,7 +10,7 @@ Task  Planning  (MTP)  and  the Task  Supervisor  (TS)  will  be  described in t
 The Business Process Optimization (BPO) sub-module of the OPIL Task Planner handles the on-the-fly optimization of the task that is received from the Task Supervisor sub-module of the OPIL Task Planner. The BPO sub-module is responsible for minimizing the logistics resources that are required for a given task. The BPO receives a task specification from the Task Supervisor sub-module of the OPIL Task Planner in an appropriate formal language and parameterizes the task specification so that the resulting specification requires minimal (or near minimal) logistics resources for its fulfilment. The parameterized task specification is then transmitted back to the Task Supervisor sub-module of the OPIL Task Planner for determining the eventual Motion Task Plan that fulfils the specification. The Figure below depicts the interaction between the BPO sub-module with the Task Supervisor sub-module.
 
 <center>
-![](imgs/BPO.png)
+![](img/BPO.png)
 </center>
 ***
 
@@ -18,7 +18,7 @@ The Business Process Optimization (BPO) sub-module of the OPIL Task Planner hand
 The Motion Task Planning (MTP) modules creates/computes a motion task plan for the involved agents. This motion task provides a deadlock-free, optimal or near optimal path without loops and collision. Beyond this path computation the Motion Task Planning component handles the communication with the agents. Paths for human agents will receive a higher priority than robotic agents. Already planned paths for robotic agents will be re-planned to avoid collision. In the case of system failures, the Motion Task Planning can re-plan on-the-fly a new motion task plan. The motion task plan will be dispatched to the agents, like AGVs or human agents. The figure below shows the usage of the Motion Task Planning component.
 
 <center>
-![](imgs/MTP.png)
+![](img/MTP.png)
 </center>
 
 The MOD.SW.TP Motion Task Planning receives the start and end destinations of the appropriate Robot/ Human Agent Nodes. It computes the best, shortest and/or fastest path for the navigation and it handles the communication with the Robotic Agent Nodes (MOD.SW.RAN). Moreover, it is aware about the state, like current pose, current task, of the agents nodes.
@@ -28,7 +28,7 @@ The MOD.SW.TP Motion Task Planning receives the start and end destinations of th
 The Task Supervisor (TS) module receives task specification from the Advanced HMI Module in an appropriate formal language and parameterized task specification. These specified tasks, the currently available resources and some further boundary constraints will be the input for the Business Process Optimization. The Task Supervisor is also able to send the current state information to the Advanced HMI. Any changes inside the system will be handled through this sub-module. 
 
 <center>
-![](imgs/TS.png)
+![](img/TS.png)
 </center>
 
 The figure above shows the usage of the MOD.SW.TP Task Supervisor component in the MOD.SW.TP module. The Task Supervisor receives information from the Sensing and Perception module and task specification from the Advanced HMI. Then, it sends task execution information status to the Advanced HMI, starts the Motion Task Planning process and the Business Process Optimization begins to minimize the logistic resources.

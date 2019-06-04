@@ -52,7 +52,7 @@ the result should be as in this figure:
 
 * To use arbitrary map file you should prepare **map.png** (export as png in any graphical software) and **map.yaml**. Here is an example of the CHEMI factory floorplan saved as png file:
 
-![IML topology](../img/map.png)
+![IML topology](./img/map.png)
 
 It should be a greyscaled image, where dark grey will be considered as obstacle, while light grey as free area.
 

@@ -11,7 +11,7 @@ Figure 1 presents the structure of VC-RAN. VC-Router handles communication betwe
 VC-RanLogic sends description message every minute to VC-Router, which delivers the message as is to FCB. RobotState message is sent by the AGV every second to VC-RanLogic that then sends RAN-state message to VC-Router. VC-RanLogic likewise sends assignment status message to VC-Router every second. VC-Router delivers both RAN-state and assignment status messages to FCB. AGV and VC-AgvAction components send a message after every completed assignment to VC-RanLogic, which the VC-RanLogic uses to update its data structures, task variables and state.
 
 
-![](./imgs/VC_RAN_diagram.png)
+![](./img/VC_RAN_diagram.png)
 
 <center>Figure 1. Structure of VC-RAN.</center>
 
@@ -29,6 +29,6 @@ If all the assignments (motion or action) belonging to the same task are not rec
 
 VC-RanLogic is always in one of the finite states specified in Figure 2. Starting state is state-waiting, which changes to state-task after new task is received. When all the motion assignments belonging to the current task have been received, the state changes to state-motion and VC-RanLogic will send the motion assignment sequence to the AGV. After all the motion assignments have been completed and the action assignments belonging to current task received, state changes to state-action. In this state, VC-RanLogic sends action assignments one by one to the VC-AgvAction component until all the assignments are completed and VC-RanLogic returns to state-waiting. If the current task is cancelled, the state changes to state-waiting.
 
-![](./imgs/VC_RAN_state.png)
+![](./img/VC_RAN_state.png)
 
 Figure 2. VC-RanLogic state machine.
