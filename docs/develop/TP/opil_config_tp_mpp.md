@@ -1,4 +1,6 @@
-# Motion Path Planning The main target of the motion path planning is the calculation and coordination of robot paths. This ensures a safe coexistence between robots which operate together in the same environment. To certify this, the path planner will always try to avoid crossing paths or blockings. 
+# Motion Path Planning
+
+The main target of the motion path planning is the calculation and coordination of robot paths. This ensures a safe coexistence between robots which operate together in the same environment. To certify this, the path planner will always try to avoid crossing paths or blockings. 
 
 ## Introduction
 
