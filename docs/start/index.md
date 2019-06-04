@@ -1,7 +1,7 @@
 # Architecture
 OPIL architectural design, as depicted by the picture below, is based on three different layers to logically separate the different functionalities offered by OPIL. In turn, each layer is made of different SW modules and sub-modules.
 
-![OPIL Platform](.img/OPIL_v1.png)
+![OPIL Platform](./img/OPIL_v1.png)
 
 The table below listes the OPIL layers along with the modules of which they are made of.
  
