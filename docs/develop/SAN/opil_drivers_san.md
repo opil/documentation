@@ -3,17 +3,17 @@
 Currently SAN supports plug'n'play facility only for digital sensors due to the data they typically submit.
 
 ### Existing drivers and supported devices:
- GPIO pin interface on Raspberry Pi 3 and Revolution Pi
+GPIO pin interface on Raspberry Pi 3 and Revolution Pi
 Generic USB interface
 ### How to write your own drivers
-. A new driver must be: 
+A new driver must be:
 
-1) saved in the Drivers directory 
-2) created as a Python class. 
+1) saved in the Drivers directory
+2) created as a Python class
 
-This class must have: 
+this Class must have:
 
-1) a name which is identical to its file Name (except the .py ending)
+1) a name which is identical to its fileName (except the .py ending)
 2) a parameter which is initialized in the constructor named:
     
     - self._last_value
@@ -24,13 +24,14 @@ This class must have:
 
     - \__del__ which performs any necessary cleanup when the sensor is done
 
-    - _get_reading_ which gets a reading from a the _current_value_ function and updates the _last_value
+    - _get_reading_ which gets a reading from the _current_value_ function and updates the _last_value
 
     - _has_changed_ which detects if the sensor reading has changed
 
-    - __current_value_ which gets a reading from the sensor 
+    - __current_value_ which gets a reading from the sensor
 
 
 4) any other details and tools it needs to get readings from its sensors
 
-### If the driver lacks some of these, the system will inform and guide you
+### If the driver lacks some part of these, the system will inform and guide you
+## See exampleIoPinDriver.py and exampleUSBsensorDriver.py for a detailed breakdown of driver construction
