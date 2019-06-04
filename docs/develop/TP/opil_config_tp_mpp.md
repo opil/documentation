@@ -54,5 +54,5 @@ Another main task of the logical agent is the route management. After a new task
 
 In our agent model the auctions for orders takes place between the logical agents and the fleet manager. For the included auction in this decision point the FIPA CNET protocol was applied. [Branisso et al.](https://ieeexplore.ieee.org/document/6825356 "A Multi-Agent System Using Fuzzy Logic to Increase AGV Fleet Performance in Warehouses") pointed out that CNET produces a larger task throughout as the First Come First Serve approach. All of the following input values are part of a bid that was sent from a supply logical agent to the warehouse agent during a transport order auction. Three input values are used at this decision point. More precisely, these are the travel distance between the source and destination location, the travel time and the battery charging state of the vehicle. The auction process between the fleet manager and the logical agents is shown in the figure below.
 
-![Sequence diagram of a transport order auction: the participating agents as well as the communication process between them are shown.](./imgs/TransportOrderAssignment.png)
+![Sequence diagram of a transport order auction: the participating agents as well as the communication process between them are shown.](./img/TransportOrderAssignment.png)
 
