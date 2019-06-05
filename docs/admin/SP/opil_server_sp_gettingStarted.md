@@ -22,7 +22,6 @@ This docker container starts the creation of a topology graph from the given map
 
 ![IML topology](./img/IMLtopology.png) 
 
-To use arbitrary annotations file and map file you should create these files and put it in the same folder next to the docker-compose.yml and uncomment the lines containing these files. These example files can be found in the folder test/docker_compose_files/Central_SP_docker.
 To zoom the rviz window use mouse scroll, to translate the view press shift key and mouse button at the same time.
 The output topic that is presented in OCB is a **graph** composed of arrays of **edges** and **vertices**. Vertices have coordinates (**x**, **y**) of the cell center defined by the parameter **cell_size** (2 m in this example), a **footprint** of the robot defined by a square of edge size equal to **cell_size**, a string **name** that describes the vertex, and a string **uuid** uniquely identifying the vertex. The example of one vertex has the following structure:
 ```
@@ -71,7 +70,6 @@ theta = 180
 distance = 1.8
 ```
 where **P1** is the annotation label, **point_x**, **point_y** are coordinates of the annotation, and **theta** and **distance** determine where the topology vertex should be so that Task Planner can use this coordinates as the goal distanced for a defined **distance** (1.8 m in this example) from the annotation and oriented towards the annotation so that AGV has heading **theta** (180 degrees in this example) with respect to the positive x-axis. To use the created `annotations.ini` instead the default one inside the docker, uncomment the line (remove #) in [docker-compose.yml](./opil_server_sp_install.md#dockercompose) under the **volumes**:
-* Uncomment the line in the [docker-compose.yml](./opil_server_sp_install.md#dockercompose):
 ```
             - ./annotations.ini:/root/catkin_ws/src/maptogridmap/launch/annotations.ini:ro
 ```
@@ -127,8 +125,7 @@ occupied_thresh: 0.65
 free_thresh: 0.196
 ```
 where the image name is `map.png` to which your `testmap.png` is copied to on the docker side, **resolution** defines the size of the pixel of the png file in meters. To calculate the resolution, you need to know the width of the image in meters. Then, simply divide the width of the image with the number of pixels. Adjust the parameters **occupied_thresh** and **free_thresh** to different values, depending on which shade of grey should be considered as occupied and free, respectively. 
-To use the created `testmap.png` and `testmap.yaml` uncomment the lines in the docker-compose.yml:
-* Uncomment the lines in the [docker-compose.yml](./opil_server_sp_install.md#dockercompose):
+To use the created `testmap.png` and `testmap.yaml` uncomment the lines in the [docker-compose.yml](./opil_server_sp_install.md#dockercompose):
 ```
             - ./testmap.yaml:/root/catkin_ws/src/maptogridmap/launch/map.yaml:ro
             - ./testmap.png:/root/catkin_ws/src/maptogridmap/launch/map.png:ro
@@ -157,7 +154,6 @@ To change the size of the grid cell for calculating the topology, use this examp
 ```
 and change the **cell_size** to something else than 2.0 m. 
 To use the created topology.launch uncomment the line in [docker-compose.yml](./opil_server_sp_install.md#dockercompose):
-* Uncomment the line in the [docker-compose.yml](./opil_server_sp_install.md#dockercompose):
 ```
             - ./topology.launch:/root/catkin_ws/src/maptogridmap/launch/topology.launch:ro
 ```
@@ -167,7 +163,6 @@ This is the result for changing the parameter **cell_size** to 1.25 m:
 
 ![IML topology](./img/chemi1p25mgridcell.png)
 
-Prepare a following docker-compose to start both Central and Local SP. You can also start them on the different machines.
 There are also some prepared maps inside this docker which can be set by changing the `topology.launch` file. Replace the lines from 2-4 in [topology.launch](#topologylaunch) with the following lines:
 
 * CHEMI map
@@ -196,10 +191,8 @@ There are also some prepared maps inside this docker which can be set by changin
 ```
 
 
-One rviz window is from the Local SP, where you can see the AGV's pose (red arrow) and local updates (red tiny squares). Another rviz window is from the Central SP, where you can see the updates of the topology and new obstacles presented with blue tiny squares presenting only the current position of the new obstacle. All new obstacles are processed as they are received so only new ones are sent. That is the reason why in the Local SP you can see a trail of the obstacle, while in the Central SP there is no trail but the topology is permanently changed.
 ## <a name="fromdockerlocal">Starting from Docker - Local SP</a>
 
-You can test more maps, and here is the examle how to change the map to ICENT lab.
 The Local SP container can be started in two ways: without RAN and with RAN. If started without RAN then the simulator Stage is used for testing and visualizing what the Local SP does. This option is described first. Prepare [docker-compose.yml](./opil_server_sp_install.md#dockercomposelocal).
 It is important to put the environment variable `SIMULATION=true`.
 This starts IML map, **amcl** localization inside that map shown on topic `/robot_0/pose_channel`, and calculation of map updates shown on topic `/robot_0/newObstacles`. The robot in the Stage simulator can be moved by mouse dragging, and changed pose can be seen in topic `/robot_0/pose_channel` which shows the current pose and the covariance of the pose estimation. There is also an obstacle in the Stage simulator that can be used for test of showing the map updates, seen in topic `/robot_0/newObstacles`.
@@ -367,7 +360,6 @@ There are also some prepared maps inside this docker which can be set by changin
 </launch>
 ```
 In this launch files you can set various parameters: **cell_size** defines the fine gridmap for calculating new obstacles (presented as tiny red squares); robot ID as an argument of packages _sending_and_perception_ and _mapupdates_ for having more robots (0,1,2,etc.), and **scan_topic** for defining the topic for the range data.
-For testing Local SP and Central SP on the same ICENT map, you also need to prepare a new **topology.launch**:
 To use the changed local_robot_sim.launch uncomment the line in [docker-compose.yml](./opil_server_sp_install.md#dockercomposelocal) under **volumes**:
 ```
             - ./local_robot_sim.launch:/root/catkin_ws/src/localization_and_mapping/sensing_and_perception/local_robot_sim.launch:ro
@@ -475,7 +467,6 @@ After moving the green box in the simulator the result can be obtained as in thi
 
 The Local SP container needs to be started with the environment variable `SIMULATION=false`, as is the case in [docker-compose.yml](./opil_server_sp_install.md#dockercomposelocalran).
 
-Prepare a following docker-compose to start both Central and Local SP:
 IML map will be started and you can command the robot through rviz by pressing 2D Nav Goal button and clicking the point on the map.
 To change the map prepare `testmap.yaml`, `testmap.png`, `amcl_testmap.yaml`, `testmap.world` as explained [previously](#simmap).
 

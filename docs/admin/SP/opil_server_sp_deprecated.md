@@ -1,8 +1,8 @@
-Deprecated features are features that SP stil supports but that are not maintained or evolved any longer, or will be used in the future. In particular:
+Deprecated features are features that SP still supports but that are not maintained or evolved any longer, or will be used in the future. In particular:
 
 # Firos v1 did not allow arrays of custom ROS messages
 
-The topology is composed of nodes and edges. Since firos is not supporting arrays of custom ROS messages it is divided into two ROS messages: nodes and edges.
+The topology is composed of nodes and edges. Since Firos is not supporting arrays of custom ROS messages it is divided into two ROS messages: nodes and edges.
 
 Nodes.msg
 
@@ -23,7 +23,7 @@ Edges.msg
 	string[] uuid	# unique id of an edge
 
 # Sending larger data on demand - a service mockup
-Since there is no service call supported yet in firos, topic _do_serve_ is used as a service mockup. On another machine that wants to obtain the data, on topic _do_serve_ needs to be sent value "true" or 1. Large data are a) map topic created with _map_server_ from PNG or PGM file and b) gridmap topic created from the map by resampling to cells of size given by the parameter _cell_size_.
+Since there is no service call supported yet in Firos, topic _do_serve_ is used as a service mockup. On another machine that wants to obtain the data, on topic _do_serve_ needs to be sent value "true" or 1. Large data are a) map topic created with _map_server_ from PNG or PGM file and b) gridmap topic created from the map by resampling to cells of size given by the parameter _cell_size_.
 
 ## Testing sending map topic on request on machine_1:
 Remark: only a small map can be tested here around 10m x 7m - Andamapa.yaml.
