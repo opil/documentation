@@ -108,7 +108,7 @@ pages:
                 - Introduction: admin/opil_desc_node_intro.md
                 - RAN: admin/RAN/opil_desc_ran.md
                 - SAN: admin/SAN/opil_desc_san.md
-                - HAN: admin/HAN/opil_desc_han.md
+#                - HAN: admin/HAN/opil_desc_han.md
             - OPIL VC Nodes:
                 - Introduction: admin/opil_desc_vc_node_intro.md
                 - VC RAN: admin/RANVC/opil_desc_vc_ran.md
