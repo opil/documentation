@@ -69,13 +69,13 @@ pages:
                     - Deinstallation: admin/SAN/opil_server_san_deinstallation.md
                     - Upgrades: admin/SAN/opil_server_san_upgrades.md
                     - Deprecated: admin/SAN/opil_server_san_deprecated.md
-                - HAN: 
-                    - Introduction: admin/HAN/opil_iot_han.md
-                    - Installation: admin/HAN/opil_server_han_install.md
-                    - Getting started: admin/HAN/opil_server_han_gettingStarted.md
-                    - Deinstallation: admin/HAN/opil_server_han_deinstallation.md
-                    - Upgrades: admin/HAN/opil_server_han_upgrades.md
-                    - Deprecated: admin/HAN/opil_server_han_deprecated.md
+#                - HAN: 
+#                    - Introduction: admin/HAN/opil_iot_han.md
+#                    - Installation: admin/HAN/opil_server_han_install.md
+#                    - Getting started: admin/HAN/opil_server_han_gettingStarted.md
+#                    - Deinstallation: admin/HAN/opil_server_han_deinstallation.md
+#                    - Upgrades: admin/HAN/opil_server_han_upgrades.md
+#                    - Deprecated: admin/HAN/opil_server_han_deprecated.md
             - Opil VC Nodes:
                 - Deployment: admin/opil_vc.md
                 - RAN VC: 
@@ -145,8 +145,8 @@ pages:
                     - Drivers: develop/SAN/opil_drivers_san.md
                     - Introduction: develop/SAN/opil_introd_san.md
                     - Run: develop/SAN/opil_run_san.md
-                - Human Agent Node (HAN):
-                    - API: develop/HAN/opil_api_han.md
+#                - Human Agent Node (HAN):
+#                    - API: develop/HAN/opil_api_han.md
             - OPIL VC Nodes:
                 - VC RAN: develop/RANVC/opil_api_vc_ran.md
                 - VC SAN: develop/SANVC/opil_api_vc_san.md
