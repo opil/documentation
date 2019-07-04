@@ -28,7 +28,7 @@ pages:
         - Introduction: showcases/index.md 
         - Chemi: showcases/chemi.md
         - Engino: showcases/engino.md
-        - Chemi: showcases/muraplast.md
+        - Muraplast: showcases/muraplast.md
     - Administrator's Guide: 
         - Introduction: admin/index.md
         - Installation:
