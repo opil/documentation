@@ -36,21 +36,21 @@ pages:
             - OPIL Server: admin/OPIL/opil_server.md
             - OPIL Server Nodes:
                 - Task Planner: 
-                    - Introduction: admin/TP/opil_desc_tp_intro.md
+#                    - Introduction: admin/TP/opil_desc_tp_intro.md
                     - Installation: admin/TP/opil_server_tp_install.md
                     - Getting started: admin/TP/opil_server_tp_gettingStarted.md
                     - Deinstallation: admin/TP/opil_server_tp_deinstall.md
                     - Upgrades: admin/TP/opil_server_tp_upgrade.md
                     - Deprecated: admin/TP/opil_server_tp_deprecated.md 
                 - Human Machine Interaction: 
-                    - Introduction: admin/HMI/opil_desc_HMI_intro.md
+#                    - Introduction: admin/HMI/opil_desc_HMI_intro.md
                     - Installation: admin/HMI/opil_server_hmi_install.md
                     - Getting started: admin/HMI/opil_server_hmi_gettingStarted.md
                     - Deinstallation: admin/HMI/opil_server_hmi_deinstall.md
                     - Upgrades: admin/HMI/opil_server_hmi_upgrades.md
                     - Deprecated: admin/HMI/opil_server_hmi_deprecated.md
                 - Sensing and Perception:
-                    - Introduction: admin/SP/opil_desc_SP_intro.md
+#                    - Introduction: admin/SP/opil_desc_SP_intro.md
                     - Installation: admin/SP/opil_server_sp_install.md
                     - Getting started: admin/SP/opil_server_sp_gettingStarted.md
                     - Deinstallation: admin/SP/opil_server_sp_deinstall.md
