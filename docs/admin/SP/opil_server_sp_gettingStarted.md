@@ -350,6 +350,7 @@ There are also some prepared maps inside this docker which can be set by changin
     <node name="mapup" pkg="mapupdates" type="mapup" output="screen" args="0" >
         <param name="cell_size" type="double" value="0.1" />
         <param name="scan_topic" value="/base_scan" />
+        <param name="laser_inverted" type="bool" value="0" />
     </node>
 
     <!-- Run FIROS -->
@@ -360,6 +361,9 @@ There are also some prepared maps inside this docker which can be set by changin
 </launch>
 ```
 In this launch files you can set various parameters: **cell_size** defines the fine gridmap for calculating new obstacles (presented as tiny red squares); robot ID as an argument of packages _sending_and_perception_ and _mapupdates_ for having more robots (0,1,2,etc.), and **scan_topic** for defining the topic for the range data.
+There is also a parameter **laser_inverted** to indicate if the laser is mounted upside down on the robot (use value 1), or normally (use value 0). The simplest check if laser is setup correctly is to see in rviz if laser readings are aligned with the png map.  
+Right now it is implemented that Central SP can handle three robots with ID's 0, 1 and 2. If you change the ID of the robot to 1 the topics `/robot_1/newObstacles` and `/robot_1/pose_channel` will be created and visible in OCB.
+
 To use the changed local_robot_sim.launch uncomment the line in [docker-compose.yml](./opil_server_sp_install.md#dockercomposelocal) under **volumes**:
 ```
             - ./local_robot_sim.launch:/root/catkin_ws/src/localization_and_mapping/sensing_and_perception/local_robot_sim.launch:ro
@@ -429,7 +433,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: l4ms/opil.sw.sp:2.5-central
+        image: l4ms/opil.sw.sp:2.6-central
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -440,7 +444,7 @@ services:
             - DISPLAY=$DISPLAY
     splocal:
         restart: always
-        image: l4ms/opil.sw.sp:2.5-local
+        image: l4ms/opil.sw.sp:2.6-local
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -487,6 +491,7 @@ Like in previous sections, there are some prepared maps inside both docker conta
     <node name="mapup" pkg="mapupdates" type="mapup" output="screen" args="0" >
         <param name="cell_size" type="double" value="0.1" />
         <param name="scan_topic" value="/base_scan" />
+        <param name="laser_inverted" type="bool" value="0" />
     </node>
 
     <!-- Run FIROS -->
@@ -642,3 +647,27 @@ terminal 4: roslaunch maptogridmap startmaptogridmap.launch
 You can change the resolution of the global gridmap and topology (the distance between the nodes) by checking the Section [Topology](./../../develop/SP/opil_api_sp.md#topology). There you can also find about annotations and how to change theirs parameters. 
 
 Now, you can reproduce the figures from [SP introduction](./opil_desc_SP_intro.md#mapupdates1) by moving the green box in front of the AGV (use the left click of the mouse and hold it while dragging the box around).
+
+To test if entities are sent to OCB, prepare the following docker-compose.yml on the machine where you want to have the OPIL server:
+```
+version: "3"
+services:      
+    #Context Broker
+    orion:        
+        image: fiware/orion
+        ports:
+            - 1026:1026
+        command: 
+            -dbhost mongo
+            
+    mongo:
+        restart: always
+        image: mongo:3.4
+        command: --nojournal
+```
+
+To test sending topology to OCB put in firos/config all json files from test/config_files/machine_1. To test sending local map updates and pose with covariance to OCB put in firos/config all json files from test/config_files/machine_2. Set the right IP addresses for your machine (server), OPIL server (contextbroker), and interface (check with ifconfig) in firos/config/config.json. Run firos in a new terminal and check entities in a web browser at the address <http://OPIL_SERVER_IP:1026/v2/entities.
+```
+terminal 5: rosrun firos core.py 
+```
+For more details how to set up firos config files check the Section [Interfaces](./../../develop/SP/opil_sp_interfaces.md). For more examples on sending and receiving these topics through OCB check the Section [Examples](./../../develop/SP/opil_api_sp.md#examplesOCB).

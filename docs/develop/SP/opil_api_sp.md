@@ -369,11 +369,15 @@ It is also important to set the robot id as args of the package, as is the examp
     <node name="mapup" pkg="mapupdates" type="mapup" output="screen" args="0" >
         <param name="cell_size" type="double" value="0.1" />
         <param name="scan_topic" value="/base_scan" />
+        <param name="laser_inverted" type="bool" value="0" />
     </node>
 
 </launch>
 ```
-The topic that is returned contains the robot ID, e.g. if set to 0 the topic will be /robot_0/newObstacles and the example of the echo of it is:
+In this launch files you can set various parameters: **cell_size** defines the fine gridmap for calculating new obstacles; robot ID as an argument of packages _sending_and_perception_ and _mapupdates_ for having more robots (0,1,2,etc.), and **scan_topic** for defining the topic for the range data.
+There is also a parameter **laser_inverted** to indicate if the laser is mounted upside down on the robot (use value 1), or normally (use value 0). The simplest check if laser is setup correctly is to see in rviz if laser readings are aligned with the png map.  
+Right now only three robots are suported, i.e., with ID's 0, 1 and 2. If you change the ID of the robot to 1 the topic `/robot_1/newObstacles` will be created.
+An example of the echo of the robot with ID 0 is:
 ```
 $rostopic echo /robot_0/newObstacles
 header: 
@@ -460,11 +464,27 @@ void VisualizationPublisherGML::newObstaclesCallback(const mapupdates::NewObstac
 terminal 4: rosrun maplistener mapls
 ```
 
-# Examples
-## Testing if ROS topics for Nodes and Edges are sent to Orion Context Broker:
-TODO: change to graph
+# <a name="examplesOCB">Examples</a>
+## Sending topology to OCB (machine_1):
 
-Make a clean start of context broker (use the docker-compose.yml in test/docker_compose_files/Central_SP_docker):
+Use the following docker-compose.yml:
+```
+version: "3"
+services:      
+    #Context Broker
+    orion:        
+        image: fiware/orion
+        ports:
+            - 1026:1026
+        command: 
+            -dbhost mongo
+            
+    mongo:
+        restart: always
+        image: mongo:3.4
+        command: --nojournal   
+```
+Make a clean start of context broker. 
 ```
 sudo docker-compose down
 sudo docker-compose up
@@ -478,30 +498,38 @@ On machine 1 start:
 terminal 1: roslaunch maptogridmap startmapserver.launch
 terminal 2: roslaunch maptogridmap startmaptogridmap.launch
 ```
-If you want to send the topics through firos, you need to put in firos/config all json files from test/config_files/machine_1:
+If you want to send the topics through firos, you need to put in firos/config all json files from test/config_files/machine_1. Set the right IP addresses for your machine (server), OPIL server (contextbroker), and interface name (check with ifconfig) in firos/config/config.json and then run firos:
 ```
 terminal 3: rosrun firos core.py
 ```
 
-Refresh firefox on http://OPIL_SERVER_IP:1026/v2/entities. There should be under id "map" topics "nodes" and "edges" with their values.
+Refresh firefox on http://OPIL_SERVER_IP:1026/v2/entities. There should be under id "map" topic "graph" with its values.
 
 
-## Testing sending pose with covariance on machine_1
-Just start after previous three terminals. If you want to test only sending pose with covariance, repeat the commands in section [Pose with covariance](#poswithcov).
-Start the simulation Stage with the amcl localization depending on the map you are using in startmapserver.launch. For example, if you are using MP map use amcl_test_muraplast.launch; if you are using IML map use IMLamcltest.launch; otherwise, if you are using ICENT map use the following:
+## Sending pose with covariance and map updates to OCB (machine_2)
+
+Start the stage simulator and amcl localization. 
 ```
-terminal 4: roslaunch lam_simulator AndaOmnidriveamcltestZagrebdemo.launch
+terminal 1: roslaunch lam_simulator AndaOmnidriveamcltestZagrebdemo.launch
 ```
-This starts stage simulator and amcl localization. 
+Start sending pose with covariance:
 ```
-terminal 5: roslaunch sensing_and_perception send_posewithcovariance.launch 
+terminal 2: roslaunch sensing_and_perception send_posewithcovariance.launch 
+```
+Start calculation of map updates:
+```
+terminal 3: roslaunch mapupdates startmapupdates.launch
+```
+To send the topics through firos, you need to put in firos/config all json files from test/config_files/machine_2:
+```
+terminal 4: rosrun firos core.py
 ```
 Now you can refresh firefox on http://OPIL_SERVER_IP:1026/v2/entities.
-There should be under id "robot_0" with topic "pose_channel".
-Simply move the robot in stage by dragging it with the mouse and refresh the firefox to see the update of pose_channel.
+There should be under id "robot_0" with topics "pose_channel" and "newObstacles".
+Simply move the robot in stage by dragging it with the mouse and refresh the firefox to see the update of pose_channel and newObstacles.
 
 
-## Testing if topics for Graph and PoseWithCovariance are received on machine_2 through firos
+## Receiving the topology through OCB (machine_2)
 
 If you want to receive the topics through firos, you need to put in firos/config all json files from test/config_files/machine_2:
 
@@ -513,8 +541,23 @@ _maptogridmap_ package needs to be on the machine_2 - it is not important that t
 Now you are able to echo all ros topics:
 ```
 rostopic echo /map/graph
-rostopic echo /robot_0/pose_channel
 ```
+
+## Receiving the pose with covariance and map updates through OCB (machine_1)
+
+If you want to receive the topics through firos, you need to put in firos/config all json files from test/config_files/machine_1:
+
+```
+terminal 1: roscore
+terminal 2: rosrun firos core.py
+```
+_mapupdates_ package needs to be on the machine_1 - it is not important that the source code is in there but only that msg files and CMakeLists.txt compiling them are there.
+Now you are able to echo all ros topics:
+```
+rostopic echo /robot_0/pose_channel
+rostopic echo /robot_0/newObstacles
+```
+
 * <a name="exampleannot">Example output for the ICENT map - graph (vertices and edges) with loaded annotations</a>
 <!--* Example output for the ICENT map - Nodes-->
 

@@ -31,7 +31,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: l4ms/opil.sw.sp:2.5-central
+        image: l4ms/opil.sw.sp:2.6-central
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -95,7 +95,7 @@ services:
         command: --nojournal    
     splocal:
         restart: always
-        image: l4ms/opil.sw.sp:2.5-local
+        image: l4ms/opil.sw.sp:2.6-local
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -158,7 +158,7 @@ services:
 #S&P
     splocal:
         restart: always
-        image: l4ms/opil.sw.sp:2.5-local
+        image: l4ms/opil.sw.sp:2.6-local
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw

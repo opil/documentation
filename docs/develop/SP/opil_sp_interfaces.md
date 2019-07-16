@@ -134,6 +134,65 @@ After putting the json files to firos/config folder run firos as:
 ```
 rosrun firos core.py
 ```
+To test receiving of three robots to Central SP modify the config files accordingly:
+### robots.json
+```
+{
+	"map":{
+        "topics": {
+            "graph": {
+                "msg": "maptogridmap.msg.Graph",
+                "type": "subscriber"
+            }
+        }
+    },
+	"robot_0":{
+		"topics": {
+			"newObstacles": {
+				"msg": "mapupdates.msg.NewObstacles",
+				"type": "publisher"
+			}
+		}
+	},
+    "robot_1":{
+        "topics": {
+            "newObstacles": {
+                "msg": "mapupdates.msg.NewObstacles",
+                "type": "publisher"
+            }
+        }
+    },
+    "robot_2":{
+        "topics": {
+            "newObstacles": {
+                "msg": "mapupdates.msg.NewObstacles",
+                "type": "publisher"
+            }
+        }
+    }
+}
+```
+### whitelist.json
+```
+{
+    "map": {
+        "subscriber": ["graph"],
+        "publisher": []
+    },
+    "robot_0": {
+        "subscriber": [],
+        "publisher": ["newObstacles"]
+    },
+    "robot_1": {
+        "subscriber": [],
+        "publisher": ["newObstacles"]
+    }"robot_2": {
+        "subscriber": [],
+        "publisher": ["newObstacles"]
+    }
+}
+```
+
 
 # OPIL server computer with the Task Planner - TP
 
