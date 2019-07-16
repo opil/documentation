@@ -49,7 +49,7 @@ pages:
                     - Deinstallation: admin/HMI/opil_server_hmi_deinstall.md
                     - Upgrades: admin/HMI/opil_server_hmi_upgrades.md
                     - Deprecated: admin/HMI/opil_server_hmi_deprecated.md
-                - Sensing and Perception:
+                - Sensing and Perception - Central SP:
 #                    - Introduction: admin/SP/opil_desc_SP_intro.md
                     - Installation: admin/SP/opil_server_sp_install.md
                     - Getting started: admin/SP/opil_server_sp_gettingStarted.md
@@ -72,6 +72,13 @@ pages:
                     - Deinstallation: admin/SAN/opil_server_san_deinstallation.md
                     - Upgrades: admin/SAN/opil_server_san_upgrades.md
                     - Deprecated: admin/SAN/opil_server_san_deprecated.md
+                - Sensing and Perception - Local SP:
+                    - Introduction: admin/SP/opil_local_SP.md
+                    - Installation: admin/SP/opil_local_sp_install.md
+                    - Getting started: admin/SP/opil_local_sp_gettingStarted.md
+                    - Deinstallation: admin/SP/opil_local_sp_deinstall.md
+                    - Upgrades: admin/SP/opil_local_sp_upgrades.md
+                    - Deprecated: admin/SP/opil_local_sp_deprecated.md                
 #                - HAN: 
 #                    - Introduction: admin/HAN/opil_iot_han.md
 #                    - Installation: admin/HAN/opil_server_han_install.md
@@ -106,11 +113,12 @@ pages:
             - Introduction: admin/OPIL/opil_desc_intro.md
             - OPIL Server Nodes:                              
                 - Task Planner: admin/TP/opil_desc_tp_intro.md
-                - Sensing & Perception: admin/SP/opil_desc_SP_intro.md            
+                - Sensing & Perception - Central SP: admin/SP/opil_desc_SP_intro.md            
             - OPIL IoT Nodes:
                 - Introduction: admin/opil_desc_node_intro.md
                 - RAN: admin/RAN/opil_desc_ran.md
                 - SAN: admin/SAN/opil_desc_san.md
+                - Sensing & Perception - Local SP: admin/SP/opil_desc_local_SP_intro.md            
 #                - HAN: admin/HAN/opil_desc_han.md
             - OPIL VC Nodes:
                 - Introduction: admin/opil_desc_vc_node_intro.md

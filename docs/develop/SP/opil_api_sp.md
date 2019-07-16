@@ -174,7 +174,7 @@ The message that is sent through firos is maptogridmap/msg/Graph.msg
 
 To read the topic in your own package you need to subscribe to it, include the header of the message, and write a message callback. The example is taken from maplistener/src/main.cpp.
 
-* subscribe to a topics /map/graph 
+* subscribe to a topic /map/graph 
 ```
  	graph_sub = nh_.subscribe("map/graph",1,&VisualizationPublisherGML::graphCallback, this);
 
