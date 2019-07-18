@@ -95,7 +95,7 @@ Install ROS packages:
 
 Install from SourceCode:
 
-* put everything to your src folder of your catkin workspace or create a new one by typing catkin_init_workspace in src folder. Then compile it with catkin_make in one folder up.
+* put all ROS packages of Sensing and Perception to your src folder of your catkin workspace or create a new one by typing catkin_init_workspace in src folder. Then compile it with catkin_make in one folder up.
 ```
 cd ..
 catkin_make

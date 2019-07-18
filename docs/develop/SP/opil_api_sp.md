@@ -19,7 +19,40 @@ A ROS package for testing subscribers to all created topics from maptogridmap pa
 
 
 # <a name="topology">Topology creation - maptogridmap package</a>
-The topology is composed of nodes (vertices) and edges. It is single graph message composed of arrays of two ROS messages: Vertex and Edge.
+This package creates the output topic **graph** composed of arrays of **edges** and **vertices**. Vertices have coordinates (**x**, **y**) of the cell center defined by the parameter **cell_size** (2 m in this example), a **footprint** of the robot defined by a square of edge size equal to **cell_size**, a string **name** that describes the vertex, and a string **uuid** uniquely identifying the vertex. The example of one vertex has the following structure:
+```
+    x: 21.0
+    y: 7.0
+    theta: 0.0
+    name: "vertex_73"
+    uuid: "d3ef3744-18cc-551b-80b9-95ef2095919e"
+    footprint: 
+      - 
+        x: 20.0
+        y: 6.0
+        z: 0.0
+      - 
+        x: 22.0
+        y: 6.0
+        z: 0.0
+      - 
+        x: 22.0
+        y: 8.0
+        z: 0.0
+      - 
+        x: 20.0
+        y: 8.0
+        z: 0.0
+```
+**Edges** are pairs of neighbor vertices and are composed of **uuid_src** of the first vertex in the pair, and **uuid_dest** of the second vertex in the pair. The order of the first and second vertex is irrelevant since edges are bidirectional. There is a string **name** of the edge describing the connection of vertices, and a unique **uuid** of the edge. The example of one edge has the following structure:
+```
+    uuid_src: "27819669-6b67-57e9-a412-d0226f0d4f7e"
+    uuid_dest: "cb94a6e7-2531-5285-a090-cdac96307386"
+    name: "edge_8_15"
+    uuid: "a41a0772-9407-5d31-b1dd-c03c3d27a7f7"
+```
+
+It is created as a ROS message composed of arrays of two ROS messages: Vertex and Edge.
 
 Graph.msg
 
@@ -129,6 +162,48 @@ distance = 1.8
 The annotations are saved under the variable of type maptogridmap::Annotations inside of the maptogridmap package. All values must be in meters and degrees. From these values it is calculated where the AGV needs to be placed in front of the annotation according to the distance from the annotation and the orientation theta. It changes the values of the computed nodes from gridmap cells so that TP can use this nodes as goals.
 
 These four annotations change the coordinates of the cell centre of the grid map (but only free cells) and also change the name to the annotation name, e.g., loadingArea, unloadingArea, etc. The result can be seen in [topic /map/graph.](#exampleannot)
+
+The additional example explains the creation of one annotation in the topology graph. First, create the following file and save it under the name `annotations.ini`:
+```
+#annotations.ini
+[P1]
+# coordinates
+point_x = 18.4
+point_y = 6.5
+theta = 180
+distance = 1.8
+```
+where **P1** is the annotation label, **point_x**, **point_y** are coordinates of the annotation, and **theta** and **distance** determine where the topology vertex should be so that Task Planner can use this coordinates as the goal distanced for a defined **distance** (1.8 m in this example) from the annotation and oriented towards the annotation so that AGV has heading **theta** (180 degrees in this example) with respect to the positive x-axis. To use the created `annotations.ini`, save it as maptogridmap/launch/annotations.ini and run again:
+```
+terminal 1: roslaunch maptogridmap startmapserver.launch
+terminal 2: roslaunch maptogridmap startmaptogridmap.launch
+```
+The example of the changed vertex in the graph has now the following structure:
+```
+    x: 20.2
+    y: 6.5
+    theta: 180.0
+    name: "P1"
+    uuid: "d3ef3744-18cc-551b-80b9-95ef2095919e"
+    footprint: 
+      - 
+        x: 19.2
+        y: 5.5
+        z: 0.0
+      - 
+        x: 21.2
+        y: 5.5
+        z: 0.0
+      - 
+        x: 21.2
+        y: 7.5
+        z: 0.0
+      - 
+        x: 19.2
+        y: 7.5
+        z: 0.0
+``` 
+Notice that coordinates of the cell center at (21,7) moved to (20.2,6.5) with respect to given **distance** and **theta** from the annotation, and the **name** has changed from `vertex_73` to `P1`. The **footprint** coordinates are also changed according to the new position of the vertex.
 
 
 ## Creation of Edges in maptogridmap package

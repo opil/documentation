@@ -15,46 +15,15 @@ sudo docker-compose up
 ```
 You should see the entities in, e.g. firefox, at the address <http://localhost:1026/v2/entities>. There should be a topic `/map/graph`.
 
-This docker container starts the creation of a topology graph from the given map file and with included annotations from the annotation file. As a default, IML lab will be started with 4 annotations, as is the case in this example:
+This docker container starts the creation of a topology graph from the given map file and with included annotations from the annotation file. As a default, IML lab will be started with 4 annotations, as is the case in this example, where blue squares are the vertices of the graph placed regularly in the grid except if annotations change the position of the vertices (yellow arrow), and blue line segments are the edges of the graph. Red squares are possible vertex positions which are occupied.
 
 ![IML topology](./img/IMLtopology.png) 
 
 To zoom the rviz window use mouse scroll, to translate the view press shift key and mouse button at the same time.
-The output topic that is presented in OCB is a **graph** composed of arrays of **edges** and **vertices**. Vertices have coordinates (**x**, **y**) of the cell center defined by the parameter **cell_size** (2 m in this example), a **footprint** of the robot defined by a square of edge size equal to **cell_size**, a string **name** that describes the vertex, and a string **uuid** uniquely identifying the vertex. The example of one vertex has the following structure:
-```
-    x: 21.0
-    y: 7.0
-    theta: 0.0
-    name: "vertex_73"
-    uuid: "d3ef3744-18cc-551b-80b9-95ef2095919e"
-    footprint: 
-      - 
-        x: 20.0
-        y: 6.0
-        z: 0.0
-      - 
-        x: 22.0
-        y: 6.0
-        z: 0.0
-      - 
-        x: 22.0
-        y: 8.0
-        z: 0.0
-      - 
-        x: 20.0
-        y: 8.0
-        z: 0.0
-```
-**Edges** are pairs of neighbor vertices and are composed of **uuid_src** of the first vertex in the pair, and **uuid_dest** of the second vertex in the pair. The order of the first and second vertex is irrelevant since edges are bidirectional. There is a string **name** of the edge describing the connection of vertices, and a unique **uuid** of the edge. The example of one edge has the following structure:
-```
-    uuid_src: "27819669-6b67-57e9-a412-d0226f0d4f7e"
-    uuid_dest: "cb94a6e7-2531-5285-a090-cdac96307386"
-    name: "edge_8_15"
-    uuid: "a41a0772-9407-5d31-b1dd-c03c3d27a7f7"
-```
 
 
-To use arbitrary annotations file and map file you should create `annotations.ini`, `testmap.yaml`, and `testmap.png` files and put it in the same folder next to the docker-compose.yml and uncomment the lines containing these files in [docker-compose.yml](./opil_server_sp_install.md#dockercompose) under the **volumes**. These example files can be found in the folder `test/docker_compose_files/Central_SP_docker`. 
+To use arbitrary annotations file and map file you should create `annotations.ini`, `testmap.yaml`, and `testmap.png` files and put it in the same folder next to the docker-compose.yml and uncomment the lines containing these files in [docker-compose.yml](./opil_server_sp_install.md#dockercompose) under the **volumes**. 
+<!--These example files can be found in the folder `test/docker_compose_files/Central_SP_docker`. -->
 
 **Annotations** are written in the vertex such that coordinates of the vertex is changed from the cell center to the coordinates defined by the annotation that belongs to that cell, and it's **name** is changed to the label of the annotation. The following example explains the creation of annotations in the topology graph. First, create the following file and save it under the name `annotations.ini`:
 ```
@@ -70,32 +39,6 @@ where **P1** is the annotation label, **point_x**, **point_y** are coordinates o
 ```
             - ./annotations.ini:/root/catkin_ws/src/maptogridmap/launch/annotations.ini:ro
 ```
-The example of the changed vertex in the graph has now the following structure:
-```
-    x: 20.2
-    y: 6.5
-    theta: 180.0
-    name: "P1"
-    uuid: "d3ef3744-18cc-551b-80b9-95ef2095919e"
-    footprint: 
-      - 
-        x: 19.2
-        y: 5.5
-        z: 0.0
-      - 
-        x: 21.2
-        y: 5.5
-        z: 0.0
-      - 
-        x: 21.2
-        y: 7.5
-        z: 0.0
-      - 
-        x: 19.2
-        y: 7.5
-        z: 0.0
-``` 
-Notice that coordinates of the cell center at (21,7) moved to (20.2,6.5) with respect to given **distance** and **theta** from the annotation, and the **name** has changed from `vertex_73` to `P1`. The **footprint** coordinates are also changed according to the new position of the vertex.
 
 After restarting docker-compose.yml, i.e., type:
 ```
