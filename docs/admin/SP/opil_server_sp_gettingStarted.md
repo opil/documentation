@@ -255,7 +255,7 @@ terminal 1: roslaunch maptogridmap startmapserver.launch
 ```
 
 
-You can also prepare your own simulation following [the guide for preparing the map.](./../../develop/SP/opil_api_sp.md#preparingmap)
+You can also prepare your own simulation following [the guide for preparing the map.](./../../develop/SP/opil_api_local_sp.md#preparingmap)
 
 * Start the topology calculation:
 ```

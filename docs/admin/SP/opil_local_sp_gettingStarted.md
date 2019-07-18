@@ -408,8 +408,8 @@ You can type 'rostopic echo' to see the message of pose with covariance:
 ```
 rostopic echo /robot_0/pose_channel
 ```
-You can start some other simulation example following [this guide.](./../../develop/SP/opil_api_sp.md#poswithcov) 
-You can also prepare your own simulation following [the guide for preparing the map.](./../../develop/SP/opil_api_sp.md#preparingmap)
+You can start some other simulation example following [this guide.](./../../develop/SP/opil_api_local_sp.md#poswithcov) 
+You can also prepare your own simulation following [the guide for preparing the map.](./../../develop/SP/opil_api_local_sp.md#preparingmap)
 
 * Start the calculation of local map updates that the AGV sees as new obstacles which are not mapped in the initial map.
 ```
@@ -419,7 +419,7 @@ You can check the topic of local map updates by typing:
 ```
 rostopic echo /robot_0/newObstacles
 ```
-You can change the resolution of the local map updates by following the guide in Section [Map updates](./../../develop/SP/opil_api_sp.md#mapupdates).
+You can change the resolution of the local map updates by following the guide in Section [Map updates](./../../develop/SP/opil_api_local_sp.md#mapupdates).
 
 
 
