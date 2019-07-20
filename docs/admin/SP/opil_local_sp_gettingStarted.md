@@ -13,75 +13,48 @@ In the following, two start options will be described, depending if you installe
 
 The Local SP container can be started in two ways: without RAN and with RAN. If started without RAN then the simulator Stage is used for testing and visualizing what the Local SP does. This option is described first. Prepare [docker-compose.yml](./opil_local_sp_install.md#dockercomposelocal).
 It is important to put the environment variable `SIMULATION=true`.
-This starts IML map, **amcl** localization inside that map shown on topic `/robot_0/pose_channel`, and calculation of map updates shown on topic `/robot_0/newObstacles`. The robot in the Stage simulator can be moved by mouse dragging, and changed pose can be seen in topic `/robot_0/pose_channel` which shows the current pose and the covariance of the pose estimation. There is also an obstacle in the Stage simulator that can be used for test of showing the map updates, seen in topic `/robot_0/newObstacles`.
 
-<a name="simmap">To change the map for the simulation</a> prepare the following files: `testmap.yaml`, `testmap.png`, `amcl_testmap.launch`, and `testmap.world`, and remove the comment mark # in front of corresponding lines under **volumes**.
-These example files can be found in the folder `test/docker_compose_files/Local_SP_docker`.
-<a name="prepmap">The map</a>
-can be changed by preparing `testmap.yaml` and `testmap.png`. The second file can be any bitmap picture (pgm), grayscale is desired, but if not, it will be automatically converted to a grayscaled image. 
-Here is an example of the CHEMI factory floorplan saved as png file:
-
-![IML topology](./img/map.png)
-
-`testmap.yaml` is a parameter file with **resolution** and gray thresholds for defining what is free and what is occupied, as in this example yaml file:
+As a default, no map is loaded and the following message will appear in terminal:
 ```
-#testmap.yaml
+splocal_1  | please insert a floorplan.png and floorplan.yaml file to begin!
+splocal_1  | in your docker-compose.yml put under volumes:
+splocal_1  |             - ./floorplan.yaml:/map.yaml:ro
+splocal_1  |             - ./floorplan.png:/map.png:ro
+opilserver_splocal_1 exited with code 0
+```
+
+### <a name="prepmap">Setting the map</a>
+
+Three files need to be prepared and put under **volumes** in [docker-compose.yml](./opil_server_sp_install.md#dockercompose): 
+
+*	`floorplan.yaml`
+*	`floorplan.png` 
+*	`floorplan.world`
+
+Right now in this docker container only PNG file is supported. Export your floorplan layout to PNG. 
+Here is an example of `floorplan.png`:
+
+![PNG floorplan](./img/teromap.png)
+
+Then, you need to set up parameters for transforming the PNG file into a map with the origin and dimensions in meters. This needs to be prepared in the `floorplan.yaml`. Here is an example:
+```
+#floorplan.yaml
 image: map.png
-resolution: 0.06
-origin: [0.0, 0.0, 0.0]
+resolution: 0.0196
+origin: [-12.7095, -7.5866, 0.0]
 negate: 0
 occupied_thresh: 0.65
 free_thresh: 0.196
 ```
-where the image name is `map.png` to which your `testmap.png` is copied to on the docker side, **resolution** defines the size of the pixel of the png file in meters. To calculate the resolution, you need to know the width of the image in meters. Then, simply divide the width of the image with the number of pixels. Adjust the parameters **occupied_thresh** and **free_thresh** to different values, depending on which shade of grey should be considered as occupied and free, respectively. 
+where
 
-Parameters of **amcl** localization can be set in `amcl_testmap.launch`, and here is a default file:
-### <a name="amcllaunch">amcl_testmap.launch</a>
-```
-<launch>
-<node pkg="amcl" type="amcl" name="amcl" respawn="true">
-<remap from="scan" to="base_scan" />
-  <!-- Publish scans from best pose at a max of 10 Hz -->
-  <param name="odom_model_type" value="omni"/>
-  <param name="odom_alpha5" value="0.1"/>
-  <param name="transform_tolerance" value="0.2" />
-  <param name="gui_publish_rate" value="10.0"/>
-  <param name="laser_max_beams" value="24"/>
-  <param name="min_particles" value="500"/>
-  <param name="max_particles" value="5000"/>
-  <param name="kld_err" value="0.05"/>
-  <param name="kld_z" value="0.99"/>
-  <param name="odom_alpha1" value="0.2"/>
-  <param name="odom_alpha2" value="0.2"/>
-  <!-- translation std dev, m -->
-  <param name="odom_alpha3" value="0.8"/>
-  <param name="odom_alpha4" value="0.2"/>
-  <param name="laser_z_hit" value="0.5"/>
-  <param name="laser_z_short" value="0.05"/>
-  <param name="laser_z_max" value="0.05"/>
-  <param name="laser_z_rand" value="0.5"/>
-  <param name="laser_sigma_hit" value="0.2"/>
-  <param name="laser_lambda_short" value="0.1"/>
-  <param name="laser_lambda_short" value="0.1"/>
-  <param name="laser_model_type" value="likelihood_field"/>
-  <!-- <param name="laser_model_type" value="beam"/> -->
-  <param name="laser_likelihood_max_dist" value="2.0"/>
-  <param name="update_min_d" value="0.2"/>
-  <param name="update_min_a" value="0.05"/>
-  <param name="odom_frame_id" value="odom"/>
-  <param name="resample_interval" value="1"/>
-  <param name="transform_tolerance" value="0.1"/>
-  <param name="recovery_alpha_slow" value="0.0"/>
-  <param name="recovery_alpha_fast" value="0.0"/>
-  <param name="initial_pose_x" value="7.717"/> 
-  <param name="initial_pose_y" value="32.608"/>  
-  <param name="initial_pose_a" value="0"/>
-</node>
-</launch>
-```
-The most important parameters are the range topic, which for simulator is **base_scan**, and initial values for the pose of the robot: **initial_pose_x**, **initial_pose_y**, **initial_pose_a** (angle in radians). For all other parameters visit <http://wiki.ros.org/amcl>.
+* the image name is `map.png` by which your `floorplan.png` is overwritten on the docker side
+* **resolution** defines the size of the pixel of the png file in meters. To calculate the resolution, you need to know the width of the image in meters. Then, simply divide the width in meters with the width in the number of pixels. 
+* **negate** can inverse the free-occupied values if set to 1
+* **occupied_thresh** and **free_thresh** define the thresholds that tell which brightness level should be considered as occupied and free, respectively. 
+* **origin** is the (x,y,z) vector in meters describing the lower-left corner. With (0,0,0) the origin will be in the lower-left corner.
 
-`testmap.world` is the world file for the Stage simulator, where example is given as follows:
+`floorplan.world` is the world file for the Stage simulator, where example is given as follows:
 ```
 define kinect ranger
 (
@@ -144,16 +117,16 @@ window
 # stage map
 floorplan
 (
-  name "testmap"
+  name "floorplan"
   bitmap "map.png"
-  size [ 111.720 49.320 1.000 ]
-  pose [ 55.860 24.660 0.000 0.000 ] 
+  size [ 29.40 21.168 1.000 ]
+  pose [ 1.9905 2.9974 0.000 0.000 ] 
 )
 
 # throw in a robot
 robot
 (
-  pose [ 7.717 32.608 0.000 0.000 ] 
+  pose [ 1.0 0 0.000 0.000 ] 
   name "robot_0"
   color "blue"  
 )
@@ -164,9 +137,71 @@ worker
 	color "green"
 )
 ```
-The most important parameters are **size** and **pose** in the **floorplan** section which need to be calculated in meters from `testmap.png` and **resolution** in `testmap.yaml`. For example, our `testmap.png` has 1862 x 822 pixels, and in `testmap.yaml` we see that resolution is 0.06. The first column in **size** is the width of the map along **x** axis in meters obtained by multiplication of resolution and width in pixels, i.e., 1862 x 0.06 = 111.72, while the second column in **size** is the height along **y** axis obtained by multiplication of resolution and height in pixels, i.e., 822 x 0.06 = 49.32. The third column is the height along **z** axis of the floorplan, i.e. 1 meter. **pose** of the **floorplan** defines the origin of the loaded map in Stage in the form of **x**, **y**, **z**, **theta** (in degrees) values. If values for **x** and **y** coordinates are half of the **floorplan**'s **size**, then the origin will be in the lower left corner of the map. Adjust the **pose** of the **robot** to be aligned to the initial pose in [amcl_testmap.launch](#amcllaunch), and of the **worker** as desired (treated as moving obstacle). The rest of the parameters can be the same as in this example. For more explanation about the **world** files visit <http://wiki.ros.org/stage>. 
+The most important parameters are **size** and **pose** in the **floorplan** section which need to be calculated in meters from `floorplan.png` and **resolution** in `floorplan.yaml`. For example, our `floorplan.png` has 1500 x 1080 pixels, and in `floorplan.yaml` we see that resolution is 0.0196. The first column in **size** is the width of the map along **x** axis in meters obtained by multiplication of resolution and width in pixels, i.e., 1500 x 0.0196 = 29.4 m, while the second column in **size** is the height along **y** axis obtained by multiplication of resolution and height in pixels, i.e., 1080 x 0.0196 = 21.168 m. The third column is the height along **z** axis of the floorplan, i.e. 1 meter. **pose** of the **floorplan** defines the origin of the loaded map in Stage in the form of **x**, **y**, **z**, **theta** (in degrees) values. If values for **x** and **y** coordinates are half of the **floorplan**'s **size**, then the origin will be in the lower left corner of the map. Therefore, to have aligned coordinate systems of Stage and map we need to sum floorplan's pose and yaml's origin. In our case it is 29.4/2 -12.7095 = 1.9905 for x coordinate, and 21.168/2 -7.5866 = 2.9974. Choose the **pose** of the **robot**. It should be aligned to the initial pose in [amcl.launch](#amcllaunch). Choose the pose of the **worker**. It is here treated as moving obstacle. The rest of the parameters can be the same as in this example. For more explanation about the **world** files visit <http://wiki.ros.org/stage>. 
 
-There are also some prepared maps inside this docker which can be set by changing the `local_robot_sim.launch` file, which has the following structure:
+### Setting the initial pose for the localization
+
+Parameters of **amcl** localization can be set in `amcl.launch`, and here is a default file:
+### <a name="amcllaunch">amcl_testmap.launch</a>
+```
+<launch>
+<node pkg="amcl" type="amcl" name="amcl" respawn="true">
+<remap from="scan" to="base_scan" />
+  <!-- Publish scans from best pose at a max of 10 Hz -->
+  <param name="odom_model_type" value="omni"/>
+  <param name="odom_alpha5" value="0.1"/>
+  <param name="transform_tolerance" value="0.2" />
+  <param name="gui_publish_rate" value="10.0"/>
+  <param name="laser_max_beams" value="24"/>
+  <param name="min_particles" value="500"/>
+  <param name="max_particles" value="5000"/>
+  <param name="kld_err" value="0.05"/>
+  <param name="kld_z" value="0.99"/>
+  <param name="odom_alpha1" value="0.2"/>
+  <param name="odom_alpha2" value="0.2"/>
+  <!-- translation std dev, m -->
+  <param name="odom_alpha3" value="0.8"/>
+  <param name="odom_alpha4" value="0.2"/>
+  <param name="laser_z_hit" value="0.5"/>
+  <param name="laser_z_short" value="0.05"/>
+  <param name="laser_z_max" value="0.05"/>
+  <param name="laser_z_rand" value="0.5"/>
+  <param name="laser_sigma_hit" value="0.2"/>
+  <param name="laser_lambda_short" value="0.1"/>
+  <param name="laser_lambda_short" value="0.1"/>
+  <param name="laser_model_type" value="likelihood_field"/>
+  <!-- <param name="laser_model_type" value="beam"/> -->
+  <param name="laser_likelihood_max_dist" value="2.0"/>
+  <param name="update_min_d" value="0.2"/>
+  <param name="update_min_a" value="0.05"/>
+  <param name="odom_frame_id" value="odom"/>
+  <param name="resample_interval" value="1"/>
+  <param name="transform_tolerance" value="0.1"/>
+  <param name="recovery_alpha_slow" value="0.0"/>
+  <param name="recovery_alpha_fast" value="0.0"/>
+  <param name="initial_pose_x" value="1.0"/> 
+  <param name="initial_pose_y" value="0"/>  
+  <param name="initial_pose_a" value="0"/>
+</node>
+</launch>
+```
+The most important parameters are the range topic, which for simulator is **base_scan**, and initial values for the pose of the robot: **initial_pose_x**, **initial_pose_y**, **initial_pose_a** (angle in radians). For all other parameters visit <http://wiki.ros.org/amcl>.
+
+
+
+All files need to be in the folder where you put your docker-compose.yml.
+After restarting docker-compose.yml, i.e.,
+```
+sudo docker-compose up
+```
+ this is what should be the result:
+![Local SP](./img/localsptero.png)
+
+This starts the **amcl** localization inside the map shown on topic `/robot_0/pose_channel`, and calculation of map updates shown on topic `/robot_0/newObstacles`. The robot in the Stage simulator can be moved by mouse dragging, and changed pose can be seen in topic `/robot_0/pose_channel` which shows the current pose and the covariance of the pose estimation. There is also an obstacle in the Stage simulator that can be used for test of showing the map updates, seen in topic `/robot_0/newObstacles`.
+In the rviz window you can see the AGV's pose (red arrow) and local updates (red tiny squares). All new obstacles are processed as they are detected, and there is no clearance of obstacles since they are considered to be static. That is the reason why you can see a trail of the obstacle. In future developments static and dynamic obstacles will be treated differently.
+
+
+The fine grid for calculation of map updates can be set by preparing the `local_robot_sim.launch` file, which has the following structure:
 ### <a name="localrobotsimlaunch">local_robot_sim.launch</a>
 ```
 <launch>
@@ -196,73 +231,18 @@ There are also some prepared maps inside this docker which can be set by changin
 
 </launch>
 ```
-In this launch files you can set various parameters: **cell_size** defines the fine gridmap for calculating new obstacles (presented as tiny red squares); robot ID as an argument of packages _sending_and_perception_ and _mapupdates_ for having more robots (0,1,2,etc.), and **scan_topic** for defining the topic for the range data.
+In this launch file you can set various parameters: **cell_size** defines the fine gridmap for calculating new obstacles (presented as tiny red squares); robot ID as an argument of packages _sending_and_perception_ and _mapupdates_ for having more robots (0,1,2,etc.), and **scan_topic** for defining the topic for the range data.
 There is also a parameter **laser_inverted** to indicate if the laser is mounted upside down on the robot (use value 1), or normally (use value 0). The simplest check if laser is setup correctly is to see in rviz if laser readings are aligned with the png map.  
 Right now it is implemented that Central SP can handle three robots with ID's 0, 1 and 2. If you change the ID of the robot to 1 the topics `/robot_1/newObstacles` and `/robot_1/pose_channel` will be created and visible in OCB.
 
-To use the changed local_robot_sim.launch uncomment the line in [docker-compose.yml](./opil_local_sp_install.md#dockercomposelocal) under **volumes**:
-```
-            - ./local_robot_sim.launch:/root/catkin_ws/src/localization_and_mapping/sensing_and_perception/local_robot_sim.launch:ro
-```
-Replace the lines 2-8 from [local_robot_sim.launch](#localrobotsimlaunch) with the following:
-
-* CHEMI map
-```
- <node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/CHEMIchangedres.yaml" respawn="false"> 
-     <param name="frame_id" value="/map" /> 
-</node>	    	  
-<node pkg="stage_ros" type="stageros" name="stageros" args="$(find lam_simulator)/world/floormap_CHEMI.world" respawn="false" >
-    <param name="base_watchdog_timeout" value="0.2"/>
-</node>
-<include file="$(find lam_simulator)/launch/amcl_omnisimCHEMI.launch" />
-```
-* ICENT map
-```
-<node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/Andamapa.yaml" respawn="false" >
-    <param name="frame_id" value="/map" />
-</node>
-<node pkg="stage_ros" type="stageros" name="stageros" args="$(find lam_simulator)/world/andaomnidriveamcltest.world" respawn="false" >
-    <param name="base_watchdog_timeout" value="0.2"/>
-</node>
-<include file="$(find lam_simulator)/launch/amcl_omnisimdemo.launch" />
-```
-* IML map
-```
-<node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/IMLlab.yaml" respawn="false" >
-    <param name="frame_id" value="/map" />
-</node>
-<node pkg="stage_ros" type="stageros" name="stageros" args="$(find lam_simulator)/world/floormap_IML.world" respawn="false" >
-    <param name="base_watchdog_timeout" value="0.2"/>
-</node>
-<include file="$(find lam_simulator)/launch/amcl_omnisimdemo.launch" />
-```
-* MURAPLAST map
-```
-<node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/floorplan_muraplast.yaml" respawn="false" >
-    <param name="frame_id" value="/map" />
-</node>
-<node pkg="stage_ros" type="stageros" name="stageros" args="$(find lam_simulator)/world/floormap_muraplast.world" respawn="false" >
-    <param name="base_watchdog_timeout" value="0.2"/>
-</node>
-<include file="$(find lam_simulator)/launch/amcl_omnisim.launch" />
-```
-The following figure presents the output after moving the green box in the Stage simulator for the IML map:
-![Local SP](./img/localIML.png)
-
-In the rviz window you can see the AGV's pose (red arrow) and local updates (red tiny squares). All new obstacles are processed as they are detected, and there is no clearance of obstacles since they are considered to be static. That is the reason why you can see a trail of the obstacle. In future developments static and dynamic obstacles will be treated differently.
-
-Here is the examle of using the ICENT map. 
-After moving the green box in the simulator the result can be obtained as in this figure:
-![Local SP in ICENT lab](./img/localicent.png)
 
 ## <a name="fromdockerlocalran">How to start the Local SP and RAN docker containers together</a>
 
 The Local SP container needs to be started with the environment variable `SIMULATION=false`, as is the case in [docker-compose.yml](./opil_local_sp_install.md#dockercomposelocalran).
 
-IML map will be started and you can command the robot through rviz by pressing 2D Nav Goal button and clicking the point on the map.
-To change the map prepare `testmap.yaml`, `testmap.png`, `amcl_testmap.yaml`, `testmap.world` as explained [previously](#simmap).
+Again, you need to set up the map as explained [previously](#prepmap).
 
-Like in previous sections, there are some prepared maps inside both docker containers which can be set by changing the `local_robot.launch` file for Local SP, and `robot_launcher.launch` for RAN. First prepare `local_robot.launch` as follows:
+If you want to change the parameters for map updates prepare `local_robot.launch` as follows:
 ### <a name="localrobotlaunch">local_robot.launch</a>
 ```
 <launch>
@@ -288,41 +268,6 @@ Like in previous sections, there are some prepared maps inside both docker conta
 <node name="rviz" pkg="rviz" type="rviz" args="-d $(find lam_simulator)/rviz_cfg/singlerobot.rviz" /> 
 
 </launch>
-```
-To use the changed local_robot.launch uncomment the line in [docker-compose.yml](./opil_local_sp_install.md#dockercomposelocalran) under **volumes**:
-These example files can be found in the folder `test/docker_compose_files/Local_SP_docker_with_RAN`.
-```
-            - ./local_robot.launch:/root/catkin_ws/src/localization_and_mapping/sensing_and_perception/local_robot.launch:ro
-```
-Replace the lines from 2-5 in [local_robot.launch](#localrobotlaunch) with the following:
-
-* CHEMI map
-```
- <node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/CHEMIchangedres.yaml" respawn="false"> 
-     <param name="frame_id" value="/map" /> 
-</node>	    	  
-<include file="$(find lam_simulator)/launch/amcl_omnisimCHEMI.launch" />
-```
-* ICENT map
-```
-<node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/Andamapa.yaml" respawn="false" >
-    <param name="frame_id" value="/map" />
-</node>
-<include file="$(find lam_simulator)/launch/amcl_omnisimdemo.launch" />
-```
-* IML map
-```
-<node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/IMLlab.yaml" respawn="false" >
-    <param name="frame_id" value="/map" />
-</node>
-<include file="$(find lam_simulator)/launch/amcl_omnisimdemo.launch" />
-```
-* MURAPLAST map
-```
-<node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/floorplan_muraplast.yaml" respawn="false" >
-    <param name="frame_id" value="/map" />
-</node>
-<include file="$(find lam_simulator)/launch/amcl_omnisim.launch" />
 ```
 
 Then, prepare `robot_launcher.launch` as follows:
@@ -353,33 +298,6 @@ Then, prepare `robot_launcher.launch` as follows:
 To use the changed robot_launcher.launch uncomment the line in [docker-compose.yml](./opil_local_sp_install.md#dockercomposelocalran) under **volumes**:
 ```
             - ./robot_launcher.launch:/root/catkin_ws/src/opil_v2/robot_launcher_with_SandP.launch:ro
-```
-Replace the lines from 5-7 in [robot_launcher.launch](#robotlauncherlaunch) with the following:
-
-
-* CHEMI map
-```
-<node pkg="stage_ros" type="stageros" name="stageros" args="$(find lam_simulator)/world/floormap_CHEMI.world" respawn="false" >
-    <param name="base_watchdog_timeout" value="0.2"/>
-</node>
-```
-* ICENT map
-```
-<node pkg="stage_ros" type="stageros" name="stageros" args="$(find lam_simulator)/world/andaomnidriveamcltest.world" respawn="false" >
-    <param name="base_watchdog_timeout" value="0.2"/>
-</node>
-```
-* IML map
-```
-<node pkg="stage_ros" type="stageros" name="stageros" args="$(find lam_simulator)/world/floormap_IML.world" respawn="false" >
-    <param name="base_watchdog_timeout" value="0.2"/>
-</node>
-```
-* MURAPLAST map
-```
-<node pkg="stage_ros" type="stageros" name="stageros" args="$(find lam_simulator)/world/floormap_muraplast.world" respawn="false" >
-    <param name="base_watchdog_timeout" value="0.2"/>
-</node>
 ```
 
 The following example presents testing the ICENT map. The robot can be controlled through rviz by pressing 2D Nav Goal button and clicking the point on the map. The following figure describes the possible outcome, where arrow trails correspond to the past positions of the robot:

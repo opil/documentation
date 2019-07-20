@@ -35,17 +35,20 @@ services:
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
-#            - ./annotations.ini:/root/catkin_ws/src/maptogridmap/launch/annotations.ini:ro
-#            - ./testmap.yaml:/root/catkin_ws/src/maptogridmap/launch/map.yaml:ro
-#            - ./testmap.png:/root/catkin_ws/src/maptogridmap/launch/map.png:ro
-#            - ./topology.launch:/root/catkin_ws/src/maptogridmap/launch/topology.launch:ro
+        volumes:
+            #- path on the host : path inside the container
+            - /tmp/.X11-unix:/tmp/.X11-unix:rw
+            - ./annotations.ini:/annotations.ini:ro
+            - ./floorplan.yaml:/map.yaml:ro
+            - ./floorplan.png:/map.png:ro
+            - ./topology.launch:/topology.launch:ro
         environment:
             - FIWAREHOST=orion
             - HOST=sp
             - NETINTERFACE=eth0
             - DISPLAY=$DISPLAY
 ```
-This example uses the version 3 and it does not need links to enable services to communicate. To update the docker-compose to the working version for the version 3 (1.22) type: (NOTE: you should remove prior versions of docker-compose)
+This example uses the version 3 and it does not need links to enable services to communicate. It is assumed that for testing all services will be on the same machine (localhost). If orion is started on another machine, then environment variable of sp needs to have changed FIWAREHOST to IP address of that machine. To update the docker-compose to the working version for the version 3 (1.22) type: (NOTE: you should remove prior versions of docker-compose)
 ```
 sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 ```

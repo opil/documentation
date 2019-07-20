@@ -19,30 +19,13 @@ A ROS package for testing subscribers to all created topics from maptogridmap pa
 
 
 # <a name="topology">Topology creation - maptogridmap package</a>
-This package creates the output topic **graph** composed of arrays of **edges** and **vertices**. Vertices have coordinates (**x**, **y**) of the cell center defined by the parameter **cell_size** (2 m in this example), a **footprint** of the robot defined by a square of edge size equal to **cell_size**, a string **name** that describes the vertex, and a string **uuid** uniquely identifying the vertex. The example of one vertex has the following structure:
+This package creates the output topic **graph** composed of arrays of **edges** and **vertices**. Vertices have coordinates (**x**, **y**) of the cell center defined by the parameter **cell_size** (2 m in this example), a string **name** that describes the vertex, and a string **uuid** uniquely identifying the vertex. The example of one vertex has the following structure:
 ```
     x: 21.0
     y: 7.0
     theta: 0.0
     name: "vertex_73"
     uuid: "d3ef3744-18cc-551b-80b9-95ef2095919e"
-    footprint: 
-      - 
-        x: 20.0
-        y: 6.0
-        z: 0.0
-      - 
-        x: 22.0
-        y: 6.0
-        z: 0.0
-      - 
-        x: 22.0
-        y: 8.0
-        z: 0.0
-      - 
-        x: 20.0
-        y: 8.0
-        z: 0.0
 ```
 **Edges** are pairs of neighbor vertices and are composed of **uuid_src** of the first vertex in the pair, and **uuid_dest** of the second vertex in the pair. The order of the first and second vertex is irrelevant since edges are bidirectional. There is a string **name** of the edge describing the connection of vertices, and a unique **uuid** of the edge. The example of one edge has the following structure:
 ```
@@ -67,7 +50,6 @@ Vertex.msg
 	float64 theta # orientation of the node used for annotations
 	string name	# e.g. vertex_0 or annotation name
 	string uuid	# unique id of a vertex created from its unique name
-	geometry_msgs/Point[] footprint # four points of a squared footprint around a vertex of size cell_size
 	
 Edge.msg
 
@@ -185,25 +167,8 @@ The example of the changed vertex in the graph has now the following structure:
     theta: 180.0
     name: "P1"
     uuid: "d3ef3744-18cc-551b-80b9-95ef2095919e"
-    footprint: 
-      - 
-        x: 19.2
-        y: 5.5
-        z: 0.0
-      - 
-        x: 21.2
-        y: 5.5
-        z: 0.0
-      - 
-        x: 21.2
-        y: 7.5
-        z: 0.0
-      - 
-        x: 19.2
-        y: 7.5
-        z: 0.0
 ``` 
-Notice that coordinates of the cell center at (21,7) moved to (20.2,6.5) with respect to given **distance** and **theta** from the annotation, and the **name** has changed from `vertex_73` to `P1`. The **footprint** coordinates are also changed according to the new position of the vertex.
+Notice that coordinates of the cell center at (21,7) moved to (20.2,6.5) with respect to given **distance** and **theta** from the annotation, and the **name** has changed from `vertex_73` to `P1`. 
 
 
 ## Creation of Edges in maptogridmap package
@@ -224,26 +189,16 @@ To read the topic in your own package you need to subscribe to it, include the h
 ```
 #include <maptogridmap/Graph.h>
 ```
-* write a message callback for Graph message, which draws the footprint of the robot around each vertex
+* write a message callback for Graph message, which draws a small square at each vertex
 ```
 void VisualizationPublisherGML::graphCallback(const maptogridmap::GraphConstPtr& gmMsg)
 {
-  footprint.points.clear();
+  graphvertex.points.clear();
   geometry_msgs::Point p; 
 	for (int i=0; i<gmMsg->vertices.size(); i++){
-		for (int d=0; d<4;d++){
-			p.x=gmMsg->vertices[i].footprint[d].x;
-			p.y=gmMsg->vertices[i].footprint[d].y;
-			footprint.points.push_back(p);
-			if (d<3){
-			p.x=gmMsg->vertices[i].footprint[d+1].x;
-			p.y=gmMsg->vertices[i].footprint[d+1].y;
-			footprint.points.push_back(p);
-			}
-		}
-		p.x=gmMsg->vertices[i].footprint[0].x;
-		p.y=gmMsg->vertices[i].footprint[0].y;
-		footprint.points.push_back(p);
+		p.x=gmMsg->vertices[i].x;
+		p.y=gmMsg->vertices[i].y;
+		graphvertex.points.push_back(p);
 	}
 }
 ```

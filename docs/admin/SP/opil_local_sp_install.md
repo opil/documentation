@@ -38,11 +38,12 @@ services:
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
-#            - ./testmap.yaml:/root/catkin_ws/src/localization_and_mapping/lam_simulator/yaml/map.yaml:ro
-#            - ./testmap.png:/root/catkin_ws/src/localization_and_mapping/lam_simulator/yaml/map.png:ro
-#            - ./amcl_testmap.launch:/root/catkin_ws/src/localization_and_mapping/lam_simulator/launch/amcl_map.launch:ro
-#            - ./testmap.world:/root/catkin_ws/src/localization_and_mapping/lam_simulator/yaml/map.world:ro
-#            - ./local_robot_sim.launch:/root/catkin_ws/src/localization_and_mapping/sensing_and_perception/local_robot_sim.launch:ro
+            - ./floorplan.yaml:/map.yaml:ro
+            - ./floorplan.png:/map.png:ro
+            - ./amcl.launch:/amcl_map.launch:ro
+            - ./floorplan.world:/map.world:ro
+            - ./local_robot_sim.launch:/local_robot_sim.launch:ro
+            - ./local_robot.launch:/local_robot.launch:ro
         environment:
             - FIWAREHOST=orion
             - HOST=splocal
@@ -107,10 +108,12 @@ services:
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
-#            - ./testmap.yaml:/root/catkin_ws/src/localization_and_mapping/lam_simulator/yaml/map.yaml:ro
-#            - ./testmap.png:/root/catkin_ws/src/localization_and_mapping/lam_simulator/yaml/map.png:ro
-#            - ./amcl_testmap.launch:/root/catkin_ws/src/localization_and_mapping/lam_simulator/launch/amcl_map.launch:ro
-#            - ./local_robot.launch:/root/catkin_ws/src/localization_and_mapping/sensing_and_perception/local_robot.launch:ro
+            - ./floorplan.yaml:/map.yaml:ro
+            - ./floorplan.png:/map.png:ro
+            - ./amcl.launch:/amcl_map.launch:ro
+            - ./floorplan.world:/map.world:ro
+            - ./local_robot_sim.launch:/local_robot_sim.launch:ro
+            - ./local_robot.launch:/local_robot.launch:ro
         environment:
             - FIWAREHOST=orion
             - HOST=splocal

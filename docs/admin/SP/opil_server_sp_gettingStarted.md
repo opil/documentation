@@ -13,69 +13,64 @@ Go to the folder where you put your [docker-compose.yml](./opil_server_sp_instal
 xhost local:root
 sudo docker-compose up
 ```
-You should see the entities in, e.g. firefox, at the address <http://localhost:1026/v2/entities>. There should be a topic `/map/graph`.
 
-This docker container starts the creation of a topology graph from the given map file and with included annotations from the annotation file. As a default, IML lab will be started with 4 annotations, as is the case in this example, where blue squares are the vertices of the graph placed regularly in the grid except if annotations change the position of the vertices (yellow arrow), and blue line segments are the edges of the graph. Red squares are possible vertex positions which are occupied.
-
-![IML topology](./img/IMLtopology.png) 
-
-To zoom the rviz window use mouse scroll, to translate the view press shift key and mouse button at the same time.
-
-
-To use arbitrary annotations file and map file you should create `annotations.ini`, `testmap.yaml`, and `testmap.png` files and put it in the same folder next to the docker-compose.yml and uncomment the lines containing these files in [docker-compose.yml](./opil_server_sp_install.md#dockercompose) under the **volumes**. 
-<!--These example files can be found in the folder `test/docker_compose_files/Central_SP_docker`. -->
-
-**Annotations** are written in the vertex such that coordinates of the vertex is changed from the cell center to the coordinates defined by the annotation that belongs to that cell, and it's **name** is changed to the label of the annotation. The following example explains the creation of annotations in the topology graph. First, create the following file and save it under the name `annotations.ini`:
+This docker container starts the creation of a topology graph from the given map file and with included annotations from the annotation file. As a default, no map is loaded and the following message will appear in terminal:
 ```
-#annotations.ini
-[P1]
-# coordinates
-point_x = 18.4
-point_y = 6.5
-theta = 180
-distance = 1.8
-```
-where **P1** is the annotation label, **point_x**, **point_y** are coordinates of the annotation, and **theta** and **distance** determine where the topology vertex should be so that Task Planner can use this coordinates as the goal distanced for a defined **distance** (1.8 m in this example) from the annotation and oriented towards the annotation so that AGV has heading **theta** (180 degrees in this example) with respect to the positive x-axis. To use the created `annotations.ini` instead the default one inside the docker, uncomment the line (remove #) in [docker-compose.yml](./opil_server_sp_install.md#dockercompose) under the **volumes**:
-```
-            - ./annotations.ini:/root/catkin_ws/src/maptogridmap/launch/annotations.ini:ro
+sp_1     | please insert a floorplan.png and floorplan.yaml file to begin!
+sp_1     | in your docker-compose.yml put under volumes:
+sp_1     |             - ./floorplan.yaml:/map.yaml:ro
+sp_1     |             - ./floorplan.png:/map.png:ro
+opilserver_sp_1 exited with code 0
 ```
 
-After restarting docker-compose.yml, i.e., type:
+### <a name="prepmap">Setting the map</a>
+
+Two files need to be prepared and put under **volumes** in [docker-compose.yml](./opil_server_sp_install.md#dockercompose): 
+
+*	`floorplan.yaml`
+*	`floorplan.png` 
+
+Right now in this docker container only PNG file is supported. Export your floorplan layout to PNG. 
+Here is an example of `floorplan.png`:
+
+![PNG floorplan](./img/teromap.png)
+
+Then, you need to set up parameters for transforming the PNG file into a map with the origin and dimensions in meters. This needs to be prepared in the `floorplan.yaml`. Here is an example:
 ```
-sudo docker-compose up
-```
-the result should be as in this figure:
-
-![IML topology](./img/IMLtopologyanntex.png)
-
-<a name="prepmap">The map</a>
-can be changed by putting two files as **volumes** in [docker-compose.yml](./opil_server_sp_install.md#dockercompose): `testmap.yaml` and `testmap.png`. The second file can be any bitmap picture (pgm), grayscale is desired, but if not, it will be automatically converted to a grayscaled image. 
-Here is an example of the CHEMI factory floorplan saved as png file:
-
-![IML topology](./img/map.png)
-
-`testmap.yaml` is a parameter file with **resolution** and gray thresholds for defining what is free and what is occupied, as in this example yaml file:
-```
-#testmap.yaml
+#floorplan.yaml
 image: map.png
-resolution: 0.06
-origin: [0.0, 0.0, 0.0]
+resolution: 0.0196
+origin: [-12.7095, -7.5866, 0.0]
 negate: 0
 occupied_thresh: 0.65
 free_thresh: 0.196
 ```
-where the image name is `map.png` to which your `testmap.png` is copied to on the docker side, **resolution** defines the size of the pixel of the png file in meters. To calculate the resolution, you need to know the width of the image in meters. Then, simply divide the width of the image with the number of pixels. Adjust the parameters **occupied_thresh** and **free_thresh** to different values, depending on which shade of grey should be considered as occupied and free, respectively. 
-To use the created `testmap.png` and `testmap.yaml` uncomment the lines in the [docker-compose.yml](./opil_server_sp_install.md#dockercompose):
-```
-            - ./testmap.yaml:/root/catkin_ws/src/maptogridmap/launch/map.yaml:ro
-            - ./testmap.png:/root/catkin_ws/src/maptogridmap/launch/map.png:ro
-```
-After restarting docker-compose.yml this is what should be the result:
+where
 
-![IML topology](./img/chemi2mgridcell.png)
+* the image name is `map.png` by which your `floorplan.png` is overwritten on the docker side
+* **resolution** defines the size of the pixel of the png file in meters. To calculate the resolution, you need to know the width of the image in meters. Then, simply divide the width in meters with the width in the number of pixels. 
+* **negate** can inverse the free-occupied values if set to 1
+* **occupied_thresh** and **free_thresh** define the thresholds that tell which brightness level should be considered as occupied and free, respectively. 
+* **origin** is the (x,y,z) vector in meters describing the lower-left corner. With (0,0,0) the origin will be in the lower-left corner.
+
+The files `floorplan.yaml` and `floorplan.png` need to be in the folder where you put your docker-compose.yml.
+After restarting docker-compose.yml, i.e.,
+```
+sudo docker-compose up
+```
+ this is what should be the result:
+
+![topology 2m](./img/terotopology.png)
+
+You should see the entities in, e.g. firefox, at the address <http://localhost:1026/v2/entities>. There should be a topic `/map/graph`.
+In this example, blue squares are the vertices of the graph placed regularly in the grid (distanced 2 meters), and blue line segments are the edges of the graph. Red squares are possible vertex positions which are occupied.
+To zoom the rviz window use mouse scroll, to translate the view press shift key and mouse button at the same time.
+
+
+### Setting the topology cell_size
 
 It can be seen that here the topology nodes are too rare and we are missing some of them in narrow passages. In the following we will change the size of the grid cell so that we do not miss topology nodes in the passages between the racks (however, this will be solved differently in OPIL v3). In this example map the passage is 2.5 m wide, which means the size of the cell size should be half of it to include the worst case of the alignment of passages with the grid.
-To change the size of the grid cell for calculating the topology, use this example `topology.launch` file:
+To change the size of the grid cell for calculating the topology, prepare the `topology.launch` file:
 
 ### <a name="topologylaunch">topology.launch</a>
 ```
@@ -85,57 +80,74 @@ To change the size of the grid cell for calculating the topology, use this examp
 </node>
 <node name="rviz" pkg="rviz" type="rviz" args="-d $(find maptogridmap)/singlerobot.rviz" /> 
 <node name="map2gm" pkg="maptogridmap" type="map2gm" output="screen">
-        <param name="cell_size" type="double" value="2.0" />
+        <param name="cell_size" type="double" value="1.0" />
         <param name="annotation_file" textfile="$(find maptogridmap)/launch/annotations.ini" />
 </node>
     <!-- Run FIROS -->
     <node name="firos" pkg="firos" type="core.py" />
 </launch>
 ```
-and change the **cell_size** to something else than 2.0 m. 
-To use the created topology.launch uncomment the line in [docker-compose.yml](./opil_server_sp_install.md#dockercompose):
-```
-            - ./topology.launch:/root/catkin_ws/src/maptogridmap/launch/topology.launch:ro
-```
+where the **cell_size** is set to 1.0 m. 
+To use the created topology.launch put it next to the docker-compose.yml file and restart docker-compose.yml.
+This is the result for changing the parameter **cell_size** to 1.0 m:
 
+![topology 1m](./img/topologytero1m.png)
 
-This is the result for changing the parameter **cell_size** to 1.25 m:
+### Setting the annotations
 
-![IML topology](./img/chemi1p25mgridcell.png)
+To use arbitrary annotations you should create `annotations.ini` file and put it in the same folder next to the docker-compose.yml:
 
-There are also some prepared maps inside this docker which can be set by changing the `topology.launch` file. Replace the lines from 2-4 in [topology.launch](#topologylaunch) with the following lines:
+```
+#annotations.ini
+[W1]
+# coordinates
+point_x = -5.4
+point_y = -6.0
+theta = 270
+distance = 1.8
 
-* CHEMI map
+[W2]
+# coordinates
+point_x = -4.5
+point_y = -6.0
+theta = 270
+distance = 1.8
+
+[W3]
+# coordinates
+point_x = -3.6
+point_y = -6.0
+theta = 270
+distance = 1.8
+
+[MoldingPallet]
+# coordinates
+point_x = -6.0
+point_y = 10.5
+theta = 90
+distance = 1.8
 ```
-    <node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/CHEMIchangedres.yaml" respawn="false"> 
-       <param name="frame_id" value="/map" /> 
-    </node>	    	  
-```
-* ICENT map
-```
-<node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/Andamapa.yaml" respawn="false" >
-<param name="frame_id" value="/map" />
-</node>
-```
-* IML map
-```
-<node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/IMLlab.yaml" respawn="false" >
-<param name="frame_id" value="/map" />
-</node>
-```
-* MURAPLAST map
-```
-<node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/floorplan_muraplast.yaml" respawn="false" >
-<param name="frame_id" value="/map" />
-</node>
-```
+where
+
+* **W1**, **W2**, **W3**, **MoldingPallet** are the annotation labels
+* **point_x**, **point_y** are coordinates of the annotation
+* **theta** and **distance** determine where the topology vertex should be so that Task Planner can use this coordinates as the goal distanced for a defined **distance** from the annotation and oriented towards the annotation so that AGV has heading **theta** with respect to the positive x-axis. 
+
+Coordinates of the annotations can be chosen arbitrary. They can be set as the middle of the pallet or the corner of the pallet, for example. The most important is to calculate the right position where an AGV will be placed in front of the annotation by setting the right distance, and orientation from the annotation coordinates.
+
+After restarting docker-compose.yml,
+the result should be as in this figure:
+
+![topology with annotations](./img/terotopologyannot.png)
+
+Four annotations are in this example, which change the coordinates of vertices where the AGV needs to be located to perform some operation, e.g., loading/unloading.
 
 
 
 ## How to start the Local and Central SP docker containers together
 
-Prepare a following docker-compose.yml to start both Central and Local SP. You can also start them on different machines.
-This example uses the Local SP that contains the Stage simulator. 
+Prepare a following docker-compose.yml to start both Central and Local SP. This example uses the same machine for Local and Central SP, but you can also start them on different machines.
+This example uses the Local SP that contains the Stage simulator. Check how to prepare the Local SP [here](./opil_local_sp_gettingStarted.md)
 
 ```
 version: "3"
@@ -158,6 +170,11 @@ services:
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
+            - /tmp/.X11-unix:/tmp/.X11-unix:rw
+            - ./annotations.ini:/annotations.ini:ro
+            - ./floorplan.yaml:/map.yaml:ro
+            - ./floorplan.png:/map.png:ro
+            - ./topology.launch:/topology.launch:ro
         environment:
             - FIWAREHOST=orion
             - HOST=sp
@@ -169,6 +186,11 @@ services:
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
+            - ./floorplan.yaml:/map.yaml:ro
+            - ./floorplan.png:/map.png:ro
+            - ./amcl.launch:/amcl_map.launch:ro
+            - ./floorplan.world:/map.world:ro
+            - ./local_robot_sim.launch:/local_robot_sim.launch:ro
         environment:
             - FIWAREHOST=orion
             - HOST=splocal
@@ -177,15 +199,12 @@ services:
             - SIMULATION=true
 ```
 
-This will start everything with the IML lab. The following figure presents the output after moving the green box in the Stage simulator:
-![Local and central SP](./img/localcentralupdateIML.png)
+The following figure presents the output after moving the green box in the Stage simulator:
+![Local and central SP](./img/teromaplocalcentral.png)
 
-One rviz window is from the Local SP, where you can see the AGV's pose (red arrow) and local updates (red tiny squares). Another rviz window is from the Central SP, where you can see the updates of the topology and new obstacles presented with blue tiny squares showing only the current position of the new obstacle. All new obstacles are processed as they are received so only new ones are sent. That is the reason why in the Local SP you can see a trail of the obstacle, while in the Central SP there is no trail but the topology is permanently changed.
+One rviz window is from the Local SP, where you can see the AGV's pose (red arrow) and the local updates (red tiny squares). Another rviz window is from the Central SP, where you can see the updates of the topology and new obstacles presented with blue tiny squares showing only the current position of the new obstacle. Vertices at the position of a new obstacles are removed from the topology (blue squares become red, and connections are removed). All new obstacles are processed as they are received so only new ones are sent. That is the reason why in the Local SP you can see a trail of the obstacle, while in the Central SP there is no trail but the topology is permanently changed.
 
 
-Here is the examle of using the ICENT map (changed [topology.launch](#topologylaunch) and [local_robot_sim.launch](opil_local_sp_gettingStarted.md#localrobotsimlaunch)). 
-After moving the green box in the simulator the result can be obtained as in this figure:
-![Local and central SP in ICENT lab](./img/localcentralupdate.png)
 
 
 ## <a name="fromscratch">Starting from Scratch</a>
@@ -204,6 +223,8 @@ You can also prepare your own simulation following [the guide for preparing the 
 ```
 terminal 2: roslaunch maptogridmap startmaptogridmap.launch
 ```
+The result should be the started rviz with the map and topology with annotations as presented here:
+![IML topology](./img/IMLtopology.png)
 You can check the created topology in the topic graph by typing: 
 ```
 rostopic echo /map/graph
