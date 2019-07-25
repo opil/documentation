@@ -116,6 +116,6 @@ ____
 
 # OPIL External modules:
 
-##“Visual Component® (VC) for OPIL” integration: 
+##“Visual Components® (VC) for OPIL” integration: 
 This 3D simulation SW component VC is a transparent substitute of the physical components, like the Robot, Human and Sensor Agent Node. It is depicted in white by the [Architecture](#architecture) because it is an external component, but it has orange edges as well in order to highlight its capability to be integrated with OPIL through L2 Layer. The idea behind this approach is to have within this component, modules (Robot, Human and Sensor) that are identical in their behaviour to the other components of the Layer 1 that interact with the real world. The implementation adopted into OPIL is the 3D simulator Visual Components® which helps to virtualize the intra-factory logistics automation completely. Due to the identical behaviour of the virtual agents inside Visual Components and the real physical agents, the adoption to the real world will be smooth and easy. This approach helps to reduce the planning and installation time; it will be an easy and fast process for the end-users and the integrators.
 
