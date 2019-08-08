@@ -76,5 +76,6 @@ services:
 
 **3. Open http://hostnameorIP with your web browser**
 
-    - use public IP address when client web browser is running in different physical machine than HMI
+    - use remote IP address when client web browser is running in different physical machine than HMI
+      (not localhost/127.0.0.1)
     - login using admin/admin
