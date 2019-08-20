@@ -485,15 +485,15 @@ docker_mongodb_1     docker-entrypoint.sh mongod      Up      27017/tcp
 ```
 
 Next step is to configure the HMI. This is done from a web browser by navigating to the HMIs address `http://localhost` or `http://<ip-address>`. A login page should load:
-![hmi_login.png](./img/hmi_login.png)
+![hmi_login.png](./img/hmi_login.PNG)
 Now log in with the default credentials: username = `admin` and password `admin` and open the System Settings tab and configure the following settings. 
 
 > **Important!** Do NOT use `localhost` or `127.0.0.1` here. It will cause one-way connection failure that is hard to detect.
 
-![hmi_settings.png](./img/hmi_settings.png)
+![hmi_settings.png](./img/hmi_settings.PNG)
 
 Wait for the HMI to reload and check that you do NOT see the following error. If you get this error go back to System Settings and make sure you have the correct addresses. If you still encounter the error go back to "Start OPIL middleware" section and make sure the middleware is running and functional.
-![hmi_ocb_error.png](./img/hmi_ocb_error.png)
+![hmi_ocb_error.png](./img/hmi_ocb_error.PNG)
 
 If you do not see the error, everything is working as expected and you can move on forward.
 
@@ -529,7 +529,7 @@ Also, a new window called RViz should open. Here are the most important commands
  - Move: Hold Shift-key and drag with mouse
 
 Move and zoom the view until you see the layout fully in the screen. The window and the layout should look like this:
-![RViz_full.png](./img/RViz_full.png)
+![RViz_full.png](./img/RViz_full.PNG)
 
 Next, verify the following things:
 - Scale and zero point: The gray grid that extends outside your demo layout should have it's origin, i.e. bottom-left-hand corner at the intended zero point. If it does not match, you have an error in either the scale/resolution or zero-point coordinate in the `demo_map.yaml` file.
