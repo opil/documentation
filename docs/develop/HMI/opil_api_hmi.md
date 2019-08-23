@@ -136,35 +136,27 @@ Response:
 ```json
 [
     {
-        "_id": "5d5d6dc42764b938409e6264",
-        "ocb_id": "HMIButton_6r65746564",
-        "ocb_type": "SensorAgent",
-        "created": "2019-08-21T16:13:56.314Z",
-        "updated": "2019-08-21T16:17:34.901Z",
-        "__v": 0
-    },
-    {
-        "_id": "5d5d6eac2764b9eec39e6265",
-        "ocb_id": "HMIButton_7643287649843",
-        "ocb_type": "SensorAgent",
-        "created": "2019-08-21T16:17:48.326Z",
-        "updated": "2019-08-21T16:17:48.326Z",
+        "_id": "5d600ad3283a7d43b8d06abb",
+        "ocb_id": "123245489",
+        "text": "Call AGV",
+        "created": "2019-08-23T15:48:35.750Z",
+        "updated": "2019-08-23T15:48:35.750Z",
         "__v": 0
     }
 ]
 ```
 #### Get a HMIButton
 Request:
->    [GET] localhost/api/hmibutton/5d5d6dc42764b938409e6264
+>    [GET] localhost/api/hmibutton/5d600ad3283a7d43b8d06abb
 
 Response:
 ```json
 {
-    "_id": "5d5d6dc42764b938409e6264",
-    "ocb_id": "HMIButton_123245489",
-    "ocb_type": "SensorAgent",
-    "created": "2019-08-21T16:13:56.314Z",
-    "updated": "2019-08-21T16:13:56.314Z",
+    "_id": "5d600ad3283a7d43b8d06abb",
+    "ocb_id": "123245489",
+    "text": "Call AGV",
+    "created": "2019-08-23T15:48:35.750Z",
+    "updated": "2019-08-23T15:48:35.750Z",
     "__v": 0
 }
 ```
@@ -173,40 +165,38 @@ Request: (application/json OR application/x-www-form-urlencoded)
 >    [POST] localhost/api/hmibutton
 ```json
 {
-    "ocb_id": "HMIButton_123245489",
-    "ocb_type": "SensorAgent",
-    "sensortype": "HMI button"
+    "ocb_id": "123245489",
+    "text": "Call AGV"
 }
 ```
 Response:
 ```json
 {
-    "_id": "5d5d6dc42764b938409e6264",
-    "ocb_id": "HMIButton_123245489",
-    "ocb_type": "SensorAgent",
-    "created": "2019-08-21T16:13:56.314Z",
-    "updated": "2019-08-21T16:13:56.314Z",
+    "_id": "5d600ad3283a7d43b8d06abb",
+    "ocb_id": "123245489",
+    "text": "Call AGV",
+    "created": "2019-08-23T15:48:35.750Z",
+    "updated": "2019-08-23T15:48:35.750Z",
     "__v": 0
 }
 ```
 #### Update a HMIButton
 Request: (application/json OR application/x-www-form-urlencoded)
->    [PUT] localhost/api/hmibutton/5d5d6dc42764b938409e6264
+>    [PUT] localhost/api/hmibutton/5d600ad3283a7d43b8d06abbCaa
 ```json
 {
-    "ocb_id": "HMIButton_6r65746564",
-    "ocb_type": "SensorAgent",
-    "sensortype": "HMI button"
+    "ocb_id": "123245489",
+    "text": "AGV call"
 }
 ```
 Response:
 ```json
 {
-    "_id": "5d5d6dc42764b938409e6264",
-    "ocb_id": "HMIButton_6r65746564",
-    "ocb_type": "SensorAgent",
-    "created": "2019-08-21T16:13:56.314Z",
-    "updated": "2019-08-21T16:17:34.901Z",
+    "_id": "5d600ad3283a7d43b8d06abb",
+    "ocb_id": "123245489",
+    "text": "AGV call",
+    "created": "2019-08-23T15:48:35.750Z",
+    "updated": "2019-08-23T15:52:19.331Z",
     "__v": 0
 }
 ```
@@ -217,11 +207,11 @@ Request:
 Response:
 ```json
 {
-    "_id": "5d5d6eea2764b9dd289e6266",
-    "ocb_id": "HMIButton_7643287649",
-    "ocb_type": "SensorAgent",
-    "created": "2019-08-21T16:18:50.895Z",
-    "updated": "2019-08-21T16:18:50.895Z",
+    "_id": "5d600ad3283a7d43b8d06abb",
+    "ocb_id": "123245489",
+    "text": "AGV call",
+    "created": "2019-08-23T15:48:35.750Z",
+    "updated": "2019-08-23T15:52:19.331Z",
     "__v": 0
 }
 ```
