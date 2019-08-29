@@ -64,6 +64,10 @@ services:
     environment:
      - inituser=admin
      - initpw=admin
+     - ocb_host={IP address or hostname of OCB}
+     - ocb_port=1026
+     - ngsi_proxy_host={IP address or hostname of NGSI Proxy}
+     - ngsi_proxy_port=3000  
     restart: always
     volumes:
       - ./public/uploads:/usr/src/app/public/uploads
