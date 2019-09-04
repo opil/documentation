@@ -58,7 +58,7 @@ The following documentation of *LoTLan* utilizes the example of a production hal
 
 <div style="text-align:center">
 
-![Example introduction](./img/tl_introduction.png =500x)
+![Example introduction](./img/tl_introduction.png)
 
 *Figure 1: Example floor plan with AGV and production & warehouse area*
 </div>
@@ -108,7 +108,7 @@ Speaking of the example introduced in the [introduction](#Logistic-Task-Language
 
 <div style="text-align:center">
 
-![Example instance](./img/tl_instances.png =500x)
+![Example instance](./img/tl_instances.png)
 
 *Figure 2: Floor plan with Positions **goodsPallet** and **warehousePos1***
 </div>
