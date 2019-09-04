@@ -31,6 +31,7 @@ Follow these steps:
 1. Create a new file called docker-compose.yml inside your directory with the following contents:
     ```yml
     services: 
+    
     firos: 
         image: fhgiml130/firos:latest
         container_name: firos
