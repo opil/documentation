@@ -149,7 +149,7 @@ In terms of the introduced example production hall this *Task* looks like depict
 
 <div style="text-align:center">
 
-![Example task](./img/tl_tasks.png =500x)
+![Example task](./img/tl_tasks.png)
 
 *Figure 3: Floor plan with Task **TransportGoodsPallet***
 </div>
@@ -175,7 +175,7 @@ In terms of the introduced example production hall this *Task* looks like depict
 
 <div style="text-align:center">
 
-![Example trigger task](./img/tl_tasks_triggeredby.png =500x)
+![Example trigger task](./img/tl_tasks_triggeredby.png)
 
 *Figure 3: Floor plan with Task **TransportGoodsPallet_2***
 </div>
@@ -208,7 +208,7 @@ In terms of the introduced example production hall this *Task* looks like depict
 
 <div style="text-align:center">
 
-![Example on done task](./img/tl_tasks_ondone.png =500x)
+![Example on done task](./img/tl_tasks_ondone.png)
 
 *Figure 3: Floor plan with Task **TransportGoodsPallet_3** & **Refill***
 </div>
