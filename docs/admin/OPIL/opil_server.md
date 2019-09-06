@@ -7,9 +7,10 @@ In this section you will install and configure the OPIL Server using an example 
 
 ## Prerequisites for this guide
 - Computer with Linux-based operating with docker and docker-compose installed.
-- You know the IP-address of your system. This will be referred as `<ip-address>` later in this guide.
+- You know the IP-address of your system. Write it down as you will need  it later in this guide. This will be referred as `<ip-address>` from now on.
 - The following PNG image: [demo_map.png](files/demo_map.png)
 - You are familiar with Linux-based operating systems on basic level to execute commands and edit files
+- You have read the **TODO link to intro/deployment page !!!** and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
 
 
 ## Overview
@@ -120,7 +121,14 @@ Please note that during this guide you must use the original image file to prese
 | Packaging area | In this area ready products and packaged and finally packaged products area transported back to warehouse area for storage. |
 
 ### Determining the zero point and scale
-In order to align the factory floor installations with the planned layout it is necessary to define a zero point for the layout. This will be the origin for all measurements for installations and annotations. In this guide we have selected a corner of one of the columns in the middle of the layout as our zero point. See picture below.  
+In order to align the factory floor installations with the planned layout it is necessary to define a zero point for the layout. This will be the origin for all measurements for installations and annotations. The zero point should selected so that:
+1. It is a fixed point of a fixed structure on the factory floor
+1. It is accurately aligned with layout and the physical factory floor
+1. It is easy to measure distances from this point to other meaningful positions, e.g. pallet locations.
+
+> For example, selecting a corner of the layout image is not a suitable zero point since in most cases it is outside the building or somewhere in the middle of the floor. Selecting a point like this makes it impossible to accurately align the layout with the factory floor inside OPIL.
+
+In this guide we have selected a corner of one of the columns in the middle of the layout as our zero point. See picture below.  
 ![demo_map_zero.png](./img/demo_map_zero.png)
 
 Next you need to determine the following values for configuring all OPIL Server modules:
@@ -152,7 +160,7 @@ Y = 0,019553 * 383 px = 7,4888
 Make sure to store your measurements and calculations as you are going to use the very next steps. It is also possible that you may have to slightly adjust some values by 1 pixel or so for a perfect alignment. This will be checked later in this guide.
 
 ### Annotations
-Annotations are labeled positions of importance in the layout. The annotations you will be working with in this guide are marked in the following image:
+Annotations are labeled positions of importance in the layout. Such labeled positions could be pick-up and drop-off locations, charging stations or pallet stacks. The annotations you will be working with in this guide are all pallet locations and are marked in the following image:
 ![demo_map_annotations.png](./img/demo_map_annotations.png)
 
 During this step, you should record the position and orientation of each labeled position for future use. The orientation is called `theta` in the configuration file. The orientation also defines the approach direction and is defined as follows:
@@ -252,7 +260,11 @@ Note: The value in the `image` field is `map.png`, regardless of our PNG file be
 For now, there is no need to adjust any of these parameters. Configuration possibilities regarding this file are explained in the SP documentation (**TODO: LINK !!!**).
 
 ### Prepare annotations.ini
-Create a new file in the root directory called `annotations.ini`. This file will include the annotations or labeled positions you have defined earlier. In addition to the previously defined positions and orientations you also need to define the approach distance. This defines the final movement to the position and it is always a straight line that is not affected by the motion path planning. In this guide you will use a distance of 1.8 meters for all positions.
+Create a new file in the root directory called `annotations.ini`. 
+
+This file will include the annotations or labeled positions you have defined earlier. In addition to the previously defined positions and orientations you also need to define the approach distance. 
+
+The distance defines the final movement to the position and it is always a straight line that is not affected by the motion path planning. In this guide you will use a distance of 1.8 meters for all positions as the forklift has forks that need to be aligned to the pallet before moving under the pallet. For further details, see SP documentation (**TODO: LINK !!!**).
 
 Using the position data defined earlier you can now add content to the `annotations.ini`:
 ```ini
@@ -486,9 +498,9 @@ docker_mongodb_1     docker-entrypoint.sh mongod      Up      27017/tcp
 
 Next step is to configure the HMI. This is done from a web browser by navigating to the HMIs address `http://localhost` or `http://<ip-address>`. A login page should load:
 ![hmi_login.png](./img/hmi_login.PNG)
-Now log in with the default credentials: username = `admin` and password `admin` and open the System Settings tab and configure the following settings. 
+Now log in with the default credentials: username = `admin` and password `admin` and open the System Settings tab and configure the following settings. Use the `<ip-address>` that you wrote down in the prerequisites of this guide.
 
-> **Important!** Do NOT use `localhost` or `127.0.0.1` here. It will cause one-way connection failure that is hard to detect.
+> **Important!** Do NOT use `localhost` or `127.0.0.1` here. It will cause one-way connection failure that is difficult to detect.
 
 ![hmi_settings.png](./img/hmi_settings.PNG)
 
