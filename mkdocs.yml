@@ -36,7 +36,7 @@ pages:
             - OPIL Server: admin/OPIL/opil_server.md
             - OPIL Server Nodes:
                 - Task Planner: 
-#                    - Introduction: admin/TP/opil_desc_tp_intro.md
+#                   - Introduction: admin/TP/opil_desc_tp_intro.md
                     - Installation: admin/TP/opil_server_tp_install.md
                     - Getting started: admin/TP/opil_server_tp_gettingStarted.md
                     - Deinstallation: admin/TP/opil_server_tp_deinstall.md
@@ -97,8 +97,8 @@ pages:
                     - Deprecated: admin/RANVC/opil_server_ranvc_deprecated.md
                 - SAN VC: 
                     - Introduction: admin/SANVC/opil_vc_sanvc.md
-                    - Installation: admin/SANVC/opil_server_sanvc_install.md
                     - Getting started: admin/SANVC/opil_server_sanvc_gettingStarted.md
+                    - Installation: admin/SANVC/opil_server_sanvc_install.md
                     - Deinstallation: admin/SANVC/opil_server_sanvc_deinstallation.md
                     - Upgrades: admin/SANVC/opil_server_sanvc_upgrades.md
                     - Deprecated: admin/SANVC/opil_server_sanvc_deprecated.md
@@ -153,6 +153,7 @@ pages:
                     - Introduction: develop/RAN/opil_introd_ran.md
                 - Sensor Agent Node (SAN): 
                     - API: develop/SAN/opil_api_san.md
+                    - Docker files: docs/develop/SAN/opil_docker_san.md 
                     - Drivers: develop/SAN/opil_drivers_san.md
                     - Introduction: develop/SAN/opil_introd_san.md
                     - Run: develop/SAN/opil_run_san.md

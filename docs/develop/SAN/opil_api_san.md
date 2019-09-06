@@ -14,95 +14,99 @@ Next, observe the example of a generic entity output by SAN:
 
 ```json
 {
-    "sensorData": {
+    "measurementType": {
+        "type": "string",
+        "value": "objectPresence"
+    },
+    "modifiedTime": {
+        "type": "string",
+        "value": "2019-07-18T10:23:21Z"
+    },
+    "readings": {
         "type": "array",
         "value": [
             {
-                "type": "SensorDataEntry",
+                "type": "SensorReading",
                 "value": {
-                    "measurementType": {
-                        "type": "string",
-                        "value": "objectPresence"
-                    },
-                    "modifiedTime": {
-                        "type": "string",
-                        "value": "2019-04-30T18:08:27.501898"
-                    },
-                    "readings": {
-                        "type": "array",
-                        "value": [
-                            {
-                                "type": "SensorReading",
-                                "value": {
-                                    "reading": {
-                                        "type": "boolean",
-                                        "value": false
-                                    }
-                                }
-                            }
-                        ]
-                    },
-                    "sensorId": {
-                        "type": "string",
-                        "value": "san_1"
-                    },
-                    "sensorManufacturer": {
-                        "type": "string",
-                        "value": "IDec"
-                    },
-                    "sensorType": {
-                        "type": "string",
-                        "value": "IR"
+                    "reading": {
+                        "type": "boolean",
+                        "value": true
                     }
                 }
             }
         ]
+    },
+    "sanID": {
+        "type": "string",
+        "value": "SAN1"
+    },
+    "sensorID": {
+        "type": "string",
+        "value": "sensor7"
+    },
+    "sensorManufacturer": {
+        "type": "string",
+        "value": "IDec"
+    },
+    "sensorType": {
+        "type": "string",
+        "value": "IR"
+    },
+    "units": {
+        "type": "string",
+        "value": "mm"
     }
 }
+
 ```
 Below is the explanation of the entity along with its attributes:
 
 |        Attribute        | Data Type |                                                                                                                                                                                            Description                                                                                                                                                                                         |
 |:---------------:|:---------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|        sensorData     |     Array     | sensorData is one of the main attributes and it    corresponds to the particular data regarding sensors    which submitted this data                                                                                                                                         |
-|         sensorId        |     String    | sensorID attribute contains a unique ID of the particular sensor.    ID will tell the user which sensor exactly has sent the data,    regardless is there are other sensors that are totally the same.     |
-|        sensorType     |     String    | sensorType attribute contains the name of the sensor and    determines the type of the sensor.                                                                                                                                                                                                                 |
-| measurementType |     String    | measurementType contains the information which tells user what has been measured exactly. Sensors of the same type    may measure different things and it is essential to specify.                                         |
+|         sensorID        |     String    | sensorID attribute contains a unique ID of the particular sensor.    ID will tell the user which sensor exactly has sent the data, it will be unique for each sensor on the system    |
+|        sensorType     |     String    | sensorType attribute contains the type of the sensor e.g. infrared(IR), RFID, etc.                                                                                                                                                                                                |
+| measurementType |     String    | measurementType contains the information which tells user what has been measured exactly. Sensors of the same type    may be used for different purposes, hence the need to specify.                                         |
 |     manufacturer    |     String    | manufacturer contains the name of the manufacturer of the sensor                                                                                                                                                                                                                                                                         |
-|         readings        |     Array     | readings is an array of 2 attributes: modifiedTime and reading.    reading corresponds to a particular reading taken    by sensor and modifiedTime specifies the exact time when    the reading was taken. |
+|         readings        |     Array     | readings is an array with 1 attribute: reading.    reading corresponds to a particular reading taken    by sensor. reading is an attribute of this readings array because    multiple reading attributes can be batched into the readings array when set by user. |
 |     modifiedTime    |     String    |    modifiedTime specifies the time when the reading was taken by sensor.                                                                                                                                                                                                                                                             |
 *Above: Explanation of attributes of the generic entitiy*
 
 | Attribute |             Data type             |                                                                                                                                                                                                    Description                                                                                                                                                                                                    |
 |:---------:|:---------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|    readings | Number/Boolean/String/Array |    reading specified the actual measurement taken by sensor.     It can be a numberic value, a boolean value or a string - it depends     on the particular sensor. From this attribute the actual data is received |
+|    reading | Number/Boolean/String/Array |    reading specified the actual measurement taken by sensor.     It can be a numberic value, a boolean value or a string - it depends     on the particular sensor. From this attribute the actual data is received |
 
-*Above: Explanation of readings attribute*
+*Above: Explanation of reading attribute*
 
 **!PLEASE NOTE** - the used time format is expected to be ISO8601
 
 ## Orion Context Broker API to receive SAN data
 You can retrieve the SAN data off the Context Broker using 2 methods: either straight by using HTTP GET API command or
-by creating a subscription to SAN entity.
+by creating a subscription to a SAN entity.
 
 ### Using HTTP GET
 
-Use the following command to receive the data
-```GET http://orion:1026/v2/entities/SAN_id/```
+Use the following command to receive/GET the data:
 
-Substitute orion with the IP address of your Orion Context Broker and SAN_id with your SAN ID (SAN_demo by default)
+unparsed raw output:
+```curl http://orion:1026/v2/entities/sensorID -s -S -H 'Accept - application/json'```
 
-Do not forget to include the following header: "Accept" - "application/json"
+SAN-like output:
+```curl http://orion:1026/v2/entities/sensorID -s -S -H 'Accept - application/json' | python -mjson.tool```
+
+Output with only values (types are ignored in this output):
+```curl http://orion:1026/v2/entities/sensorID?options=keyValues -s -S -H 'Accept - application/json' | python -mjson.tool```
+
+*Above: Substitute orion with the IP address of your Orion Context Broker and sensorID with your sensor ID*
 
 ### Using subscription
 
 Please check how 
 [subscriptions](https://fiware-orion.readthedocs.io/en/master/user/walkthrough_apiv2/index.html#subscriptions) are made.
 
-The example of a subscription can look like this:
+The example of a subscription POST operation can look like this:
 
-```POST http://orion:1026/v2/subscriptions```
 ```json
+curl -v http://orion:1026/v2/subscriptions -s -S -H 'Content-Type: application/json' -d @- <<EOF
 {
     "description": "A subscription to get info about SAN",
     "subject": {
@@ -114,8 +118,7 @@ The example of a subscription can look like this:
         ],
         "condition": {
             "attrs": [
-                "sensorData",
-                "modifiedTime"
+                "YOUR_ATTRIBUTE_HERE",
             ]
         }
     },
@@ -124,13 +127,13 @@ The example of a subscription can look like this:
             "url": "http://yoururl.com"
         },
         "attrs": [
-            "sensorData",
-            "modifiedTime"
+            "YOUR_ATTRIBUTE_HERE",
         ]
     },
     "throttling": 2
 }
+EOF
 ```
-*Above: Instead of http://yoururl.com insert the endpoint you want to get data to*
+*Above: Instead of http://yoururl.com insert the endpoint you want to get data to and substitute orion with the IP address of your Orion Context Broker*
 
-Do not forget to include the following header: "Content-type" - "application/json"
+*Available attributes for the "attrs" field can be seen in the generic entity output above*
