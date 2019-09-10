@@ -154,8 +154,7 @@ pages:
                 - Sensor Agent Node (SAN): 
                     - API: develop/SAN/opil_api_san.md
                     - Drivers: develop/SAN/opil_drivers_san.md
-                    - Introduction: develop/SAN/opil_introd_san.md
-                    - Run: develop/SAN/opil_run_san.md
+                    - Configuration File: develop/SAN/opil_run_san.md
                 - Sensing & Perception - Local SP: 
                     - API: develop/SP/opil_api_local_sp.md
                     - Interfaces: develop/SP/opil_local_sp_interfaces.md

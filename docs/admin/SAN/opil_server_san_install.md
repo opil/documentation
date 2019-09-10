@@ -1,38 +1,31 @@
-# Installation
-SAN is installed through GIT, and then either by using docker, or the installation script.
-Additionally, ensure that Orion Context Broker is running and connection with it can be established.
+## Installation
 
-## Docker Demo
-In order to run a SAN demonstration using *docker* open theterminal and enter the following command
-```docker run -t -e DEMO=true -e CB_HOST="<hostIP>" -e CB_PORT="<port>" l4ms/opil.iot.san```
-replace <hostIP> with the ip address of your orion context broker
-replace <port> with the port that the orion context broker is listening on
+Installing SAN on the machine connected to your sensor can be done in two ways: using the cloned GitLab repository's source code, or simply using a Docker container, which allows you to run SAN with no inconvenience of clicking through source folders and files.
 
-## Using *GIT*
+### Using the convenient Docker container
 
-Mind that you will need an access to this repo which currently is provided by OPIL. 
+Once you have *docker* installed on the machine connecting your sensor, all that is necessary to get the SAN container from the cloud is to run the following command in a terminal window:
 
-Use the following command to pull the SAN module repository:
+`sudo docker pull l4ms/opil.iot.san:stable`
 
-```git clone https://gitlab.com/opil_group/mod.iot.san```
+This will clone the latest stable version of SAN onto your machine.
 
-Next, go to the mod.iot.san/PythonSAN repository.
+You can now move on to the getting started section.
 
-## Using *Docker*
-In order to run SAN using *Docker* container, open the Terminal, navigate to the docker folder and type the following commands:
+### Cloning the GitLab repository
 
-```docker-compose up```
+This is not recommended for the end user as it provides no advantages over the Docker container, unless access to the source code is absolutely necessary.
 
-ensure that the config file (src/PythonSAN/config.json) is correct
-especially, 
-ensure that:
--the host and port are the correct host and port
-of your Orion Context Broker
--the device to be tested is valid 
-(for testing, a USB device can be rapidly configured: go the UserTools directory)
+Run `git clone https://gitlab.com/opil_group/mod.iot.san` in a terminal window opened in the folder where you want the source code to be cloned to.
 
+You can now move on to the getting started section.
 
-## Upgrading from previous versions
-If you are still using SAN ver.1, simply git pull from the most recent version available on gitlab
+### Updating SAN
 
-```git clone https://gitlab.com/opil_group/mod.iot.san```
+Updating the Docker container simply requires you to run the same command you used to install the SAN container:
+
+`sudo docker pull l4ms/opil.iot.san:stable`
+
+Updating the source code requires a git pull:
+
+`git pull https://gitlab.com/opil_group/mod.iot.san`
