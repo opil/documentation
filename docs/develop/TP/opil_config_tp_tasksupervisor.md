@@ -305,12 +305,5 @@ Task Refill
     OnDone      TransportGoodsPallet_3
 end
 
-Task TransportGoodsPallet_3
-    Transport
-    From        goodsPallet
-    To          warehousePos1
-    TriggeredBy buttonPallet.value == True
-    OnDone      Refill
-end
 ```
   
