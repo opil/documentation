@@ -67,8 +67,7 @@ Follow these steps:
         depends_on: 
         - rosmaster
         environment: 
-        - "ROS_MASTER_URI=http://rosmaster:11311"
-        image: "opil.mod.sw.tp.mtp:latest" 
+        - "ROS_MASTER_URI=http://rosmaster:11311" 
 
     mongo: 
         command: "--nojournal"
