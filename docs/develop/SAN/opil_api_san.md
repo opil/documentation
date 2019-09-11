@@ -53,10 +53,6 @@ Next, observe the example of a generic entity output by SAN:
     "sensorType": {
         "type": "string",
         "value": "IR"
-    },
-    "units": {
-        "type": "string",
-        "value": "mm"
     }
 }
 
