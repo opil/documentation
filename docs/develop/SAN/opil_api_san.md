@@ -18,7 +18,7 @@ Next, observe the example of a generic entity output by SAN:
 {
     "measurementType": {
         "type": "string",
-        "value": "objectPresence"
+        "value": "boolean"
     },
     "modifiedTime": {
         "type": "string",
@@ -67,7 +67,7 @@ Below is the explanation of the entity along with its attributes:
 |:---------------:|:---------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 |         sensorID        |     String    | sensorID attribute contains a unique ID of the particular sensor.    ID will tell the user which sensor exactly has sent the data, it will be unique for each sensor on the system    |
 |        sensorType     |     String    | sensorType attribute contains the type of the sensor e.g. infrared(IR), RFID, etc.                                                                                                                                                                                                |
-| measurementType |     String    | measurementType contains the information which tells user what has been measured exactly. Sensors of the same type    may be used for different purposes, hence the need to specify.                                         |
+| measurementType |     String    | measurementType contains the information which tells user what has been measured exactly. Sensors of the same type    may be used for measuring different types of information, hence the need to specify. **For boolean data this should be set to boolean in the configuration file in order to avoid unit conversion conflicts**                                       |
 |     manufacturer    |     String    | manufacturer contains the name of the manufacturer of the sensor                                                                                                                                                                                                                                                                         |
 |         readings        |     Array     | readings is an array with 1 attribute: reading.    reading corresponds to a particular reading taken    by sensor. reading is an attribute of this readings array because    multiple reading attributes can be batched into the readings array when set by user. |
 |     modifiedTime    |     String    |    modifiedTime specifies the time when the reading was taken by sensor.                                                                                                                                                                                                                                                             |
