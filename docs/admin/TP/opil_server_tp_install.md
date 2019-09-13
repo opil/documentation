@@ -30,7 +30,7 @@ Follow these steps:
 
 1. Create a new file called docker-compose.yml inside your directory with the following contents:
 
-    ```yaml
+    ```
     services: 
     
     firos: 
