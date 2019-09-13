@@ -19,13 +19,12 @@ Follow these steps:
 
 1. Create a directory on your system on which to work (for example, ~/opil). Inside this folder create three folders (firos/firos_config, mpp and ts) as depicted in the next figure:
 
-<div style="text-align:center">
-
+ 
 ![alt text](./img/folder_structure.png)
 
-</div>
+ 
 
-** ATTENTION **: "firos_config" is a dedicted folder inside the "firos" directory.
+**ATTENTION**: "firos_config" is a dedicted folder inside the "firos" directory.
  
 
 1. Create a new file called docker-compose.yml inside your directory with the following contents:
@@ -115,55 +114,55 @@ sp:
 
     2.1 robots.json:
     
-    ```json 
-    {
-        "map": {
-            "topics": {
-                "graph": {
-                    "msg": "maptogridmap.msg.Graph",
-                    "type": "publisher"
-                }
+```json 
+{
+    "map": {
+        "topics": {
+            "graph": {
+                "msg": "maptogridmap.msg.Graph",
+                "type": "publisher"
             }
-        },
-        "robot_opil_v2": {
-            "topics": {
-                "assignment_state": {
-                    "msg": "mars_agent_physical_robot_msgs.msg.AssignmentStatus",
-                    "type": "publisher"
-                },
-                "current_motion": {
-                    "msg": "mars_agent_physical_robot_msgs.msg.Motion",
-                    "type": "publisher"
-                },
-                "robot_description": {
-                    "msg": "mars_agent_physical_robot_msgs.msg.RobotAgentProperties",
-                    "type": "publisher"
-                },
-                "cancel_order": {
-                    "msg": "mars_agent_physical_robot_msgs.msg.CancelTask",
-                    "type": "subscriber"
-                },
-                "motion_assignment": {
-                    "msg": "mars_agent_physical_robot_msgs.msg.MotionAssignment",
-                    "type": "subscriber"
-                }
+        }
+    },
+    "robot_opil_v2": {
+        "topics": {
+            "assignment_state": {
+                "msg": "mars_agent_physical_robot_msgs.msg.AssignmentStatus",
+                "type": "publisher"
+            },
+            "current_motion": {
+                "msg": "mars_agent_physical_robot_msgs.msg.Motion",
+                "type": "publisher"
+            },
+            "robot_description": {
+                "msg": "mars_agent_physical_robot_msgs.msg.RobotAgentProperties",
+                "type": "publisher"
+            },
+            "cancel_order": {
+                "msg": "mars_agent_physical_robot_msgs.msg.CancelTask",
+                "type": "subscriber"
+            },
+            "motion_assignment": {
+                "msg": "mars_agent_physical_robot_msgs.msg.MotionAssignment",
+                "type": "subscriber"
             }
         }
     }
-    ```
+}
+```
 
    2.2 whitelist.json:
    
-    ```json 
-    {
-        "map": {
-            "publisher": [
-                "graph"
-            ],
-            "subscriber": []
-        }
+```json 
+{
+    "map": {
+        "publisher": [
+            "graph"
+        ],
+        "subscriber": []
     }
-    ``` 
+}
+``` 
 
 
 3. mtp/
@@ -172,14 +171,14 @@ sp:
 
     3.1 start_mars.h
 
-    ```bash
-    #!/bin/bash
+```bash
+#!/bin/bash
 
-    source /opt/ros/melodic/setup.bash
-    source /catkin_ws/devel/setup.bash
+source /opt/ros/melodic/setup.bash
+source /catkin_ws/devel/setup.bash
 
-    roslaunch mod_sw_tp mod_sw_tp.launch
-    ```
+roslaunch mod_sw_tp mod_sw_tp.launch
+```
 
 4. ts/
    
@@ -187,24 +186,24 @@ sp:
 
     4.1 fiware_config.ini
     
-    ```ini
-    [flask]
-    host = 0.0.0.0 
+```ini
+[flask]
+host = 0.0.0.0 
 
-    [taskplanner]
-    ; hostname or ip address of the TaskPlanner machine 
-    ; Please note that "tp" in docker-compose.yml must match
-    host = opil.mod.sw.tp.ts
-    ; Port of the task planner
-    PORT = 2906
+[taskplanner]
+; hostname or ip address of the TaskPlanner machine 
+; Please note that "tp" in docker-compose.yml must match
+host = opil.mod.sw.tp.ts
+; Port of the task planner
+PORT = 2906
 
-    [contextbroker]
-    ; hostname or ip address of the context broker machine 
-    ; Please note that "orion" in docker-compose.yml must match
-    host= orion
-    ; Port of the context broker
-    port=1026
-    ```
+[contextbroker]
+; hostname or ip address of the context broker machine 
+; Please note that "orion" in docker-compose.yml must match
+host= orion
+; Port of the context broker
+port=1026
+```
 
 
 ## 2. Testing the setup 
