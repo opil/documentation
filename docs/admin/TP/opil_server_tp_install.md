@@ -205,9 +205,16 @@ Follow these steps:
 
 ## 2. Testing the setup 
 
-Using the command-line and within the directory (~/opil/) you created type: sudo docker-compose up. 
+Using the command-line and within the directory (~/opil/) you created type: 
+
+**ATTENTION:** after computer reboot/restart run the following command first, ONLY ONCE: `host local:root`
 
 
+```bash
+docker-compose up. 
+```
+
+**sudo** rights might be required to launch the docker-compose file.
 
 Regarding `--nojournal` it is not recommened for production, but it speeds up mongo container start up and avoids some race conditions problems if Orion container is faster and doesn't find the DB up and ready. 
 
