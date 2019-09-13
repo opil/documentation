@@ -29,7 +29,8 @@ Follow these steps:
  
 
 1. Create a new file called docker-compose.yml inside your directory with the following contents:
-    ```
+
+    ```yaml
     services: 
     
     firos: 
@@ -113,6 +114,7 @@ Follow these steps:
     Create inside the `firos/firos_config/ ` directory two fils named `robots.json` and `whitelist.json`.
 
     2.1 robots.json:
+    
     ```json 
     {
         "map": {
@@ -151,6 +153,7 @@ Follow these steps:
     ```
 
    2.2 whitelist.json:
+   
     ```json 
     {
         "map": {
@@ -183,6 +186,7 @@ Follow these steps:
     Create inside the `ts` directory one file named `fiware_config.ini`.
 
     4.1 fiware_config.ini
+    
     ```ini
     [flask]
     host = 0.0.0.0 
