@@ -223,8 +223,9 @@ After a few seconds you should have your OPIL TaskPlanner running and listening 
 
 Check that everything works with
 
-    `curl localhost:2906`
-
+```bash
+curl localhost:2906
+```
 
 The expected output should be a:
 
