@@ -30,84 +30,85 @@ Follow these steps:
 
 1. Create a new file called docker-compose.yml inside your directory with the following contents:
 
-    ```
-    services: 
+```
     
-    firos: 
-        image: fhgiml130/firos:latest
-        container_name: firos
-        depends_on: 
-        - orion
-        - rosmaster
-        environment: 
-        - PYTHONUNBUFFERED=1
-        - "ROS_MASTER_URI=http://rosmaster:11311"
-        ports: 
-        - "10100:10100"
-        volumes: 
-        - "./firos/firos_config/robots.json:/catkin_ws/src/firos/config/robots.json"
-        - "./firos/firos_config/whitelist.json:/catkin_ws/src/firos/config/whitelist.json" 
+version: "3.5"
+services: 
 
-    opil.mod.sw.tp.ts:
-        image: l4ms/opil.sw.tp.ts:latest
-        hostname: opil.mod.sw.tp.ts
-        depends_on: 
-        - opil.mod.sw.tp.mtp
-        - orion
-        environment: 
-        - PYTHONUNBUFFERED=1
-        - "ROS_MASTER_URI=http://rosmaster:11311"
-        volumes:
-        - ./ts/fiware_config.ini:/catkin_ws/src/ts/fiware_config.ini 
-        ports: 
-        - "2906:2906"  
+firos: 
+    image: fhgiml130/firos:latest
+    container_name: firos
+    depends_on: 
+    - orion
+    - rosmaster
+    environment: 
+    - PYTHONUNBUFFERED=1
+    - "ROS_MASTER_URI=http://rosmaster:11311"
+    ports: 
+    - "10100:10100"
+    volumes: 
+    - "./firos/firos_config/robots.json:/catkin_ws/src/firos/config/robots.json"
+    - "./firos/firos_config/whitelist.json:/catkin_ws/src/firos/config/whitelist.json" 
 
-    opil.mod.sw.tp.mtp: 
-        image: l4ms/opil.sw.tp.mtp:latest
-        container_name: opil.mod.sw.tp.mtp
-        depends_on: 
-        - rosmaster
-        environment: 
-        - "ROS_MASTER_URI=http://rosmaster:11311" 
+opil.mod.sw.tp.ts:
+    image: l4ms/opil.sw.tp.ts:latest
+    hostname: opil.mod.sw.tp.ts
+    depends_on: 
+    - opil.mod.sw.tp.mtp
+    - orion
+    environment: 
+    - PYTHONUNBUFFERED=1
+    - "ROS_MASTER_URI=http://rosmaster:11311"
+    volumes:
+    - ./ts/fiware_config.ini:/catkin_ws/src/ts/fiware_config.ini 
+    ports: 
+    - "2906:2906"  
 
-    mongo: 
-        command: "--nojournal"
-        container_name: mongo
-        image: "mongo:3.4" 
+ opil.mod.sw.tp.mtp: 
+    image: l4ms/opil.sw.tp.mtp:latest
+    container_name: opil.mod.sw.tp.mtp
+    depends_on: 
+    - rosmaster
+    environment: 
+    - "ROS_MASTER_URI=http://rosmaster:11311" 
 
-    orion: 
-        command: "-dbhost mongo"
-        container_name: orion
-        image: fiware/orion
-        links: 
-        - mongo
-        hostname: orion
-        ports: 
-        - "1026:1026" 
+ mongo: 
+    command: "--nojournal"
+    container_name: mongo
+    image: "mongo:3.4" 
 
-    rosmaster: 
-        command: 
-        - roscore
-        container_name: rosmaster
-        hostname: rosmaster
-        image: "ros:melodic-ros-core"
-        ports: 
-        - "11311:11311" 
+orion: 
+    command: "-dbhost mongo"
+    container_name: orion
+    image: fiware/orion
+    links: 
+    - mongo
+    hostname: orion
+    ports: 
+    - "1026:1026" 
 
-    sp:
-        restart: always
-        image: l4ms/opil.sw.sp:2.6-central
-        volumes: 
-            - /tmp/.X11-unix:/tmp/.X11-unix:rw 
-        environment:
-            - FIWAREHOST=orion
-            - HOST=sp
-            - NETINTERFACE=eth0
-            - DISPLAY=$DISPLAY
-        
-    version: "3.5"
-  
-    ```
+rosmaster: 
+    command: 
+    - roscore
+    container_name: rosmaster
+    hostname: rosmaster
+    image: "ros:melodic-ros-core"
+    ports: 
+    - "11311:11311" 
+
+sp:
+    restart: always
+    image: l4ms/opil.sw.sp:2.6-central
+    volumes: 
+        - /tmp/.X11-unix:/tmp/.X11-unix:rw 
+    environment:
+        - FIWAREHOST=orion
+        - HOST=sp
+        - NETINTERFACE=eth0
+        - DISPLAY=$DISPLAY
+    
+
+```
 
 2. firos/firos_config/ 
 
