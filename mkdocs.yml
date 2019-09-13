@@ -19,6 +19,8 @@ theme:
     hljs_languages:
         - yaml
         - django
+        - bash
+        - yml
 pages:
     - Home: index.md
     - Getting Started: 
