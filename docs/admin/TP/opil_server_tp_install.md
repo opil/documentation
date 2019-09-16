@@ -58,7 +58,7 @@ opil.mod.sw.tp.ts:
     - PYTHONUNBUFFERED=1
     - "ROS_MASTER_URI=http://rosmaster:11311"
     volumes:
-    - ./ts/fiware_config.ini:/catkin_ws/src/ts/fiware_config.ini 
+    - ./ts/fiware_config.ini:/catkin_ws/src/taskplanner/fiware_config.ini 
     ports: 
     - "2906:2906"  
 
