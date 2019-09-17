@@ -36,7 +36,7 @@ host | IP address of Context Broker | The address of the server that you are run
 port | Port opened to allow information into the server | The port on which the OCB is listening. Defaults to 1026. 
 sensorID | ID of the sensor that is sending data | Every sensor is required to have its own ID. The ID is later used to query data from the OCB 
 sensorType | Type of the attached sensor | sensorType is required to specify what exactly sensor is, for example IR sensor, RFID sensor, etc.
-measurementType | What type of value sensor is measuring | Required to specify what exactly is being measured. For example distance, weight, etc. **For boolean measurements the "measurementType" should be set to "boolean", otherwise SAN will raise a unit conversion error**
+measurementType | What type of value sensor is measuring | Required to specify what exactly is being measured. This field is used as a key to facilitate unit detection and conversion; the possible values are: **distance**, **angular**, **temperature**, **weight**, **velocity**, **angularVelocity**, **numeric**, and **boolean**. Where applicable, any input units (set by your driver), will be automatically converted to default units, meters, radians, kelvins, kg, m/s, and rad/s.
 driver | Name of the driver file | The driver for the sensor/device that processes the incoming signal.
 operationMode | mode, (measurementInterval/ broadcastInterval) | sets up for parsing the details of mode
 mode | event-driven / time-series/ fixed-interval | Specifies the mode telling the SAN under which circumstances the data must be submitted
