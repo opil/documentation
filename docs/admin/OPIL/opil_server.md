@@ -12,7 +12,7 @@ In this section you will install and configure the OPIL Server using an example 
 - You know the IP-address of your system. Write it down as you will need  it later in this guide. This will be referred as `<ip-address>` from now on.
 - The following PNG image: [demo_map.png](files/demo_map.png)
 - You are familiar with Linux-based operating systems on basic level to execute commands and edit files
-- You have read the **TODO link to intro/deployment page !!!** and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
+- You have read the [introduction](../../start/index.md) and [deployment](../../start/deployment.md) pages and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
 
 ## Overview
 
@@ -22,8 +22,8 @@ During this guide you will complete the following steps:
 1. Prepare a docker-compose.yml file
 1. Prepare the layout
 1. Prepare VC simulation (TBA by Fernando)
-1. Prepare OPIL HMI
 1. Prepare OPIL Central SP
+1. Prepare OPIL HMI
 1. **TBA !!!** (Prepare OPIL TP)
 1. Review the docker-compose.yml file
 1. Start the OPIL Server modules
@@ -40,7 +40,8 @@ During this guide you will complete the following steps:
 
 ## Verify docker environment
 
-In this step, you will verify that your `docker` environment is running and that it is not out of date. If you know that you do not have a `docker` environment set up, start with the "Updating and troubleshooting" section below. Please note that both `docker` and `docker-compose` are required to follow this guide. It is recommended to run all `docker` and `docker-compose` commands with `sudo` to avoid errors caused by privileges. However, depending on your OS and user settings this might not be required.
+In this step, you will verify that your `docker` environment is running and that it is not out of date. If you know that you do not have a `docker` environment set up, start with the "Updating and troubleshooting" section below. Please note that both `docker` and `docker-compose` are required to follow this guide. 
+>It is recommended to run all `docker` and `docker-compose` commands with `sudo` to avoid errors caused by privileges. However, depending on your OS and user settings this might not be required.
 
 First, check the `docker` version by executing command:
 
@@ -73,11 +74,11 @@ Finally, repeat the step described above to verify that your installation was su
 
 ## Prepare a docker-compose.yml file
 
-In this step, you will prepare a new `docker-compose.yml` file that will be completed one step a time during this guide.
+In this step, you will prepare a new `docker-compose.yml` file that will be completed one step at a time during this guide.
 
-First you will create a new directory, where you want all of your OPIL docker-related files to be placed. Then navigate to the newly created directory as `docker-compose` commands will always look for the `docker-compose.yml` file in the active directory.
+First, create a new directory where you want all of your OPIL docker-related files to be placed. Then navigate to the newly created directory as `docker-compose` commands will always look for the `docker-compose.yml` file in the active directory.
 
-Next you will create the `docker-compose.yml` file. Please note that the filename must exactly match the given name. Copy the following content to the beginning of the file:
+Next, create the `docker-compose.yml` file. Please note that the filename must exactly match the given name. Copy the following content to the beginning of the file:
 
 ```yaml
 version: "3.1"
@@ -109,13 +110,13 @@ services:
             -dbhost mongo -corsOrigin __ALL 
 ```
 
-This will configure the middleware of OPIL, including it's three components: MongoDB, NGSI Proxy and Orion Context Broker.
+This will configure the middleware of OPIL, including its three components: MongoDB, NGSI Proxy and Orion Context Broker.
 
 Please make sure that the ports **3000** and **1026** are not already in use. Making changes to the port configuration here will cause errors with other modules that cannot be fixed by configuration in the current version of OPIL.
 
 ## Prepare the layout
 
-In this step you will determine the configuration regarding the layout. In this guide you will be using the `demo_map.png` image as the layout. You should have already downloaded this file at the beginning of this guide but if you haven't done so yet you can download it [here](files/demo_map.png). 
+In this step you will determine the configuration regarding the factory layout. In this guide you will be using the `demo_map.png` image as the layout. You should have already downloaded this file at the beginning of this guide but if you haven't done so yet you can download it [here](files/demo_map.png). 
 
 Please note that during this guide you must use the original image file to preserve the original resolution.
 
@@ -134,7 +135,7 @@ Please note that during this guide you must use the original image file to prese
 
 ### Determining the zero point and scale
 
-In order to align the factory floor installations with the planned layout it is necessary to define a zero point for the layout. This will be the origin for all measurements for installations and annotations. The zero point should selected so that:
+In order to align the factory floor installations with the planned layout it is necessary to define a zero point for the layout. This will be the origin for all measurements for installations and annotations. The zero point should be selected so that:
 
 1. It is a fixed point of a fixed structure on the factory floor
 1. It is accurately aligned with layout and the physical factory floor
@@ -153,15 +154,15 @@ Next you need to determine the following values for configuring all OPIL Server 
 
 First you will define the **scale in meters/pixel**. To do this you must first know a distance of any two points in the layout. Since the resolution is the same for both X- and Y-axes it is necessary to measure only one axis. To minimize the possible error from the resolution and measurement you should select the longest easily measurable distance.
 
-In this layout you have a grid with a resolution of 1 meter that helps you to easily determine two points and the distance between. In the picture below, the red line is exactly **28 meters**. Then you need to measure the same line in pixels, this can be easily done using a image editing software (e.g. GIMP). The line in this case is **1432 pixels** long. Finally we can calculate that the scale of the layout is:
+In this layout you have a grid with a resolution of 1 meter that helps you to easily determine two points and the distance between. In the picture below, the red line is exactly **28 meters**. Then you need to measure the same line in pixels, this can be easily done using an image editing software (e.g. GIMP). The line in this case is **1432 pixels** long. Finally we can calculate that the scale of the layout is:
 
 ```
-28 meters / 1432 pixels = 0,019553 m / px
+28 meters / 1432 pixels = 0.019553 m / px
 ```
 
 ![demo_map_scale.png](./img/demo_map_scale.png)
 
-The next step is to determine the **zero point coordinate in pixels**. Measure the number of pixels from **bottom left-hand corner** of the image to the zero point. With the layout in this guide you will get the following measurements:
+The next step is to determine the **zero point coordinate in pixels**. Measure the number of pixels from the **bottom left-hand corner** of the image to the zero point. With the layout in this guide you will get the following measurements:
 
 ```
 X = 659 px
@@ -171,11 +172,11 @@ Y = 383 px
 Finally you can determine the **zero point coordinate in meters** by combining the two previous results:
 
 ```
-X = 0,019553 * 659 px = 12,8854
-Y = 0,019553 * 383 px = 7,4888
+X = 0,019553 * 659 px = 12.8854
+Y = 0,019553 * 383 px = 7.4888
 ```
 
-Make sure to store your measurements and calculations as you are going to use the very next steps. It is also possible that you may have to slightly adjust some values by 1 pixel or so for a perfect alignment. This will be checked later in this guide.
+Make sure to store your measurements and calculations as you are going to use them in the next steps. It is also possible that you may have to slightly adjust some values by 1 pixel or so for a perfect alignment. This will be checked later in this guide.
 
 ### Annotations
 
@@ -191,7 +192,7 @@ During this step, you should record the position and orientation of each labeled
 
 **TBA: Explanatory image!!!**
 
-Now for position of each labeled position you need to measure the center point of each pallet location in layout. The exact point may be different depending on the hardware used and RAN configuration. The measurement is done in meters relative to the zero point. Measurements for each labeled position in this layout are as follows:
+Now for the position of each annotation you need to measure the center point of each pallet location in the layout. The exact point may be different depending on the hardware used and RAN configuration. The measurement is done in meters relative to the zero point. Measurements for each labeled position in this layout are as follows:
 
 ```ini
 [prod]
@@ -237,36 +238,6 @@ theta = 90
 
 Now you have determined the necessary information regarding the layout you are using in this guide and next you can start configuring the OPIL modules.
 
-## Prepare OPIL HMI
-
-In this step you will configure the OPIL HMI module by appending the `docker-compose.yml` file with the following content:
-
-```yaml
-    #HMI
-    mongodb:
-        image: mongo:3.6
-        #restart: always
-        volumes:
-        - ./mongo/data:/data/db
-
-    hmi:
-        image: l4ms/opil.sw.hmi:2.0.17-beta
-        #restart: always
-        volumes:
-            - ./public/uploads:/usr/src/app/public/uploads
-        environment:
-            - inituser=admin
-            - initpw=admin
-        ports:
-            - "80:8081"
-        depends_on:
-            - mongodb
-            - orion
-        command: bash -c './wait-for mongodb:27017 -- node server.js'
-```
-
-For now, you don't need to change any of the configuration but please make sure that the port 80 is not already in use. If the port is in use, you can alternatively change the port number **80** to any free port you wish to use. Do not edit the right side of the port configuration.
-
 ## Prepare OPIL Central SP
 
 ### Prepare demo_map.yaml
@@ -285,7 +256,7 @@ free_thresh: 0.196
 
 Note: The value in the `image` field is `map.png`, regardless of our PNG file being named `demo_map.png`. This is intended, so please do not change this.
 
-For now, there is no need to adjust any of these parameters. Configuration possibilities regarding this file are explained in the SP documentation (**TODO: LINK !!!**).
+For now, there is no need to adjust any of these parameters. Configuration possibilities regarding this file are explained in the [SP documentation](../SP/opil_server_sp_gettingStarted.md).
 
 ### Prepare annotations.ini
 
@@ -293,7 +264,7 @@ Create a new file in the root directory called `annotations.ini`.
 
 This file will include the annotations or labeled positions you have defined earlier. In addition to the previously defined positions and orientations you also need to define the approach distance. 
 
-The distance defines the final movement to the position and it is always a straight line that is not affected by the motion path planning. In this guide you will use a distance of 1.8 meters for all positions as the forklift has forks that need to be aligned to the pallet before moving under the pallet. For further details, see SP documentation (**TODO: LINK !!!**).
+The distance defines the final movement to the position and it is always a straight line that is not affected by the motion path planning. In this guide you will use a distance of 1.8 meters for all positions as the forklift has forks that need to be aligned to the pallet before moving under the pallet. For further details, see  [SP documentation](../SP/opil_server_sp_gettingStarted.md).
 
 Using the position data defined earlier you can now add content to the `annotations.ini`:
 
@@ -368,14 +339,14 @@ Create new file in the root directory called `topology.launch` and copy-paste th
 </launch>
 ```
 
-For now you don't need to edit this file. Configuration possibilities regarding this file are explained in the SP documentation (**TODO: LINK !!!**).
+For now you don't need to edit this file. Configuration possibilities regarding this file are explained in the  [SP documentation](../SP/opil_server_sp_gettingStarted.md).
 
 ### Append docker-compose.yml
 
 Finally, add the following content to the end of the `docker-compose.yml` file:
 
 ``` yaml
-    #S&P
+    ### S&P ###
     sp:
         #restart: always
         image: l4ms/opil.sw.sp.central:latest
@@ -392,6 +363,40 @@ Finally, add the following content to the end of the `docker-compose.yml` file:
             - DISPLAY=$DISPLAY
 ```
 
+## Prepare OPIL HMI
+
+In this step you will configure the OPIL HMI module by appending the `docker-compose.yml` file with the following content. Replace `<ip-address>` in the `ocb_host` and `ngsi_proxy_host` fields with the one you wrote down in the prerequisites of this guide.
+
+```yaml
+    ### Database for HMI ###
+    mongodb:
+        image: mongo:3.6
+        #restart: always
+        volumes:
+        - ./mongo/data:/data/db
+    ### HMI ###
+    hmi:
+        image: l4ms/opil.sw.hmi:2.0.12-beta
+        #restart: always
+        volumes:
+            - ./public/uploads:/usr/src/app/public/uploads              
+        environment:
+            - inituser=admin
+            - initpw=admin
+            - ocb_host=<ip-address>
+            - ocb_port=1026
+            - ngsi_proxy_host=<ip-address>
+            - ngsi_proxy_port=3000
+        ports:
+            - "80:8081"
+        depends_on:
+            - mongodb
+            - orion
+        command: bash -c './wait-for mongodb:27017 -- node server.js'
+
+```
+For now, you don't need to change any of the other configuration but please make sure that the port 80 is not already in use. If the port is in use, you can alternatively change the port number **80** to any free port you wish to use. Do not edit the right side of the port configuration.
+
 ## Prepare OPIL TP
 
 TBA ( Module still under development ? )
@@ -403,22 +408,23 @@ Review the content of your `docker-compose.yml` file and make sure it matches wi
 ``` yaml
 version: "3.1"
 
-services:
+services:                   
 
-    #Database for context broker
+services:
+    ### Database for Context Broker ###
     mongo:
         #restart: always
         image: mongo:3.4
-        command: --nojournal
+        command: --nojournal   
 
-    #Proxy for Context Broker
+    ### Proxy for Context Broker ###
     ngsiproxy:
         #restart: always
         image: fiware/ngsiproxy:latest
         ports:
-            - 3000:3000
+            - 3000:3000   
 
-    #Context Broker
+    ### Context Broker ###
     orion:
         #restart: always
         image: fiware/orion
@@ -428,41 +434,9 @@ services:
         ports:
             - 1026:1026
         command: 
-            -dbhost mongo -corsOrigin __ALL
+            -dbhost mongo -corsOrigin __ALL 
 
-    #TP
-    # tp:
-        # image: l4ms/opil.sw.tp:latest
-        # depends_on:
-            # - orion
-        # ports:
-            # - 2906:2906
-        # volumes:
-            # - ./fiware_config.ini:/app/taskplanner/fiware_config.ini
-
-    #HMI
-    mongodb:
-        image: mongo:3.6
-        #restart: always
-        volumes:
-        - ./mongo/data:/data/db
-
-    hmi:
-        image: l4ms/opil.sw.hmi:2.0.17-beta
-        #restart: always
-        volumes:
-            - ./public/uploads:/usr/src/app/public/uploads
-        environment:
-            - inituser=admin
-            - initpw=admin
-        ports:
-            - "80:8081"
-        depends_on:
-            - mongodb
-            - orion
-        command: bash -c './wait-for mongodb:27017 -- node server.js'
-        
-    #S&P
+    ### S&P ###
     sp:
         #restart: always
         image: l4ms/opil.sw.sp.central:latest
@@ -477,6 +451,40 @@ services:
             - HOST=sp
             - NETINTERFACE=eth0
             - DISPLAY=$DISPLAY
+
+    ### Database for HMI ###
+    mongodb:
+        image: mongo:3.6
+        #restart: always
+        volumes:
+        - ./mongo/data:/data/db
+
+    ### HMI ###
+    hmi:
+        image: l4ms/opil.sw.hmi:2.0.12-beta
+        #restart: always
+        volumes:
+            - ./public/uploads:/usr/src/app/public/uploads              
+        environment:
+            - inituser=admin
+            - initpw=admin
+        ports:
+            - "80:8081"
+        depends_on:
+            - mongodb
+            - orion
+        command: bash -c './wait-for mongodb:27017 -- node server.js'
+
+        
+    #TP
+    # tp:
+        # image: l4ms/opil.sw.tp:latest
+        # depends_on:
+            # - orion
+        # ports:
+            # - 2906:2906           
+        # volumes:
+            # - ./fiware_config.ini:/app/taskplanner/fiware_config.ini 
 
 ```
 
@@ -539,13 +547,9 @@ docker_mongodb_1     docker-entrypoint.sh mongod      Up      27017/tcp
 
 Next step is to configure the HMI. This is done from a web browser by navigating to the HMIs address `http://localhost` or `http://<ip-address>`. A login page should load:
 ![hmi_login.png](./img/hmi_login.PNG)
-Now log in with the default credentials: username = `admin` and password `admin` and open the System Settings tab and configure the following settings. Use the `<ip-address>` that you wrote down in the prerequisites of this guide.
+Now log in with the default credentials: username = `admin` and password = `admin`.
 
-> **Important!** Do NOT use `localhost` or `127.0.0.1` here. It will cause one-way connection failure that is difficult to detect.
-
-![hmi_settings.png](./img/hmi_settings.PNG)
-
-Wait for the HMI to reload and check that you do NOT see the following error. If you get this error go back to System Settings and make sure you have the correct addresses. If you still encounter the error go back to "Start OPIL middleware" section and make sure the middleware is running and functional.
+Wait for the HMI to reload and check that you do NOT see the following error. If you get this error go back to "Start OPIL middleware" section and make sure the middleware is running and functional.
 ![hmi_ocb_error.png](./img/hmi_ocb_error.PNG)
 
 If you do not see the error, everything is working as expected and you can move on forward.
@@ -592,13 +596,13 @@ Move and zoom the view until you see the layout fully in the screen. The window 
 
 Next, verify the following things:
 
-- Scale and zero point: The gray grid that extends outside your demo layout should have it's origin, i.e. bottom-left-hand corner at the intended zero point. If it does not match, you have an error in either the scale/resolution or zero-point coordinate in the `demo_map.yaml` file.
+- Scale and zero point: The gray grid that extends outside your demo layout should have its origin, i.e. bottom-left-hand corner at the intended zero point. If it does not match, you have an error in either the scale/resolution or zero-point coordinate in the `demo_map.yaml` file.
 - Annotations: Look at the yellow arrows in the layout and make sure that they are correctly positioned and orientated at intended labeled positions. If the annotations do not match, you have an error in the `annotations.ini` file.
-- OCB connection: Make a HTTP GET by using a web browser or some other tool to `http://<ip-address>/v2/entities` and check that you have a new entity called `TODO`. Please note that due to the size of that entity the GET request to OCB might take longer than before.
+- OCB connection: Make a HTTP GET by using a web browser or some other tool to `http://<ip-address>/v2/entities` and check that you have a new entity called `map`. Please note that due to the size of that entity the GET request to OCB might take longer than before.
 
 Other things to consider if you are following this guide and using a different layout:
 
-- If there are missing, too few or too many blue passages in the layout, try adjusting the `cell_size` in the `topology.launch` file or the `occupied_thresh` or `free_thresh` in the `demo_map.yaml` file. For more details, see SP documentation (**TODO: LINK !!!**).
+- If there are missing, too few or too many blue passages in the layout, try adjusting the `cell_size` in the `topology.launch` file or the `occupied_thresh` or `free_thresh` in the `demo_map.yaml` file. For more details, see [SP documentation](../SP/opil_server_sp_gettingStarted.md).
 
 Finally, shutdown the SP by inputting Ctrl+C on the terminal window that is attached to the SP container. Now you can start the SP in detached mode:
 
