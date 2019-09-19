@@ -56,12 +56,11 @@ A *Primitive* is an abstract model for a series of similar objects. It is the bl
 
 The following documentation of *LoTLan* utilizes the example of a production hall that has an area for storing goods *- the Warehouse -* and an area for the manufacturing *- the Production*. To reduce the complexity only one AGV out of a possible lager fleet is used.
 
-<div style="text-align:center">
+
 
 ![Example introduction](./img/tl_introduction.png)
-
 *Figure 1: Example floor plan with AGV and production & warehouse area*
-</div>
+
 
 This example shown in the figure above will be expanded in the course of time to explain the individual building blocks of the *LoTLan*.
 
@@ -106,12 +105,10 @@ The *Instance* *goodsPallet* has two member variables, a *type* and a *value*. T
 
 Speaking of the example introduced in the [introduction](#Logistic-Task-Language), those *Instances* each define a specific position inside the two areas.
 
-<div style="text-align:center">
 
 ![Example instance](./img/tl_instances.png)
-
 *Figure 2: Floor plan with Positions **goodsPallet** and **warehousePos1***
-</div>
+
 
 The figure shows those positions inside the two areas *Warehouse* and *Production*.
 
@@ -147,12 +144,8 @@ end
 
 In terms of the introduced example production hall this *Task* looks like depicted in the following figure.
 
-<div style="text-align:center">
-
 ![Example task](./img/tl_tasks.png)
-
 *Figure 3: Floor plan with Task **TransportGoodsPallet***
-</div>
 
 This *Task* *TransportGoodsPallet* could be done by an AGV, that picks up a pallet **from** *goodsPallet* inside the production area and delivers it **to** the *warehousePos1* in the warehouse area.
 
@@ -173,12 +166,9 @@ In this example, the *Task* *TransportGoodsPallet_2* will be triggered by a sens
 
 In terms of the introduced example production hall this *Task* looks like depicted in the following figure.
 
-<div style="text-align:center">
 
-![Example trigger task](./img/tl_tasks_triggeredby.png)
-
+![Example TriggeredBy Task](./img/tl_tasks_triggeredby.png)
 *Figure 3: Floor plan with Task **TransportGoodsPallet_2***
-</div>
 
 This *Task* *TransportGoodsPallet_2* could be done by an AGV, that picks up a pallet **from** *goodsPallet* inside the production area and delivers it **to** the *warehousePos1* in the warehouse area, when the button *buttonPallet* is pressed.
 
@@ -206,12 +196,8 @@ In this example another *Task* is introduced. This *Task* *Refill* is the same t
 
 In terms of the introduced example production hall this *Task* looks like depicted in the following figure.
 
-<div style="text-align:center">
-
 ![Example on done task](./img/tl_tasks_ondone.png)
-
 *Figure 3: Floor plan with Task **TransportGoodsPallet_3** & **Refill***
-</div>
 
 This *Task* *TransportGoodsPallet_3* could be done by an AGV, that picks up a pallet **from** *goodsPallet* inside the production area and delivers it **to** the *warehousePos1* in the warehouse area, when the button *buttonPallet* is pressed. After that the AGV executes the *Task* *Refill* and so, it picks up **from** the *warehousePos1* and delivers it **to** the *goodsPallet* position.
 
@@ -225,7 +211,7 @@ A comment starts with a hash character (`#`) that is not part of a string litera
 ###
 Task TransportPalettTask
     Transport
-    From        palett1, palett2, palett3  # All Pallets!
+    From        palett1 # A simple comment
     To          warehousePos1
     TriggeredBy warehousePos1.value == True  # More comments
     OnDone      Refill
@@ -305,12 +291,5 @@ Task Refill
     OnDone      TransportGoodsPallet_3
 end
 
-Task TransportGoodsPallet_3
-    Transport
-    From        goodsPallet
-    To          warehousePos1
-    TriggeredBy buttonPallet.value == True
-    OnDone      Refill
-end
 ```
   

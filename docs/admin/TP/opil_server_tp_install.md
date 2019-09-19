@@ -19,149 +19,150 @@ Follow these steps:
 
 1. Create a directory on your system on which to work (for example, ~/opil). Inside this folder create three folders (firos/firos_config, mpp and ts) as depicted in the next figure:
 
-<div style="text-align:center">
-
+ 
 ![alt text](./img/folder_structure.png)
 
-</div>
+ 
 
-** ATTENTION **: "firos_config" is a dedicted folder inside the "firos" directory.
+**ATTENTION**: "firos_config" is a dedicted folder inside the "firos" directory.
  
 
 1. Create a new file called docker-compose.yml inside your directory with the following contents:
-    ```yml
-    services: 
+
+```
+version: "3.5"
+services: 
+
+firos: 
+    image: fhgiml130/firos:latest
+    container_name: firos
+    depends_on: 
+    - orion
+    - rosmaster
+    environment: 
+    - PYTHONUNBUFFERED=1
+    - "ROS_MASTER_URI=http://rosmaster:11311"
+    ports: 
+    - "10100:10100"
+    volumes: 
+    - "./firos/firos_config/robots.json:/catkin_ws/src/firos/config/robots.json"
+    - "./firos/firos_config/whitelist.json:/catkin_ws/src/firos/config/whitelist.json" 
+
+opil.mod.sw.tp.ts:
+    image: l4ms/opil.sw.tp.ts:latest
+    hostname: opil.mod.sw.tp.ts
+    depends_on: 
+    - opil.mod.sw.tp.mtp
+    - orion
+    environment: 
+    - PYTHONUNBUFFERED=1
+    - "ROS_MASTER_URI=http://rosmaster:11311"
+    volumes:
+    - ./ts/fiware_config.ini:/catkin_ws/src/taskplanner/fiware_config.ini 
+    ports: 
+    - "2906:2906"  
+
+ opil.mod.sw.tp.mtp: 
+    image: l4ms/opil.sw.tp.mtp:latest
+    container_name: opil.mod.sw.tp.mtp
+    depends_on: 
+    - rosmaster
+    environment: 
+    - "ROS_MASTER_URI=http://rosmaster:11311" 
+
+ mongo: 
+    command: "--nojournal"
+    container_name: mongo
+    image: "mongo:3.4" 
+
+orion: 
+    command: "-dbhost mongo"
+    container_name: orion
+    image: fiware/orion
+    links: 
+    - mongo
+    hostname: orion
+    ports: 
+    - "1026:1026" 
+
+rosmaster: 
+    command: 
+    - roscore
+    container_name: rosmaster
+    hostname: rosmaster
+    image: "ros:melodic-ros-core"
+    ports: 
+    - "11311:11311" 
+
+sp:
+    restart: always
+    image: l4ms/opil.sw.sp:2.6-central
+    volumes: 
+        - /tmp/.X11-unix:/tmp/.X11-unix:rw 
+    environment:
+        - FIWAREHOST=orion
+        - HOST=sp
+        - NETINTERFACE=eth0
+        - DISPLAY=$DISPLAY
     
-    firos: 
-        image: fhgiml130/firos:latest
-        container_name: firos
-        depends_on: 
-        - orion
-        - rosmaster
-        environment: 
-        - PYTHONUNBUFFERED=1
-        - "ROS_MASTER_URI=http://rosmaster:11311"
-        ports: 
-        - "10100:10100"
-        volumes: 
-        - "./firos/firos_config/robots.json:/catkin_ws/src/firos/config/robots.json"
-        - "./firos/firos_config/whitelist.json:/catkin_ws/src/firos/config/whitelist.json" 
 
-    opil.mod.sw.tp.ts:
-        image: l4ms/opil.sw.tp.ts:latest
-        hostname: opil.mod.sw.tp.ts
-        depends_on: 
-        - opil.mod.sw.tp.mtp
-        - orion
-        environment: 
-        - PYTHONUNBUFFERED=1
-        - "ROS_MASTER_URI=http://rosmaster:11311"
-        volumes:
-        - ./ts/fiware_config.ini:/catkin_ws/src/ts/fiware_config.ini 
-        ports: 
-        - "2906:2906"  
-
-    opil.mod.sw.tp.mtp: 
-        image: l4ms/opil.sw.tp.mtp:latest
-        container_name: opil.mod.sw.tp.mtp
-        depends_on: 
-        - rosmaster
-        environment: 
-        - "ROS_MASTER_URI=http://rosmaster:11311"
-        image: "opil.mod.sw.tp.mtp:latest" 
-
-    mongo: 
-        command: "--nojournal"
-        container_name: mongo
-        image: "mongo:3.4" 
-
-    orion: 
-        command: "-dbhost mongo"
-        container_name: orion
-        image: fiware/orion
-        links: 
-        - mongo
-        hostname: orion
-        ports: 
-        - "1026:1026" 
-
-    rosmaster: 
-        command: 
-        - roscore
-        container_name: rosmaster
-        hostname: rosmaster
-        image: "ros:melodic-ros-core"
-        ports: 
-        - "11311:11311" 
-
-    sp:
-        restart: always
-        image: l4ms/opil.sw.sp:2.6-central
-        volumes: 
-            - /tmp/.X11-unix:/tmp/.X11-unix:rw 
-        environment:
-            - FIWAREHOST=orion
-            - HOST=sp
-            - NETINTERFACE=eth0
-            - DISPLAY=$DISPLAY
-        
-    version: "3.5"
-  
-    ```
+```
 
 2. firos/firos_config/ 
 
     Create inside the `firos/firos_config/ ` directory two fils named `robots.json` and `whitelist.json`.
 
     2.1 robots.json:
-    ```json 
-    {
-        "map": {
-            "topics": {
-                "graph": {
-                    "msg": "maptogridmap.msg.Graph",
-                    "type": "publisher"
-                }
+    
+```json 
+{
+    "map": {
+        "topics": {
+            "graph": {
+                "msg": "maptogridmap.msg.Graph",
+                "type": "publisher"
             }
-        },
-        "robot_opil_v2": {
-            "topics": {
-                "assignment_state": {
-                    "msg": "mars_agent_physical_robot_msgs.msg.AssignmentStatus",
-                    "type": "publisher"
-                },
-                "current_motion": {
-                    "msg": "mars_agent_physical_robot_msgs.msg.Motion",
-                    "type": "publisher"
-                },
-                "robot_description": {
-                    "msg": "mars_agent_physical_robot_msgs.msg.RobotAgentProperties",
-                    "type": "publisher"
-                },
-                "cancel_order": {
-                    "msg": "mars_agent_physical_robot_msgs.msg.CancelTask",
-                    "type": "subscriber"
-                },
-                "motion_assignment": {
-                    "msg": "mars_agent_physical_robot_msgs.msg.MotionAssignment",
-                    "type": "subscriber"
-                }
+        }
+    },
+    "robot_opil_v2": {
+        "topics": {
+            "assignment_state": {
+                "msg": "mars_agent_physical_robot_msgs.msg.AssignmentStatus",
+                "type": "publisher"
+            },
+            "current_motion": {
+                "msg": "mars_agent_physical_robot_msgs.msg.Motion",
+                "type": "publisher"
+            },
+            "robot_description": {
+                "msg": "mars_agent_physical_robot_msgs.msg.RobotAgentProperties",
+                "type": "publisher"
+            },
+            "cancel_order": {
+                "msg": "mars_agent_physical_robot_msgs.msg.CancelTask",
+                "type": "subscriber"
+            },
+            "motion_assignment": {
+                "msg": "mars_agent_physical_robot_msgs.msg.MotionAssignment",
+                "type": "subscriber"
             }
         }
     }
-    ```
+}
+```
 
    2.2 whitelist.json:
-    ```json 
-    {
-        "map": {
-            "publisher": [
-                "graph"
-            ],
-            "subscriber": []
-        }
+   
+```json 
+{
+    "map": {
+        "publisher": [
+            "graph"
+        ],
+        "subscriber": []
     }
-    ``` 
+}
+``` 
 
 
 3. mtp/
@@ -170,45 +171,53 @@ Follow these steps:
 
     3.1 start_mars.h
 
-    ```bash
-    #!/bin/bash
+```bash
+#!/bin/bash
 
-    source /opt/ros/melodic/setup.bash
-    source /catkin_ws/devel/setup.bash
+source /opt/ros/melodic/setup.bash
+source /catkin_ws/devel/setup.bash
 
-    roslaunch mod_sw_tp mod_sw_tp.launch
-    ```
+roslaunch mod_sw_tp mod_sw_tp.launch
+```
 
 4. ts/
    
     Create inside the `ts` directory one file named `fiware_config.ini`.
 
     4.1 fiware_config.ini
-    ```ini
-    [flask]
-    host = 0.0.0.0 
+    
+```ini
+[flask]
+host = 0.0.0.0 
 
-    [taskplanner]
-    ; hostname or ip address of the TaskPlanner machine 
-    ; Please note that "tp" in docker-compose.yml must match
-    host = opil.mod.sw.tp.ts
-    ; Port of the task planner
-    PORT = 2906
+[taskplanner]
+; hostname or ip address of the TaskPlanner machine 
+; Please note that "tp" in docker-compose.yml must match
+host = opil.mod.sw.tp.ts
+; Port of the task planner
+PORT = 2906
 
-    [contextbroker]
-    ; hostname or ip address of the context broker machine 
-    ; Please note that "orion" in docker-compose.yml must match
-    host= orion
-    ; Port of the context broker
-    port=1026
-    ```
+[contextbroker]
+; hostname or ip address of the context broker machine 
+; Please note that "orion" in docker-compose.yml must match
+host= orion
+; Port of the context broker
+port=1026
+```
 
 
 ## 2. Testing the setup 
 
-Using the command-line and within the directory (~/opil/) you created type: sudo docker-compose up. 
+Using the command-line and within the directory (~/opil/) you created type: 
+
+**ATTENTION:** after computer reboot/restart run the following command first, ONLY ONCE: `host local:root`
 
 
+```bash
+docker-compose up. 
+```
+
+**sudo** rights might be required to launch the docker-compose file.
 
 Regarding `--nojournal` it is not recommened for production, but it speeds up mongo container start up and avoids some race conditions problems if Orion container is faster and doesn't find the DB up and ready. 
 
@@ -217,8 +226,9 @@ After a few seconds you should have your OPIL TaskPlanner running and listening 
 
 Check that everything works with
 
-    `curl localhost:2906`
-
+```bash
+curl localhost:2906
+```
 
 The expected output should be a:
 
