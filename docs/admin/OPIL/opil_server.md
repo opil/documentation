@@ -18,21 +18,22 @@ In this section you will install and configure the OPIL Server using an example 
 
 During this guide you will complete the following steps:
 
+
 1. Verify `docker` environment
-1. Prepare a docker-compose.yml file
-1. Prepare the layout
-1. Prepare VC simulation (TBA by Fernando)
-1. Prepare OPIL Central SP
-1. Prepare OPIL HMI
-1. **TBA !!!** (Prepare OPIL TP)
-1. Review the docker-compose.yml file
-1. Start the OPIL Server modules
-1. 
-1. Setting up a simple task
-1. Initiation with HMI button
-1. 
-1. 
-1. Stopping and removing containers
+2. Prepare a docker-compose.yml file
+3. Prepare the layout
+4. Prepare VC simulation (TBA by Fernando)
+5. Prepare OPIL HMI
+6. Prepare OPIL Central SP
+7. **TBA !!!** (Prepare OPIL TP)8
+8. Review the docker-compose.yml file
+9. Start the OPIL Server modules
+10. 
+11. Setting up a simple task
+12. Initiation with HMI button
+13. 
+14. 
+15. Stopping and removing containers
 
 ### Notes
 
