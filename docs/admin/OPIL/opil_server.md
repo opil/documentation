@@ -21,6 +21,7 @@ During this guide you will complete the following steps:
 
 1. Verify `docker` environment
 2. Prepare a docker-compose.yml file
+<<<<<<< HEAD
 4. Prepare the layout
 5. Prepare VC simulation (TBA by Fernando)
 6. Prepare OPIL HMI
@@ -34,6 +35,21 @@ During this guide you will complete the following steps:
 14. 
 15. 
 16. Stopping and removing containers
+=======
+3. Prepare the layout
+1. Prepare VC simulation (TBA by Fernando)
+1. Prepare OPIL HMI
+1. Prepare OPIL Central SP
+1. **TBA !!!** (Prepare OPIL TP)
+1. Review the docker-compose.yml file
+1. Start the OPIL Server modules
+1. 
+1. Setting up a simple task
+1. Initiation with HMI button
+1. 
+1. 
+1. Stopping and removing containers
+>>>>>>> 2858930ab8775953489900d6d287290db779f83f
 
 ### Notes
 
