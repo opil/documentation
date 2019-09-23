@@ -91,6 +91,120 @@ unparsed raw output:
 SAN-like output:
 ```curl http://orion:1026/v2/entities/sensorID -s -S -H 'Accept - application/json' | python -mjson.tool```
 
+The entities on the server, after receiving their first updates, would look like this for **two separate sensors**, when called with the SAN-like output GET command:
+```json
+[
+    {
+        "id": "optical_sensor1",
+        "type": "SensorAgent",
+        "measurementType": {
+            "type": "string",
+            "value": "boolean",
+            "metadata": {}
+        },
+        "modifiedTime": {
+            "type": "string",
+            "value": "2019-09-11T09:36:53Z",
+            "metadata": {}
+        },
+        "readings": {
+            "type": "array",
+            "value": [
+                {
+                    "type": "SensorReading",
+                    "value": {
+                        "reading": {
+                            "type": "boolean",
+                            "value": false
+                        }
+                    }
+                }
+            ],
+            "metadata": {}
+        },
+        "sanID": {
+            "type": "string",
+            "value": "SAN1",
+            "metadata": {}
+        },
+        "sensorID": {
+            "type": "string",
+            "value": "optical_sensor1",
+            "metadata": {}
+        },
+        "sensorManufacturer": {
+            "type": "string",
+            "value": "LLC",
+            "metadata": {}
+        },
+        "sensorType": {
+            "type": "string",
+            "value": "ON_OFF_SENSOR",
+            "metadata": {}
+        },
+        "units": {
+            "type": "string",
+            "value": "boolean",
+            "metadata": {}
+        }
+    },
+    {
+        "id": "optical_sensor2",
+        "type": "SensorAgent",
+        "measurementType": {
+            "type": "string",
+            "value": "boolean",
+            "metadata": {}
+        },
+        "modifiedTime": {
+            "type": "string",
+            "value": "2019-09-11T09:36:53Z",
+            "metadata": {}
+        },
+        "readings": {
+            "type": "array",
+            "value": [
+                {
+                    "type": "SensorReading",
+                    "value": {
+                        "reading": {
+                            "type": "boolean",
+                            "value": false
+                        }
+                    }
+                }
+            ],
+            "metadata": {}
+        },
+        "sanID": {
+            "type": "string",
+            "value": "SAN1",
+            "metadata": {}
+        },
+        "sensorID": {
+            "type": "string",
+            "value": "optical_sensor2",
+            "metadata": {}
+        },
+        "sensorManufacturer": {
+            "type": "string",
+            "value": "LLC",
+            "metadata": {}
+        },
+        "sensorType": {
+            "type": "string",
+            "value": "ON_OFF_SENSOR",
+            "metadata": {}
+        },
+        "units": {
+            "type": "string",
+            "value": "boolean",
+            "metadata": {}
+        }
+    }
+]
+```
+
 Output with only values (types are ignored in this output):
 ```curl http://orion:1026/v2/entities/sensorID?options=keyValues -s -S -H 'Accept - application/json' | python -mjson.tool```
 
