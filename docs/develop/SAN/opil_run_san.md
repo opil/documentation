@@ -39,10 +39,10 @@ sensorType | Type of the attached sensor | sensorType is required to specify wha
 measurementType | What type of value sensor is measuring | Required to specify what exactly is being measured. This field is used as a key to facilitate unit detection and conversion; the possible values are: **distance**, **angular**, **temperature**, **weight**, **velocity**, **angularVelocity**, **numeric**, and **boolean**. Where applicable, any input units (set by your driver), will be automatically converted to default units, meters, radians, kelvins, kg, m/s, and rad/s.
 driver | Name of the driver file | The driver for the sensor/device that processes the incoming signal.
 operationMode | mode, (measurementInterval/ broadcastInterval) | sets up for parsing the details of mode
-mode | event-driven / time-series/ fixed-interval | Specifies the mode telling the SAN under which circumstances the data must be submitted
-measurementInterval/broadcastInterval | Time in seconds | An attribute which takes time in seconds as its value. Required for fixed-interval and time-series operational modes
+mode | event-driven / time-series/ fixed-interval | **Event-driven**: checks for a change in sensor readings at an internally fixed interval, and upon detection, sends the new data to the server; **Fixed-interval**: reads sensor data at a fixed interval of time; **Time-series**: allows for a setting of delay between measurements with broadcastInterval, after which measurements are taken at a specified measurementInterval
+measurementInterval/broadcastInterval | Time in seconds | An attribute which takes time in seconds as its value. measurementInterval is required for fixed-interval mode, and broadcastInterval should be added in addition for the time-series mode.
 ioPin | the GPIO pin used for the sensor | Should be set according to the GPIO pin layout of the used device (used only for GPIO devices)
 sanID | Name of running SAN instance | Used as a key further up in the dataflow. Should be the same for all sensors of one SAN instance
 vendorID | standard ID of the vendor of the usb device | should be set according to specs of the device **(used only for USB devices)**
 productID | standard ID of the device | should be set according to specs of the device **(used only for USB devices)**
-validInterfaces | integer list of valid interfaces of device | should be set according to specs of the device **(used only for USB devices)*
+validInterfaces | integer list of valid interfaces of device | should be set according to specs of the device **(used only for USB devices)**
