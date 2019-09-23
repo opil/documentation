@@ -2,7 +2,7 @@
 
 **IMPORTANT NOTE: THIS DOCUMENT IS STILL UNDER CONSTRUCTION AND THUS IS MISSING CONTENT AND MAY HAVE ERRORS !!!**
 
-# Your first installation
+## Your first installation
 
 In this section you will install and configure the OPIL Server using an example layout provided on this page by following a step-by-step guide. At the end of this guide you will have a working OPIL Server setup. Finally, you will reset the configuration and then you can configure the OPIL Server with your own layout.
 
@@ -17,7 +17,6 @@ In this section you will install and configure the OPIL Server using an example 
 ## Overview
 
 During this guide you will complete the following steps:
-
 
 1. Verify `docker` environment
 2. Prepare a docker-compose.yml file
@@ -41,7 +40,7 @@ During this guide you will complete the following steps:
 
 ## Verify docker environment
 
-In this step, you will verify that your `docker` environment is running and that it is not out of date. If you know that you do not have a `docker` environment set up, start with the "Updating and troubleshooting" section below. Please note that both `docker` and `docker-compose` are required to follow this guide. 
+In this step, you will verify that your `docker` environment is running and that it is not out of date. If you know that you do not have a `docker` environment set up, start with the "Updating and troubleshooting" section below. Please note that both `docker` and `docker-compose` are required to follow this guide.
 >It is recommended to run all `docker` and `docker-compose` commands with `sudo` to avoid errors caused by privileges. However, depending on your OS and user settings this might not be required.
 
 First, check the `docker` version by executing command:
@@ -89,14 +88,14 @@ services:
     mongo:
         #restart: always
         image: mongo:3.4
-        command: --nojournal   
+        command: --nojournal
 
     ### Proxy for Context Broker ###
     ngsiproxy:
         #restart: always
         image: fiware/ngsiproxy:latest
         ports:
-            - 3000:3000   
+            - 3000:3000
 
     ### Context Broker ###
     orion:
@@ -107,8 +106,8 @@ services:
             - ngsiproxy
         ports:
             - 1026:1026
-        command: 
-            -dbhost mongo -corsOrigin __ALL 
+        command:
+            -dbhost mongo -corsOrigin __ALL
 ```
 
 This will configure the middleware of OPIL, including its three components: MongoDB, NGSI Proxy and Orion Context Broker.
@@ -117,7 +116,7 @@ Please make sure that the ports **3000** and **1026** are not already in use. Ma
 
 ## Prepare the layout
 
-In this step you will determine the configuration regarding the factory layout. In this guide you will be using the `demo_map.png` image as the layout. You should have already downloaded this file at the beginning of this guide but if you haven't done so yet you can download it [here](files/demo_map.png). 
+In this step you will determine the configuration regarding the factory layout. In this guide you will be using the `demo_map.png` image as the layout. You should have already downloaded this file at the beginning of this guide but if you haven't done so yet you can download it [here](files/demo_map.png).
 
 Please note that during this guide you must use the original image file to preserve the original resolution.
 
@@ -128,7 +127,7 @@ Please note that during this guide you must use the original image file to prese
 ### The layout has three main areas:
 
 ![demo_map_areas.png](./img/demo_map_areas.png)
-| Area name | Description | 
+| Area name | Description |
 | --- | --- |
 | Production area | This area continuously produces products that are collected on the single pallet within the area. This pallet is then transported to the warehouse area for storage. |
 | Warehouse area | This area is used to receive and store products from the production and packaging areas. Also, pallets are periodically transported from this area to the packaging area. |
@@ -263,7 +262,7 @@ For now, there is no need to adjust any of these parameters. Configuration possi
 
 Create a new file in the root directory called `annotations.ini`.
 
-This file will include the annotations or labeled positions you have defined earlier. In addition to the previously defined positions and orientations you also need to define the approach distance. 
+This file will include the annotations or labeled positions you have defined earlier. In addition to the previously defined positions and orientations you also need to define the approach distance.
 
 The distance defines the final movement to the position and it is always a straight line that is not affected by the motion path planning. In this guide you will use a distance of 1.8 meters for all positions as the forklift has forks that need to be aligned to the pallet before moving under the pallet. For further details, see  [SP documentation](../SP/opil_server_sp_gettingStarted.md).
 
@@ -330,7 +329,7 @@ Create new file in the root directory called `topology.launch` and copy-paste th
 <node name="map_server" pkg="map_server" type="map_server" args="$(find maptogridmap)/launch/map.yaml" respawn="false" >
 <param name="frame_id" value="/map" />
 </node>
-<node name="rviz" pkg="rviz" type="rviz" args="-d $(find maptogridmap)/singlerobot.rviz" /> 
+<node name="rviz" pkg="rviz" type="rviz" args="-d $(find maptogridmap)/singlerobot.rviz" />
 <node name="map2gm" pkg="maptogridmap" type="map2gm" output="screen">
         <param name="cell_size" type="double" value="1.0" />
         <param name="annotation_file" textfile="$(find maptogridmap)/launch/annotations.ini" />
@@ -351,7 +350,7 @@ Finally, add the following content to the end of the `docker-compose.yml` file:
     sp:
         #restart: always
         image: l4ms/opil.sw.sp.central:latest
-        volumes:            
+        volumes:
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
             - ./annotations.ini:/annotations.ini:ro
             - ./demo_map.yaml:/map.yaml:ro
@@ -375,12 +374,12 @@ In this step you will configure the OPIL HMI module by appending the `docker-com
         #restart: always
         volumes:
         - ./mongo/data:/data/db
-    ### HMI ###
+    ### HMI web app ###
     hmi:
-        image: l4ms/opil.sw.hmi:2.0.12-beta
+        image: l4ms/opil.sw.hmi:latest
         #restart: always
         volumes:
-            - ./public/uploads:/usr/src/app/public/uploads              
+            - ./public/uploads:/usr/src/app/public/uploads
         environment:
             - inituser=admin
             - initpw=admin
@@ -396,6 +395,7 @@ In this step you will configure the OPIL HMI module by appending the `docker-com
         command: bash -c './wait-for mongodb:27017 -- node server.js'
 
 ```
+
 For now, you don't need to change any of the other configuration but please make sure that the port 80 is not already in use. If the port is in use, you can alternatively change the port number **80** to any free port you wish to use. Do not edit the right side of the port configuration.
 
 ## Prepare OPIL TP
@@ -409,21 +409,21 @@ Review the content of your `docker-compose.yml` file and make sure it matches wi
 ``` yaml
 version: "3.1"
 
-services:                   
+services:
 
 services:
     ### Database for Context Broker ###
     mongo:
         #restart: always
         image: mongo:3.4
-        command: --nojournal   
+        command: --nojournal
 
     ### Proxy for Context Broker ###
     ngsiproxy:
         #restart: always
         image: fiware/ngsiproxy:latest
         ports:
-            - 3000:3000   
+            - 3000:3000
 
     ### Context Broker ###
     orion:
@@ -434,14 +434,14 @@ services:
             - ngsiproxy
         ports:
             - 1026:1026
-        command: 
-            -dbhost mongo -corsOrigin __ALL 
+        command:
+            -dbhost mongo -corsOrigin __ALL
 
     ### S&P ###
     sp:
         #restart: always
         image: l4ms/opil.sw.sp.central:latest
-        volumes:            
+        volumes:
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
             - ./annotations.ini:/annotations.ini:ro
             - ./demo_map.yaml:/map.yaml:ro
@@ -460,15 +460,19 @@ services:
         volumes:
         - ./mongo/data:/data/db
 
-    ### HMI ###
+    ### HMI web app ###
     hmi:
-        image: l4ms/opil.sw.hmi:2.0.12-beta
+        image: l4ms/opil.sw.hmi:latest
         #restart: always
         volumes:
-            - ./public/uploads:/usr/src/app/public/uploads              
+            - ./public/uploads:/usr/src/app/public/uploads
         environment:
             - inituser=admin
             - initpw=admin
+            - ocb_host=<ip-address>
+            - ocb_port=1026
+            - ngsi_proxy_host=<ip-address>
+            - ngsi_proxy_port=3000
         ports:
             - "80:8081"
         depends_on:
@@ -476,20 +480,21 @@ services:
             - orion
         command: bash -c './wait-for mongodb:27017 -- node server.js'
 
-        
+
     #TP
     # tp:
         # image: l4ms/opil.sw.tp:latest
         # depends_on:
             # - orion
         # ports:
-            # - 2906:2906           
+            # - 2906:2906
         # volumes:
-            # - ./fiware_config.ini:/app/taskplanner/fiware_config.ini 
+            # - ./fiware_config.ini:/app/taskplanner/fiware_config.ini
 
 ```
 
 ## Start the OPIL Server modules
+
 In this step you will start-up the docker containers you have configured during this guide. The start-up will be done in steps, mostly module-by-module, and you will verify the status and basic functionality of the started module(s) between each step.
 
 ### Start the OPIL middleware
@@ -513,7 +518,7 @@ docker_ngsiproxy_1   /bin/sh -c ngsi-proxy            Up      0.0.0.0:3000->3000
 docker_orion_1       /usr/bin/contextBroker -fg ...   Up      0.0.0.0:1026->1026/tcp
 ```
 
-Next verify that the connection to the services is working. 
+Next verify that the connection to the services is working.
 Open in a web browser `http://<ip-address>:1026/v2/entities`. This should load a **blank** html page with empty brackets .
 
 ```
@@ -547,10 +552,13 @@ docker_mongodb_1     docker-entrypoint.sh mongod      Up      27017/tcp
 ```
 
 Next step is to configure the HMI. This is done from a web browser by navigating to the HMIs address `http://localhost` or `http://<ip-address>`. A login page should load:
+
 ![hmi_login.png](./img/hmi_login.PNG)
+
 Now log in with the default credentials: username = `admin` and password = `admin`.
 
 Wait for the HMI to reload and check that you do NOT see the following error. If you get this error go back to "Start OPIL middleware" section and make sure the middleware is running and functional.
+
 ![hmi_ocb_error.png](./img/hmi_ocb_error.PNG)
 
 If you do not see the error, everything is working as expected and you can move on forward.
@@ -589,8 +597,8 @@ sp_1         |
 
 Also, a new window called RViz should open. Here are the most important commands you will need:
 
- - Zoom: Mouse scroll
- - Move: Hold Shift-key and drag with mouse
+- Zoom: Mouse scroll
+- Move: Hold Shift-key and drag with mouse
 
 Move and zoom the view until you see the layout fully in the screen. The window and the layout should look like this:
 ![RViz_full.png](./img/RViz_full.PNG)
