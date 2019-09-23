@@ -7,6 +7,7 @@ HMI is a web application server with its own local database for storing data nee
 ### - Image tags are identical to the GitLab source repository commit tags.
 ### - Image tagged latest and biggest version number are identical.
 ### - Please remove old docker image before pulling, if you have problems updating image.
+### - Please NOTICE: From version 2.0.20-beta you _must_ configure OCB and NGSI Proxy environment variables _only_ in docker-compose.yml (System Settings -tab is removed from the UI).
 
 # Usage of the docker image with docker-compose
 
