@@ -115,6 +115,7 @@ pages:
             - Introduction: admin/OPIL/opil_desc_intro.md
             - OPIL Server Nodes:                              
                 - Task Planner: admin/TP/opil_desc_tp_intro.md
+                - Human Machine Interaction: admin/HMI/opil_desc_HMI_intro.md
                 - Sensing & Perception - Central SP: admin/SP/opil_desc_SP_intro.md            
             - OPIL IoT Nodes:
                 - Introduction: admin/opil_desc_node_intro.md
@@ -127,8 +128,6 @@ pages:
                 - VC RAN: admin/RANVC/opil_desc_vc_ran.md
                 - VC SAN: admin/SANVC/opil_desc_vc_san.md
                 - VC SAN Actuator: admin/SANVCACT/opil_desc_vc_sanvcact.md
-        - Human Machine Interaction:
-            -   Introduction: admin/HMI/opil_desc_HMI_intro.md        
     - Developer's Guide:
         - Introduction: develop/index.md
         - Technology Guidelines: develop/technology_guidelines.md
