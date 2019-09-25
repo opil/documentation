@@ -32,7 +32,7 @@ pages:
         - Engino: showcases/engino.md
         - Muraplast: showcases/muraplast.md
     - Administrator's Guide: 
-        - Introduction: admin/index.md
+#        - Introduction: admin/index.md
         - Installation:
             - OPIL Networking: admin/OPIL/opil_networking.md
             - OPIL Server: admin/OPIL/opil_server.md
@@ -44,11 +44,11 @@ pages:
                     - Deinstallation: admin/TP/opil_server_tp_deinstall.md
                     - Upgrades: admin/TP/opil_server_tp_upgrade.md
                     - Deprecated: admin/TP/opil_server_tp_deprecated.md 
-                - Human Machine Interaction: 
+                - Human Machine Interface: 
 #                    - Introduction: admin/HMI/opil_desc_HMI_intro.md
                     - Installation: admin/HMI/opil_server_hmi_install.md
-                    - Getting started: admin/HMI/opil_server_hmi_gettingStarted.md
-                    - Deinstallation: admin/HMI/opil_server_hmi_deinstall.md
+#                    - Getting started: admin/HMI/opil_server_hmi_gettingStarted.md
+#                    - Deinstallation: admin/HMI/opil_server_hmi_deinstall.md
                     - Upgrades: admin/HMI/opil_server_hmi_upgrades.md
                     - Deprecated: admin/HMI/opil_server_hmi_deprecated.md
                 - Sensing and Perception - Central SP:
@@ -59,7 +59,7 @@ pages:
                     - Upgrades: admin/SP/opil_server_sp_upgrades.md
                     - Deprecated: admin/SP/opil_server_sp_deprecated.md                
             - OPIL IoT Nodes:
-                - Introduction: admin/opil_iot.md
+#                - Introduction: admin/opil_iot.md
                 - RAN: 
                     - Introduction: admin/RAN/opil_iot_ran.md
                     - Installation: admin/RAN/opil_server_ran_install.md
@@ -115,7 +115,7 @@ pages:
             - Introduction: admin/OPIL/opil_desc_intro.md
             - OPIL Server Nodes:                              
                 - Task Planner: admin/TP/opil_desc_tp_intro.md
-                - Human Machine Interaction: admin/HMI/opil_desc_HMI_intro.md
+                - Human Machine Interface: admin/HMI/opil_desc_HMI_intro.md
                 - Sensing & Perception - Central SP: admin/SP/opil_desc_SP_intro.md            
             - OPIL IoT Nodes:
                 - Introduction: admin/opil_desc_node_intro.md
@@ -141,7 +141,7 @@ pages:
                     - Task Supervisor: develop/TP/opil_config_tp_tasksupervisor.md
                     - API: develop/TP/opil_tp_api.md
                     - Interfaces: develop/TP/opil_tp_interfaces.md
-                - Human Machine Interaction: 
+                - Human Machine Interface: 
                     - API: develop/HMI/opil_api_hmi.md
                     - Interfaces: develop/HMI/opil_interfaces_hmi.md
                 - Sensing & Perception - Central SP: 
