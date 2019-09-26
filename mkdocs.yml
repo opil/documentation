@@ -70,7 +70,12 @@ pages:
                 - SAN: 
                     - Introduction: admin/SAN/opil_iot_san.md
                     - Installation: admin/SAN/opil_server_san_install.md
-                    - Getting started: admin/SAN/opil_server_san_gettingStarted.md
+                    - Getting started:
+                        - Before configureing SAN: admin/SAN/SAN_start.md
+                        - Using Docker: admin/SAN/SAN_docker_files.md
+                        - Configuration File: admin/SAN/SAN_run.md
+                        - Introduction to Drivers: admin/SAN/SAN_drivers.md
+                        - Example: admin/SAN/SAN_example.md
                     - Deinstallation: admin/SAN/opil_server_san_deinstallation.md
                     - Upgrades: admin/SAN/opil_server_san_upgrades.md
                     - Deprecated: admin/SAN/opil_server_san_deprecated.md
