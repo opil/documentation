@@ -83,4 +83,3 @@ In this file you need to specify the robots to which FIROS will be connected and
 
 Here you have to just write the same information that you have written in robots.json files.
 
-
