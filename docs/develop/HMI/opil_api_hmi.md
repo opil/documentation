@@ -215,3 +215,24 @@ Response:
     "__v": 0
 }
 ```
+
+#### Create a Subscription to HMI local db
+Request: (application/json OR application/x-www-form-urlencoded)
+>    [POST] localhost/api/subscription
+
+Parameter subs_id should be the subscription id got when a subscription is created through NGSI Proxy
+```json
+{
+    "subs_id": "123245489"
+}
+```
+Response:
+```json
+{
+    "_id": "5d600ad3283a7d43b8d06abb",
+    "subs_id": "123245489",
+    "created": "2019-08-23T15:48:35.750Z",
+    "updated": "2019-08-23T15:48:35.750Z",
+    "__v": 0
+}
+```
