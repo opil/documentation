@@ -139,6 +139,7 @@ Response:
         "_id": "5d600ad3283a7d43b8d06abb",
         "ocb_id": "123245489",
         "text": "Call AGV",
+        "user_id": "user1",
         "created": "2019-08-23T15:48:35.750Z",
         "updated": "2019-08-23T15:48:35.750Z",
         "__v": 0
@@ -155,6 +156,7 @@ Response:
     "_id": "5d600ad3283a7d43b8d06abb",
     "ocb_id": "123245489",
     "text": "Call AGV",
+    "user_id": "user1",
     "created": "2019-08-23T15:48:35.750Z",
     "updated": "2019-08-23T15:48:35.750Z",
     "__v": 0
@@ -166,7 +168,8 @@ Request: (application/json OR application/x-www-form-urlencoded)
 ```json
 {
     "ocb_id": "123245489",
-    "text": "Call AGV"
+    "text": "Call AGV",
+    "user_id": "user1"
 }
 ```
 Response:
@@ -175,6 +178,7 @@ Response:
     "_id": "5d600ad3283a7d43b8d06abb",
     "ocb_id": "123245489",
     "text": "Call AGV",
+    "user_id": "user1",
     "created": "2019-08-23T15:48:35.750Z",
     "updated": "2019-08-23T15:48:35.750Z",
     "__v": 0
@@ -186,7 +190,8 @@ Request: (application/json OR application/x-www-form-urlencoded)
 ```json
 {
     "ocb_id": "123245489",
-    "text": "AGV call"
+    "text": "AGV call",
+    "user_id": "user1"
 }
 ```
 Response:
@@ -195,6 +200,7 @@ Response:
     "_id": "5d600ad3283a7d43b8d06abb",
     "ocb_id": "123245489",
     "text": "AGV call",
+    "user_id": "user1",
     "created": "2019-08-23T15:48:35.750Z",
     "updated": "2019-08-23T15:52:19.331Z",
     "__v": 0
@@ -210,6 +216,7 @@ Response:
     "_id": "5d600ad3283a7d43b8d06abb",
     "ocb_id": "123245489",
     "text": "AGV call",
+    "user_id": "user1",
     "created": "2019-08-23T15:48:35.750Z",
     "updated": "2019-08-23T15:52:19.331Z",
     "__v": 0
