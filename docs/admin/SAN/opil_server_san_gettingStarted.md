@@ -6,6 +6,8 @@ For Docker setup follow the instructions to create the mandatory files.
 
 After you have pulled the Docker image from the cloud, you should create a folder to house the necessary files to run and configure SAN.
 
+**If you are running SAN from Docker on a Raspberry Pi, you will need to replace every occurrence of ```l4ms/opil.iot.san:stable``` with ```l4ms/opil.iot.san:stableRPI```**
+
 ### docker-compose.yaml
 The first file you should create is a **docker-compose.yaml** file. Open it in an editor and enter the following:
 
@@ -91,13 +93,15 @@ Once you have created your **config.json** file or edited the pre-existing one's
 
 ### Running SAN demo with Docker
 
+**If you are running SAN from Docker on a Raspberry Pi, you will need to replace every occurrence of ```l4ms/opil.iot.san:stable``` with ```l4ms/opil.iot.san:stableRPI```**
+
 In order to push the new configuration file that you made to the docker container you will need to run the following command in the terminal opened in the SAN folder:
 
 `sudo docker build -t l4ms/opil.iot.san:stable .`
 
 After that you can run the following command to start SAN in the same terminal window:
 
-`sudo docker run -it --rm --name="SAN" l4ms/opil.iot.san:stable`
+`sudo docker run -it --rm --privileged --name="SAN" l4ms/opil.iot.san:stable`
 
 ### Running with cloned git repo
 
