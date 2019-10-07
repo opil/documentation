@@ -3,10 +3,10 @@
 HMI (Human Machine Interface) is a software layer module of the OPIL architecture. This module’s name was changed to MOD.SW.HMI from AHMI when the requirements changed for the OPIL version 2.0. 
 HMI is a web application server with its own local database for storing data needed in this module. HMI serves a web browser user interface for the human agents to monitor and control OPIL data entities. 
 
-### - Image tagging uses semantic versioning.
+### - Image tagging uses semantic versioning. Major release 3 is done according to agreement we should do so.
 ### - Image tags are identical to the GitLab source repository commit tags.
 ### - Image tagged latest and biggest version number are identical.
-### - Please remove old docker image before pulling, if you have problems updating image.
+### - Please remove old docker image before pulling, if you have problems updating image. And destroy unnecessary containers as well.
 ### - Please NOTICE: From version 2.0.20-beta you _must_ configure OCB and NGSI Proxy environment variables _only_ in docker-compose.yml (System Settings -tab is removed from the UI).
 
 # Usage of the docker image with docker-compose
@@ -68,7 +68,7 @@ services:
      - ocb_host={IP address or hostname of OCB}
      - ocb_port=1026
      - ngsi_proxy_host={IP address or hostname of NGSI Proxy}
-     - ngsi_proxy_port=3000  
+     - ngsi_proxy_port=3000
     restart: always
     volumes:
       - ./public/uploads:/usr/src/app/public/uploads
