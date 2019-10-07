@@ -28,6 +28,69 @@ The example of generic JSON file for configuration looks like this:
     }
 }
 ```
+
+Some additional examples of possible configuration files: 
+
+*A config for a sensor running on the GPIO pin of a RevPi*
+```json
+{
+    "contextBroker":{
+        "host": "192.168.0.100",
+        "port": "1026"
+    },
+    "sanConfig":{
+        "sensors": [
+            {
+                "sensorId": "sim_1",
+                "driver": "GenericRevPi",
+                "operationMode":{
+                    "mode": "time-series",
+                    "broadcastInterval": "15",
+                    "measurementInterval": "5"
+                },
+                "driverConfig": {
+                    "ioPin": "I_1",
+                    "sensorManufacturer": "Demo Inc.",
+                    "sensorType": "Infrared Sensor",
+                    "measurementType": "Object Presence"
+                },
+                "sanId": "SAN_demo"
+            }
+        ]
+    }
+}
+```
+
+
+*A config for a sensor running connected by USB (machine agnostic)*
+```json
+{
+    "contextBroker":{
+        "host": "192.168.0.100",
+        "port": "1026"
+    },
+    "sanConfig":{
+        "sensors":
+            {
+                "sensorId": "usb_1",
+                "driver": "exampleUSBsensorDriver",
+                "operationMode":{
+                    "mode": "event-driven",
+                },
+                "driverConfig": {
+                    "vendorID": "235",
+                    "productID": "3321",
+                    "validInterfaces": [0],
+                    "sensorManufacturer": "Demo Inc.",
+                    "sensorType": "Infrared Sensor",
+                    "measurementType": "Object Presence"
+                }
+                "sanId": "SAN_demo"
+            }
+    }
+}
+```
+
 The possible attributes of the configuration file are explained here:
 
 Attribute | Expected Value | Description 
