@@ -116,13 +116,13 @@ pages:
                 - Sensing & Perception - Central SP: admin/SP/opil_desc_SP_intro.md         
                 - Human Machine Interaction: admin/HMI/opil_desc_HMI_intro.md   
             - OPIL IoT Nodes:
-                - Introduction: admin/opil_desc_node_intro.md
+#                - Introduction: admin/opil_desc_node_intro.md
                 - RAN: admin/RAN/opil_desc_ran.md
                 - SAN: admin/SAN/opil_desc_san.md
-                - Sensing & Perception - Local SP: admin/SP/opil_desc_local_SP_intro.md            
+                - Sensing & Perception Local SP: admin/SP/opil_desc_local_SP_intro.md            
 #               - HAN: admin/HAN/opil_desc_han.md
             - OPIL VC Nodes:
-                - Introduction: admin/opil_desc_vc_node_intro.md
+#                - Introduction: admin/opil_desc_vc_node_intro.md
                 - VC RAN: admin/RANVC/opil_desc_vc_ran.md
                 - VC SAN: admin/SANVC/opil_desc_vc_san.md
                 - VC SAN Actuator: admin/SANVCACT/opil_desc_vc_sanvcact.md
