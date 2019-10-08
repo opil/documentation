@@ -1,4 +1,4 @@
-# Start Guide
+# SP Server Start Guide
 
 Before starting the Central SP module follow the [Install guide](./opil_server_sp_install.md).
 

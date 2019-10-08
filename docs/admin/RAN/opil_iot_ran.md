@@ -1,4 +1,8 @@
-# RAN Prerequisites
+# RAN Introduction
+This in the Robot Agent Node (RAN) documentation! Here you will find the information required for installing and configuring the RAN.
+
+
+## RAN Prerequisites
 
 RAN is provided in 2 different versions:
 
@@ -71,15 +75,15 @@ In the FIROS config/config.json file modify the following fields:
 
 Edit the aforesaid parameters of the FIROS config folders, then copy the files inside into the config folder hosted in the FIROS directory in your ROS workspace.
 
-####config.json
+#### config.json
 
 In this file you need to specify the network configuration. Under the server name, make sure to include IP address of the machine where the FIROS will be running. Under the Context Broker server, you must specify the IP of the machine running the Context Broker. Under the interface name you shall specify the one that your network is using (check the Connection Information). In case of having machines in different networks, you have to redirect the port on your router and do necessary optimization there.
 
-####robots.json
+#### robots.json
 
 In this file you need to specify the robots to which FIROS will be connected and the topics used by that robot to which FIROS will listen. In defining the roles of the robots, keep in mind that FIROS environment is FIWARE centric. This means that a robot that publishes on FIWARE has a “subscriber” role, while one listening to FIWARE has a “publisher” role.
 
-####whitelist.json
+#### whitelist.json
 
 Here you have to just write the same information that you have written in robots.json files.
 

@@ -1,4 +1,4 @@
-# Start Guide
+# Local SP Start Guide
 
 Before starting the Local SP module follow the [Install guide](./opil_local_sp_install.md).
 

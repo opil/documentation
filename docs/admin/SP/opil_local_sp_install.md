@@ -1,7 +1,9 @@
+# Local SP Installation
+
 There are two ways of installing the SP module. You can use the docker containers or compile it from the source.
 
 
-# Install from Docker Container
+## Install from Docker Container
 
 There are two docker containers - the Central SP and the Local SP.
 The Local SP is located at 
@@ -11,7 +13,7 @@ The Local SP is located at
 
 
 
-## The Local SP as a standalone module
+### The Local SP as a standalone module
 
 
 The Local SP docker container can be started in two ways: without RAN and with RAN. If started without RAN then the simulator Stage is used for testing and visualizing what the Local SP does. Here, installing the Local SP as a standalone module is described.
@@ -130,7 +132,7 @@ To check if everything is working properly follow the guide [How to start the Lo
 
 
 
-# Install from Scratch 
+## Install from Scratch 
 
 To install Firos v2:
 

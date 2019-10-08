@@ -1,13 +1,15 @@
+# Central SP Installation
+
 There are two ways of installing the SP module. You can use the docker containers or compile it from the source.
 
 
-# Install from Docker Container
+## Install from Docker Container
 
 There are two docker containers - the Central SP and the Local SP.
 The Central SP is located at 
 <https://hub.docker.com/r/l4ms/opil.sw.sp.central>
 
-## The Central SP docker 
+### The Central SP docker 
 
 
 
@@ -81,7 +83,7 @@ To check if everything is working properly follow the guide [Starting from Docke
 
 
 
-# Install from Scratch 
+## Install from Scratch 
 
 To install Firos v2:
 

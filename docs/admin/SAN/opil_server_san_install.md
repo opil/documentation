@@ -1,4 +1,4 @@
-## Installation
+## SAN Installation
 
 Installing SAN on the machine connected to your sensor can be done in two ways: using the cloned GitLab repository's source code, or simply using a Docker container, which allows you to run SAN with no inconvenience of clicking through source folders and files.
 

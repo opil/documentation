@@ -1,4 +1,4 @@
-# Deinstallation
+# SAN Deinstallation
 This section will tell you the methods on how to remove SAN.
 ## Remove *Docker* image
 If you have run SAN as a *Docker* image, follow these steps:

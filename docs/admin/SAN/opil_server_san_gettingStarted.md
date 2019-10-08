@@ -1,4 +1,4 @@
-# Setup using Docker
+# SAN Setup using Docker
 If you have cloned the source repository, you do not need to create a **docker-compose.yaml** or **Dockerfile** and can move on to editing your existing **config.json** file in `mod.iot.san/src/PythonSAN`.
 
 For Docker setup follow the instructions to create the mandatory files.

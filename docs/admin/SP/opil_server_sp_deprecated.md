@@ -1,3 +1,4 @@
+# Local SP Deprecated 
 Deprecated features are features that SP still supports but that are not maintained or evolved any longer, or will be used in the future. In particular:
 
 # Firos v1 did not allow arrays of custom ROS messages

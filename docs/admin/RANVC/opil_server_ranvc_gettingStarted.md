@@ -1,4 +1,4 @@
-# Setup
+# RAN VC Setup
 
 Under Connections tab in VC-Router component, set the Host IP to point to the IP of the FCB. Connect VC-Router to every VC-RanLogic component by joining VC-Ranlogic and VC-Router interfaces. Likewise, connect VC- Ranlogic components to their respective AGV and AgvAction components. FCB should be initialized before simulation. First, old entity is deleted if it exists. Then, a new, empty entity is created without attributes. There is a button with this functionality in VC-Router component under Connections &rightarrow; Initialize FCB.
 
