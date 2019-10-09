@@ -1,6 +1,6 @@
 # OPIL Server Installation
 
-**IMPORTANT NOTE: THIS DOCUMENT IS STILL UNDER CONSTRUCTION AND THUS IS MISSING CONTENT AND MAY HAVE ERRORS !!!**
+**IMPORTANT NOTE: THIS DOCUMENT IS STILL UNDER CONSTRUCTION**
 
 ## Your first installation
 
@@ -21,18 +21,17 @@ During this guide you will complete the following steps:
 1. Verify `docker` environment
 2. Prepare a docker-compose.yml file
 3. Prepare the layout
-4. Prepare VC simulation (TBA by Fernando)
-5. Prepare OPIL HMI
-6. Prepare OPIL Central SP
-7. **TBA !!!** (Prepare OPIL TP)8
+4. Prepare VC simulation (**TBA** by Fernando)
+5. Prepare OPIL Central SP
+6. Prepare OPIL HMI
+7. **TBA !!!** (Prepare OPIL TP)
 8. Review the docker-compose.yml file
 9. Start the OPIL Server modules
-10. 
-11. Setting up a simple task
-12. Initiation with HMI button
+10. Setting up a simple task
+11. Initiation with HMI button
+12. 
 13. 
-14. 
-15. Stopping and removing containers
+14. Stopping and removing containers
 
 ### Notes
 
@@ -86,20 +85,17 @@ version: "3.1"
 services:
     ### Database for context broker ###
     mongo:
-        #restart: always
         image: mongo:3.4
         command: --nojournal
 
     ### Proxy for Context Broker ###
     ngsiproxy:
-        #restart: always
         image: fiware/ngsiproxy:latest
         ports:
             - 3000:3000
 
     ### Context Broker ###
     orion:
-        #restart: always
         image: fiware/orion
         depends_on:
             - mongo
@@ -238,6 +234,10 @@ theta = 90
 
 Now you have determined the necessary information regarding the layout you are using in this guide and next you can start configuring the OPIL modules.
 
+## Prepare VC simulation
+
+( TBA )
+
 ## Prepare OPIL Central SP
 
 ### Prepare demo_map.yaml
@@ -348,7 +348,6 @@ Finally, add the following content to the end of the `docker-compose.yml` file:
 ``` yaml
     ### S&P ###
     sp:
-        #restart: always
         image: l4ms/opil.sw.sp.central:latest
         volumes:
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -371,13 +370,11 @@ In this step you will configure the OPIL HMI module by appending the `docker-com
     ### Database for HMI ###
     mongodb:
         image: mongo:3.6
-        #restart: always
         volumes:
         - ./mongo/data:/data/db
     ### HMI web app ###
     hmi:
         image: l4ms/opil.sw.hmi:latest
-        #restart: always
         volumes:
             - ./public/uploads:/usr/src/app/public/uploads
         environment:
@@ -400,7 +397,7 @@ For now, you don't need to change any of the other configuration but please make
 
 ## Prepare OPIL TP
 
-TBA ( Module still under development ? )
+TBA ( Module still under development )
 
 ## Review the docker-compose.yml file
 
@@ -414,20 +411,17 @@ services:
 services:
     ### Database for Context Broker ###
     mongo:
-        #restart: always
         image: mongo:3.4
         command: --nojournal
 
     ### Proxy for Context Broker ###
     ngsiproxy:
-        #restart: always
         image: fiware/ngsiproxy:latest
         ports:
             - 3000:3000
 
     ### Context Broker ###
     orion:
-        #restart: always
         image: fiware/orion
         depends_on:
             - mongo
@@ -439,7 +433,6 @@ services:
 
     ### S&P ###
     sp:
-        #restart: always
         image: l4ms/opil.sw.sp.central:latest
         volumes:
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -456,14 +449,12 @@ services:
     ### Database for HMI ###
     mongodb:
         image: mongo:3.6
-        #restart: always
         volumes:
         - ./mongo/data:/data/db
 
     ### HMI web app ###
     hmi:
         image: l4ms/opil.sw.hmi:latest
-        #restart: always
         volumes:
             - ./public/uploads:/usr/src/app/public/uploads
         environment:
@@ -563,7 +554,20 @@ Wait for the HMI to reload and check that you do NOT see the following error. If
 
 If you do not see the error, everything is working as expected and you can move on forward.
 
-**TBA: Missing Floor plan management instructions**
+Next you will add the previously prepared layout as a visualization in the HMI. To do that, first click on the "Floor Plan Management" tab. You should see this form:
+
+![hmi_floor_plan_upload.png](./img/hmi_floor_plan_upload.png)
+
+Click the Browse button, and find the `demo_map.png` file you downloaded in the beginning of this guide. Next, give a name for the layout and fill out the scale and offset values that were already calculated for the layout:
+
+![hmi_floor_plan_scale.png](./img/hmi_floor_plan_scale.png)
+
+Then click the Upload button, and the layout should appear in the HMI:
+
+![hmi_layout.png](./img/hmi_layout.png)
+
+Now the HMI is configured and you can move forward.
+
 
 ### Start the OPIL SP
 
@@ -630,7 +634,6 @@ docker_orion_1       /usr/bin/contextBroker -fg ...   Up      0.0.0.0:1026->1026
 docker_sp_1          /ros_entrypoint.sh bash          Up
 ```
 
-### Enable `restart:always`
 
 TBA
 
