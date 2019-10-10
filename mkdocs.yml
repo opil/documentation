@@ -14,14 +14,14 @@ markdown_extensions:
 use_directory_urls: false
 
 theme:
-    name: mkdocs
+    name: readthedocs
     highlightjs: true
     hljs_languages:
         - yaml
         - django
         - bash
         - yml
-pages:
+nav:
     - Home: index.md
     - Getting Started: 
         - Introduction to OPIL architecture: start/index.md
@@ -165,6 +165,3 @@ pages:
                 - VC SAN: develop/SANVC/opil_api_vc_san.md
                 - VC SAN Actuator: develop/SANVCACT/opil_api_vc_sanvcact.md
             - Examples: develop/examples.md
-theme: readthedocs
-plugins:
-    - search
