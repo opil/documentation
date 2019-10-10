@@ -2,9 +2,14 @@
 
 **IMPORTANT NOTE: THIS DOCUMENT IS STILL UNDER CONSTRUCTION**
 
-## Your first installation
 
 In this section you will install and configure the OPIL Server using an example layout provided on this page by following a step-by-step guide. At the end of this guide you will have a working OPIL Server setup. Finally, you will reset the configuration and then you can configure the OPIL Server with your own layout.
+
+### Overview
+
+During this guide you will complete the following steps:
+
+[TOC]
 
 ## Prerequisites for this guide
 
@@ -14,24 +19,7 @@ In this section you will install and configure the OPIL Server using an example 
 - You are familiar with Linux-based operating systems on basic level to execute commands and edit files
 - You have read the [introduction](../../start/index.md) and [deployment](../../start/deployment.md) pages and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
 
-## Overview
-
 During this guide you will complete the following steps:
-
-1. Verify `docker` environment
-2. Prepare a docker-compose.yml file
-3. Prepare the layout
-4. Prepare VC simulation (**TBA** by Fernando)
-5. Prepare OPIL Central SP
-6. Prepare OPIL HMI
-7. **TBA !!!** (Prepare OPIL TP)
-8. Review the docker-compose.yml file
-9. Start the OPIL Server modules
-10. Setting up a simple task
-11. Initiation with HMI button
-12. 
-13. 
-14. Stopping and removing containers
 
 ### Notes
 
@@ -638,3 +626,10 @@ docker_sp_1          /ros_entrypoint.sh bash          Up
 TBA
 
 To be continued...
+
+## Setting up a simple task
+
+## Initiation with HMI button
+
+## Stopping and removing containers
+
