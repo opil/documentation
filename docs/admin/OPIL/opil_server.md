@@ -167,14 +167,16 @@ Make sure to store your measurements and calculations as you are going to use th
 Annotations are labeled positions of importance in the layout. Such labeled positions could be pick-up and drop-off locations, charging stations or pallet stacks. The annotations you will be working with in this guide are all pallet locations and are marked in the following image:
 ![demo_map_annotations.png](./img/demo_map_annotations.png)
 
-During this step, you should record the position and orientation of each labeled position for future use. The orientation is called `theta` in the configuration file. The orientation also defines the approach direction and is defined as follows:
+During this step, you should record the position and orientation of each labeled position for future use. The orientation is called `theta` in the configuration file. The orientation defines the approach direction, so that an approaching AGV has its heading towards the annotation as follows:
 
-- Left = 0
+- Right = 0
 - Up = 90
-- Right = 180
+- Left = 180
 - Down = 270
 
-**TBA: Explanatory image!!!**
+Or as in the image below:
+
+![annotation-theta.svg](./img/annotation-theta.svg)
 
 Now for the position of each annotation you need to measure the center point of each pallet location in the layout. The exact point may be different depending on the hardware used and RAN configuration. The measurement is done in meters relative to the zero point. Measurements for each labeled position in this layout are as follows:
 
