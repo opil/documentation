@@ -1,4 +1,4 @@
-#Introduction
+# Introduction
  
 Welcome to Module's Installation & Administration Guide! 
 
@@ -251,3 +251,25 @@ Things to keep in mind while working with docker containers and OPIL's TaskPlann
 3.1 Data persistence: once you are closing the docker container, data will be non-persistent.
 
 3.2 Subscriptions: close the docker container by using the `Ctrl-C` command. While we are receiving this command, we are unsubscribing from the Orion Context Broker. If you close this container improperly, some old subscription may mess up the behaviour.
+
+
+<!---
+#Getting Started
+
+#Deinstallation
+
+#Upgrades
+
+-->
+
+# Deprecated Features
+
+Currently there are no deprecated features.
+
+
+
+
+
+
+
+

@@ -85,3 +85,23 @@ services:
     - use remote IP address when client web browser is running in different physical machine than HMI
       (not localhost/127.0.0.1)
     - login using admin/admin
+
+<!---
+# Getting Started
+-->
+
+# HMI Deinstall
+HMI can be deinstalled by removing the Docker container.
+
+<!---
+# Upgrades
+-->
+
+#Deprecated Features
+At the moment there are no deprecated features.
+
+
+
+
+
+

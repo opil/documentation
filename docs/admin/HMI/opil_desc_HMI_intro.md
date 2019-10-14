@@ -1,4 +1,5 @@
 # HMI Introduction
+
 ## User management
 
 By installing the HMI module, an user with administrator role is created as well. This user is able to define other users with different user roles. Specific tabs and infomration windows  of the user interface in the web browser can be restricted based on a user’s role. HTTP calls to the HMI web server and certain functions can be restricted as well. All the user data is stored in the local database. Additionally, HMI creates an entity to the OCB for HAN. This entity’s ID is the same unique ID as the user's in the local database.

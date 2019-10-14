@@ -1,1 +1,0 @@
-Here comes the documentation of the VC RAN node
