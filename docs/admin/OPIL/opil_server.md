@@ -546,15 +546,15 @@ If you do not see the error, everything is working as expected and you can move 
 
 Next you will add the previously prepared layout as a visualization in the HMI. To do that, first click on the "Floor Plan Management" tab. You should see this form:
 
-![hmi_floor_plan_upload.png](./img/hmi_floor_plan_upload.png)
+![hmi_floor_plan_upload.png](./img/hmi_floor_plan_upload.PNG)
 
 Click the Browse button, and find the `demo_map.png` file you downloaded in the beginning of this guide. Next, give a name for the layout and fill out the scale and offset values that were already calculated for the layout:
 
-![hmi_floor_plan_scale.png](./img/hmi_floor_plan_scale.png)
+![hmi_floor_plan_scale.png](./img/hmi_floor_plan_scale.PNG)
 
 Then click the Upload button, and the layout should appear in the HMI:
 
-![hmi_layout.png](./img/hmi_layout.png)
+![hmi_layout.png](./img/hmi_layout.PNG)
 
 Now the HMI is configured and you can move forward.
 
