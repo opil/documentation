@@ -156,7 +156,7 @@ To check if everything is working properly follow the guide [Starting from Scrat
 # <a name="SPStartGuide">Local SP Start Guide</a>
 
 
-Before starting the Local SP module follow the [Install guide](./opil_local_sp_install.md).
+Before starting the Local SP module follow the [Install guide](#SPStartGuide).
 
 
 In the following, two start options will be described, depending if you installed the source from the docker containers or from scratch.
