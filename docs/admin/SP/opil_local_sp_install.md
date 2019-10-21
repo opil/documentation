@@ -60,7 +60,7 @@ Then, start it from the folder where you put your docker-compose.yml file:
 ```
 sudo docker-compose up
 ```
-To check if everything is working properly follow the guide [Starting from Docker - Local SP.](./opil_local_sp_gettingStarted#fromdockerlocal)
+To check if everything is working properly follow the guide [Starting from Docker - Local SP.].
 
 ## The Local SP docker working with RAN
 

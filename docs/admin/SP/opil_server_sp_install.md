@@ -76,7 +76,7 @@ Then, start it from the folder where you put your docker-compose.yml file:
 ```
 sudo docker-compose up
 ```
-To check if everything is working properly follow the guide [Starting from Docker - Central SP.](./opil_server_sp_gettingStarted#fromdocker)
+To check if everything is working properly follow the guide `Starting from Docker - Central SP`.
 
 
 
