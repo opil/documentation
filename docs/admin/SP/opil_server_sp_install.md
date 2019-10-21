@@ -1,4 +1,4 @@
-# Central SP Installation
+# <a name="CentralSPInstallation">Central SP Installation</a>
 
 There are two ways of installing the SP module. You can use the docker containers or compile it from the source.
 
@@ -105,11 +105,11 @@ Install from SourceCode:
 cd ..
 catkin_make
 ```
-To check if everything is working properly follow the guide [Starting from Scratch.](./opil_server_sp_gettingStarted.md#fromscratch)
+To check if everything is working properly follow the guide [Starting from Scratch.](./#fromscratch)
 
 # SP Server Start Guide
 
-Before starting the Central SP module follow the [Install guide](./opil_server_sp_install.md).
+Before starting the Central SP module follow the [Install guide](#CentralSPInstallation).
 
 
 In the following, two start options will be described, depending if you installed the source from the docker containers or from scratch.
