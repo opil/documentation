@@ -256,7 +256,7 @@ Four annotations are in this example, which change the coordinates of vertices w
 ## How to start the Local and Central SP docker containers together
 
 Prepare a following docker-compose.yml to start both Central and Local SP. This example uses the same machine for Local and Central SP, but you can also start them on different machines.
-This example uses the Local SP that contains the Stage simulator. Check how to prepare the Local SP [here](./opil_local_sp_gettingStarted.md)
+This example uses the Local SP that contains the Stage simulator. Check how to prepare the Local SP [here](./opil_local_sp_install.md)
 
 ```
 version: "3"
