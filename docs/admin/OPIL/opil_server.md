@@ -19,8 +19,6 @@ During this guide you will complete the following steps:
 - You are familiar with Linux-based operating systems on basic level to execute commands and edit files
 - You have read the [introduction](../../start/index.md) and [deployment](../../start/deployment.md) pages and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
 
-During this guide you will complete the following steps:
-
 ### Notes
 
 - This guide is a simple step-by-step guide for setting up the OPIL Server. It is possible to change the configuration (e.g. ports and filenames) with the capabilities described in [Docker compose file version 3 reference](https://docs.docker.com/compose/compose-file/). However, during this guide we will not address any configuration that is not absolutely required.
@@ -45,10 +43,11 @@ docker-compose version 1.24.1, build 4667896b
 ```
 
 The minimum required versions are listed in the table below but it's always a good idea to use the most latest version available.
-| | Minimum version | This guide is tested with |
+
+| Docker tool | Minimum version | This guide is tested with |
 | --- | --- | --- |
-| docker | TBA | 18.09.6 |
-| docker-compose | 1.13.1+ | 1.24.0 |
+| docker | 17.12.0+ | 18.09.6 |
+| docker-compose | 1.18.0+ | 1.24.0 |
 
 ### Troubleshooting and updating the docker environment
 
@@ -111,6 +110,7 @@ Please note that during this guide you must use the original image file to prese
 ### The layout has three main areas:
 
 ![demo_map_areas.png](./img/demo_map_areas.png)
+
 | Area name | Description |
 | --- | --- |
 | Production area | This area continuously produces products that are collected on the single pallet within the area. This pallet is then transported to the warehouse area for storage. |
