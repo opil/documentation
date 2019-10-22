@@ -60,7 +60,7 @@ Then, start it from the folder where you put your docker-compose.yml file:
 ```
 sudo docker-compose up
 ```
-To check if everything is working properly follow the guide [Starting from Docker - Local SP.](./opil_local_sp_gettingStarted#fromdockerlocal)
+To check if everything is working properly follow the guide [Starting from Docker - Local SP.].
 
 ## The Local SP docker working with RAN
 
@@ -124,7 +124,7 @@ Then, start it from the folder where you put your docker-compose.yml file:
 ```
 sudo docker-compose up
 ```
-To check if everything is working properly follow the guide [How to start the Local SP and RAN docker containers together.](./opil_local_sp_gettingStarted#fromdockerlocalran)
+To check if everything is working properly follow the guide [How to start the Local SP and RAN docker containers together.](#LocalSPStartGuide)
 
 
 
@@ -151,13 +151,12 @@ Install from SourceCode:
 cd ..
 catkin_make
 ```
-To check if everything is working properly follow the guide [Starting from Scratch.](./opil_local_sp_gettingStarted.md#fromscratch)
+To check if everything is working properly follow the guide [Starting from Scratch.](#SPStartGuide)
+
+# <a name="SPStartGuide">Local SP Start Guide</a>
 
 
-
-# Local SP Start Guide
-
-Before starting the Local SP module follow the [Install guide](./opil_local_sp_install.md).
+Before starting the Local SP module follow the [Install guide](#SPStartGuide).
 
 
 In the following, two start options will be described, depending if you installed the source from the docker containers or from scratch.

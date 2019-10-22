@@ -246,7 +246,7 @@ free_thresh: 0.196
 
 Note: The value in the `image` field is `map.png`, regardless of our PNG file being named `demo_map.png`. This is intended, so please do not change this.
 
-For now, there is no need to adjust any of these parameters. Configuration possibilities regarding this file are explained in the [SP documentation](../SP/opil_server_sp_gettingStarted.md).
+For now, there is no need to adjust any of these parameters. Configuration possibilities regarding this file are explained in the [SP documentation](../SP/opil_local_sp_install.md).
 
 ### Prepare annotations.ini
 
@@ -254,7 +254,7 @@ Create a new file in the root directory called `annotations.ini`.
 
 This file will include the annotations or labeled positions you have defined earlier. In addition to the previously defined positions and orientations you also need to define the approach distance.
 
-The distance defines the final movement to the position and it is always a straight line that is not affected by the motion path planning. In this guide you will use a distance of 1.8 meters for all positions as the forklift has forks that need to be aligned to the pallet before moving under the pallet. For further details, see  [SP documentation](../SP/opil_server_sp_gettingStarted.md).
+The distance defines the final movement to the position and it is always a straight line that is not affected by the motion path planning. In this guide you will use a distance of 1.8 meters for all positions as the forklift has forks that need to be aligned to the pallet before moving under the pallet. For further details, see  [SP documentation](../SP/opil_local_sp_install.md).
 
 Using the position data defined earlier you can now add content to the `annotations.ini`:
 
@@ -329,7 +329,7 @@ Create new file in the root directory called `topology.launch` and copy-paste th
 </launch>
 ```
 
-For now you don't need to edit this file. Configuration possibilities regarding this file are explained in the  [SP documentation](../SP/opil_server_sp_gettingStarted.md).
+For now you don't need to edit this file. Configuration possibilities regarding this file are explained in the  [SP documentation](../SP/opil_local_sp_install.md).
 
 ### Append docker-compose.yml
 
@@ -534,27 +534,27 @@ docker_mongodb_1     docker-entrypoint.sh mongod      Up      27017/tcp
 
 Next step is to configure the HMI. This is done from a web browser by navigating to the HMIs address `http://localhost` or `http://<ip-address>`. A login page should load:
 
-![hmi_login.png](./img/hmi_login.PNG)
+![hmi_login.PNG](./img/hmi_login.PNG)
 
 Now log in with the default credentials: username = `admin` and password = `admin`.
 
 Wait for the HMI to reload and check that you do NOT see the following error. If you get this error go back to "Start OPIL middleware" section and make sure the middleware is running and functional.
 
-![hmi_ocb_error.png](./img/hmi_ocb_error.PNG)
+![hmi_ocb_error.PNG](./img/hmi_ocb_error.PNG)
 
 If you do not see the error, everything is working as expected and you can move on forward.
 
 Next you will add the previously prepared layout as a visualization in the HMI. To do that, first click on the "Floor Plan Management" tab. You should see this form:
 
-![hmi_floor_plan_upload.png](./img/hmi_floor_plan_upload.PNG)
+![hmi_floor_plan_upload.PNG](./img/hmi_floor_plan_upload.PNG)
 
 Click the Browse button, and find the `demo_map.png` file you downloaded in the beginning of this guide. Next, give a name for the layout and fill out the scale and offset values that were already calculated for the layout:
 
-![hmi_floor_plan_scale.png](./img/hmi_floor_plan_scale.PNG)
+![hmi_floor_plan_scale.PGN](./img/hmi_floor_plan_scale.PNG)
 
 Then click the Upload button, and the layout should appear in the HMI:
 
-![hmi_layout.png](./img/hmi_layout.PNG)
+![hmi_layout.PNG](./img/hmi_layout.PNG)
 
 Now the HMI is configured and you can move forward.
 
@@ -605,7 +605,7 @@ Next, verify the following things:
 
 Other things to consider if you are following this guide and using a different layout:
 
-- If there are missing, too few or too many blue passages in the layout, try adjusting the `cell_size` in the `topology.launch` file or the `occupied_thresh` or `free_thresh` in the `demo_map.yaml` file. For more details, see [SP documentation](../SP/opil_server_sp_gettingStarted.md).
+- If there are missing, too few or too many blue passages in the layout, try adjusting the `cell_size` in the `topology.launch` file or the `occupied_thresh` or `free_thresh` in the `demo_map.yaml` file. For more details, see [SP documentation](../SP/opil_local_sp_install.md).
 
 Finally, shutdown the SP by inputting Ctrl+C on the terminal window that is attached to the SP container. Now you can start the SP in detached mode:
 

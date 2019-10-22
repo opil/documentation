@@ -1,4 +1,4 @@
-# Central SP Installation
+# <a name="CentralSPInstallation">Central SP Installation</a>
 
 There are two ways of installing the SP module. You can use the docker containers or compile it from the source.
 
@@ -76,7 +76,7 @@ Then, start it from the folder where you put your docker-compose.yml file:
 ```
 sudo docker-compose up
 ```
-To check if everything is working properly follow the guide [Starting from Docker - Central SP.](./opil_server_sp_gettingStarted#fromdocker)
+To check if everything is working properly follow the guide `Starting from Docker - Central SP`.
 
 
 
@@ -105,11 +105,11 @@ Install from SourceCode:
 cd ..
 catkin_make
 ```
-To check if everything is working properly follow the guide [Starting from Scratch.](./opil_server_sp_gettingStarted.md#fromscratch)
+To check if everything is working properly follow the guide [Starting from Scratch.](./#fromscratch)
 
 # SP Server Start Guide
 
-Before starting the Central SP module follow the [Install guide](./opil_server_sp_install.md).
+Before starting the Central SP module follow the [Install guide](#CentralSPInstallation).
 
 
 In the following, two start options will be described, depending if you installed the source from the docker containers or from scratch.
@@ -256,7 +256,7 @@ Four annotations are in this example, which change the coordinates of vertices w
 ## How to start the Local and Central SP docker containers together
 
 Prepare a following docker-compose.yml to start both Central and Local SP. This example uses the same machine for Local and Central SP, but you can also start them on different machines.
-This example uses the Local SP that contains the Stage simulator. Check how to prepare the Local SP [here](./opil_local_sp_gettingStarted.md)
+This example uses the Local SP that contains the Stage simulator. Check how to prepare the Local SP [here](./opil_local_sp_install.md)
 
 ```
 version: "3"
