@@ -1,4 +1,4 @@
-# Overview
+# Introduction Task Planner (TP)
 
 The "Software system" layer represents the highest level of OPIL where all the services that this platform provides to the end users are logically grouped by design. This level is made of three main modules. Task Planner is one of the three OPIL Components and Functional blocks which this 3rd Layer is made of. Regarding the OPIL architecture, this node consists of three different sub-modules. Firstly, the Business Process Optimization functional block decides and optimizes the tasks to be dispatched to the different agents. Secondly, the Motion Task Planning plans the motion tasks for the robot agents. Lastly, the Task Supervisor monitors the execution of the task dispatched to the agents. Task Planner makes it possible for the different components to communicate with each other and be composed into full-fledged logistic system in a manufacturing environment.
 
@@ -14,7 +14,7 @@ The Business Process Optimization (BPO) sub-module of the OPIL Task Planner hand
 </center>
 ***
 
-* ### Motion Task Planning
+## Motion Task Planning
 The Motion Task Planning (MTP) modules creates/computes a motion task plan for the involved agents. This motion task provides a deadlock-free, optimal or near optimal path without loops and collision. Beyond this path computation the Motion Task Planning component handles the communication with the agents. Paths for human agents will receive a higher priority than robotic agents. Already planned paths for robotic agents will be re-planned to avoid collision. In the case of system failures, the Motion Task Planning can re-plan on-the-fly a new motion task plan. The motion task plan will be dispatched to the agents, like AGVs or human agents. The figure below shows the usage of the Motion Task Planning component.
 
 <center>
@@ -24,7 +24,7 @@ The Motion Task Planning (MTP) modules creates/computes a motion task plan for t
 The MOD.SW.TP Motion Task Planning receives the start and end destinations of the appropriate Robot/ Human Agent Nodes. It computes the best, shortest and/or fastest path for the navigation and it handles the communication with the Robotic Agent Nodes (MOD.SW.RAN). Moreover, it is aware about the state, like current pose, current task, of the agents nodes.
 ***
 
-* ### Task Supervisor
+## Task Supervisor
 The Task Supervisor (TS) module receives task specification from the Advanced HMI Module in an appropriate formal language and parameterized task specification. These specified tasks, the currently available resources and some further boundary constraints will be the input for the Business Process Optimization. The Task Supervisor is also able to send the current state information to the Advanced HMI. Any changes inside the system will be handled through this sub-module. 
 
 <center>

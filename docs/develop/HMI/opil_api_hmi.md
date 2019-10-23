@@ -1,4 +1,4 @@
-# REST API
+
 ## Floorplans
 #### Get all floorplans
 >    [GET] http://serveraddress/api/fp

@@ -1,4 +1,4 @@
-# SAN Description
+# Introduction Sensor Agent Node (SAN)
 
 This is the Sensor Agent Node documentation! Here you will find everything you need to set-up,
 configure and run the Sensor Agent Node, either via cloning the source code from Git, or using a convenient Docker container.

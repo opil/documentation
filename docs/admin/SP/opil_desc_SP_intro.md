@@ -1,4 +1,4 @@
-# Sensing & Perception - The Central SP @OPIL
+# Introduction Central Sensing & Perception (Central SP)
 
 For full documentation visit L4MS <https://l4ms.org>.
 
@@ -11,13 +11,13 @@ For full documentation visit L4MS <https://l4ms.org>.
 <!--* [Human Machine Interface (HMI)](http://opil-hmi.l4ms.eu)-->
 <!--* [Context Management (CM)](http://opil-cm.l4ms.eu) -->
 
-## What is SP?
+## Overview of SP
 
 SP (Sensing & Perception) is a software module as part of OPIL (Open Platform for Innovation in Logistics). 
 It provides the pose of the AGV inside the built map of the environment in which the AGV is navigating and updates the map with the new sensor readings.
 Additionally, it can build the map with SLAM (Simultaneous Localization And Mapping) if no map is given initially. It uses the range data (laser, kinect) for map building and updating the map, and odometry sensors (encoders, IMU) with range data and map for localization inside the map.
 
-## SP structure
+## Structure of SP
 
 There are two instances of SP module: 
 

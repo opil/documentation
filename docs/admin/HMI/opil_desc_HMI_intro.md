@@ -1,4 +1,4 @@
-# HMI Introduction
+# Introduction Human Machine Interface (HMI)
 
 ## User management
 

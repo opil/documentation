@@ -1,8 +1,8 @@
-# RAN Introduction
+# Introduction Robot Agent Node (RAN)
 This in the Robot Agent Node (RAN) documentation! Here you will find the information required for installing and configuring the RAN.
 
 
-## What's RAN?
+## Overview RAN
 
 The RAN (Robot Agent Node) sits between OPIL and the Robot Hardware. It provides two main functionalities: it manages robot navigation, based on ROS, and works as an interface between the robot hardware and the OPIL Cyber Physical Middleware, based FIWARE Orion Context Broker. In order to accomplish the second functionality, the RAN "translates" and adapts FIWARE entities into something understandable by ROS, i.e., messages and services, and viceversa. In doing so, it accomplishes the goal set for the Communication/Messaging sub-module described by the OPIL Reference Architecture in the main document to which this annex refers to.
 
@@ -60,7 +60,7 @@ In order to enable the RAN to work, the machine must run an Ubuntu distribution 
 
 Moreover, the following softwares have to be installed:
 
-####ROS
+#### ROS
 
 ROS can be installed following [this guide](http://wiki.ros.org/ROS/Installation)
 
@@ -75,7 +75,7 @@ There are various dependencies with ROS packages that has to be installed. You s
 	
 You should create a simple workplace, following [this tutorial](http://wiki.ros.org/catkin/Tutorials/create_a_workspace)
 
-###FIROS
+### FIROS
 
 It is possible to get FIROS following a guide availabe at [this link](https://github.com/Ikergune/firos)
 
