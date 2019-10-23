@@ -6,7 +6,7 @@ The "Software system" layer represents the highest level of OPIL where all the s
 The three main functional building blocks like the Business Process Optimization (BPO), the Motion 
 Task  Planning  (MTP)  and  the Task  Supervisor  (TS)  will  be  described in this section.
  
-* ### Business Process Optimization
+## Business Process Optimization
 The Business Process Optimization (BPO) sub-module of the OPIL Task Planner handles the on-the-fly optimization of the task that is received from the Task Supervisor sub-module of the OPIL Task Planner. The BPO sub-module is responsible for minimizing the logistics resources that are required for a given task. The BPO receives a task specification from the Task Supervisor sub-module of the OPIL Task Planner in an appropriate formal language and parameterizes the task specification so that the resulting specification requires minimal (or near minimal) logistics resources for its fulfilment. The parameterized task specification is then transmitted back to the Task Supervisor sub-module of the OPIL Task Planner for determining the eventual Motion Task Plan that fulfils the specification. The Figure below depicts the interaction between the BPO sub-module with the Task Supervisor sub-module.
 
 <center>
