@@ -13,7 +13,7 @@ class RevPiDigital(SANDriver.SANDriver):
     def setup(self):
         self.GPIO = self.importIO('revpimodio2')
         self._ioPin = self.fromConfig('ioPin')
-        self.revpi = self.GPIO.RevPiModIO(autorefresh=True)
+        self.revpi = self.GPIO.RevPiModIO(autorefresh=True, configrsc="config.rsc")
         self.setMeta('sensorManufacturer', self.fromConfig('sensorManufacturer'))
         self.setMeta('measurementType', self.fromConfig('measurementType'))
         self.setMeta('sensorType', self.fromConfig('sensorType'))
