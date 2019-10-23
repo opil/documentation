@@ -22,7 +22,7 @@ theme:
         - django
         - bash
         - yml
-nav:
+pages:
     - Home: index.md
     - Getting Started: 
         - Introduction to OPIL architecture: start/index.md
