@@ -10,6 +10,7 @@ markdown_extensions:
     - toc:
         baselevel: 3
     - fenced_code
+    - toc_depth: 4-4
 
 use_directory_urls: false
 
@@ -55,17 +56,7 @@ nav:
         - RAN VC: 
             - VC RAN Description: admin/RANVC/opil_desc_vc_ran.md
             - Installation, Configuration and Upgrades: admin/RANVC/opil_server_ranvc_install.md           
- #      - SAN VC: 
- #          - VC SAN Description: admin/SANVC/opil_desc_vc_san.md
- #          - Installation, Configuration and Upgrades: admin/SANVC/opil_server_sanvc_install.md
- #      - SAN VC Actuator: 
- #          - VC SAN Actuator Description: admin/SANVCACT/opil_desc_vc_sanvcact.md
- #          - Installation, Configuration and Upgrades: admin/SANVCACT/opil_server_sanvcact_install.md
-              
     - Developer's Guide and API:
- #       - Introduction: develop/index.md
- #       - Technology Guidelines: develop/technology_guidelines.md
- #       - Programming Guidelines: develop/technology_programming.md 
         - Task Planner:
             - Introduction to API: develop/TP/opil_tp_API_intro.md
             - Business Process Optimization:  develop/TP/opil_config_tp_bpo.md
@@ -88,10 +79,6 @@ nav:
             - Introduction: develop/RAN/opil_introd_ran.md
         - Sensor Agent Node (SAN): 
             - API: develop/SAN/opil_api_san.md
-#            - Docker files: docs/develop/SAN/opil_docker_san.md 
             - Drivers: develop/SAN/opil_drivers_san.md
             - Configuration File: develop/SAN/opil_run_san.md
-        #- VC RAN: develop/RANVC/opil_api_vc_ran.md
-        #- VC SAN: develop/SANVC/opil_api_vc_san.md
-        #- VC SAN Actuator: develop/SANVCACT/opil_api_vc_sanvcact.md
         - Examples: develop/examples.md
