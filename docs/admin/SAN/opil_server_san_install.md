@@ -4,6 +4,8 @@ Installing SAN on the machine connected to your sensor can be done in two ways: 
 
 ## Using the convenient Docker container
 
+**If you are running SAN from Docker on a Raspberry Pi or Revolution Pi, you will need to replace every occurrence of ```l4ms/opil.iot.san:stable``` with ```l4ms/opil.iot.san:stableRPI```**
+
 Once you have *docker* installed on the machine connecting your sensor, all that is necessary to get the SAN container from the cloud is to run the following command in a terminal window:
 
 `sudo docker pull l4ms/opil.iot.san:stable`
@@ -33,14 +35,16 @@ Updating the source code requires a git pull:
 
 
 # Getting started: SAN Setup using Docker
-If you have cloned the source repository, you do not need to create a **docker-compose.yaml** or **Dockerfile** and can move on to editing your existing **config.json** file in `mod.iot.san/src/PythonSAN`.
+If you have cloned the source repository, you do not need to create a **docker-compose.yaml** or **Dockerfile** and can move on to editing your existing **config.json** file in `mod.iot.san/src/PythonSAN`. You will also need to replace the existing config.rsc file in `mod.iot.san/src/PythonSAN/Drivers` with your own.
 
 For Docker setup follow the instructions to create the mandatory files.
 ## Creating the mandatory files to run SAN in a Docker container
 
 After you have pulled the Docker image from the cloud, you should create a folder to house the necessary files to run and configure SAN.
 
-**If you are running SAN from Docker on a Raspberry Pi, you will need to replace every occurrence of ```l4ms/opil.iot.san:stable``` with ```l4ms/opil.iot.san:stableRPI```**
+**If you are running SAN from Docker on a Raspberry Pi or Revolution Pi, you will need to replace every occurrence of ```l4ms/opil.iot.san:stable``` with ```l4ms/opil.iot.san:stableRPI```**
+
+**If you are running SAN from Docker on a Revolution Pi, you will need to get your config.rsc file (usually from /etc/revpi/), and move it into the same folder where your config.json and Docker files are**
 
 ### docker-compose.yaml
 The first file you should create is a **docker-compose.yaml** file. Open it in an editor and enter the following:
@@ -64,23 +68,23 @@ Next you should create a **Dockerfile**. Note that this file does not have a set
 FROM l4ms/opil.iot.san:stable
 #COPY statements copy files FROM somewhere on your machine TO somewhere in the 
 #docker container. You can add/uncomment statements to copy your drivers and config 
-#to the container. In order to add your driver, remove the # from #COPY ./$YOUR_DRIVER.py /code/Drivers and replace $YOUR_DRIVER with how you named your driver.
+#to the container. In order to add your driver, remove the # from #COPY ./$YOUR_DRIVER.py /code/Drivers and replace $YOUR_DRIVER with how you named your driver. For adding your config.rsc, for use on a RevPi, uncomment the corresponding line.
 
 #COPY  FROM         TO
 COPY ./config.json /code
+#COPY ./config.rsc /code/Drivers
 #COPY ./YOUR_DRIVER.py /code/Drivers
 
-#This part checks the requirements for the container. Do not change.
+#This part checks the slimness of the container. Do not change.
+RUN apt-get update && apt-get -y upgrade
+RUN apt-get -y autoremove
 WORKDIR /code
-RUN pip3 install -r pip-reqs.txt
-RUN apt-get update && apt-get -y install sudo
-RUN sudo apt-get -y install usbutils
 CMD sudo python3 san.py
 ```
 
 These are the instructions to Docker on how to configure SAN.
 
-If you are usoing Docker you will need to create your own **config.json** file in the same folder as your **docker-compose.yaml** and **Dockerfile**.
+If you are using Docker you will need to create your own **config.json** file in the same folder as your **docker-compose.yaml** and **Dockerfile**.
 After that, you should copy the following initial, demonstrative version of the file into your created file, and change the **"host"** field to your OCB host address.
 
 ### Demonstrative generic config.json file
@@ -127,7 +131,9 @@ Once you have created your **config.json** file or edited the pre-existing one's
 
 ### Running SAN demo with Docker
 
-**If you are running SAN from Docker on a Raspberry Pi, you will need to replace every occurrence of ```l4ms/opil.iot.san:stable``` with ```l4ms/opil.iot.san:stableRPI```**
+**If you are running SAN from Docker on a Raspberry Pi or Revolution Pi, you will need to replace every occurrence of ```l4ms/opil.iot.san:stable``` with ```l4ms/opil.iot.san:stableRPI```**
+
+**If you are running SAN from Docker on a Revolution Pi, you will need to get your config.rsc file (usually from /etc/revpi/), and move it into the same folder where your config.json and Docker files are**
 
 In order to push the new configuration file that you made to the docker container you will need to run the following command in the terminal opened in the SAN folder:
 
@@ -161,6 +167,10 @@ If you have run SAN as a *Docker* image, follow these steps:
  
 ```docker rm l4ms/opil.iot.san:stable```
 
+Or, to completely clean your storage from any docker images/containers:
+
+```docker system prune -a```
+
 ## Remove repo downloaded from GIT 
 
 Here, you will have to locate the directory mod.iot.san and remove it manually.
@@ -170,6 +180,8 @@ Here, you will have to locate the directory mod.iot.san and remove it manually.
 Updating the Docker container simply requires you to run the same command you used to install the SAN container:
 
 `sudo docker pull l4ms/opil.iot.san:stable`
+
+You will have to re-apply your custom changes for every update by re-building.
 
 Updating the source code requires a git pull:
 
