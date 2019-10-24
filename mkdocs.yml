@@ -76,7 +76,6 @@ pages:
         - Robot Agent Node (RAN): 
             - API: develop/RAN/opil_api_ran.md
             - Interfaces: develop/RAN/opil_interfaces_ran.md
-            - Introduction: develop/RAN/opil_introd_ran.md
         - Sensor Agent Node (SAN): 
             - API: develop/SAN/opil_api_san.md
             - Drivers: develop/SAN/opil_drivers_san.md
