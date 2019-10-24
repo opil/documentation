@@ -5,13 +5,12 @@
 
 In this section you will install and configure the OPIL Server using an example layout provided on this page by following a step-by-step guide. At the end of this guide you will have a working OPIL Server setup. Finally, you will reset the configuration and then you can configure the OPIL Server with your own layout.
 
-### Overview
+It is possible to change the configuration (e.g. ports and filenames) with the capabilities described in [Docker compose file version 3 reference](https://docs.docker.com/compose/compose-file/). However, during this guide we will not address any configuration that is not absolutely required.
 
-During this guide you will complete the following steps:
-
+Please follow these steps for installing the OPIL server:
 [TOC]
 
-## Prerequisites for this guide
+## Check prerequisites
 
 - Computer with Linux-based operating with docker and docker-compose installed.
 - You know the IP-address of your system. Write it down as you will need  it later in this guide. This will be referred as `<ip-address>` from now on.
@@ -19,9 +18,6 @@ During this guide you will complete the following steps:
 - You are familiar with Linux-based operating systems on basic level to execute commands and edit files
 - You have read the [introduction](../../start/index.md) and [deployment](../../start/deployment.md) pages and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
 
-### Notes
-
-- This guide is a simple step-by-step guide for setting up the OPIL Server. It is possible to change the configuration (e.g. ports and filenames) with the capabilities described in [Docker compose file version 3 reference](https://docs.docker.com/compose/compose-file/). However, during this guide we will not address any configuration that is not absolutely required.
 
 ## Verify docker environment
 
