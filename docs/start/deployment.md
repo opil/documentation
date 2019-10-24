@@ -8,6 +8,8 @@ The individual modules may be deployed in other ways but generally the deploymen
   
 ![OPIL Server and IoT Nodes](./img/OPIL-SERVER-NODES.PNG)  
 
+[TOC]
+
 # Docker
 All standard OPIL modules are deployed as [Docker](https://www.docker.com/) containers. All OPIL modules are available as Docker images via [Docker Hub](https://hub.docker.com/u/l4ms). Docker is supported by most Linux- and Windows-based operating systems.
 
