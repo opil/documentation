@@ -11,7 +11,7 @@ For full documentation visit L4MS <https://l4ms.org>.
 <!--* [Human Machine Interface (HMI)](http://opil-hmi.l4ms.eu)-->
 <!--* [Context Management (CM)](http://opil-cm.l4ms.eu) -->
 
-## Overview of SP
+## Overview Local SP
 
 SP (Sensing & Perception) is a software module as part of OPIL (Open Platform for Innovation in Logistics). 
 It provides the pose of the AGV inside the built map of the environment in which the AGV is navigating and updates the map with the new sensor readings.
