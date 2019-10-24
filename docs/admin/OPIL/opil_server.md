@@ -8,6 +8,7 @@ In this section you will install and configure the OPIL Server using an example 
 It is possible to change the configuration (e.g. ports and filenames) with the capabilities described in [Docker compose file version 3 reference](https://docs.docker.com/compose/compose-file/). However, during this guide we will not address any configuration that is not absolutely required.
 
 Please follow these steps for installing the OPIL server:
+
 [TOC]
 
 ## Check prerequisites
