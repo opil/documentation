@@ -57,7 +57,7 @@ pages:
             - Installation, Configuration and Upgrades: admin/RANVC/opil_server_ranvc_install.md       
         - SAN VC: 
             - VC SAN Description: admin/SANVC/opil_desc_vc_san.md
-            - Installation, Configuration and Upgrades: admin/RANVC/opil_server_sanvc_install.md           
+            - Installation, Configuration and Upgrades: admin/SANVC/opil_server_sanvc_install.md           
     - Developer's Guide and API:
         - Task Planner:
             - Introduction to API: develop/TP/opil_tp_API_intro.md
