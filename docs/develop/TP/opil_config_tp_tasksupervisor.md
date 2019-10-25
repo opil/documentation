@@ -196,7 +196,7 @@ end
 
 To simplify this down in the following the simplest structure of a *Task* is build and later on extended with optional functionality.
 
-### Example simple Task
+### Example Simple Task
 
 In the simplest form a *Task* in *LoTLan* just describes that an item should be picked up at some location and be delivered to another location:
 
@@ -215,8 +215,6 @@ In terms of the introduced example production hall this *Task* looks like depict
 *Figure 3: Floor plan with Task **TransportGoodsPallet***
 
 This *Task* *TransportGoodsPallet* could be done by an AGV, that picks up a pallet **from** *goodsPallet* inside the production area and delivers it **to** the *warehousePos1* in the warehouse area.
-
-### Example Trigger Task
 
 ### Example TriggeredBy Task
 
