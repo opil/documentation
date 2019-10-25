@@ -90,12 +90,21 @@ A task is a running instance of task, which has been defined in the taskManager.
 * **time**: date and time of this entity
 
 
-## TaskSpecState 
-This entity provides information about the TaskSpec and the processed TaskLanguage.
-```json
+## MaterialflowSpecificationState  
+This entity provides information about the Materialflow and the processed TaskLanguage.
+
+* id : uuid
+* type : MaterialflowSpecificationState
+* message : String
+* refId: String (reference to the Materialflow Entity)
+* state: number (0 == ok, -1 ==  error, >0 == ok with some additional information (tbd))
+
+Example:
+
+```Json
 {
-	"id": "TaskSpecState3da0ea66-2067-4a9a-ac6e-641715a3e10a",
-	"type": "TaskSpecState",
+	"id": "MaterialflowSpecificationState3fcd7747-7428-44cb-bbfb-2d04509addac",
+	"type": "MaterialflowSpecificationState",
 	"message": {
 		"type": "string",
 		"value": "Success",
@@ -103,21 +112,29 @@ This entity provides information about the TaskSpec and the processed TaskLangua
 	},
 	"refId": {
 		"type": "string",
-		"value": "TaskSpec1",
-		"metadata": {}
+		"value": "Materialflow1",
+		"metadata": {
+			"python": {
+				"type": "dataType",
+				"value": "unicode"
+			}
+		}
 	},
 	"state": {
-		"type": "Number",
+		"type": "number",
 		"value": 0,
-		"metadata": {}
+		"metadata": {
+			"python": {
+				"type": "dataType",
+				"value": "int"
+			}
+		}
 	}
 }
 ```
-* *state*:  Idle : 0, Ok: 1, Error = -1
-* *message*: A message according to the state. In case of an error, it will inform you with some more detail information about the error
-* *refId*: reference ID of the TaskSpec entity
+ 
 
-# Interfaces Consumed
+# Interfaces Consumed by the TaskPlanner
  In order to work as designed, the TaskPlanner requires a Materialflow, which is based on the TaskLanguage. This entity is explained below.
 ## Materialflow
 
