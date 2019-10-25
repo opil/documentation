@@ -1,14 +1,14 @@
-# TaskSupervisor
+# TaskSupervisor configuration
 
- The TaskSupervisor is a system monitor that provides information about the ongoing tasks, as well as the general status. The TaskSupervisor is responsible for publishing information about the running tasks as well as those that were stopped (not implemented yet).
+The TaskSupervisor is a system monitor that provides information about the ongoing tasks, as well as its general status. The TaskSupervisor is responsible for publishing information about the running tasks as well as those that were stopped (the latest is not implemented yet).
 
-The TaskSchedular can be divided into three divisions, as described below: 
+The TaskSchedular has three divisions: 
 
 * **TaskSchedular**: The TaskSchedular is responsible for creating and monitoring the TaskManager. The TaskSchedular denotes a collection of one or more TaskManager.
 * **TaskManager**: The TaskManager is responsible for creating and monitoring tasks. A TaskManager denotes a collection of one or more tasks.
 * **Task**: A task is the lowest part of the TaskSchedular and describes a transport order that is being executed. Each task includes some information about what will be transported, from where to which destination, how this task will be triggered (e.g. a Sensor Event like a button needs to be pushed) and if there is a follow up/child task.
 
- An example of this TaskSchedular is depicted in the following listing:
+An example of this TaskSchedular is depicted in the following listing:
 ```
 TaskSchedular
  ->TaskManager_1
@@ -20,11 +20,11 @@ TaskSchedular
 
 ```
 
-# Logistic Task Language
+## Logistic Task Language
 
-The Logistic Task Language *(LoTLan)* is a simple, but powerful approach to describe intralogistic materialflow logic. A materialflow processes is mainly a transportation task like the pickup *- go to position and get item -* and the delivery *- got to position and unload item*.
+The Logistic Task Language *(LoTLan)* is a simple, yet powerful approach to describe intralogistic material flow logic. A material flow processes is mainly a transportation task like the pickup *- go to position and get item -* and the delivery *- got to position and unload item*.
 
-## Table of contents
+### Table of contents
 
 - [TaskSupervisor](#tasksupervisor)
 - [Logistic Task Language](#logistic-task-language)
@@ -43,7 +43,7 @@ The Logistic Task Language *(LoTLan)* is a simple, but powerful approach to desc
 
 ___
 
-## Introduction
+### Introduction
 
 The *LoTLan* consists of 3 different building blocks, that combined with each other describes such a process:
 
@@ -53,7 +53,7 @@ The *LoTLan* consists of 3 different building blocks, that combined with each ot
 
 A *Primitive* is an abstract model for a series of similar objects. It is the blueprint for the representation of real objects in software objects and describes attributes (properties) of the objects. Through the instantiation of such a *Primitive* a *Instance* of a concrete object is created. A *Task* then combines these *Instances* to a logical process flow.
 
-### Use of Example
+#### Use of Example
 
 The following documentation of *LoTLan* utilizes the example of a production hall that has an area for storing goods *- the Warehouse -* and an area for the manufacturing *- the Production*. To reduce the complexity only one AGV out of a possible lager fleet is used.
 
@@ -65,7 +65,7 @@ The following documentation of *LoTLan* utilizes the example of a production hal
 
 This example shown in the figure above will be expanded in the course of time to explain the individual building blocks of the *LoTLan*.
 
-## Primitives
+### Primitives
 
 A *Primitive* can contain multiple member variables, like pallets/storage places, multiple conveyer belts, or like sensors with the same capabilities. Therefore, a *Primitive* summarizes and specifies a set of *Instances*.
 
@@ -93,10 +93,10 @@ template Time
 end
 ```
 
-**Syntax**: It is important that the attributes inside an *template - end* definition begin with a lowercase character. The name has to start with an uppercase character. Each attribute also needs to be prefixed with four spaces (or a `\t`). Currently only the following 3 attributes are allowed: `name`, `type`, `timing`
+**Syntax**: It is important that the attributes inside a *template - end* definition begin with a lowercase character. The name has to start with an uppercase character. Each attribute also needs to be prefixed with four spaces (or a `\t`). Currently only the following 3 attributes are allowed: `name`, `type`, `timing`
 
 
-## Instances
+### Instances
 An *Instance* is the concrete object of a previously declared *Primitive*. Such set of *Instances* do not share any data other than the definition of their attributes.
 
 As an example, two *Instances* of locations could be initiated out of the previously made *Primitive* (see [Primitives section](#Primitives)):
@@ -135,7 +135,7 @@ end
 
 **Syntax**: The syntax of *Primitives* introduced here is complemented by assigning values to the attributes. These values must be enclosed by `"`. The name has to start with a lowercase character. Each attribute also needs to be prefixed with four spaces (or a `\t`).
 
-Speaking of the example introduced in the [introduction](#Logistic-Task-Language), the formerly shown *Location* *Instances* each define a specific location inside the two areas.
+In relation to the example introduced in the [introduction](#Logistic-Task-Language), the formerly shown *Location* *Instances*  define each a specific location inside the two areas.
 
 
 
@@ -145,7 +145,7 @@ Speaking of the example introduced in the [introduction](#Logistic-Task-Language
 
 The figure shows those positions inside the two areas *Warehouse* and *Production*.
 
-## TransportOrderSteps
+### TransportOrderSteps
 
 A *TransportOrderStep* is a *Task*-fragment that contains only a Location and optionally a *TriggeredBy*, *FinishedBy* or *OnDone* statement. It can be used by a *Task* as a from/to value.
 
@@ -176,11 +176,11 @@ The *TransportOrderStep* *loadGoodsPallet* defines picking up from the *Location
 
 **Syntax**: It is important that the values inside an *TransportOrderStep - end* definition begin with a lowercase character. Each value also needs to be prefixed with four spaces (or a `\t`). The name has to start with an lowercase character. Currently only the following 3 attributes are allowed: `Location`, `TriggeredBy`, `FinishedBy`, `OnDone`
 
-## Tasks
+### Tasks
 
 A *Task* orchestrates different *Instances* via operations to result in a logical process flow. Such a *Task* does not need to describe who is going to transport an item - it is important that the item will be transported.
 
-Generally speaking a *Task* in *LoTLan* describes that a amount of items should be picked up at some location\*s and be delivered to an\*other location\*s. The *Task* can optionally be triggered by an event or by time, can optionally issue a follow up *Task*, can optionally be finished by an event and can optionally be repeated:
+Generally speaking, a *Task* in *LoTLan* describes that a amount of items should be picked up at some location\*s and be delivered to an\*other location\*s. The *Task* can optionally be triggered by an event or by time, can optionally issue a follow up *Task*, can optionally be finished by an event and can optionally be repeated:
 
 ```text
 Task {name}
@@ -194,11 +194,11 @@ Task {name}
 end
 ```
 
-To simplify this down in the following the simplest structure of a *Task* is build and later on extended with optional functionality.
+To simplify this, down in the following example, the simplest structure of a *Task* is build and later on extended with optional functionality.
 
-### Example Simple Task
+#### Example Simple Task
 
-In the simplest form a *Task* in *LoTLan* just describes that an item should be picked up at some location and be delivered to another location:
+In its simplest form, a *Task* in *LoTLan* just describes that an item should be picked up at some location and be delivered to another location:
 
 ```text
 Task TransportGoodsPallet
@@ -208,7 +208,7 @@ Task TransportGoodsPallet
 end
 ```
 
-In terms of the introduced example production hall this *Task* looks like depicted in the following figure.
+In terms of the introduced example, production hall this *Task* looks like depicted in the following figure.
 
 
 ![Example task](./img/tl_tasks.png)
@@ -216,7 +216,7 @@ In terms of the introduced example production hall this *Task* looks like depict
 
 This *Task* *TransportGoodsPallet* could be done by an AGV, that picks up a pallet **from** *goodsPallet* inside the production area and delivers it **to** the *warehousePos1* in the warehouse area.
 
-### Example TriggeredBy Task
+#### Example TriggeredBy Task
 
 A *Task* can be extended with a *TriggeredBy* statement that activates that *Task* if the case occurs. This statement can be an event like a button press or be something simple as a specific time:
 
@@ -246,7 +246,7 @@ In terms of the introduced example production hall this *Task* looks like depict
 
 This *Task* *TransportGoodsPallet_2* could be done by an AGV, that picks up a pallet **from** *goodsPallet* inside the production area and delivers it **to** the *warehousePos1* in the warehouse area, when the button *buttonPallet* is pressed.
 
-### Example OnDone Task
+#### Example OnDone Task
 
 A *Task* can be extended with a *OnDone* statement that activates another *Task* when the original one has ended:
 
@@ -276,7 +276,7 @@ Task TransportGoodsPallet_3
 end
 ```
 
-In this example another *Task* is introduced. This *Task* *Refill* is the same transport as the formerly introduced *TransportGoodsPallet*, just the other way around. On the other hand, *TransportGoodsPallet_3* here shows now the *OnDone* statement that points to *Refill* an runs that *Task* if done. That means a concatenation of *Tasks* is allowed. Exploiting this behaviour infinite *Tasks* can be managed by pointing to each other. So *Refill* could also point to *TransportGoodsPallet_3* in a *OnDone* statement.
+In this example another *Task* is introduced. This *Task* *Refill* is the almost the same to the transport task as the formerly introduced *TransportGoodsPallet*, having as main difference that in this case it is te other way around. Furthermore, *TransportGoodsPallet_3* here shows now the *OnDone* statement that points to *Refill* an runs that *Task* if done. That means a concatenation of *Tasks* is allowed. Exploiting this behaviour infinite *Tasks* can be managed by pointing to each other. So *Refill* could also point to *TransportGoodsPallet_3* in a *OnDone* statement.
 
 In terms of the introduced example production hall this *Task* looks like depicted in the following figure.
 
@@ -285,7 +285,7 @@ In terms of the introduced example production hall this *Task* looks like depict
 
 This *Task* *TransportGoodsPallet_3* could be done by an AGV, that picks up a pallet **from** *goodsPallet* inside the production area and delivers it **to** the *warehousePos1* in the warehouse area, when the button *buttonPallet* is pressed. After that the AGV executes the *Task* *Refill* and so, it picks up a empty pallet **from** the *warehousePos1* and delivers it **to** the *goodsPallet* location.
 
-## Comments
+### Comments
 
 A comment starts with a hash character (`#`) that is not part of a string literal, and ends at the end of the physical line. That means a comment can appear on its own or at the end of a statement. In-line comments are not supported.
 
@@ -307,7 +307,7 @@ end
 This example shows a mimicked multi-line comment that consists of three `#` that are joined together.
 
 
-## Full Example
+### Full Example
 
 
 ```text

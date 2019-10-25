@@ -4,10 +4,10 @@ Welcome to Module's User & Programmers Manual Guide!
 
 Any feedback on this document is highly welcome, including bug reports, typos or information you think should be included but is not. Please send the feedback through email to: module@l4ms.eu. Thank you in advance.
 
-# Interfaces Produced
+## Interfaces Produced
  We recommend to read the TaskPlanner/TaskSupervisor introduction to understand our concept of the TaskSupervisor.
 
-## TransportOrderUpdate 
+### TransportOrderUpdate 
 Once, a Transportion by an AGV starts, the TaskPlanner will create a TransportOrderUpdate. 
 
 * id : uuid of the running instance
@@ -92,7 +92,7 @@ Once, a Transportion by an AGV starts, the TaskPlanner will create a TransportOr
 
 
 
-## MaterialflowSpecificationState  
+### MaterialflowSpecificationState  
 This entity provides information about the Materialflow and the processed TaskLanguage.
 
 * id : uuid
@@ -136,9 +136,10 @@ Example:
 ```
  
 
-# Interfaces Consumed by the TaskPlanner
- In order to work as designed, the TaskPlanner requires a Materialflow, which is based on the TaskLanguage. This entity is explained below.
-## Materialflow
+## Interfaces Consumed by the TaskPlanner
+In order to work as designed, the TaskPlanner requires a Materialflow, which is specified on the TaskLanguage. This entity is explained below.
+
+### Materialflow
 
 * id : uuid
 * type : Materialflow 
