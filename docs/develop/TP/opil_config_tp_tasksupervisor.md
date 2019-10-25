@@ -147,7 +147,7 @@ The figure shows those positions inside the two areas *Warehouse* and *Productio
 
 ## TransportOrderSteps
 
-A *TransportOrderStep* is a *Task*-fragment that contains only a Location and optionally a TriggeredBy, FinishedBy or OnDone statement. It can be used by a *Task* as a from/to value.
+A *TransportOrderStep* is a *Task*-fragment that contains only a Location and optionally a *TriggeredBy*, *FinishedBy* or *OnDone* statement. It can be used by a *Task* as a from/to value.
 
 ```text
 TransportOrderStep {name}
@@ -172,7 +172,7 @@ TransportOrderStep unloadGoodsPallet
 end
 ```
 
-The *TransportOrderStep* *loadGoodsPallet* defines picking up from the *Location* *goodsPallet*, which is finished when the *Event* *agvLoadedAtGoodsPallet* is True. For the the optional statements TriggeredBy, FinishedBy and OnDone see [Tasks section](#Tasks).
+The *TransportOrderStep* *loadGoodsPallet* defines picking up from the *Location* *goodsPallet*, which is finished when the *Event* *agvLoadedAtGoodsPallet* is True. For the the optional statements *TriggeredBy*, *FinishedBy* and *OnDone* see [Tasks section](#Tasks).
 
 **Syntax**: It is important that the values inside an *TransportOrderStep - end* definition begin with a lowercase character. Each value also needs to be prefixed with four spaces (or a `\t`). The name has to start with an lowercase character. Currently only the following 3 attributes are allowed: `Location`, `TriggeredBy`, `FinishedBy`, `OnDone`
 
