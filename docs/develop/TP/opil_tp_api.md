@@ -118,17 +118,32 @@ This entity provides information about the TaskSpec and the processed TaskLangua
 * *refId*: reference ID of the TaskSpec entity
 
 # Interfaces Consumed
- In order to work as designed, the TaskPlanner requires a TaskSpecification, which is based on the TaskLanguage. This entity is explained below.
-## TaskSpec
+ In order to work as designed, the TaskPlanner requires a Materialflow, which is based on the TaskLanguage. This entity is explained below.
+## Materialflow
 
-```json
+* id : uuid
+* type : Materialflow 
+* task : Text
+* ownerId : Text (Reference to the static UUID of the instance for the HMI)
+* active: Boolean (Indidicates, if the Materialflow shall be processed by the TaskSupervisor OR not. Important: ONCE the Hmi shutsdown, the HMI *needs* to set the materialflow to disable. The User needs to enable it manually after an restart of the system. This is required that the system is not doing something unexpected after boot).
+
+Example:
+
+```JSON
 {
-	"id": "TaskSpec1",
-	"type": "TaskSpec",
-	"TaskSpec": {
+	"id": "Materialflow1",
+	"type": "Materialflow",
+	"specification": {
+		"value": "template+Position%0A++++position%0A++++type%0Aend%0A%0Atemplate+Sensor%0A++++sensorId%0A++++type%0Aend%0A%0A%23%23%23%23%0A%0ASensor+opticalSensor%0A++++sensorId+%3D+%22optical_sensor1%22%0A++++type+%3D+%22Boolean%22%0Aend%0A%0APosition+moldingPallet%0A++++type+%3D+%22pallet%22%0A++++position+%3D+%22Tag10_11%22%0Aend%0A%0APosition+warehouse_pos1%0A++++type+%3D+%22pallet%22%0A++++position+%3D+%22Tag12%22%0Aend%0A%0A%23%23%23%23+%0Atask+Transport_Start%0A++++Transport%0A++++from+moldingPallet%0A++++to+warehouse_pos1%0A++++TriggeredBy+opticalSensor.value+%3D%3D+True%0Aend%0A",
+		"type": "Text"
+	},
+	"ownerId": {
 		"type": "Text",
-		"value": "template+Position%0A++++position%0A++++type%0Aend%0A%0Atemplate+Sensor%0A++++sensorId%0A++++type%0A++++value%0Aend%0A%0A%23%23%23%23%0A%0APosition+moldingPallet%0A++++type+%3D+%22pallet%22%0A++++position+%3D+%22moldingArea_palletPlace%22%0Aend%0A%0APosition+warehouse_pos1%0A++++type+%3D+%22pallet%22%0A++++position+%3D+%22warehouse_destination_pos%22%0Aend%0A%0ASensor+buttonPalletIsReady%0A++++sensorId+%3D+%22buttonMoldingArea%22%0A++++type+%3D+%22Boolean%22%0A++++value+%3D+TRUE%0Aend%0A%0A%23%23%23%23%0A%0A%0Atask+Charge%0A++++Transport+%0A++++from+warehouse_pos1%0A++++to+moldingPallet+%0Aend%0A%0Atask+Test2%0A++++Transport%0A++++from+warehouse_pos1%0A++++to+moldingPallet%0A++++OnDone+Charge%0Aend%0A%0Atask+Refill%0A++++Transport+%0A%09from+warehouse_pos1%0A%09to+moldingPallet%0A++++OnDone+Charge%0Aend%0A%0Atask+Transport_moldingPallet%0A++++Transport%0A++++from+moldingPallet%0A++++to+warehouse_pos1%0A++++TriggeredBy+buttonPalletIsReady.value+%3D%3D+TRUE%0A++++OnDone+Refill%0Aend%0A%0A%0A",
-		"metadata": {}
+		"value": "reviewers hmi"
+	},
+	"active": {
+		"type": "boolean",
+		"value": true
 	}
 }
 ```
