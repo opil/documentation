@@ -5,7 +5,7 @@ Welcome to Module's User & Programmers Manual Guide!
 Any feedback on this document is highly welcome, including bug reports, typos or information you think should be included but is not. Please send the feedback through email to: module@l4ms.eu. Thank you in advance.
 
 # Interfaces Produced
- We recommend to read the TaskPlanner/TaskSupervisor introduction to understand our concept of the TaskSupervisor (including the TaskScheduling, TaskManagers and Tasks).
+ We recommend to read the TaskPlanner/TaskSupervisor introduction to understand our concept of the TaskSupervisor.
 
 ## TransportOrderUpdate 
 Once, a Transportion by an AGV starts, the TaskPlanner will create a TransportOrderUpdate. 
