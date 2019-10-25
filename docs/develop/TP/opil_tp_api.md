@@ -7,87 +7,90 @@ Any feedback on this document is highly welcome, including bug reports, typos or
 # Interfaces Produced
  We recommend to read the TaskPlanner/TaskSupervisor introduction to understand our concept of the TaskSupervisor (including the TaskScheduling, TaskManagers and Tasks).
 
-## TaskManager 
-The TaskManager is using the parsed output of the specified Task Specification (via TaskLanguage). Once the Task Specification is valid, the set of task are the input for the TaskManager. For example a set of three task has been described:
+## TransportOrderUpdate 
+Once, a Transportion by an AGV starts, the TaskPlanner will create a TransportOrderUpdate. 
 
-```
-Transport_moldingPallet -> Charge -> Refill
-```
+* id : uuid of the running instance
+* type : TransportOrderUpdate
+* pickupFrom : string (name of the pickup location)
+* deliverTo : string (name of the delivery location)
+* name : string (name of this task)
+* refMaterialflowUpdateId : id (where has been this transportation defined)
+* refOwnerId : id (who has this materialflow/transportation defined)
+* taskInfo : int (Idle = 0, WaitForStartTrigger = 1, MovingToPickupDestination = 2, WaitForLoading = 3, MovingToDeliveryDestination = 4, WaitForUnloading = 5)
+* updateTime : string (last update of this entity)
+* startTime : string (when it has been started)
 
-
-The first task which will be executed is the `Transport_moldingPallet`. Once this task is finished, `Charge` is the follow up task. Once `Charge` is finished, the follow up task `Refill` will be executed. As soon the end of the last task of this task-set has been reached, in our case `Refill`, the lifecycle of this TaskManager ends. The TaskSupervisor is responsible to respawn the TaskManager.
-
- As already mentioned, a TaskManager can have multiple tasks in the queue (taskList) while only one single task is running at the same time. Multiple instances of the taskManager are able to run, identified by their unique ID (UUID).
-
+    
 ```json
+
 {
-	"id": "60149e8f-3dc0-11e9-8a98-30243282b4ae",
-	"type": "taskManager",
-	"taskList": {
-		"type": "array",
-		"value": [{
-			"type": "string",
-			"value": "Transport_moldingPallet"
-		}, {
-			"type": "string",
-			"value": "Charge"
-		}, {
-			"type": "string",
-			"value": "Refill"
-		}],
-		"metadata": {}
-	},
-	"taskManagerName": {
-		"type": "string",
-		"value": "Transport_moldingPallet",
-		"metadata": {}
-	},
-	"time": {
-		"type": "string",
-		"value": "2019-03-03 15:26:46.689000",
-		"metadata": {}
-	}
-}
-```
-
-*  **taskList**: the list of tasks, which are in included in this taskManager
-*  **taskManagerName**: the name of the taskManager
-*  **time**: date and time of this entity
-
-
-## Task 
-A task is a running instance of task, which has been defined in the taskManager. 
-```json
-{
-  "id": "fb0a90bf-8200-420c-a0b1-3571fe4c3e85",
-  "type": "Task",
-  "state": {
-    "type": "Number",
-    "value": 1,
-    "metadata": {}
-  },
-  "taskManagerId": {
-    "type": "string",
-    "value": "bba38580-3dbd-11e9-842d-30243282b4ae",
-    "metadata": {}
-  },
-  "taskName": {
-    "type": "string",
-    "value": "Transport_moldingPallet",
-    "metadata": {}
-  },
-  "time": {
-    "type": "string",
-    "value": "2019-03-03 15:07:52.421000",
-    "metadata": {}
+    "id": "cb01834e-e34d-42e9-95e5-4b9f461065b3",
+    "type": "TransportOrderUpdate",
+    "deliverTo": {
+      "type": "string",
+      "value": "Tag10_11",
+      "metadata": {
+        "python": {
+          "type": "dataType",
+          "value": "unicode"
+        }
+      }
+    },
+    "name": {
+      "type": "string",
+      "value": "SupplyTaskFromStorage1ToWorkstation1",
+      "metadata": {}
+    },
+    "pickupFrom": {
+      "type": "string",
+      "value": "Tag12",
+      "metadata": {
+        "python": {
+          "type": "dataType",
+          "value": "unicode"
+        }
+      }
+    },
+    "refMaterialflowUpdateId": {
+      "type": "string",
+      "value": "e01b62e6-efee-11e9-b956-e4b97aae3491",
+      "metadata": {}
+    },
+    "refOwnerId": {
+      "type": "string",
+      "value": "reviewers hmi",
+      "metadata": {}
+    },
+    "startTime": {
+      "type": "string",
+      "value": "2019-10-16 10:28:05.288958",
+      "metadata": {}
+    },
+    "state": {
+      "type": "string",
+      "value": "init",
+      "metadata": {}
+    },
+    "taskInfo": {
+      "type": "number",
+      "value": 0,
+      "metadata": {
+        "python": {
+          "type": "dataType",
+          "value": "int"
+        }
+      }
+    },
+    "updateTime": {
+      "type": "string",
+      "value": "2019-10-16 10:28:05.310872",
+      "metadata": {}
+    }
   }
-}
+
 ```
 
-* **state**: Idle : 0, Running : 1, Waiting : 2, Active : 3, Finished : 4, Aborted : 5, Error : 6
-* **taskManagerId**: the ID of the taskManager, who is responsible for spawning this task
-* **taskName**: current name of this ongoing task
-* **time**: date and time of this entity
 
 
 ## MaterialflowSpecificationState  
