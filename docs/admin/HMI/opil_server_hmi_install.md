@@ -88,16 +88,15 @@ services:
       (not localhost/127.0.0.1)
     - login using admin/admin
 
-<!---
-# Getting Started
--->
-
 # HMI Deinstall
 HMI can be deinstalled by removing the Docker container.
 
-<!---
 # Upgrades
--->
+HMI can be upgraded by first shutting down OPIL and the downloading latest Docker image.
+
+Goog idea could be to remove the old Docker container and image before.
+
+In HMI docker-compose.yml is defined the file locations of backed up folders for Mongo DB and uploaded files. If not removed, they will be in use of upgraded HMI app.
 
 # Deprecated Features
 At the moment there are no deprecated features.
