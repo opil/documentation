@@ -23,7 +23,6 @@ Once, a Transportion by an AGV starts, the TaskPlanner will create a TransportOr
 
     
 ```json
-
 {
     "id": "cb01834e-e34d-42e9-95e5-4b9f461065b3",
     "type": "TransportOrderUpdate",
