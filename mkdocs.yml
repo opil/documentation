@@ -73,7 +73,7 @@ pages:
             - API: develop/SP/opil_api_local_sp.md
             - Interfaces: develop/SP/opil_local_sp_interfaces.md
         - Robot Agent Node (RAN): 
-            - API: develop/RAN/opil_api_ran.md
+            - API: develop/RAN/opil_tp_API_intro.md
             - Interfaces: develop/RAN/opil_interfaces_ran.md
         - Sensor Agent Node (SAN): 
             - API: develop/SAN/opil_api_san.md
