@@ -46,16 +46,16 @@ pages:
         - Sensing and Perception - Local SP:
             - Local Sensing & Perception Description: admin/SP/opil_desc_local_SP_intro.md
             - Installation, Configuration and Upgrades: admin/SP/opil_local_sp_install.md                   
-        - RAN: 
+        -  Robot Agent Node (RAN): 
             - RAN Description: admin/RAN/opil_desc_ran.md
             - Installation, Configuration and Upgrades: admin/RAN/opil_server_ran_install.md
-        - SAN: 
+        - Sensor Agent Node (SAN): 
             - SAN Description: admin/SAN/opil_desc_san.md
             - Installation, Configuration and Upgrades: admin/SAN/opil_server_san_install.md
-        - RAN VC: 
+        - Robot Agent Node (RAN) VC: 
             - VC RAN Description: admin/RANVC/opil_desc_vc_ran.md
             - Installation, Configuration and Upgrades: admin/RANVC/opil_server_ranvc_install.md       
-        - SAN VC: 
+        - Sensor Agent Node (SAN) VC: 
             - VC SAN Description: admin/SANVC/opil_desc_vc_san.md
             - Installation, Configuration and Upgrades: admin/SANVC/opil_server_sanvc_install.md           
     - Developer's Guide and API:
@@ -79,4 +79,8 @@ pages:
             - API: develop/SAN/opil_api_san.md
             - Drivers: develop/SAN/opil_drivers_san.md
             - Configuration File: develop/SAN/opil_run_san.md
+        - Robot Agent Node (RAN) VC: 
+            - API: develop/RAN/opil_api_vc_ran.md
+        - Sensor Agent Node (SAN) VC: 
+            - API: develop/SAN/opil_api_vc_san.md
         - Examples: develop/examples.md

@@ -4,8 +4,8 @@ Welcome to Module's Installation & Administration Guide!
 
 Any feedback on this document is highly welcome, including bug reports, typos or information you think should be included but is not. Please send the feedback through email to: module@l4ms.eu. Thank you in advance.
 
-# How to start the TP docker container
-This docker container starts the TP which receives the created graph of SP via orion.
+## How to start the TP docker container
+This docker container starts the TP module, which receives the created graph of SP via Orion Context Broker.
 
 To start a docker container prepare a docker-compose.yml following this example for the local machine:
 
@@ -64,7 +64,7 @@ After you started it a window opens where you can see the graph. It takes some t
 
 In windows OS you need to open command prompt and type docker-compose up from the folder where you saved docker-compose.yml. The display in windows OS does not work, so you will not be able to see visualizations of topic exchange in rviz, but you can see subscriptions and entities in a web browser.
 
-## Configuration of Firos
+### Configuration of Firos
 
 The communication with RAN and SP through orion is realized via firos. For subscribing to the right topics on ROS site and subscribing to the right entities on orion site, firos needs to be configured. Therefore three different configurations are needed. Create the following empty files beside the above created ***docker-compose.yml***.
 
@@ -76,7 +76,7 @@ The communication with RAN and SP through orion is realized via firos. For subsc
 
 A detailed description of firos is given here: https://firos.readthedocs.io/en/latest/index.html
 
-### firos_config.json
+#### firos_config.json
 
 The ***config.json*** describes the local and remote connection to the orion context broker. For a detailed description follow these instructions: https://firos.readthedocs.io/en/latest/install/configuration-files.html
 
@@ -107,7 +107,7 @@ Copy this content to ***firos_config.json*** (preconfigured for RAN and TP v3.0.
 }
 ```
 
-### firos_robots.json
+#### firos_robots.json
 
 The ***robots.json*** subscribe to the topic of /map/graph which is provided by SP to generate the graph for the routing. In version 3.0.0-alpha only one robot is preconfigured. The data for the robot is published to following topics:
 
@@ -170,7 +170,7 @@ Copy this content to ***firos_robots.json*** (preconfigured for RAN and TP v3.0.
 }
 ```
 
-### firos_whitelist.json
+#### firos_whitelist.json
 
 The ***whitelist.json*** is needed by firos to subscribe to the topics described in the robots.json. All topics from the robots.json must be listed here. For a more detailed description follow this instructions: https://firos.readthedocs.io/en/latest/install/configuration-files.html#whitelistjson
 
@@ -197,7 +197,7 @@ Copy this content to ***firos_whitelist.json*** (preconfigured for RAN and TP v3
 }
 ```
 
-## Configuration of MTP
+### Configuration of MTP
 
 The MTP consist of three different modules: Topology, Router and Logical Agents. The topology is started by a module called *mars_topology_launcher* which listens to the topic /map/graph which is provided by SP. After a map is received, the topology is started automatically by the module. Subsequently the TP is ready to use.
 
@@ -239,7 +239,7 @@ The whole configuration file is listed below (mod_sw_tp.launch, preconfigured fo
 
 Following you find a more detailed description of the launch file and the parameter.
 
-### Topology
+#### Topology
 
 Following you can see the configuration for the topology launcher module:
 
@@ -266,14 +266,14 @@ The **mars_vertex_footprint_radius** describes the size of the bounding box whic
 <arg name="mars_vertex_footprint_radius" value="0.95" />
 ```
 
-### Router
+#### Router
 The Routing module which calculates the path for each robot can be started without any additional configuration. 
 ```xml
   <!-- ****** Router ***** -->
   <include file="$(find mars_routing_base)/launch/mars_routing_base.launch" />
 ```
 
-### Logical Agent(s)
+#### Logical Agent(s)
 Each RAN of the system is represented by a logical agent. The logical agents manages the high level tasks, like receiving and managing transport orders from the TS. For version 3.0.0-aplha, one AGV is preconfigured. 
 
 ```xml
@@ -319,7 +319,7 @@ Name of the node. Topics and service are published as followed: /namespace/node_
 <arg name="node_name" value="ran_00000000000000000000000000000001" />
 ```
 
-## Configuration of TS
+### Configuration of TS
 Following the configuration of the TS (ts_fiware_config.ini):
 
 ```ini
