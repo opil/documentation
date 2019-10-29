@@ -61,10 +61,7 @@ pages:
     - Developer's Guide and API:
         - Task Planner:
             - Introduction to API: develop/TP/opil_tp_API_intro.md
-            - Business Process Optimization:  develop/TP/opil_config_tp_bpo.md
-            - Motion Path Planning: develop/TP/opil_config_tp_mpp.md
-            - Task Supervisor: develop/TP/opil_config_tp_tasksupervisor.md
-            - API: develop/TP/opil_tp_api.md
+            - How it works: develop/TP/opil_tp_how_it_works.md
             - Interfaces: develop/TP/opil_tp_interfaces.md
         - Human Machine Interface: 
             - API: develop/HMI/opil_api_hmi.md
