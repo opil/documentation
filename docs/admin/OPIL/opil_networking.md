@@ -2,7 +2,7 @@
 
 **This page is under construction**
 
-On the production enviroment  **OPIL** network needs to be created.
+On the production enviroment **OPIL** network needs to be created.
 
 
 ![OPIL deployment scheme](./img/NETWORK.PNG)  

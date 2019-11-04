@@ -16,7 +16,7 @@ Please follow these steps for installing the OPIL server:
 - Computer with Linux-based operating with docker and docker-compose installed.
 - You know the IP-address of your system. Write it down as you will need  it later in this guide. This will be referred as `<ip-address>` from now on.
 - The following PNG image: [demo_map.png](files/demo_map.png)
-- You are familiar with Linux-based operating systems on basic level to execute commands and edit files
+- You must be familiar with Linux-based operating systems on a basic level to execute commands and edit files.
 - You have read the [introduction](../../start/index.md) and [deployment](../../start/deployment.md) pages and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
 
 
@@ -39,7 +39,7 @@ Then, check the `docker-compose` version by executing command:
 docker-compose version 1.24.1, build 4667896b
 ```
 
-The minimum required versions are listed in the table below but it's always a good idea to use the most latest version available.
+The minimum required versions are listed in the table below but it's always a good idea to use the latest version available.
 
 | Docker tool | Minimum version | This guide is tested with |
 | --- | --- | --- |
@@ -48,7 +48,7 @@ The minimum required versions are listed in the table below but it's always a go
 
 ### Troubleshooting and updating the docker environment
 
-If you did not have `docker` environment set up or either of the commands resulted in an out-of-date version or in some error or other unexpected result see the following links respectively.
+If you did not have `docker` environment set up or either of the commands resulted in an out-of-date version, in some error or other unexpected result see the following links respectively.
 
 For `docker` related instructions, see [docker installation guide](https://docs.docker.com/install/).  
 For `docker-compose` related instructions, see [docker-compose installation guide](https://docs.docker.com/compose/install/).
