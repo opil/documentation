@@ -1,3 +1,6 @@
+## UUID
+#### Get a new UUID/v4
+>    [GET] http://serveraddress/api/uuid
 
 ## Floorplans
 #### Get all floorplans
