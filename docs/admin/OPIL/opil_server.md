@@ -394,8 +394,6 @@ Review the content of your `docker-compose.yml` file and make sure it matches wi
 version: "3.1"
 
 services:
-
-services:
     ### Database for Context Broker ###
     mongo:
         image: mongo:3.4
