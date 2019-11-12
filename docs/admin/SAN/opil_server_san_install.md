@@ -53,8 +53,19 @@ The first file you should create is a **docker-compose.yaml** file. Open it in a
 version: '3'
 services:
     san:
+        image: l4ms/opil.iot.san:stableRPI
+        #give root permissions and name SAN
+        privileged: true
+        container_name: 'SAN'
+        #show informational messages from SAN in interactive terminal
+        stdin_open: true
+        tty: true 
+        #hijack host ip for internal server
+        network_mode: 'host'
+        #restart container in case of trouble unless stopped by user
+        restart: unless-stopped
+        #buildcontext
         build:
-            image: l4ms/opil.iot.san:stable
             context: ./
             dockerfile: ./Dockerfile
 ```
@@ -65,21 +76,26 @@ This file will tell Docker where it should look for instructions to configure th
 Next you should create a **Dockerfile**. Note that this file does not have a set filetype. Open it in an editor and enter the following:
 
 ```
+#This tells Docker what image to use as a base that it builds on
 FROM l4ms/opil.iot.san:stable
+
 #COPY statements copy files FROM somewhere on your machine TO somewhere in the 
 #docker container. You can add/uncomment statements to copy your drivers and config 
-#to the container. In order to add your driver, remove the # from #COPY ./$YOUR_DRIVER.py /code/Drivers and replace $YOUR_DRIVER with how you named your driver. For adding your config.rsc, for use on a RevPi, uncomment the corresponding line.
+#to the container.
 
 #COPY  FROM         TO
 COPY ./config.json /code
-#COPY ./config.rsc /code/Drivers
-#COPY ./YOUR_DRIVER.py /code/Drivers
+#COPY ./config.rsc /code/Drivers #uncomment this line if you are using a RevPi and need to add IO configuration
+#COPY ./YOUR_DRIVER.py /code/Drivers #uncomment this line if you want to add your driver
 
 #This part checks the slimness of the container. Do not change.
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get -y autoremove
+
 WORKDIR /code
-CMD sudo python3 san.py
+
+#starting container from the main SAN process, so that the termination signal is sent there
+ENTRYPOINT ["python3", "./san.py"]
 ```
 
 These are the instructions to Docker on how to configure SAN.
@@ -137,11 +153,11 @@ Once you have created your **config.json** file or edited the pre-existing one's
 
 In order to push the new configuration file that you made to the docker container you will need to run the following command in the terminal opened in the SAN folder:
 
-`sudo docker build -t l4ms/opil.iot.san:stable .`
+`sudo docker-compose build`
 
 After that you can run the following command to start SAN in the same terminal window:
 
-`sudo docker run -it --rm --privileged --name="SAN" l4ms/opil.iot.san:stable`
+`sudo docker-compose up`
 
 ### Running with cloned git repo
 
@@ -152,7 +168,7 @@ Navigate into `mod.iot.san/src/PythonSAN`, and run the following command in the 
 ### Stopping SAN
 1) Find the terminal where the SAN is running.
 2) Press Ctrl+C.
-3) SAN will stop all running update threads and automatically clean up dangling information from the OCB server.
+3) SAN will stop all running update threads and automatically clean up dangling information from the OCB server. *Docker will not show SAN's successful stop message, but as long as the server was cleaned up (no more graphs on HMI), shutdown was successful.*
 
 ## Where to next?
 
