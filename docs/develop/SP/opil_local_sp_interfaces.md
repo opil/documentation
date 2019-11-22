@@ -38,7 +38,7 @@ terminal 2: roslaunch mapupdates startmapupdates.launch
 ```
 More detailed explanations and examples can be seen in Section [Map updates](opil_api_local_sp.md#mapupdates).
 
-## Local SP sends the map updates and pose with covariance from AGV with ID name robot_0 through firos
+## <a name="localsp">Local SP sends the map updates and pose with covariance from AGV with ID name robot_0 through firos</a>
 
 For sending the topics through firos, robots.json and whitelist.json should look like this:
 ### robots.json

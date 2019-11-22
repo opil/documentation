@@ -24,7 +24,7 @@ terminal 2: roslaunch maptogridmap startmaptogridmap.launch
 More detailed explanations and examples can be seen in Section [Topology](opil_api_sp.md#topology).
 
 
-## Topology update from the local map updates from the Local SP
+## <a name="sp">Topology sends updates through firos by integrating received local map updates from the Local SP</a>
 
 For this _mapupdates_ needs to be started on a Local SP. New obstacles are merged and new topology is calculated if _maptogridmap_ is running. An example can be seen in Section [Illustration of topology and map updates](./../../admin/SP/opil_desc_SP_intro.md#topologyupdates).
 
