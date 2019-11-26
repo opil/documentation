@@ -57,7 +57,7 @@ A standard ROS message is used for sending the pose of the AGV:
 	geometry_msgs.msg.PoseWithCovarianceStamped
 	
 To be able to send this message, two modules needs to be started: the AMCL package and the sensing_and_perception package. The AMCL package provides localization of the AGV inside a given map using the odometry and laser sensors. The sensing_and_perception package combines the covariance calculated by the AMCL package and the the global pose in the map frame as a result of a combination of odometry and AMCL localization with the laser.
-Since this topic will be send through firos to OCB, the unique robot id needs to be set in the lauch file through _args_, e.g. 0, 1, 2, ... In this example launch file send_posewithcovariance.launch you can see that the id of the robot is set to 0. This creates a topic `/robot_0/pose_channel`. If you change the ID of the robot to 1 the topic `/robot_1/pose_channel` will be created.:
+Since this topic will be send through firos to OCB, the unique robot id needs to be set in the lauch file through _args_, e.g. 0, 1, 2, ... In this example launch file send_posewithcovariance.launch you can see that the id of the robot is set to 0. This creates a topic `/robot_0/pose_channel`. If you change the ID of the robot to 1 the topic `/robot_1/pose_channel` will be created:
 ```
 <launch>
 
@@ -94,7 +94,7 @@ If you want to send this topic through firos, use and adapt the config files in 
 terminal 3: rosrun firos core.py 
 ```
 
-#SLAM
+# SLAM
 
 When the map (or we also say the initial map) is not available, the SLAM process needs to be used to create it.
 
@@ -133,7 +133,7 @@ occupied_thresh: 0.65
 free_thresh: 0.196
 ```
 
-To simulate this map in Stage you need to do the following. By default map_server and Stage have different reference global map coordinate systems. We choose to have the coordinate system at the lower left corner of the map. To have that first autocrop the mapfile.pgm so that borders are occupied, otherwise map_server and Stage will have different scales since Stage does the autocrop by itself. To do so open the mapfile.pgm in gimp, autocrop and put it in lam_simulator/worlds/elements folder for Stage world file and to yaml/bitmaps folder for map_server. Open the yaml file that is created by the map_saver, put origin to zero so that the origin will be the lower left corner and put it in the yaml folder. Do not forget to change the path to the mapfile.pgm (in this example bitmaps folder is added).
+To simulate this map in Stage you need to do the following. By default map_server and Stage have different reference global map coordinate systems. We choose to have the coordinate system at the lower left corner of the map. To have that first autocrop the mapfile.pgm so that borders are occupied, otherwise map_server and Stage will have different scales since Stage does the autocrop by itself. To do so open the mapfile.pgm in gimp, autocrop and put it in lam_simulator/worlds/elements folder for Stage world file and to yaml/bitmaps folder for map_server. Open the yaml file that is created by the map_saver, put origin to zero so that the origin will be the lower left corner and put it in the yaml folder. Do not forget to change the path to the mapfile.pgm (in this example bitmaps folder is added):
 
 ```
 image: bitmaps/mapfile.pgm
@@ -205,7 +205,7 @@ y: [4.25, 4.05, 3.95, 3.85, 3.75, 3.75, 3.65, 3.55, 3.65, 3.55, 3.55, 3.45, 3.55
 
 First start the AMCL localization in the known map and the simulator Stage in which laser data are simulated.
 Then start the package mapupdates where new laser readings are compared to the cells of the gridmap. The package mapupdates converts the local laser readings to a global coordinate frame which can be visualized in rviz. This is used to test if the transformation is done correctly and marker points from topic /globalpoints_marker should be aligned in rviz over the simulated laser scan data.
-And finaly, start maptogridmap to visualize the new obstacles and topology updates. The package maptogridmap is subscribed to topic /robot_0/newObstacles and checks if points belong to the free grid cell and changes its occupancy accordingly. Nodes and edges are updated too. 
+And finaly, start maptogridmap to visualize the new obstacles and topology updates. The package maptogridmap is subscribed to topic /robot_0/newObstacles and checks if points belong to the free grid cell and changes its occupancy accordingly. Nodes and edges are updated too:
 
 ```
 terminal 1: roslaunch lam_simulator AndaOmnidriveamcltestZagrebdemo.launch
@@ -217,7 +217,7 @@ terminal 3: roslaunch maptogridmap startmaptogridmap.launch
 
 To read the topic in your own package you need to subscribe to it, include the header of the message, and write a message callback. The example is taken from maplistener/src/main.cpp.
 
-* subscribe to a topic /robot_0/newObstacles 
+* subscribe to a topic /robot_0/newObstacles: 
 ```
 newobs_sub = nh_.subscribe("/robot_0/newObstacles",1,&VisualizationPublisherGML::newObstaclesCallback, this);
 ```
@@ -286,14 +286,14 @@ services:
         image: mongo:3.4
         command: --nojournal   
 ```
-Make a clean start of context broker. 
+Make a clean start of context broker: 
 ```
 sudo docker-compose down
 sudo docker-compose up
 ```
 Check in firefox if http://OPIL_SERVER_IP:1026/v2/entities is blank (replace OPIL_SERVER_IP with the correct IP address).
 
-Start the stage simulator and AMCL localization. 
+Start the stage simulator and AMCL localization: 
 ```
 terminal 1: roslaunch lam_simulator AndaOmnidriveamcltestZagrebdemo.launch
 ```

@@ -40,7 +40,7 @@ services:
             
 version: "3.5"
 ```
-Before you can start the docker container, some configuration files must be created. Create this files beside your **docker-compose.yml**
+Before you can start the docker container, some configuration files must be created. Create this files beside your ***docker-compose.yml***
 ```
 - firos_config.json
 - firos_robots.json
@@ -53,14 +53,14 @@ touch firos_config.json firos_robots.json firos_whitelist.json mod_sw_tp.launch 
 ```
 A detailed description of this files is given in the subsequent sections.
 
-To start the container from the folder where you put your docker-compose.yml file execute the following commands:
+To start the container from the folder where you put your ***docker-compose.yml*** file execute the following commands:
 
 ```
 xhost local:root
 docker-compose up
 ```
 
-After you started it a window opens where you can see the graph. It takes some time until the whole graph is ready. If no edges or vertices are longer added to the graph TP is ready to use.
+After you started it a window opens where you can see the graph. It takes some time until the whole graph is ready. If no edges or vertices are added to the graph TP is ready to use.
 
 In windows OS you need to open command prompt and type docker-compose up from the folder where you saved docker-compose.yml. The display in windows OS does not work, so you will not be able to see visualizations of topic exchange in rviz, but you can see subscriptions and entities in a web browser.
 

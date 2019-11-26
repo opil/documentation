@@ -1,4 +1,4 @@
-# Introduction Visual Components -Robot Agent Nod (VC RAN)
+# Introduction Visual Components - Robot Agent Node (VC RAN)
 
 The VC-RAN (Visual Components Robot Agent Node) is the OPIL IoT Nodes layer module devoted to the control of the virtual robots. VC-RAN provides two main functionalities: it manages virtual robot navigation inside Visual Components simulation software and works as an interface between the virtual robots and the FIWARE Orion Context Broker of the OPIL Cyber Physical Middleware layer.
 
@@ -11,7 +11,7 @@ VC-RanLogic sends description message every minute to VC-Router, which delivers 
 
 ![](./img/VC_RAN_diagram.png)
 
-<center>Figure 1. Structure of VC-RAN.</center>
+<center>*Figure 1. Structure of VC-RAN.*</center>
 
 ## VC-Ran Logic
 
@@ -29,4 +29,4 @@ VC-RanLogic is always in one of the finite states specified in Figure 2. Startin
 
 ![](./img/VC_RAN_state.png)
 
-Figure 2. VC-RanLogic state machine.
+<center>*Figure 2. VC-RanLogic state machine.*</center>

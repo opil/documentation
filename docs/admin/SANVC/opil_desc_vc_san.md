@@ -9,5 +9,4 @@ and updates the entity in OCB. It also creates, updates and deletes entities aut
 Currently, updates entity immediately after sensor data is received later it can be possible to send gather more
 data and send it periodically.
 
-
 SAN actuator can track one sensor measurement at a time. The correct sensor and measurement are recognized by the sensor id and the measurement type. 

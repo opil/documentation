@@ -29,7 +29,7 @@ In the following all messages will be explained which are send by the TP. Messag
 
 #### MotionAssignment.msg
 
-The motion assignment tells the AGV the next destionation and under which circumstances it can moves to this position.
+The motion assignment tells the AGV the next destination and under which circumstances it can moves to this position.
 
 | Type                         | Variable         | Description                                                                                                                                                                                                       |
 | ---------------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -947,7 +947,7 @@ The cancel task message cancels a whole task for an AGV.
 | Type                | Variable  | Description                                                                                                                 |
 | ------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------- |
 | mars_common_msgs/Id | task_id   | ID of the task which should be canceled. If an Action- or MotionID is additionally given, only this part will be cancelled. |
-| mars_common_msgs/Id | action_id | NOT supported at the moment!                                                                                                |
+| mars_common_msgs/Id | action_id | Not supported at the moment!                                                                                                |
 | mars_common_msgs/Id | motion_id | Not supported at the moment!                                                                                                |
 
 ##### ROS Message
@@ -1450,7 +1450,7 @@ geometry_msgs/PolygonStamped footprint
 
 ##### Example of Orion entity
 
-Currently not available (message not used at the moment)!
+Currently not available (message not used at the moment).
 
 #### RobotAgentDescription.msg
 
@@ -1883,7 +1883,7 @@ Used messages are not directly send to another participant in the system. These 
 | Type      | Variable    | Description                                                                                                                                                                                                                                               |
 | --------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | uint8[16] | uuid        | Universally Unique Identifier (UUID). A UUID is a 128-bit number used to identify information in computer systems.  For generation UUIDs version 4 and 5 is used. For more information visit: https://en.wikipedia.org/wiki/Universally_unique_identifier |
-| string    | description | Optional description of the ID. Description can be: Name, what is descriped by the id, etc.                                                                                                                                                               |
+| string    | description | Optional description of the ID. Description can be: Name, what is described by the id, etc.                                                                                                                                                               |
 ##### ROS Message
 ```ini
 # Universally Unique Identifier (UUID)

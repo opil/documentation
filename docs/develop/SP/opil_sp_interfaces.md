@@ -7,6 +7,7 @@ The following sections describe how other modules needs to be connected to the S
 * There is no service calls implemented yet in firos so map is not transmitted through firos. Each module (Local SP on every AGV, Central SP and HMI) should have its own copy of map file (from CAD or as a SLAM result).
 * Map merging is done in the Central SP from map updates of up to three Local SPs (three AGVs) into one global gridmap from which the updated topology is calculated (later it will be from more than three Local SPs, i.e., AGVs)
 * HMI should have the initial map file, and ability to present map updates over the initial map 
+
 ![SP module architecture](./img/sp.png)
 
 

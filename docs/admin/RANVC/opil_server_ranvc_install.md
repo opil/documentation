@@ -22,7 +22,7 @@ The demo contains two conveyors and one of each of the following components: VC-
 
 ## Implementation justication and future work options
 
-* Motion and action assignments are collected into dictionaries instead of lists as specified in the [OPIL RAN interfaces documentation](https://gitlab.com/opil_group/documentation/blob/develop/docs/develop/RAN/opil_interfaces_ran.md) because its unknown whether the messages will arrive in right order or if all the messages will arrive within some specified time limit. With this design, messages do not have to be received in the exact order they were sent. Likewise, sending incomplete motion or action tasks to AGV is possible if later thought necessary.
+Motion and action assignments are collected into dictionaries instead of lists as specified in the [OPIL RAN interfaces documentation](https://gitlab.com/opil_group/documentation/blob/develop/docs/develop/RAN/opil_interfaces_ran.md) because its unknown whether the messages will arrive in right order or if all the messages will arrive within some specified time limit. With this design, messages do not have to be received in the exact order they were sent. Likewise, sending incomplete motion or action tasks to AGV is possible if later thought necessary.
 
 <!---
 # Deinstallation

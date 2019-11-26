@@ -12,10 +12,9 @@ The Local SP is located at
 
 ### The Local SP as a standalone module
 
-
 The Local SP docker container can be started in two ways: without RAN and with RAN. If started without RAN then the simulator Stage is used for testing and visualizing what the Local SP does. Here, installing the Local SP as a standalone module is described.
 
-To install it you need to prepare a docker-compose.yml following this example:
+To install it you need to prepare a ***docker-compose.yml*** following this example:
 ### <a name="dockercomposelocal">docker-compose.yml</a>
 ```
 version: "3"
@@ -55,7 +54,7 @@ First, set up the display for viewing the rviz visualization and Stage:
 xhost local:root
 ```
 This needs to be called only once.
-Then, start it from the folder where you put your docker-compose.yml file:
+Then, start it from the folder where you put your ***docker-compose.yml*** file:
 ```
 sudo docker-compose up
 ```
@@ -67,7 +66,7 @@ TODO: a new docker container of RAN needs to be created since the entities have 
 
 The Local SP docker container is the same but the environment variable needs to be `SIMULATION=false`. By this, the Local SP does not start the Stage simulator and it is connected directly to RAN through a single ROS master. For that purpose RAN docker container is called with the environment variable `SIMULATION=3`, which does not call **map_server** and **amcl** localization.
 
-To install it you need to prepare a docker-compose.yml that also includes RAN container:
+To install it you need to prepare a ***docker-compose.yml*** that also includes RAN container:
 ### <a name="dockercomposelocalran">docker-compose.yml</a>
 ```
 version: "3"
@@ -119,7 +118,7 @@ services:
             - DISPLAY=$DISPLAY
             - SIMULATION=false
 ```
-Then, start it from the folder where you put your docker-compose.yml file:
+Then, start it from the folder where you put your ***docker-compose.yml*** file:
 ```
 sudo docker-compose up
 ```
@@ -145,7 +144,7 @@ Install ROS packages:
 
 Install from SourceCode:
 
-* put everything to your src folder of your catkin workspace or create a new one by typing catkin_init_workspace in src folder. Then compile it with catkin_make in one folder up.
+* put everything to your src folder of your catkin workspace or create a new one by typing **catkin_init_workspace** in src folder. Then compile it with **catkin_make** in one folder up.
 ```
 cd ..
 catkin_make
@@ -197,7 +196,7 @@ negate: 0
 occupied_thresh: 0.65
 free_thresh: 0.196
 ```
-where
+Where
 
 * the image name is `map.png` by which your `floorplan.png` is overwritten on the docker side
 * **resolution** defines the size of the pixel of the png file in meters. To calculate the resolution, you need to know the width of the image in meters. Then, simply divide the width in meters with the width in the number of pixels. 
@@ -290,7 +289,7 @@ worker
 ```
 The most important parameters are **size** and **pose** in the **floorplan** section which need to be calculated in meters from pixels of `floorplan.png` and **resolution** in `floorplan.yaml`. For example, our `floorplan.png` has 1500 x 1080 pixels, and in `floorplan.yaml` we see that resolution is 0.0196.
 
-*	The first column in **size** is the width of the map along **x** axis in meters obtained by multiplication of resolution and width in pixels, i.e., 1500 x 0.0196 = 29.4 m, while the second column in **size** is the height along **y** axis obtained by multiplication of resolution and height in pixels, i.e., 1080 x 0.0196 = 21.168 m. The third column is the height along **z** axis of the floorplan, i.e. 1 meter.
+*	The first column in **size** is the width of the map along **x** axis in meters obtained by multiplication of resolution and width in pixels, i.e., 1500 x 0.0196 = 29.4 m, while the second column in **size** is the height along **y** axis obtained by multiplication of resolution and height in pixels, i.e., 1080 x 0.0196 = 21.168 m. The third column is the height along **z** axis of the floorplan, i.e., 1 meter.
 *	**pose** of the **floorplan** defines the origin of the loaded map in Stage in the form of **x**, **y**, **z**, **theta** (in degrees) values. If values for **x** and **y** coordinates are all zeros, then the origin will be in the middle of the floorplan. Therefore, to have aligned coordinate systems of Stage and map_server we need use the following formula:
 ```
 x= (x of size of the floorplan)/2 + (x of origin in floorplan.yaml) = 29.4/2 -12.7095 = 1.9905 (in this example)
@@ -363,12 +362,12 @@ The most important parameters are as follows:
 
 
 
-All files need to be in the folder where you put your docker-compose.yml.
-After restarting docker-compose.yml, i.e.,
+All files need to be in the folder where you put your ***docker-compose.yml.***
+After restarting ***docker-compose.yml***, i.e.,
 ```
 sudo docker-compose up
 ```
- this is what should be the result:
+ This is what should be the result:
 ![Local SP](./img/localsptero.png)
 
 This starts the **amcl** localization inside the map shown on topic `/robot_0/pose_channel`, and calculation of map updates shown on topic `/robot_0/newObstacles`. The robot in the Stage simulator can be moved by mouse dragging, and changed pose can be seen in topic `/robot_0/pose_channel` which shows the current pose and the covariance of the pose estimation. There is also an obstacle in the Stage simulator that can be used for test of showing the map updates, seen in topic `/robot_0/newObstacles`.
@@ -859,5 +858,5 @@ This is the first appearance of SP module so there is no upgrade procedure.
 
 # Local SP Deprecated 
 
-There are no deprecated features. 
+Currently there are no deprecated features.
 

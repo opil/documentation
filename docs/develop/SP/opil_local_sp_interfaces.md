@@ -9,6 +9,7 @@ The following sections describe how other modules needs to be connected to the L
 * Map updates are sent through firos, which are calculated from the new sensor readings that hit the free grid cells
 * Map merging is done in the Central SP from map updates of up to three Local SPs (three AGVs) into one global gridmap from which the updated topology is calculated (later it will be from more than three Local SPs, i.e., AGVs)
 * HMI should have the initial map file, and ability to present map updates over the initial map 
+
 ![SP module architecture](./img/sp.png)
 
 # AGV's computer with the Local SP
