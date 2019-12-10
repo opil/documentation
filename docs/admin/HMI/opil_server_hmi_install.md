@@ -21,7 +21,7 @@ HMI is a web application server with its own local database for storing data nee
     - ngsiproxy must be started as well, preferably with middleware
         - add ngsiproxy service definition to your middleware docker-compose.yml
 
-An example of middleware docker-compose.yml:
+An example of middleware ***docker-compose.yml***:
 ```
 version: "3"
 services:
@@ -54,7 +54,7 @@ services:
         - password could be changed from UI as well, and should be changed
 
 
-HMI web app docker-compose.yml:
+HMI web app ***docker-compose.yml***:
 ```
 version: "3"
 services:
@@ -96,10 +96,12 @@ HMI can be upgraded by first shutting down OPIL and the downloading latest Docke
 
 Good idea could be to remove the old Docker container and image before.
 
-In HMI docker-compose.yml is defined the file locations of backed up folders for Mongo DB and uploaded files. If not removed, they will be in use of upgraded HMI app.
+In HMI ***docker-compose.yml*** is defined the file locations of backed up folders for Mongo DB and uploaded files. If not removed, they will be in use of upgraded HMI app.
 
 # Deprecated Features
-At the moment there are no deprecated features.
+
+
+Currently there are no deprecated features.
 
 
 

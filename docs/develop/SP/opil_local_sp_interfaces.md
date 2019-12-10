@@ -9,6 +9,7 @@ The following sections describe how other modules needs to be connected to the L
 * Map updates are sent through firos, which are calculated from the new sensor readings that hit the free grid cells
 * Map merging is done in the Central SP from map updates of up to three Local SPs (three AGVs) into one global gridmap from which the updated topology is calculated (later it will be from more than three Local SPs, i.e., AGVs)
 * HMI should have the initial map file, and ability to present map updates over the initial map 
+
 ![SP module architecture](./img/sp.png)
 
 # AGV's computer with the Local SP
@@ -38,7 +39,7 @@ terminal 2: roslaunch mapupdates startmapupdates.launch
 ```
 More detailed explanations and examples can be seen in Section [Map updates](opil_api_local_sp.md#mapupdates).
 
-## Local SP sends the map updates and pose with covariance from AGV with ID name robot_0 through firos
+## <a name="localsp">Local SP sends the map updates and pose with covariance from AGV with ID name robot_0 through firos</a>
 
 For sending the topics through firos, robots.json and whitelist.json should look like this:
 ### robots.json

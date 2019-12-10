@@ -75,7 +75,7 @@ Below is the explanation of the entity along with its attributes:
 
 *Above: Explanation of reading attribute*
 
-**!PLEASE NOTE** - the used time format is expected to be ISO8601
+**PLEASE NOTE!** - the used time format is expected to be ISO8601
 
 ## Orion Context Broker API to receive updates on SAN data
 You can retrieve the SAN data off the Context Broker using 2 methods: either straight by using HTTP GET API command or

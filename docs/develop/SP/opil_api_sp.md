@@ -143,7 +143,7 @@ distance = 1.8
 ```
 The annotations are saved under the variable of type maptogridmap::Annotations inside of the maptogridmap package. All values must be in meters and degrees. From these values it is calculated where the AGV needs to be placed in front of the annotation according to the distance from the annotation and the orientation theta. It changes the values of the computed nodes from gridmap cells so that TP can use this nodes as goals.
 
-These four annotations change the coordinates of the cell centre of the grid map (but only free cells) and also change the name to the annotation name, e.g., loadingArea, unloadingArea, etc. The result can be seen in [topic /map/graph.](#exampleannot)
+These four annotations change the coordinates of the cell centre of the grid map (but only free cells) and also change the name to the annotation name, e.g. loadingArea, unloadingArea, etc. The result can be seen in [topic /map/graph.](#exampleannot)
 
 The additional example explains the creation of one annotation in the topology graph. First, create the following file and save it under the name `annotations.ini`:
 ```
@@ -180,7 +180,7 @@ The message that is sent through firos is maptogridmap/msg/Graph.msg
 
 To read the topic in your own package you need to subscribe to it, include the header of the message, and write a message callback. The example is taken from maplistener/src/main.cpp.
 
-* subscribe to a topic /map/graph 
+* subscribe to a topic /map/graph:
 ```
  	graph_sub = nh_.subscribe("map/graph",1,&VisualizationPublisherGML::graphCallback, this);
 
@@ -189,7 +189,7 @@ To read the topic in your own package you need to subscribe to it, include the h
 ```
 #include <maptogridmap/Graph.h>
 ```
-* write a message callback for Graph message, which draws a small square at each vertex
+* write a message callback for Graph message, which draws a small square at each vertex:
 ```
 void VisualizationPublisherGML::graphCallback(const maptogridmap::GraphConstPtr& gmMsg)
 {
@@ -247,7 +247,7 @@ services:
         image: mongo:3.4
         command: --nojournal   
 ```
-Make a clean start of context broker. 
+Make a clean start of context broker: 
 ```
 sudo docker-compose down
 sudo docker-compose up

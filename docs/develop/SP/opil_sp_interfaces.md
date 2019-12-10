@@ -7,6 +7,7 @@ The following sections describe how other modules needs to be connected to the S
 * There is no service calls implemented yet in firos so map is not transmitted through firos. Each module (Local SP on every AGV, Central SP and HMI) should have its own copy of map file (from CAD or as a SLAM result).
 * Map merging is done in the Central SP from map updates of up to three Local SPs (three AGVs) into one global gridmap from which the updated topology is calculated (later it will be from more than three Local SPs, i.e., AGVs)
 * HMI should have the initial map file, and ability to present map updates over the initial map 
+
 ![SP module architecture](./img/sp.png)
 
 
@@ -24,7 +25,7 @@ terminal 2: roslaunch maptogridmap startmaptogridmap.launch
 More detailed explanations and examples can be seen in Section [Topology](opil_api_sp.md#topology).
 
 
-## Topology update from the local map updates from the Local SP
+## <a name="sp">Topology sends updates through firos by integrating received local map updates from the Local SP</a>
 
 For this _mapupdates_ needs to be started on a Local SP. New obstacles are merged and new topology is calculated if _maptogridmap_ is running. An example can be seen in Section [Illustration of topology and map updates](./../../admin/SP/opil_desc_SP_intro.md#topologyupdates).
 

@@ -86,7 +86,7 @@ pages:
             - Drivers: develop/SAN/opil_drivers_san.md
             - Configuration File: develop/SAN/opil_run_san.md
         - Robot Agent Node (RAN) VC: 
-            - API: develop/RAN/opil_api_vc_ran.md
+            - API: develop/RANVC/opil_api_vc_ran.md
         - Sensor Agent Node (SAN) VC: 
-            - API: develop/SAN/opil_api_vc_san.md
+            - API: develop/SANVC/opil_api_vc_san.md
         - Examples: develop/examples.md

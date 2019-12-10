@@ -1,6 +1,6 @@
 # Drivers for SAN
 
-## Existing drivers and supported devices:
+## Existing drivers and supported devices
 GPIO pin interface on Raspberry Pis and Revolution Pi
 Generic USB interface
 

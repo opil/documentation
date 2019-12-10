@@ -34,7 +34,7 @@ services:
             
 version: "3.5"
 ```
-Before you can start the docker container, some configuration files must be created. Create this files beside your **docker-compose.yml**
+Before you can start the docker container, some configuration files must be created. Create this files beside your ***docker-compose.yml***
 ```
 - firos_config.json
 - firos_robots.json
@@ -49,7 +49,7 @@ touch firos_config.json firos_robots.json firos_whitelist.json mod_iot_ran.launc
 ```
 A detailed description of this files is given in the subsequent sections.
 
-To start the container from the folder where you put your docker-compose.yml file execute the following commands:
+To start the container from the folder where you put your ***docker-compose.yml*** file execute the following commands:
 
 ```
 xhost local:root
@@ -180,9 +180,9 @@ Copy this content to ***firos_whitelist.json*** (preconfigured for RAN and TP v3
 
 # Configuration RAN
 
-The RAN consists of some different configuration files. The **mod_iot_ran.launch** file is for the RAN configuration, the other files (**simulation.launch**, **stage.world**) are for a build in ros simulation besides the Visual Components simulation. The here include simulation simulates the real hardware for testing the ran.
+The RAN consists of some different configuration files. The **mod_iot_ran.launch** file is for the RAN configuration, the other files (**simulation.launch**, **stage.world**) are for a build in ros simulation besides the Visual Components simulation. The here include simulation simulates the real hardware for testing the RAN.
 
-Copy the following configuration to the mod_iot_ran.launch file. A detailed description of the file can be found below.
+Copy the following configuration to the mod_iot_ran.launch file. A detailed description of the file can be found below:
 
 ```xml
 <launch>
@@ -238,22 +238,22 @@ Copy the following configuration to the mod_iot_ran.launch file. A detailed desc
 </launch>
 ```
 
-The parameter **robot_1_name** sets the name of the robot inside the RAN ROS node.
+The parameter **robot_1_name** sets the name of the robot inside the RAN ROS node:
 ```xml
   <arg name="robot_1_name" default="robot_1" />
 ```
 
-The parameter **initial_pose_robot_1_x** sets the current x-position of the robot in map coordinates.
+The parameter **initial_pose_robot_1_x** sets the current x-position of the robot in map coordinates:
 ```xml
   <arg name="initial_pose_robot_1_x" default="-8.916"/>
 ```
 
-The parameter **initial_pose_robot_1_y** sets the current y-position of the robot in map coordinates.
+The parameter **initial_pose_robot_1_y** sets the current y-position of the robot in map coordinates:
 ```xml
   <arg name="initial_pose_robot_1_y" default="-5.12"/>
 ```
 
-The parameter **initial_pose_robot_1_a** sets the current orientation of the robot.
+The parameter **initial_pose_robot_1_a** sets the current orientation of the robot:
 ```xml
   <arg name="initial_pose_robot_1_a" default="0.0"/>
 ```
@@ -263,7 +263,7 @@ The parameter **robot_1_description** sets the robot parameter for the simulatio
   <arg name="robot_1_description" default="robot_description_default"/>
 ```
 
-The parameter **robot_1_id** sets the ID of the robot. The ID must be unique and can be random generated or from the robot name. The ID follows the UUID standard (https://en.wikipedia.org/wiki/Universally_unique_identifier). For generating a random UUID the v4 standard must be used, for generating a UUID from a given name UUID standard v5 must be used.
+The parameter **robot_1_id** sets the ID of the robot. The ID must be unique and can be random generated or from the robot name. The ID follows the UUID standard (https://en.wikipedia.org/wiki/Universally_unique_identifier). For generating a random UUID the v4 standard must be used, for generating a UUID from a given name UUID standard v5 must be used:
 ```xml
   <arg name="robot_1_id" default="00000000-0000-0000-0000-000000000001"/>
 ```
@@ -274,18 +274,18 @@ This line is necessary to start firos and communicate with orion. DON'T CHANGE T
   <node name="firos" pkg="firos" type="core.py"/>
 ```
 
-This line starts rviz which displays the current position of the robot. If no visualization is favoured, comment this line out.
+This line starts rviz which displays the current position of the robot. If no visualization is favoured, comment this line out:
 ```xml  
   <!-- RVIZ -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mars_simulation)/rviz/opil_finnland.rviz" />
 ```
 
-This line starts the build in simulation.
+This line starts the build in simulation:
 ```xml
   <!--  ****** Stage simulation *****  -->
   <include file="$(find mars_simulation)/launch/opil_finnland_simulation.launch"/>
 ```
- Sets the namespace for the runs node(s). (In v3.0.0-alpha no namespace is used)
+ Sets the namespace for the runs node(s). (In v3.0.0-alpha no namespace is used):
 ```xml
   <!-- <group ns="/opil/iot"> -->
   .. some content ...
@@ -299,7 +299,7 @@ Starts the RAN node for one robot. Each robot needs an individual RAN. All neede
   </include>
 ```
 
-Starts a transformation and a localization for the robot in the simulation. Dont't change this lines 
+Starts a transformation and a localization for the robot in the simulation. DON'T CHANGE THESE LINES!
 ```xml
 <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 0 1 map robot_1/odom" />
 
@@ -314,7 +314,7 @@ Starts a transformation and a localization for the robot in the simulation. Dont
 ```
 
 ## Simulation configuration
-For starting the simulation, two config files are needed. Copy the content of the documentation below to your local files. Don't change the content of the files!
+For starting the simulation, two config files are needed. Copy the content of the documentation below to your local files. DON'T CHANGE THE CONTENT OF THE FILES!
 
 ### Configuration of stage.world
 

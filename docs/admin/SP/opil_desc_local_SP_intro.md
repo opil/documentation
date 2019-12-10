@@ -15,7 +15,7 @@ For full documentation visit L4MS <https://l4ms.org>.
 
 SP (Sensing & Perception) is a software module as part of OPIL (Open Platform for Innovation in Logistics). 
 It provides the pose of the AGV inside the built map of the environment in which the AGV is navigating and updates the map with the new sensor readings.
-Additionally, it can build the map with SLAM (Simultaneous Localization And Mapping) if no map is given initially. It uses the range data (laser, kinect) for map building and updating the map, and odometry sensors (encoders, IMU) with range data and map for localization inside the map.
+Additionally, it can build the map with SLAM (Simultaneous Localization And Mapping) if no map is given initially. It uses the range data (laser, kinect) for map building and updating, and odometry sensors (encoders, IMU) with range data and map for localization inside the map.
 
 ## Structure SP
 
@@ -60,5 +60,5 @@ Tiny red squares (0.1 m) are the local map built from the laser readings while t
 ## Next steps
 
 Follow the [Install instructions](./opil_local_sp_install.md).
-For more details how everything works check the [API.](./../../develop/SP/opil_api_sp.md)     
+For more details how everything works check the [API.](./../../develop/SP/opil_api_local_sp.md)     
         
