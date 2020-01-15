@@ -45,6 +45,8 @@ services:
 
     - HMI docker-compose service could be run in the same machine as OCB
         - if so, combine services from YML below to the upper one
+        - make necessary changes to environment variables
+        - uncomment optional variables if needed
     - HMI web app uses its own instance of Mongo DB
         - use different service name than with OCB, i.e. like below "mongodb"
         - db data is backed up in folder ./mongo/data
@@ -72,6 +74,8 @@ services:
      - ocb_port=1026
      - ngsi_proxy_host={IP address or hostname of NGSI Proxy}
      - ngsi_proxy_port=3000
+     #- link_btn_txt={Text to be shown on the button}
+     #- link_btn_url={URL to be opened}
     restart: always
     volumes:
       - ./public/uploads:/usr/src/app/public/uploads

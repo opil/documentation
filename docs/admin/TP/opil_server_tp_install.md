@@ -4,15 +4,24 @@ Welcome to Module's Installation & Administration Guide!
 
 Any feedback on this document is highly welcome, including bug reports, typos or information you think should be included but is not. Please send the feedback through email to: module@l4ms.eu. Thank you in advance.
 
-## How to start the TP docker container
-This docker container starts the TP module, which receives the created graph of SP via Orion Context Broker.
+The "Software system" layer represents the highest level of OPIL where all the services that this platform provides to the end users are logically grouped by design. This level is made of three main modules. Task Planner is one of the three OPIL Components and Functional blocks which this 3rd Layer is made of. Regarding the OPIL architecture, this node consists of three different sub-modules. Firstly, the Task Supervisor monitors the execution of the task dispatched to the agents (Robots). Secondly, the Motion Task Planning plans the motion tasks for the robot agents. Lastly, the Business Process Optimization functional block decides and optimizes the tasks to be dispatched to the different agents (not included in v3.x of Opil). Task Planner makes it possible for the different components to communicate with each other and be composed into full-fledged logistic system in a manufacturing environment.
+
+## MTP
+The submodule Motion Task Planner (MTP) of the Task Planner (TP) is a software module as part of OPIL (Open Platform for Innovation in Logistics). The MTP modules creates/computes a motion task plan for the involved agents. This motion task provides a deadlock-free, optimal or near optimal path without loops and collision. Beyond this path computation the Motion Task Planning component handles the communication with the Agents. 
+The MOD.SW.TP Motion Task Planning receives the start and end destinations of the appropriate Robot/ Human Agent Nodes. It computes the best, shortest and/or fastest path for the navigation and it handles the communication with the Robotic Agent Nodes (MOD.SW.RAN). Moreover, it is aware about the state, like current pose, current task, of the agents nodes.
+
+## TS
+The Task Supervisor (TS) module receives task specification from the HMI Module in an appropriate formal language and parameterized task specification. The TS process the received task information and assigns transport order to the available Robots. The Task Supervisor is also able to send the current state information to the HMI. Any changes inside the system will be handled through this sub-module.
+
+# How to start the TP docker container
+This docker container starts the TP which receives the created graph of SP via orion.
 
 To start a docker container prepare a docker-compose.yml following this example for the local machine:
 
 ```yml
 services: 
   opil.mod.sw.tp.ts:
-    image: "l4ms/opil.sw.tp.ts"
+    image: "l4ms/opil.sw.tp.ts:latest"
     depends_on: 
       - opil.mod.sw.tp.mtp
     environment: 
@@ -40,7 +49,7 @@ services:
             
 version: "3.5"
 ```
-Before you can start the docker container, some configuration files must be created. Create this files beside your ***docker-compose.yml***
+Before you can start the docker container, some configuration files must be created. Create this files beside your **docker-compose.yml**
 ```
 - firos_config.json
 - firos_robots.json
@@ -53,18 +62,18 @@ touch firos_config.json firos_robots.json firos_whitelist.json mod_sw_tp.launch 
 ```
 A detailed description of this files is given in the subsequent sections.
 
-To start the container from the folder where you put your ***docker-compose.yml*** file execute the following commands:
+To start the container from the folder where you put your docker-compose.yml file execute the following commands:
 
 ```
 xhost local:root
 docker-compose up
 ```
 
-After you started it a window opens where you can see the graph. It takes some time until the whole graph is ready. If no edges or vertices are added to the graph TP is ready to use.
+After you started it a window opens where you can see the graph. It takes some time until the whole graph is ready. If no edges or vertices are longer added to the graph TP is ready to use.
 
 In windows OS you need to open command prompt and type docker-compose up from the folder where you saved docker-compose.yml. The display in windows OS does not work, so you will not be able to see visualizations of topic exchange in rviz, but you can see subscriptions and entities in a web browser.
 
-### Configuration of Firos
+## Configuration of Firos
 
 The communication with RAN and SP through orion is realized via firos. For subscribing to the right topics on ROS site and subscribing to the right entities on orion site, firos needs to be configured. Therefore three different configurations are needed. Create the following empty files beside the above created ***docker-compose.yml***.
 
@@ -76,7 +85,7 @@ The communication with RAN and SP through orion is realized via firos. For subsc
 
 A detailed description of firos is given here: https://firos.readthedocs.io/en/latest/index.html
 
-#### firos_config.json
+### firos_config.json
 
 The ***config.json*** describes the local and remote connection to the orion context broker. For a detailed description follow these instructions: https://firos.readthedocs.io/en/latest/install/configuration-files.html
 
@@ -107,7 +116,7 @@ Copy this content to ***firos_config.json*** (preconfigured for RAN and TP v3.0.
 }
 ```
 
-#### firos_robots.json
+### firos_robots.json
 
 The ***robots.json*** subscribe to the topic of /map/graph which is provided by SP to generate the graph for the routing. In version 3.0.0-alpha only one robot is preconfigured. The data for the robot is published to following topics:
 
@@ -170,7 +179,7 @@ Copy this content to ***firos_robots.json*** (preconfigured for RAN and TP v3.0.
 }
 ```
 
-#### firos_whitelist.json
+### firos_whitelist.json
 
 The ***whitelist.json*** is needed by firos to subscribe to the topics described in the robots.json. All topics from the robots.json must be listed here. For a more detailed description follow this instructions: https://firos.readthedocs.io/en/latest/install/configuration-files.html#whitelistjson
 
@@ -197,7 +206,7 @@ Copy this content to ***firos_whitelist.json*** (preconfigured for RAN and TP v3
 }
 ```
 
-### Configuration of MTP
+## Configuration of MTP
 
 The MTP consist of three different modules: Topology, Router and Logical Agents. The topology is started by a module called *mars_topology_launcher* which listens to the topic /map/graph which is provided by SP. After a map is received, the topology is started automatically by the module. Subsequently the TP is ready to use.
 
@@ -239,7 +248,7 @@ The whole configuration file is listed below (mod_sw_tp.launch, preconfigured fo
 
 Following you find a more detailed description of the launch file and the parameter.
 
-#### Topology
+### Topology
 
 Following you can see the configuration for the topology launcher module:
 
@@ -266,26 +275,30 @@ The **mars_vertex_footprint_radius** describes the size of the bounding box whic
 <arg name="mars_vertex_footprint_radius" value="0.95" />
 ```
 
-#### Router
+### Router
 The Routing module which calculates the path for each robot can be started without any additional configuration. 
 ```xml
   <!-- ****** Router ***** -->
   <include file="$(find mars_routing_base)/launch/mars_routing_base.launch" />
 ```
 
-#### Logical Agent(s)
+### Logical Agent(s)
 Each RAN of the system is represented by a logical agent. The logical agents manages the high level tasks, like receiving and managing transport orders from the TS. For version 3.0.0-aplha, one AGV is preconfigured. 
 
 ```xml
   <!-- ****** Logical Agent (robot_0) ***** -->
   <include file="$(find mars_agent_logical_agv)/launch/mars_agent_logical_agv.launch">
-    <arg name="physical_robot_namespace" value=""/>
     <arg name="robot_name" value="robot_opil_v2" />
     <arg name="physical_agent_id" value="00000000-0000-0000-0000-000000000001" />
     <arg name="physical_agent_description" value="robot_0" />
-    <!-- p0 -->
-    <arg name="current_topology_entity_id" value="0a8b9081-d84c-5660-909c-134d55bf4966" />
+    <arg name="current_topology_entity_id" value="e53201ce-c3e3-53ed-b3df-daf27fcbb8e9" />
+    <!-- Parking spot: P0 -->
+    <arg name="parking_spot_entity_id" default="e53201ce-c3e3-53ed-b3df-daf27fcbb8e9" />
+    <arg name="parking_spot_entity_type" default="10" />
+
+    <!-- ZFT hall rb1 setup -->
     <arg name="node_name" value="ran_00000000000000000000000000000001" />
+    <arg name="physical_robot_namespace" value=""/>
   </include>
 ```
 
@@ -319,7 +332,17 @@ Name of the node. Topics and service are published as followed: /namespace/node_
 <arg name="node_name" value="ran_00000000000000000000000000000001" />
 ```
 
-### Configuration of TS
+ID of the node where the robot goes parking. A robot drives to this location if it doesn't receive a new order.
+```xml
+<arg name="parking_spot_entity_id" default="e53201ce-c3e3-53ed-b3df-daf27fcbb8e9" />
+```
+
+Type of the parking node. Currently not used.
+```xml
+<arg name="parking_spot_entity_type" default="10" />
+```
+
+## Configuration of TS
 Following the configuration of the TS (ts_fiware_config.ini):
 
 ```ini
@@ -327,16 +350,71 @@ Following the configuration of the TS (ts_fiware_config.ini):
 host = 0.0.0.0
 
 [taskplanner] 
-host = <local network address>
+host = 10.64.6.176 
 PORT = 2906 
 
 [contextbroker]
-host= <orion address>
+host= 192.168.100.76 
 port=1026
 
 [robots]
-# these ids needs to be comma seperated, currently only robot 1 is used
-# if you have multiple robots define the ids like that:
-# ids = ran_00000000000000000000000000000001, ran_00000000000000000000000000000002, ... 
-ids = ran_00000000000000000000000000000001
+# These ids needs to be comma seperated, currently only robot 1 is used: ran_00000000000000000000000000000001 with 'Misc' capabilities and name 'MSM_Sim'
+# AGV 92990e07d46e5c62a00e6976071a358d and 67a4f54b8ed959e295a4f8da11045dca are only examples
+ids = ran_00000000000000000000000000000001, 92990e07d46e5c62a00e6976071a358d, 67a4f54b8ed959e295a4f8da11045dca
+# Capabilities can be self defined in TL under Location -> Type
+# E.g.: 
+# Location dropoffItem
+#     name = "ws1_dropoff"
+#     type = "SmallLoadCarrier"
+# end
+types = SmallLoadCarrier, Misc, OtherCapability
+# Names of the robots
+names = MSM_Sim, emili, robotinik
+```
+
+Example task for the ran docker simulation:
+```ini
+Location pickupItem
+    name = "pickup"
+    type = "SmallLoadCarrier"
+end
+
+Location dropoffItem
+    name = "dropoff"
+    type = "SmallLoadCarrier"
+end
+
+Event callAgv
+    name = "virtualSensorCallAgv"
+    type = "Boolean"
+end
+
+Event s1Loaded
+    name = "virtualSensorAgvS1Loaded1"
+    type = "Boolean"
+end
+
+Event s2Unloaded
+    name = "virtualSensorAgvS2Unloaded"
+    type = "Boolean"
+end
+
+
+TransportOrderStep s1
+    Location pickupItem  # Only one Location can be defined!
+    FinishedBy s1Loaded == True 
+end
+
+TransportOrderStep s2
+    Location dropoffItem
+    FinishedBy s2Unloaded == True
+end
+
+task SupplyTaskFromS1ToS2
+    # Transport Order now needs TransportOrderSteps instead of regular instances
+    TriggeredBy callAgv == True
+    Transport
+    from s1
+    to s2
+end
 ```
