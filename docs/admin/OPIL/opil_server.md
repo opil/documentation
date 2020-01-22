@@ -80,19 +80,21 @@ services:
 
     ### Context Broker ###
     orion:
-        image: fiware/orion
+        image: fiware/orion:2.3.0
         depends_on:
             - mongo
             - ngsiproxy
         ports:
             - 1026:1026
         command:
-            -dbhost mongo -corsOrigin __ALL
+            -dbhost mongo -corsOrigin __ALL -inReqPayloadMaxSize 2097152
 ```
 
 This will configure the middleware of OPIL, including its three components: MongoDB, NGSI Proxy and Orion Context Broker.
 
 Please make sure that the ports **3000** and **1026** are not already in use. Making changes to the port configuration here will cause errors with other modules that cannot be fixed by configuration in the current version of OPIL.
+
+Orion Context Broker uses the parameter ***inReqPayloadMaxSize*** to let users decide the maximum allowed size of incoming request payloads, which is available from the latest release tag 2.3.0. The number of 2097152 Bytes (2MB) is sufficient for the factory floorplans of size 65 m x 35 m.
 
 ## Prepare the layout
 
@@ -326,7 +328,7 @@ Create new file in the root directory called `topology.launch` and copy-paste th
 </launch>
 ```
 
-For now you don't need to edit this file. Configuration possibilities regarding this file are explained in the  [SP documentation](../SP/opil_local_sp_install.md).
+For now you don't need to edit this file. Configuration possibilities regarding this file are explained in the  [SP documentation](../SP/opil_server_sp_install.md).
 
 ### Append docker-compose.yml
 
