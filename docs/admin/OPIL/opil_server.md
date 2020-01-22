@@ -501,7 +501,7 @@ Open in a web browser `http://<ip-address>:1026/v2/entities`. This should load a
 []
 ```
 
-Open in a web browser `http://<ip-address>:3000`. This load a **blank** html page with the text
+Open in a web browser `http://<ip-address>:3000`. This should load a **blank** html page with the text
 
 ```
 Cannot GET /
@@ -624,9 +624,17 @@ TBA
 
 To be continued...
 
+## Start the VC simulation
+First Initialize OCB.
+
+## Start the OPIL TP
+
 ## Setting up a simple task
+Copy the task specification.
 
 ## Initiation with HMI button
+Create new button.
+Push the button.
 
-## Stopping and removing containers
+### Stopping and removing containers
 
