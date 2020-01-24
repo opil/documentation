@@ -9,7 +9,23 @@ It is possible to change the configuration (e.g. ports and filenames) with the c
 
 Please follow these steps for installing the OPIL server:
 
-[TOC]
+<!-- [TOC] -->
+## Table of Contents
+- [Check prerequisites](#check-prerequisites)
+- [Verify docker environment](#verify-docker-environment)
+- [Prepare a docker-compose.yml file](#prepare-a-docker-composeyml-file)
+- [Prepare the layout](#prepare-the-layout)
+- [Prepare VC simulation](#prepare-vc-simulation)
+- [Prepare OPIL Central SP](#prepare-opil-central-sp)
+- [Prepare OPIL HMI](#prepare-opil-hmi)
+- [Prepare OPIL TP](#prepare-opil-tp)
+- [Review the docker-compose.yml file](#review-the-docker-composeyml-file)
+- [Start the OPIL Server modules](#start-the-opil-server-modules)
+- [Start the VC simulation](#start-the-vc-simulation)
+- [Start the OPIL TP](#start-the-opil-tp)
+- [Setting up a simple task](#setting-up-a-simple-task)
+- [Initiation with HMI button](#initiation-with-hmi-button)
+- [Stopping and removing containers](#stopping-and-removing-containers)
 
 ## Check prerequisites
 
@@ -409,14 +425,14 @@ services:
 
     ### Context Broker ###
     orion:
-        image: fiware/orion
+        image: fiware/orion:2.3.0
         depends_on:
             - mongo
             - ngsiproxy
         ports:
             - 1026:1026
         command:
-            -dbhost mongo -corsOrigin __ALL
+            -dbhost mongo -corsOrigin __ALL -inReqPayloadMaxSize 2097152
 
     ### S&P ###
     sp:
@@ -630,13 +646,50 @@ To be continued...
 First Initialize OCB.
 
 ## Start the OPIL TP
+```
+> docker-compose up -d ts
+Starting docker_mtp_1 ... done
+Starting docker_ts_1 ... done
+
+> docker-compose ps
+       Name                     Command               State           Ports
+---------------------------------------------------------------------------------------
+docker_hmi_1         docker-entrypoint.sh bash  ...   Up      0.0.0.0:80->8081/tcp  
+docker_mongo_1       docker-entrypoint.sh --noj ...   Up      27017/tcp
+docker_mongodb_1     docker-entrypoint.sh mongod      Up      27017/tcp
+docker_mtp_1         /ros_entrypoint.sh /bin/sh ...   Up      0.0.0.0:11311->11311/tcp,
+                                                              0.0.0.0:39001->39001/tcp
+docker_ngsiproxy_1   /bin/sh -c ngsi-proxy            Up      0.0.0.0:3000->3000/tcp
+docker_orion_1       /usr/bin/contextBroker -fg ...   Up      0.0.0.0:1026->1026/tcp
+docker_sp_1          /ros_entrypoint.sh bash          Up
+docker_ts_1          /ros_entrypoint.sh /bin/sh ...   Up      0.0.0.0:2906->2906/tcp
+
+```
+
+Another RViz window should open.
 
 ## Setting up a simple task
-Copy the task specification.
+In the HMI, click on the "Task Management" tab. Copy-paste the following task language into "Task specification" field and click "Send material flow".
+
+```
+
+```
 
 ## Initiation with HMI button
-Create new button.
-Push the button.
+Click on the HMI tab "Control". Create a new button with the name and id `startTaskButton`.
 
-### Stopping and removing containers
+Push the button. This triggers the task to start. The AGV should start moving in the VC simulation.
 
+## Stopping and removing containers
+Stopping containers:
+```
+> docker-compose stop
+```
+Stops running containers without removing them. They can be started again with `docker-compose start`.
+
+
+Stopping and removing the containers:
+```
+> docker-compose down
+```
+Stops containers and removes containers, networks, volumes, and images created by `docker-compose up`.
