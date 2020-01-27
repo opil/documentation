@@ -122,15 +122,15 @@ Please note that during this guide you must use the original image file to prese
 
 ![demo_map.png](./files/demo_map.png)
 
-### The layout has three main areas:
-
-![demo_map_areas.png](./img/demo_map_areas.png)
+The layout has three main areas:
 
 | Area name | Description |
 | --- | --- |
 | Production area | This area continuously produces products that are collected on the single pallet within the area. This pallet is then transported to the warehouse area for storage. |
 | Warehouse area | This area is used to receive and store products from the production and packaging areas. Also, pallets are periodically transported from this area to the packaging area. |
 | Packaging area | In this area ready products and packaged and finally packaged products area transported back to warehouse area for storage. |
+
+![demo_map_areas.png](./img/demo_map_areas.png)
 
 ### Determining the zero point and scale
 
@@ -243,7 +243,7 @@ Now you have determined the necessary information regarding the layout you are u
 
 ( TBA )
 
-## Prepare OPIL Central SP
+## Prepare OPIL Central Sensing & Perception (SP)
 
 ### Prepare demo_map.yaml
 
@@ -327,7 +327,7 @@ distance = 1.8
 
 ### Prepare topology.launch
 
-Create new file in the root directory called `topology.launch` and copy-paste the following content into the file.
+Create a new file in the root directory called `topology.launch` and copy-paste the following content into the file.
 
 ```xml
 <launch>
@@ -367,7 +367,7 @@ Finally, add the following content to the end of the `docker-compose.yml` file:
             - DISPLAY=$DISPLAY
 ```
 
-## Prepare OPIL HMI
+## Prepare OPIL Human-Machine Inteface (HMI)
 
 In this step you will configure the OPIL HMI module by appending the `docker-compose.yml` file with the following content. Replace `<ip-address>` in the `ocb_host` and `ngsi_proxy_host` fields with the one you wrote down in the prerequisites of this guide.
 
@@ -400,9 +400,237 @@ In this step you will configure the OPIL HMI module by appending the `docker-com
 
 For now, you don't need to change any of the other configuration but please make sure that the port 80 is not already in use. If the port is in use, you can alternatively change the port number **80** to any free port you wish to use. Do not edit the right side of the port configuration.
 
-## Prepare OPIL TP
+## Prepare OPIL Task Planner (TP)
 
 TBA ( Module still under development )
+
+Five different configurations are needed for TP. Create the following empty files beside the above created `docker-compose.yml`.
+
+- `firos_config.json`
+- `firos_robots.json`
+- `firos_whitelist.json`
+- `mod_sw_tp.launch`
+- `ts_fiware_config.ini`
+
+### firos_config.json
+
+The `firos_config.json` describes the local and remote connection to the Context Broker. Copy this content to `firos_config.json`, replacing `<ip-address>` with the one you wrote down in the beginning of this guide.
+
+```json
+{
+  "environment": "docker",
+
+  "docker": {
+    "server": {
+        "port"      : 10102
+    },
+    "contextbroker": {
+        "address"   : "<ip-address>",
+        "port"      : 1026,
+        "subscription": {
+          "throttling": 0,
+          "subscription_length": 300,
+          "subscription_refresh_delay": 0.5
+        }
+    },
+    "endpoint": {
+      "address": "<ip-address>",
+      "port": 39001
+    },
+    "log_level": "INFO"
+  }
+}
+```
+
+### firos_robots.json
+
+This configuration describes which information FIROS should publish from the Context Broker into the Task Planner's ROS-instance, and which information FIROS should subscribe from ROS in order to publish outside.
+
+TP needs to subscribe to the topic of `/map/graph` which is provided by SP to generate the graph for the routing. The following topics are subscribed from RAN:
+
+```
+- /robot_opil_v2/current_motion
+- /robot_opil_v2/robot_description
+```
+
+The control assignments for RAN are published to following topics:
+
+```
+- /robot_opil_v2/motion_assignment
+- /robot_opil_v2/action_assignment
+- /robot_opil_v2/cancel_order
+```
+
+If you add more robots to the system you have to add the topics with the namespace here. For a detailed description see [TP documentation](../TP/opil_server_tp_install.md).
+
+Copy this content to `firos_robots.json`:
+
+```json
+{
+    "map": {
+        "topics": {
+            "graph": {
+                "msg": "maptogridmap.msg.Graph",
+                "type": "publisher"
+            }
+        }
+    },
+    "robot_opil_v2": {
+        "topics": {
+            "current_motion": {
+                "msg": "mars_agent_physical_robot_msgs.msg.Motion",
+                "type": "publisher"
+            },
+            "robot_description": {
+                "msg": "mars_agent_physical_robot_msgs.msg.RobotAgentProperties",
+                "type": "publisher"
+            },
+            "cancel_order": {
+                "msg": "mars_agent_physical_robot_msgs.msg.CancelTask",
+                "type": "subscriber"
+            },
+            "motion_assignment": {
+                "msg": "mars_agent_physical_robot_msgs.msg.MotionAssignment",
+                "type": "subscriber"
+            },
+            "action_assignment": {
+                "msg": "mars_agent_physical_robot_msgs.msg.ActionAssignment",
+                "type": "subscriber"
+            }
+        }
+    }
+}
+```
+
+### firos_whitelist.json
+
+The file `whitelist.json` is needed by FIROS to subscribe to the topics described in `robots.json`. All topics from `robots.json` must be listed here.
+
+Copy this content to `firos_whitelist.json`:
+
+```json
+{
+    "map": {
+        "publisher": [
+            "graph"
+        ],
+        "subscriber": []
+    },
+    "robot_opil_v2": {
+        "publisher": [
+            "current_motion",
+            "robot_description"
+        ],
+        "subscriber": [
+            "cancel_order",
+            "motion_assignment",
+            "action_assignment"
+        ]
+    }
+}
+```
+
+### Configuration of MTP
+
+The MTP consist of three different modules: Topology, Router and Logical Agents.
+Copy the following content to `mod_sw_tp.launch`:
+
+```xml
+<launch>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 0 1 world map" />
+
+  <!--  ****** Topology *****  -->
+  <include file="$(find mars_topology_launcher)/launch/mars_topology_launcher_generic.launch">
+    <arg name="log_level" value="info" />
+    <arg name="topo_file_type" value="opil_sp" />
+    <arg name="mars_vertex_footprint_radius" value="0.95" />
+  </include>
+
+  <!-- ****** Router ***** -->
+  <include file="$(find mars_routing_base)/launch/mars_routing_base.launch" />
+
+  <!-- ****** Logical Agent (robot_0) ***** -->
+  <include file="$(find mars_agent_logical_agv)/launch/mars_agent_logical_agv.launch">
+    <arg name="physical_robot_namespace" value=""/>
+    <arg name="robot_name" value="robot_opil_v2" />
+    <arg name="physical_agent_id" value="00000000-0000-0000-0000-000000000001" />
+    <arg name="physical_agent_description" value="robot_0" />
+    <arg name="current_topology_entity_id" value="0a8b9081-d84c-5660-909c-134d55bf4966" />
+    <!-- p0 -->
+    <arg name="node_name" value="ran_00000000000000000000000000000001" />
+  </include>
+
+  <!-- ****** Firos ***** -->
+  <node name="firos" pkg="firos" type="core.py"/>
+
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find mod_sw_tp)/rviz/config.rviz" />
+
+</launch>
+```
+
+You will find a more detailed description of the launch file and the parameters in [TP documentation](../TP/opil_server_tp_install.md).
+
+### Configuration of TS
+
+Copy the following content to `ts_fiware_config.ini`, replacing `<ip-address>` with the one you wrote down in the beginning of this guide:
+
+```ini
+[flask]
+host = 0.0.0.0
+
+[taskplanner]
+host = <ip-address>
+PORT = 2906
+
+[contextbroker]
+host = <ip-address>
+port = 1026
+
+[robots]
+ids = ran_00000000000000000000000000000001
+# Capabilities can be self defined in TL under Location -> Type
+types = Misc
+# Names of the robots
+names = MSM_Sim
+```
+
+### Append docker-compose.yml
+
+Finally, add the following content to the end of the `docker-compose.yml` file:
+
+``` yaml
+### TP ###
+ts:
+    image: l4ms/opil.sw.tp.ts:3.0.1-alpha
+    depends_on:
+    - mtp
+    - orion
+    environment:
+    - PYTHONUNBUFFERED=1
+    - "ROS_MASTER_URI=http://mtp:11311"
+    volumes:
+    - ./ts_fiware_config.ini:/catkin_ws/src/taskplanner/fiware_config.ini
+    ports:
+    - "2906:2906"  
+
+mtp:
+    image: l4ms/opil.sw.tp.mtp:3.0.1-alpha
+    depends_on:
+    - orion
+    environment:
+    - "ROS_MASTER_URI=http://localhost:11311"
+    - DISPLAY=$DISPLAY
+    ports:
+    - "11311:11311"
+    - "39001:39001"
+    volumes:
+    - ./firos_robots.json:/catkin_ws/src/firos/config/robots.json
+    - ./firos_whitelist.json:/catkin_ws/src/firos/config/whitelist.json
+    - ./firos_config.json:/catkin_ws/src/firos/config/config.json
+    - ./mod_sw_tp.launch:/catkin_ws/src/mod_sw_tp/launch/mod_sw_tp.launch
+    - /tmp/.X11-unix:/tmp/.X11-unix:rw
+```
 
 ## Review the docker-compose.yml file
 
@@ -474,16 +702,36 @@ services:
             - orion
         command: bash -c './wait-for mongodb:27017 -- node server.js'
 
+    ### TP ###
+    ts:
+        image: l4ms/opil.sw.tp.ts:3.0.1-alpha
+        depends_on:
+        - mtp
+        - orion
+        environment:
+        - PYTHONUNBUFFERED=1
+        - "ROS_MASTER_URI=http://mtp:11311"
+        volumes:
+        - ./ts_fiware_config.ini:/catkin_ws/src/taskplanner/fiware_config.ini
+        ports:
+        - "2906:2906"  
 
-    #TP
-    # tp:
-        # image: l4ms/opil.sw.tp:latest
-        # depends_on:
-            # - orion
-        # ports:
-            # - 2906:2906
-        # volumes:
-            # - ./fiware_config.ini:/app/taskplanner/fiware_config.ini
+    mtp:
+        image: l4ms/opil.sw.tp.mtp:3.0.1-alpha
+        depends_on:
+        - orion
+        environment:
+        - "ROS_MASTER_URI=http://localhost:11311"
+        - DISPLAY=$DISPLAY
+        ports:
+        - "11311:11311"
+        - "39001:39001"
+        volumes:
+        - ./firos_robots.json:/catkin_ws/src/firos/config/robots.json
+        - ./firos_whitelist.json:/catkin_ws/src/firos/config/whitelist.json
+        - ./firos_config.json:/catkin_ws/src/firos/config/config.json
+        - ./mod_sw_tp.launch:/catkin_ws/src/mod_sw_tp/launch/mod_sw_tp.launch
+        - /tmp/.X11-unix:/tmp/.X11-unix:rw
 
 ```
 
@@ -551,7 +799,7 @@ Next step is to configure the HMI. This is done from a web browser by navigating
 
 Now log in with the default credentials: username = `admin` and password = `admin`.
 
-Wait for the HMI to reload and check that you do NOT see the following error. If you get this error go back to "Start OPIL middleware" section and make sure the middleware is running and functional.
+Wait for the HMI to reload and check that you do NOT see the following error. If you get this error go back to [Start OPIL middleware](#start-the-opil-middleware) section and make sure the middleware is running and functional.
 
 ![hmi_ocb_error.PNG](./img/hmi_ocb_error.PNG)
 
@@ -637,15 +885,18 @@ docker_orion_1       /usr/bin/contextBroker -fg ...   Up      0.0.0.0:1026->1026
 docker_sp_1          /ros_entrypoint.sh bash          Up
 ```
 
-
-TBA
-
-To be continued...
-
 ## Start the VC simulation
-First Initialize OCB.
+
+First select the Router component and click the *Initialize OCB* button. You should see the following log message:
+
+```
+Context Broker entity robot_opil_v2 initialized
+```
+
+Then press the *Play* button to start the simulation.
 
 ## Start the OPIL TP
+
 ```
 > docker-compose up -d ts
 Starting docker_mtp_1 ... done
@@ -669,27 +920,33 @@ docker_ts_1          /ros_entrypoint.sh /bin/sh ...   Up      0.0.0.0:2906->2906
 Another RViz window should open.
 
 ## Setting up a simple task
-In the HMI, click on the "Task Management" tab. Copy-paste the following task language into "Task specification" field and click "Send material flow".
+
+In the HMI, click on the "Task Management" tab. Copy-paste the following task language into the *Task specification* field and click "Send material flow".
 
 ```
 
 ```
 
 ## Initiation with HMI button
-Click on the HMI tab "Control". Create a new button with the name and id `startTaskButton`.
 
-Push the button. This triggers the task to start. The AGV should start moving in the VC simulation.
+Click on the HMI tab "Control". Create a new button with the name and id as `startTaskButton`.
+
+Push the newly created button. This triggers the task to start. In the "Task Management" tab you should see a transport order with the task info "*MovingToPickupDestination*". The AGV should start moving in the VC simulation.
 
 ## Stopping and removing containers
+
 Stopping containers:
+
 ```
 > docker-compose stop
 ```
+
 Stops running containers without removing them. They can be started again with `docker-compose start`.
 
-
 Stopping and removing the containers:
+
 ```
 > docker-compose down
 ```
+
 Stops containers and removes containers, networks, volumes, and images created by `docker-compose up`.
