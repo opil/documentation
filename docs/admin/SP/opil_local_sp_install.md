@@ -19,20 +19,29 @@ To install it you need to prepare a ***docker-compose.yml*** following this exam
 ```
 version: "3"
 services:      
-    #Context Broker
-    orion:        
-        image: fiware/orion
+    mongo:
+        image: mongo:3.4
+        command: --nojournal
+
+    ### Proxy for Context Broker ###
+    ngsiproxy:
+        image: fiware/ngsiproxy:latest
+        ports:
+            - 3000:3000
+
+    ### Context Broker ###
+    orion:
+        image: fiware/orion:2.3.0
+        depends_on:
+            - mongo
+            - ngsiproxy
         ports:
             - 1026:1026
-        command: 
-            -dbhost mongo
-    mongo:
-        restart: always
-        image: mongo:3.4
-        command: --nojournal    
+        command:
+            -dbhost mongo -corsOrigin __ALL -inReqPayloadMaxSize 2097152
     splocal:
         restart: always
-        image: l4ms/opil.iot.sp.local:3.0.5-beta
+        image: l4ms/opil.iot.sp.local:3.0.6-beta
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -41,12 +50,13 @@ services:
             - ./amcl.launch:/amcl_map.launch:ro
             - ./floorplan.world:/map.world:ro
             - ./local_robot_sim.launch:/local_robot_sim.launch:ro
-            - ./local_robot.launch:/local_robot.launch:ro
         environment:
             - FIWAREHOST=orion
             - HOST=splocal
             - DISPLAY=$DISPLAY
             - SIMULATION=true
+        ports: 
+            - "39003:39003"
 ```
 It is important to put the environment variable `SIMULATION=true`.
 First, set up the display for viewing the rviz visualization and Stage:
@@ -62,61 +72,70 @@ To check if everything is working properly follow the guide [Starting from Docke
 
 ## The Local SP docker working with RAN
 
-TODO: a new docker container of RAN needs to be created since the entities have changed. This is old and as a place holder.
 
-The Local SP docker container is the same but the environment variable needs to be `SIMULATION=false`. By this, the Local SP does not start the Stage simulator and it is connected directly to RAN through a single ROS master. For that purpose RAN docker container is called with the environment variable `SIMULATION=3`, which does not call **map_server** and **amcl** localization.
+The Local SP docker container is the same but the environment variable needs to be `SIMULATION=false`. By this, the Local SP does not start the Stage simulator and it is connected directly to RAN through a single ROS master. For that purpose RAN docker container is called without the **map_server** and **fake_localization**.
 
 To install it you need to prepare a ***docker-compose.yml*** that also includes RAN container:
 ### <a name="dockercomposelocalran">docker-compose.yml</a>
 ```
 version: "3"
 services:      
-    #Context Broker
-    orion:        
-        image: fiware/orion
+    mongo:
+        image: mongo:3.4
+        command: --nojournal
+
+    ### Proxy for Context Broker ###
+    ngsiproxy:
+        image: fiware/ngsiproxy:latest
+        ports:
+            - 3000:3000
+
+    ### Context Broker ###
+    orion:
+        image: fiware/orion:2.3.0
+        depends_on:
+            - mongo
+            - ngsiproxy
         ports:
             - 1026:1026
-        command: 
-            -dbhost mongo
-    mongo:
-        restart: always
-        image: mongo:3.4
-        command: --nojournal    
-    ran:
-        restart: always
-        image: l4ms/opil.iot.ran:sp1
-        volumes:
-            #- path on the host : path inside the container
-            - /tmp/.X11-unix:/tmp/.X11-unix:rw
-#            - ./robot_launcher.launch:/root/catkin_ws/src/opil_v2/robot_launcher_with_SandP.launch:ro
-            - ./floorplan.png:/root/catkin_ws/src/opil_v2/map/map.png:ro
-            - ./floorplan.world:/root/catkin_ws/src/opil_v2/map/map.world:ro
-        environment:
-            - FIWAREHOST=orion
-            - HOST=ran
-            - NETINTERFACE=eth0
-            - DISPLAY=$DISPLAY
-            - SIMULATION=3
+        command:
+            -dbhost mongo -corsOrigin __ALL -inReqPayloadMaxSize 2097152
+#RAN
+  	ran: 
+    	image: "l4ms/opil.iot.ran:3.0.1-alpha"
+    	environment: 
+      		- "ROS_MASTER_URI=http://localhost:11311"
+      		- DISPLAY=$DISPLAY
+    	volumes:
+      		- /tmp/.X11-unix:/tmp/.X11-unix:rw
+		    - ./mod_iot_ran_no_fakelocalization.launch:/catkin_ws/src/mod_iot_ran/launch/mod_iot_ran.launch 
+			- ./floorplan.world:/catkin_ws/src/mars_simulation_bringup/mars_simulation_data/world/opil_finnland.world 
+      		- ./simulation_no_mapserver.launch:/catkin_ws/src/mars_simulation_bringup/mars_simulation/launch/opil_finnland_simulation.launch
+    	ports: 
+      		- "39000:39000"
 
 #S&P
-    splocal:
-        restart: always
-        image: l4ms/opil.iot.sp.local:3.0.3-beta
-        volumes:
+  	splocal:
+    	restart: always
+    	image: l4ms/opil.iot.sp.local:3.0.6-beta
+    	volumes:
             #- path on the host : path inside the container
-            - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      		- /tmp/.X11-unix:/tmp/.X11-unix:rw
             - ./floorplan.yaml:/map.yaml:ro
             - ./floorplan.png:/map.png:ro
             - ./amcl.launch:/amcl_map.launch:ro
-            - ./floorplan.world:/map.world:ro
-            - ./local_robot_sim.launch:/local_robot_sim.launch:ro
-            - ./local_robot.launch:/local_robot.launch:ro
-        environment:
-            - FIWAREHOST=orion
-            - HOST=splocal
-            - NETINTERFACE=eth0
-            - DISPLAY=$DISPLAY
-            - SIMULATION=false
+      		- ./local_robot.launch:/local_robot.launch:ro
+	      	- ./firos_robots_localsp.json:/robots.json:ro
+      		- ./firos_whitelist_localsp.json:/whitelist.json:ro
+    	environment:
+      		- ROS_MASTER_URI=http://ran:11311
+      		- ROS_IP=splocal
+      		- FIWAREHOST=orion
+      		- HOST=splocal
+      		- DISPLAY=$DISPLAY
+      		- SIMULATION=false
+    	ports: 
+      		- "39003:39003"
 ```
 Then, start it from the folder where you put your ***docker-compose.yml*** file:
 ```
@@ -371,7 +390,7 @@ sudo docker-compose up
 ![Local SP](./img/localsptero.png)
 
 This starts the **amcl** localization inside the map shown on topic `/robot_0/pose_channel`, and calculation of map updates shown on topic `/robot_0/newObstacles`. The robot in the Stage simulator can be moved by mouse dragging, and changed pose can be seen in topic `/robot_0/pose_channel` which shows the current pose and the covariance of the pose estimation. There is also an obstacle in the Stage simulator that can be used for test of showing the map updates, seen in topic `/robot_0/newObstacles`.
-In the rviz window you can see the AGV's pose (red arrow) and local updates (red tiny squares). All new obstacles are processed as they are detected, and there is no clearance of obstacles since they are considered to be static. That is the reason why you can see a trail of the obstacle. In future developments static and dynamic obstacles will be treated differently.
+In the rviz window you can see the AGV's pose (red arrow) and local updates (red tiny squares). All new obstacles are processed as they are detected, and there is a clearance of obstacles after 5 seconds. That is the reason why there is a trail of the obstacle. 
 
 
 To change the default configuration of Local SP that uses the common frame names and topics prepare the following file and put it under **volumes** in [docker-compose.yml](#dockercomposelocal):
@@ -430,7 +449,7 @@ Change map_server parameter frame_id to robot_0_map as here:
 
 ```
 <node name="map_server" pkg="map_server" type="map_server" args="$(find lam_simulator)/yaml/map.yaml" respawn="false" >
-<param name="frame_id" value="\robot_0_map" />
+<param name="frame_id" value="/robot_0_map" />
 </node>
 ```
 
@@ -457,7 +476,7 @@ Additionally, the map updates needs to have changed **map_frame** as here:
 
 Finally, the map frame of amcl localization ([amcl.launch](#amcllaunch)) needs to be changed as follows:
 ```
-  <param name="global_frame_id" value="\robot_0_map" />
+  <param name="global_frame_id" value="/robot_0_map" />
 ```
 
 After a restart, you need to change the map frame in rviz to robot_0_map. 
@@ -465,10 +484,109 @@ After a restart, you need to change the map frame in rviz to robot_0_map.
 ## <a name="fromdockerlocalran">How to start the Local SP and RAN docker containers together</a>
 
 The Local SP container needs to be started with the environment variable `SIMULATION=false`, as is the case in [docker-compose.yml](#dockercomposelocalran).
+Additionally, it is important to set ROS master within environment variables of the local SP container to have the name of the RAN docker container, which is in this example:
 
-Again, you need to set up the map as explained [previously](#prepmap).
+```json
+      - ROS_MASTER_URI=http://ran:11311
+      - ROS_IP=splocal
+```
+where **ran** is the name of the RAN docker image, while **splocal** is the name of the Local SP docker image.
 
-If you want to change the parameters for map updates prepare `local_robot.launch` as follows:
+Again, you need to set up the map as explained [previously](#prepmap) to obtain three files: `floorplan.png`, `floorplan.yaml`, `floorplan.world`.
+
+Then, RAN needs to be started without **fake_localization** and **map_server** so we will modify `mod_iot_ran.launch` explained in [RAN guide](../RAN/opil_server_ran_install.md) and name it `mod_iot_ran_no_fakelocalization.launch`:
+
+### <a name="modiotran">mod_iot_ran_no_fakelocalization.launch</a>
+```
+<launch>
+  <arg name="robot_1_name" default="robot_1" />
+
+  <arg name="initial_pose_robot_1_x" default="-8.916"/>
+  <arg name="initial_pose_robot_1_y" default="-5.12"/>
+  <arg name="initial_pose_robot_1_a" default="0.0"/>
+
+  <arg name="robot_1_description" default="robot_description_default"/>
+
+  <arg name="robot_1_ns" default="00000000000000000000000000000001"/>
+
+  <arg name="robot_1_id" default="00000000-0000-0000-0000-000000000001"/>
+  
+  <!-- ****** Firos ***** 
+  <node name="firos" pkg="firos" type="core.py"/>
+  -->
+  <!-- RVIZ -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mars_simulation)/rviz/opil_finnland.rviz" />
+
+  <!--  ****** Stage simulation *****  -->
+  <include file="$(find mars_simulation)/launch/opil_finnland_simulation.launch"/>
+
+    <!-- BEGIN ROBOT 0 -->
+    <group ns="robot_opil_v2">
+      <param name="tf_prefix" value="robot_1" />
+
+      <!-- start path planner (this launch file uses a few yaml-files to configure the planner) -->
+      <include file="$(find mars_simulation_ctv_agent)/launch/mars_simulation_ctv_agent.launch">
+        <arg name="robot_id" value="$(arg robot_1_id)"/>
+        <arg name="robot_name" value="$(arg robot_1_name)"/>
+        <arg name="initial_pose_x" value="$(arg initial_pose_robot_1_x)"/>
+        <arg name="initial_pose_y" value="$(arg initial_pose_robot_1_y)"/>
+        <arg name="initial_pose_a" value="$(arg initial_pose_robot_1_a)"/>
+        <arg name="robot_description" value="$(arg robot_1_description)"/>
+        <arg name="scan_topic" value="/robot_1/base_scan" />
+      </include>
+
+      <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 0 1 map robot_1/odom" />
+
+<!--
+      <node name="fake_localization" pkg="fake_localization" type="fake_localization">
+        <param name="odom_frame_id" value="robot_1/odom"/>
+        <param name="base_frame_id" value="robot_1/base_link"/>
+      </node>
+-->
+      <!--  ***************** Robot Model *****************  -->
+      <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find mars_simulation)/urdf/ctv_1.xacro'" />
+      <node pkg="robot_state_publisher" type="state_publisher" name="robot_1_state_publisher" />
+    </group>
+
+</launch>
+```
+Note in [mod_iot_ran_no_fakelocalization.launch](#modiotran) there is commented **fake_localization** and **firos** packages. The reason for commenting **firos** lies in having one ROS master so two **firos** nodes can not be started twice, one from RAN and another from Local SP.
+
+The second file to be modified is `simulation.launch`, which we will name as `simulation_no_mapserver.launch`:
+### <a name="simulationnomap">simulation_no_mapserver.launch</a>
+```
+<launch>
+
+  <arg name="robot_1_ns" default="00000000000000000000000000000001"/>
+
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+
+  <!--  ****** Maps *****  
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find mars_simulation_data)/world/opil_finnland.yaml">
+    <param name="frame_id" value="/map"/>
+  </node>
+-->
+  <node pkg="stage_ros" type="stageros" name="stage_ros" args="$(find mars_simulation_data)/world/opil_finnland.world" respawn="false">
+    <param name="base_watchdog_timeout" value="0.2"/>
+
+    <!-- Remaps -->
+    <remap from="robot_1/cmd_vel" to="/robot_opil_v2/cmd_vel" />
+
+  </node>
+
+</launch>
+```
+Note that here **map_server** is commented.
+Since RAN has prefixes `/robot_1` we need to include them into Local SP files as follows:
+
+Prepare `amcl.launch` as explained [here](#amcllaunch) but with changed remapping topics **scan** to:
+
+```
+<remap from="scan" to="/robot_1/base_scan" />
+```
+
+Then, prepare `local_robot.launch` as follows:
 ### <a name="localrobotlaunch">local_robot.launch</a>
 ```
 <launch>
@@ -481,7 +599,7 @@ If you want to change the parameters for map updates prepare `local_robot.launch
      <node name="publishPoseWithCovariance" pkg="sensing_and_perception" type="pubPoseWithCovariance" output="screen" args="0">	
         <param name="amcl_topic" value="/amcl_pose" />
         <param name="map_frame" value="/map" />
-        <param name="base_frame" value="/base_link" />
+        <param name="base_frame" value="/robot_1/base_link" />
     </node>
 
      <!--- Run mapup node from mapupdates package-->
@@ -489,7 +607,7 @@ If you want to change the parameters for map updates prepare `local_robot.launch
     <node name="mapup" pkg="mapupdates" type="mapup" output="screen" args="0" >
         <param name="cell_size" type="double" value="0.1" />
         <param name="laser_inverted" type="bool" value="0" />
-        <param name="scan_topic" value="/base_scan" />
+        <param name="scan_topic" value="/robot_1/base_scan" />
         <param name="map_frame" value="/map" />
         <param name="map_service_name" value="/static_map" />
     </node>
@@ -497,42 +615,76 @@ If you want to change the parameters for map updates prepare `local_robot.launch
     <!-- Run FIROS -->
     <node name="firos" pkg="firos" type="core.py" />
 
-<node name="rviz" pkg="rviz" type="rviz" args="-d $(find lam_simulator)/rviz_cfg/singlerobot.rviz" /> 
-
 </launch>
 ```
 
-Then, prepare `robot_launcher.launch` as follows:
-### <a name="robotlauncherlaunch">robot_launcher.launch</a>
+[local_robot.launch](#localrobotlaunch) is very similar to [local_robot_sim.launch](#localrobotsimlaunch) but it does not have Stage simulator, and it has changed topic names for **base_frame** and **scan_topic**.
+
+The last two files to prepare are for communication with OCB through **firos**: `firos_robots_localsp.json` and `firos_whitelist_localsp.json`. These files need to include both topics for RAN and topics for Local SP. We will reuse `firos_robots.json` and `firos_whitelist.json` explained in [RAN guide](../RAN/opil_server_ran_install.md), and put at the end Local SP topics as follows:
+
+### <a name="robotslocalsp">firos_robots_localsp.json</a>
 ```
-<launch>
-    <!-- Run FIROS -->  
-    <node name="firos" pkg="firos" type="core.py" />
-    <!-- Run the Stage simulation -->
-    <node name="stageros" pkg="stage_ros" type="stageros" args="$(find opil_v2)/map/map.world" respawn="false"> 
-        <param name="base_watchdog_timeout" value="0.2" />
-    </node>
- 
-        <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-            <remap from="map" to="/map" />                      
-            <param name="controller_frequency" value="10.0" />
-            <rosparam file="$(find opil_v2)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
-            <rosparam file="$(find opil_v2)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-            <rosparam file="$(find opil_v2)/config/global_costmap_params.yaml" command="load" />
-            <rosparam file="$(find opil_v2)/config/local_costmap_params.yaml" command="load" />
-            <rosparam file="$(find opil_v2)/config/base_local_planner_params.yaml" command="load" />
-        </node>  
-         <!--- Run the Robot Agent node -->
-         <node name="robot_agent" pkg="opil_v2" type="opil_v2_robot_agent_with_SandP" output="screen" args="0"/>
-    
-</launch>
-```
-To use the changed robot_launcher.launch uncomment the line in [docker-compose.yml](#dockercomposelocalran) under **volumes**:
-```
-            - ./robot_launcher.launch:/root/catkin_ws/src/opil_v2/robot_launcher_with_SandP.launch:ro
+{
+    "robot_opil_v2": {
+        "topics": {
+            "current_motion": {
+                "msg": "mars_agent_physical_robot_msgs.msg.Motion",
+                "type": "subscriber"
+            },
+            "robot_description": {
+                "msg": "mars_agent_physical_robot_msgs.msg.RobotAgentProperties",
+                "type": "subscriber"
+            },
+            "cancel_order": {
+                "msg": "mars_agent_physical_robot_msgs.msg.CancelTask",
+                "type": "publisher"
+            },
+            "motion_assignment": {
+                "msg": "mars_agent_physical_robot_msgs.msg.MotionAssignment",
+                "type": "publisher"
+            },
+            "action_assignment": {
+                "msg": "mars_agent_physical_robot_msgs.msg.ActionAssignment",
+                "type": "publisher"
+            }
+        }
+    },
+    "robot_0":{
+		"topics": {
+			"pose_channel": {
+				"msg": "geometry_msgs.msg.PoseWithCovarianceStamped",
+				"type": "subscriber"
+			},
+			"newObstacles": {
+				"msg": "mapupdates.msg.NewObstacles",
+				"type": "subscriber"
+			}
+		}
+	} 
+}
 ```
 
-The following example presents testing the ICENT map. The robot can be controlled through rviz by pressing 2D Nav Goal button and clicking the point on the map. The following figure describes the possible outcome, where arrow trails correspond to the past positions of the robot:
+### <a name="whitelistlocalsp">firos_whitelist_localsp.json</a>
+```
+{
+    "robot_opil_v2": {
+        "publisher": [
+            "cancel_order",
+            "motion_assignment",
+            "action_assignment"
+        ],
+        "subscriber": [
+            "current_motion",
+            "robot_description"
+        ]
+    },
+    "robot_0": {
+        "subscriber": ["pose_channel","newObstacles"]
+    }
+}
+```
+
+The following example presents testing the ICENT map. The following figure describes the possible outcome, where arrow trails correspond to the past positions of the robot:
 ![Local SP and RAN in ICENT lab](./img/movingwithran.png)
 
 
