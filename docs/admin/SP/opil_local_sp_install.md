@@ -72,6 +72,7 @@ To check if everything is working properly follow the guide [Starting from Docke
 
 ## The Local SP docker working with RAN
 
+It is possible to start the Local SP docker with RAN docker and also to start the Local SP docker with the source of RAN. First it will be explained how to test two dockers together: RAN with Local SP, and afterwards how to setup the Local SP docker to work with RAN started from source.
 
 The Local SP docker container is the same but the environment variable needs to be `SIMULATION=false`. By this, the Local SP does not start the Stage simulator and it is connected directly to RAN through a single ROS master. For that purpose RAN docker container is called without the **map_server** and **fake_localization**.
 
@@ -687,6 +688,68 @@ The last two files to prepare are for communication with OCB through **firos**: 
 The following example presents testing the ICENT map. The following figure describes the possible outcome, where arrow trails correspond to the past positions of the robot:
 ![Local SP and RAN in ICENT lab](./img/movingwithran.png)
 
+## <a name="fromdockerlocalransrc">How to start the Local SP docker with RAN started from source</a>
+
+Prepared files in the previous section for RAN docker container can be used in the source code of RAN. All files for the Local SP docker container are the same as in the previous section.
+
+Put [mod_iot_ran_no_fakelocalization.launch](#modiotran) into the **mod_iot_ran** package into the folder **launch**. As a reminder, there is commented **fake_localization** and **firos** packages, since they will be used by the Local SP docker container.
+
+Use [simulation_no_mapserver.launch](#simulationnomap) and rename it to `opil_finnland_simulation.launch` since it is invoked in the [mod_iot_ran_no_fakelocalization.launch](#modiotran) and put it to the same folder: **mars_simulation/launch/**. As a reminder, **map_server** is commented since the Local SP will used it.
+
+Start the RAN from source by typing:
+
+```
+roslaunch mod_iot_ran mod_iot_ran_no_fakelocalization.launch
+```
+
+As a result you will see a Stage simulator with the robot and a black background in rviz window:
+![Local SP and RAN src in demo map](./img/rvizRANnomap.png)
+
+
+Prepare the following `docker-compose.yml`, which will start only Local SP. Here it is assumed that you start OPIL server before:
+### <a name="dockercomposelocalspransrc">docker-compose.yml</a>
+```
+version: "3"
+services:      
+
+#S&P
+  	splocal:
+    	restart: always
+    	image: l4ms/opil.iot.sp.local:3.0.6-beta
+    	volumes:
+            #- path on the host : path inside the container
+      		- /tmp/.X11-unix:/tmp/.X11-unix:rw
+            - ./floorplan.yaml:/map.yaml:ro
+            - ./floorplan.png:/map.png:ro
+            - ./amcl.launch:/amcl_map.launch:ro
+      		- ./local_robot.launch:/local_robot.launch:ro
+	      	- ./firos_robots_localsp.json:/robots.json:ro
+      		- ./firos_whitelist_localsp.json:/whitelist.json:ro
+    	environment:
+      		- ROS_MASTER_URI=http://localhost:11311
+      		- ROS_IP=127.0.0.1
+      		- FIWAREHOST=161.53.68.89
+      		- HOST=161.53.68.89
+      		- DISPLAY=$DISPLAY
+      		- SIMULATION=false
+    	ports: 
+      		- "39003:39003"
+    	network_mode: "host"
+```
+
+The most important change in [docker-compose.yml](#dockercomposelocalspransrc) is in setting ROS master to localhost and to add **network_mode=host** to allow topics flow from the local machine into the docker container:
+
+```json
+      - ROS_MASTER_URI=http://localhost:11311
+      - ROS_IP=127.0.0.1
+   network_mode: "host"
+```
+
+Start the Local SP by typing `docker-compose up`.
+As a result you will see a change in the background of rviz window since map is loaded:
+![Local SP and RAN src in demo map](./img/rvizRANwithmap.png)
+
+You should be able to see entities in the OCB. If you also start the Central SP, you will be able to see the updates of the topology if obstacles are detected.
 
 ## <a name="fromscratch">Starting from Scratch</a>
 
