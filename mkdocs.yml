@@ -76,8 +76,8 @@ pages:
             - API: develop/SP/opil_api_local_sp.md
             - Interfaces: develop/SP/opil_local_sp_interfaces.md
         - Business Process Optimization (BPO):
-            - API: develop/RAN/opil_BPO_API_intro.md
-            - Interfaces: develop/RAN/opil_interfaces_BPO.md
+            - API: develop/BPO/opil_BPO_API_intro.md
+            - Interfaces: develop/BPO/opil_interfaces_BPO.md
         - Robot Agent Node (RAN): 
             - API: develop/RAN/opil_tp_API_intro.md
             - Interfaces: develop/RAN/opil_interfaces_ran.md

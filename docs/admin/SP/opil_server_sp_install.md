@@ -42,7 +42,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: l4ms/opil.sw.sp.central:3.0.5-beta
+        image: l4ms/opil.sw.sp.central:3.0.6-beta
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -57,8 +57,11 @@ services:
             - FIWAREHOST=orion
             - HOST=sp
             - DISPLAY=$DISPLAY
+        ports: 
+            - "39002:39002"
 ```
-This example uses the version 3 and it does not need links to enable services to communicate. It is assumed that for testing all services will be on the same machine (localhost). If orion is started on another machine, then environment variable of sp needs to have changed FIWAREHOST to IP address of that machine. 
+This example uses the version 3 and it does not need links to enable services to communicate. It is assumed that for testing all services will be on the same machine (localhost). If orion is started on another machine, then environment variable of sp needs to have changed FIWAREHOST to IP address of that machine. Furthermore, HOST needs to be changed to IP address of the machine running the Central SP.
+
 When using the Central SP on big floorplans the parameter ***inReqPayloadMaxSize*** can be set to increase the maximal allowed size of any outgoing request messages. Setting it to 2097152 Bytes (2MB) should be enough for an average map with 30% occupied space with dimensions 65 m x 35 m and the resolution of the topology **cell_size** = 1 m. This setup requires 1327391 Bytes, while, by decreasing the **cell_size** to 0.5, requires 6687765 Bytes (approximately 4 times more). Similar increase of message size happens if your map is increased two times in width and height, for example 130 m x 70 m, with the **cell_size** = 1 m will require 6682759 Bytes (also 4 times more).
 
 
@@ -273,24 +276,35 @@ This example uses the Local SP that contains the Stage simulator. Check how to p
 ```
 version: "3"
 services:      
-    #Context Broker
-    orion:        
-        image: fiware/orion
+    mongo:
+        image: mongo:3.4
+        command: --nojournal
+
+    ### Proxy for Context Broker ###
+    ngsiproxy:
+        image: fiware/ngsiproxy:latest
+        ports:
+            - 3000:3000
+
+    ### Context Broker ###
+    orion:
+        image: fiware/orion:2.3.0
+        depends_on:
+            - mongo
+            - ngsiproxy
         ports:
             - 1026:1026
-        command: 
-            -dbhost mongo
-    mongo:
-        restart: always
-        image: mongo:3.4
-        command: --nojournal    
+        command:
+            -dbhost mongo -corsOrigin __ALL -inReqPayloadMaxSize 2097152
 #S&P
     sp:
         restart: always
-        image: l4ms/opil.sw.sp.central:3.0.5-beta
+        image: l4ms/opil.sw.sp.central:3.0.6-beta
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
+        volumes:
+            #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
             - ./annotations.ini:/annotations.ini:ro
             - ./floorplan.yaml:/map.yaml:ro
@@ -300,9 +314,11 @@ services:
             - FIWAREHOST=orion
             - HOST=sp
             - DISPLAY=$DISPLAY
+        ports: 
+            - "39002:39002"
     splocal:
         restart: always
-        image: l4ms/opil.iot.sp.local:3.0.5-beta
+        image: l4ms/opil.iot.sp.local:3.0.6-beta
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -316,6 +332,8 @@ services:
             - HOST=splocal
             - DISPLAY=$DISPLAY
             - SIMULATION=true
+        ports: 
+            - "39003:39003"
 ```
 
 The following figure presents the output after moving the green box in the Stage simulator:
@@ -393,18 +411,26 @@ To test if entities are sent to OCB, prepare the following docker-compose.yml on
 ```
 version: "3"
 services:      
-    #Context Broker
-    orion:        
-        image: fiware/orion
-        ports:
-            - 1026:1026
-        command: 
-            -dbhost mongo
-            
     mongo:
-        restart: always
         image: mongo:3.4
         command: --nojournal
+
+    ### Proxy for Context Broker ###
+    ngsiproxy:
+        image: fiware/ngsiproxy:latest
+        ports:
+            - 3000:3000
+
+    ### Context Broker ###
+    orion:
+        image: fiware/orion:2.3.0
+        depends_on:
+            - mongo
+            - ngsiproxy
+        ports:
+            - 1026:1026
+        command:
+            -dbhost mongo -corsOrigin __ALL -inReqPayloadMaxSize 2097152
 ```
 
 To test sending topology to OCB put in firos/config all json files described in [Interfaces for Central SP](./../../develop/SP/opil_sp_interfaces.md#sp).
