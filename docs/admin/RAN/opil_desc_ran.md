@@ -1,12 +1,12 @@
 # Introduction Robot Agent Node (RAN)
-This in the Robot Agent Node (RAN) documentation! 
+This is the Robot Agent Node (RAN) documentation. 
 
 Here you will find the information required for installing and configuring the RAN.
 
 
 ## Overview RAN
 
-The RAN (Robot Agent Node) sits between OPIL and the Robot Hardware. It provides two main functionalities: it manages robot navigation, based on ROS, and works as an interface between the robot hardware and the OPIL Cyber Physical Middleware, based FIWARE Orion Context Broker. In order to accomplish the second functionality, the RAN "translates" and adapts FIWARE entities into something understandable by ROS, i.e., messages and services, and viceversa. In doing so, it accomplishes the goal set for the Communication/Messaging sub-module described by the OPIL Reference Architecture in the main document to which this annex refers to.
+The RAN (Robot Agent Node) sits between OPIL and the Robot Hardware. It provides two main functionalities: it manages robot navigation, based on ROS, and works as an interface between the robot hardware and the OPIL Cyber Physical Middleware, based FIWARE Orion Context Broker. In order to accomplish the second functionality, the RAN "translates" and adapts FIWARE entities into something understandable by ROS, i.e., messages and services, and vice versa. In doing so, it accomplishes the goal set for the Communication/Messaging sub-module described by the OPIL Reference Architecture in the main document to which this annex refers to.
 
 In its first embodiment the RAN translation is performed by using FIROS. The FIROS component on the RAN integrates the FIWARE NGSI Context Management Interfaces with the ROS-speaking robots. Non-ROS speaking robots are interfaced via a ROS node which uses an ad-hoc protocol defined by the OPIL consortium, i.e., by ASTI. All communications inside the RAN are handled via ROS messages and services.
 
@@ -69,7 +69,7 @@ Moreover, the following softwares have to be installed:
 ROS can be installed following [this guide](http://wiki.ros.org/ROS/Installation).
 
 
-There are various dependencies with ROS packages that has to be installed. You should be able to install all required packages with the following commands:
+There are various dependencies with ROS packages that have to be installed. You should be able to install all required packages with the following commands:
 
 	sudo apt-get install ros-kinetic-desktop-full
 	
@@ -86,9 +86,9 @@ It is possible to get FIROS following a guide availabe at [this link](https://gi
 
 #### Configuration
 
-Proper RAN-connector operativity depends on the correct configuration of its SW components. As stated in the component description, one of RAN’s functionalities is connecting the OPIL middleware and the Hardware, so ROS packages and FIWARE Orion Context Broker. These connections are managed through FIROS. Each ROS module that wants to be connected to OCB must have FIROS, installed and properly configured, running on it.
+Proper RAN-connector operativity depends on the correct configuration of its SW components. As stated in the component description, one of RAN’s functionalities is connecting the OPIL Middleware and the Hardware, so ROS packages and FIWARE Orion Context Broker. These connections are managed through FIROS. Each ROS module that wants to be connected to OCB must have FIROS, installed and properly configured, running on it.
 
-FIROS configuration is managed with 4 files. Inside the FIROS folder, there is a config folder where we can see several .json files. The most important are config.json, whitelist.json and robots.json. The information about them can be found in the FIROS Readme file on a GitHub.
+FIROS configuration is managed by 4 files. Inside the FIROS folder, there is a config folder where we can see several .json files. The most important are config.json, whitelist.json and robots.json. The information about them can be found in the FIROS Readme file on a GitHub.
 
 In the FIROS config/config.json file modify the following fields:
 
