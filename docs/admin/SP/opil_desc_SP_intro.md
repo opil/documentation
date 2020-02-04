@@ -46,7 +46,7 @@ An example of SP module functionalities in a built map used in the demo in Zagre
 
 ### Annotations and topology
 This figure shows the topology creation with the annotations marked with yellow arrows (the loading, unloading and waiting areas).
-Blue squares are nodes of the topology graph, while lines connecting them are edges of the topology graph. Red squares are the gird cells which contain obstacle within the square of specified size (1.5 m in this example).
+Blue squares are nodes of the topology graph, while lines connecting them are edges of the topology graph. Red squares are the grid cells which contain obstacle within the square of specified size (1.5 m in this example).
 From the annotation file containing the annotation coordinates, distance and theta, it is calculated where the AGV needs to be placed in front of the annotation according to the distance from the annotation and the orientation theta. It changes the values of the computed nodes from gridmap cells so that Task Planner can use these nodes as goals.
 ![Annotations and topology](./img/annotationswithannotations.png)
 
