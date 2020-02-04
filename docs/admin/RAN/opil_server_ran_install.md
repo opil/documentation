@@ -55,7 +55,7 @@ Before you can start the docker container, some configuration files must be crea
 ```
 touch firos_config.json firos_robots.json firos_whitelist.json mod_iot_ran.launch simulation.launch stage.world
 ```
-A detailed description of this files is given in the subsequent sections.
+A detailed description of these files is given in the subsequent sections.
 
 To start the container from the folder where you put your docker-compose.yml file execute the following commands:
 
@@ -127,7 +127,7 @@ The following topics are subscribed from RAN:
 - /robot_opil_v2/cancel_order
 ```
 
-If you add more robots to the system you have to add the topics with the namespace here. For a detailed description of how to setup the robots.json follow this instructions: https://firos.readthedocs.io/en/latest/install/configuration-files.html#robotsjson
+If you add more robots to the system you have to add the topics with the namespace here. For a detailed description of how to setup the robots.json follow these instructions: https://firos.readthedocs.io/en/latest/install/configuration-files.html#robotsjson
 
 The following naming convention should be used:
 ```
@@ -188,7 +188,7 @@ Copy this content to ***firos_whitelist.json*** (preconfigured for RAN and TP v3
 
 # Configuration RAN
 
-The RAN consists of some different configuration files. The **mod_iot_ran.launch** file is for the RAN configuration, the other files (**simulation.launch**, **stage.world**) are for a build in ros simulation besides the Visual Components simulation. The here include simulation simulates the real hardware for testing the ran.
+The RAN consists of some different configuration files. The **mod_iot_ran.launch** file is for the RAN configuration, the other files (**simulation.launch**, **stage.world**) are for a build in ROS simulation besides the Visual Components simulation. What is here included simulation to simulate the real hardware for testing the RAN.
 
 Copy the following configuration to the mod_iot_ran.launch file. A detailed description of the file can be found below.
 
@@ -303,7 +303,7 @@ This line starts the build in simulation.
   <!-- </group> -->
 ```
 
-Starts the RAN node for one robot. Each robot needs an individual RAN. All needed parameter are configured via the arguments above (**arg**).
+Starts the RAN node for one robot. Each robot needs an individual RAN. All needed parameters are configured via the arguments above (**arg**).
 ```xml
   <include file="$(find mars_simulation_ctv_agent)/launch/mars_simulation_ctv_agent.launch">
   .. allot of parameter ...
