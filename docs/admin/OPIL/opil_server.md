@@ -319,7 +319,7 @@ Create new file in the root directory called `topology.launch` and copy-paste th
 <param name="frame_id" value="/map" />
 </node>
 <node name="rviz" pkg="rviz" type="rviz" args="-d $(find maptogridmap)/singlerobot.rviz" />
-<node name="map2gm" pkg="maptogridmap" type="map2gm" output="screen">
+<node name="map2gm" pkg="maptogridmap" type="map2gm" required="true" output="screen">
         <param name="cell_size" type="double" value="1.0" />
         <param name="annotation_file" textfile="$(find maptogridmap)/launch/annotations.ini" />
 </node>
@@ -347,8 +347,9 @@ Finally, add the following content to the end of the `docker-compose.yml` file:
         environment:
             - FIWAREHOST=orion
             - HOST=sp
-            - NETINTERFACE=eth0
             - DISPLAY=$DISPLAY
+        ports: 
+            - "39002:39002"
 ```
 
 ## Prepare OPIL HMI
@@ -432,8 +433,9 @@ services:
         environment:
             - FIWAREHOST=orion
             - HOST=sp
-            - NETINTERFACE=eth0
             - DISPLAY=$DISPLAY
+        ports: 
+            - "39002:39002"
 
     ### Database for HMI ###
     mongodb:
@@ -575,17 +577,34 @@ Starting docker_sp_1 ... done
 ...
 (many lines of configuration data)
 ...
-sp_1         | name[]
-sp_1         |   name[0]: prod
-sp_1         |   name[1]: wh-1
-sp_1         |   name[2]: wh-2
-sp_1         |   name[3]: wh-3
-sp_1         |   name[4]: pack-1-1
-sp_1         |   name[5]: pack-1-3
-sp_1         |   name[6]: pack-2-1
-sp_1         |   name[7]: pack-2-3
-sp_1         | uuid[]
-sp_1         |
+sp_1         |   annotations[0]: 
+sp_1         |     x: -6
+sp_1         |     y: 10.5
+sp_1         |     theta: 90
+sp_1         |     distance: 1.8
+sp_1         |     name: prod
+sp_1         |     uuid: 481b333a-1762-5434-bae7-9fb337701ef9
+sp_1         |   annotations[1]: 
+sp_1         |     x: -5.4
+sp_1         |     y: -6
+sp_1         |     theta: 270
+sp_1         |     distance: 1.8
+sp_1         |     name: wh_1
+sp_1         |     uuid: d0b1e572-a338-570b-97ba-8ed8b1a2e4f0
+sp_1         |   annotations[2]: 
+sp_1         |     x: -4.5
+sp_1         |     y: -6
+sp_1         |     theta: 270
+sp_1         |     distance: 1.8
+sp_1         |     name: wh_2
+sp_1         |     uuid: f5d5d1d9-c8d2-5ff7-97af-8d1234eda8f8
+sp_1         |   annotations[3]: 
+sp_1         |     x: -3.6
+sp_1         |     y: -6
+sp_1         |     theta: 270
+sp_1         |     distance: 1.8
+sp_1         |     name: wh_3
+sp_1         |     uuid: 348d975d-3bdd-5ccc-9871-da0cdd110f06
 ```
 
 Also, a new window called RViz should open. Here are the most important commands you will need:
