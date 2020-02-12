@@ -41,7 +41,7 @@ Interaction between the OPIL Software System Layer, the OPIL Agent Nodes Layer a
 ## Videos
 ICENT Robotics team demonstrated the prototype of Automated Guided Vechicle (AGV) solution, that was tailor-made for Croatian manufacturer Muraplast to solve their intra-factory logistics problem. 
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=YOUTUBE_VIDEO_ID_HERE
+<a href="http://www.youtube.com/watch?feature=player_embedded&https://www.youtube.com/watch?v=7koPrwFSvLc
 " target="_blank"><img src="http://img.youtube.com/vi/7koPrwFSvLc/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
