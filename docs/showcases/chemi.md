@@ -40,13 +40,13 @@ Interaction between the OPIL Software System Layer, the OPIL Agent Nodes Layer a
 ## Videos
 The following video, an AGV in the StageRos simulation environment has been addressed by an preliminary TaskPlanner. The map is based on Chemi-Pharm AS blueprints.
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=https://www.youtube.com/watch?v=vHUJEozs-KE
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=vHUJEozs-KE
 " target="_blank"><img src="http://img.youtube.com/vi/vHUJEozs-KE/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
 This video represents the simulation of integration of OPIL v1 into ChemiPharm manufacturing cell with the use of Visual Components software.
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=https://www.youtube.com/watch?v=rBJ2doOHFto
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=rBJ2doOHFto
 " target="_blank"><img src="http://img.youtube.com/vi/rBJ2doOHFto/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
 
