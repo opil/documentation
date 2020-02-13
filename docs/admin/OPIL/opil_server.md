@@ -415,8 +415,6 @@ For now, you don't need to change any of the other configuration but please make
 
 ## Prepare OPIL Task Planner (TP)
 
-TBA ( Module still under development )
-
 Five different configurations are needed for TP. Create the following empty files beside the above created `docker-compose.yml`.
 
 - `firos_config.json`
