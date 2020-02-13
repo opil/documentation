@@ -42,7 +42,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: l4ms/opil.sw.sp.central:3.0.6-beta
+        image: l4ms/opil.sw.sp.central:3.0.7-beta
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -203,7 +203,7 @@ To change the size of the grid cell for calculating the topology, prepare the `t
 <param name="frame_id" value="/map" />
 </node>
 <node name="rviz" pkg="rviz" type="rviz" args="-d $(find maptogridmap)/singlerobot.rviz" /> 
-<node name="map2gm" pkg="maptogridmap" type="map2gm" output="screen">
+<node name="map2gm" pkg="maptogridmap" type="map2gm" required="true" output="screen">
         <param name="cell_size" type="double" value="1.0" />
         <param name="annotation_file" textfile="$(find maptogridmap)/launch/annotations.ini" />
 </node>
@@ -257,10 +257,47 @@ where
 * **point_x**, **point_y** are coordinates of the annotation
 * **theta** and **distance** determine where the topology vertex should be so that Task Planner can use this coordinates as the goal distanced for a defined **distance** from the annotation and oriented towards the annotation so that AGV has heading **theta** with respect to the positive x-axis. 
 
-Coordinates of the annotations can be chosen arbitrary. They can be set as the middle of the pallet or the corner of the pallet, for example. The most important is to calculate the right position where an AGV will be placed in front of the annotation by setting the right distance, and orientation from the annotation coordinates.
+Coordinates of the annotations can be chosen arbitrary. They can be set as the middle of the pallet or the corner of the pallet, for example. The most important is to calculate the right position for the topology vertex, where an AGV will be placed in front of the annotation by setting the right distance, and orientation from the annotation coordinates.
+It is also important that the topology vertex is not close to obstacle, and that two annotations are not closer than **cell_size**. 
+
+If annotations **coordinates**, **distance** and **theta** are defined such that topology vertex is inside the occupied cell of **cell_size**, the docker will stop and you will see the message like this:
+
+```
+sp_1         | [ERROR] [1580984773.346147009]: Annotations are occupied!!! Change the coordinates or distance of the annotation or decrease the cell size. Here are the details:
+sp_1         | x: -5.4
+sp_1         | y: -7
+sp_1         | theta: 270
+sp_1         | distance: 1.8
+sp_1         | name: wh_1
+sp_1         | uuid: d0b1e572-a338-570b-97ba-8ed8b1a2e4f0
+sp_1         | 
+sp_1         | Annotation vertex in the topology graph is at the occupied position (-5.400000,-5.200000) for the cell_size = 0.900000 m. Shutting down...
+```
+
+For the Task Planner it is important that topology vertices are always distanced greater or equal to **cell_size**. If annotations **coordinates**, **distance** and **theta** are chosen such that their topology vertices are distanced less than **cell_size** the docker will stop and you will see the message like this:
+
+```
+sp_1         | [ERROR] [1580986001.861762508]: Annotations are too close!!! Change the coordinates of the annotation or decrease the cell size. Here are the details:
+sp_1         | The annotation 1:
+sp_1         | x: -3.6
+sp_1         | y: -6
+sp_1         | theta: 270
+sp_1         | distance: 1.8
+sp_1         | name: wh_3
+sp_1         | uuid: 348d975d-3bdd-5ccc-9871-da0cdd110f06
+sp_1         | 
+sp_1         | has the topology vertex at (-3.600000,-4.200000), which is closer than cell_size (1.000000 m) to the vertex (-4.500000,-4.200000) of the annotation 2:
+sp_1         | x: -4.5
+sp_1         | y: -6
+sp_1         | theta: 270
+sp_1         | distance: 1.8
+sp_1         | name: wh_2
+sp_1         | uuid: f5d5d1d9-c8d2-5ff7-97af-8d1234eda8f8
+sp_1         | 
+```
 
 After restarting docker-compose.yml,
-the result should be as in this figure:
+the valid result should be as in this figure:
 
 ![topology with annotations](./img/terotopologyannot.png)
 
@@ -299,7 +336,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: l4ms/opil.sw.sp.central:3.0.6-beta
+        image: l4ms/opil.sw.sp.central:3.0.7-beta
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
