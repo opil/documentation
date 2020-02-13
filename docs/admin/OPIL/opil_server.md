@@ -2,23 +2,24 @@
 
 **IMPORTANT NOTE: THIS DOCUMENT IS STILL UNDER CONSTRUCTION**
 
-
 In this section you will install and configure the OPIL Server using an example layout provided on this page by following a step-by-step guide. At the end of this guide you will have a working OPIL Server setup. Finally, you will reset the configuration and then you can configure the OPIL Server with your own layout.
 
 It is possible to change the configuration (e.g. ports and filenames) with the capabilities described in [Docker compose file version 3 reference](https://docs.docker.com/compose/compose-file/). However, during this guide we will not address any configuration that is not absolutely required.
 
 Please follow these steps for installing the OPIL server:
 
-<!-- [TOC] -->
 ## Table of Contents
+
+<!-- [TOC] -->
+
 - [Check prerequisites](#check-prerequisites)
 - [Verify docker environment](#verify-docker-environment)
 - [Prepare a docker-compose.yml file](#prepare-a-docker-composeyml-file)
 - [Prepare the layout](#prepare-the-layout)
 - [Prepare VC simulation](#prepare-vc-simulation)
-- [Prepare OPIL Central SP](#prepare-opil-central-sp)
-- [Prepare OPIL HMI](#prepare-opil-hmi)
-- [Prepare OPIL TP](#prepare-opil-tp)
+- [Prepare OPIL Central SP](#prepare-opil-central-sensing-perception-sp)
+- [Prepare OPIL HMI](#prepare-opil-human-machine-interface-hmi)
+- [Prepare OPIL TP](#prepare-opil-task-planner-tp)
 - [Review the docker-compose.yml file](#review-the-docker-composeyml-file)
 - [Start the OPIL Server modules](#start-the-opil-server-modules)
 - [Start the VC simulation](#start-the-vc-simulation)
@@ -35,11 +36,10 @@ Please follow these steps for installing the OPIL server:
 - You must be familiar with Linux-based operating systems on a basic level to execute commands and edit files.
 - You have read the [introduction](../../start/index.md) and [deployment](../../start/deployment.md) pages and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
 
-
 ## Verify docker environment
 
 In this step, you will verify that your `docker` environment is running and that it is not out of date. If you know that you do not have a `docker` environment set up, start with the "Updating and troubleshooting" section below. Please note that both `docker` and `docker-compose` are required to follow this guide.
->It is recommended to run all `docker` and `docker-compose` commands with `sudo` to avoid errors caused by privileges. However, depending on your OS and user settings this might not be required.
+>It is recommended to run all `docker` and `docker-compose` commands prefaced with `sudo` to avoid errors caused by privileges. However, depending on your OS and user settings this might not be required. If you want to avoid typing `sudo` before every `docker` command, follow [these steps](https://docs.docker.com/install/linux/linux-postinstall/).
 
 First, check the `docker` version by executing command:
 
@@ -128,7 +128,7 @@ The layout has three main areas:
 | --- | --- |
 | Production area | This area continuously produces products that are collected on the single pallet within the area. This pallet is then transported to the warehouse area for storage. |
 | Warehouse area | This area is used to receive and store products from the production and packaging areas. Also, pallets are periodically transported from this area to the packaging area. |
-| Packaging area | In this area ready products and packaged and finally packaged products area transported back to warehouse area for storage. |
+| Packaging area | In this area ready products are packaged and finally packaged products are transported back to warehouse area for storage. |
 
 ![demo_map_areas.png](./img/demo_map_areas.png)
 
@@ -179,7 +179,7 @@ Make sure to store your measurements and calculations as you are going to use th
 
 ### Annotations
 
-Annotations are labeled positions of importance in the layout. Such labeled positions could be pick-up and drop-off locations, charging stations or pallet stacks. The annotations you will be working with in this guide are all pallet locations and are marked in the following image:
+Annotations are labeled positions of importance in the layout. Such labeled positions could be pick-up and drop-off locations, charging stations or pallet stacks. The annotations you will be working with in this guide, all pallet locations and one charging station, are marked in the following image:
 ![demo_map_annotations.png](./img/demo_map_annotations.png)
 
 During this step, you should record the position and orientation of each labeled position for future use. The orientation is called `theta` in the configuration file. The orientation defines the approach direction, so that an approaching AGV has its heading towards the annotation as follows:
@@ -235,6 +235,11 @@ theta = 90
 point_x = 5.75
 point_y = 12.00
 theta = 90
+
+[chrg_0]
+point_x = 0.00
+point_y = -4.00
+theta = 270
 ```
 
 Now you have determined the necessary information regarding the layout you are using in this guide and next you can start configuring the OPIL modules.
@@ -247,7 +252,7 @@ Now you have determined the necessary information regarding the layout you are u
 
 ### Prepare demo_map.yaml
 
-Create a new file in the root directory called `demo_map.yaml`. This file will include the configuration of the map scale and zero-point as well as a few additional parameters.
+In the root directory where you created `docker-compose.yml`, create a new file called `demo_map.yaml`. This file will include the configuration of the map scale and zero-point as well as a few additional parameters.
 
 ```yaml
 #demo_map.yaml
@@ -323,6 +328,13 @@ point_x = 5.75
 point_y = 12.00
 theta = 90
 distance = 1.8
+
+[chrg_0]
+point_x = 0.00
+point_y = -4.00
+theta = 270
+distance = 1.0
+
 ```
 
 ### Prepare topology.launch
@@ -336,7 +348,7 @@ Create a new file in the root directory called `topology.launch` and copy-paste 
 </node>
 <node name="rviz" pkg="rviz" type="rviz" args="-d $(find maptogridmap)/singlerobot.rviz" />
 <node name="map2gm" pkg="maptogridmap" type="map2gm" output="screen">
-        <param name="cell_size" type="double" value="1.0" />
+        <param name="cell_size" type="double" value="1.3" />
         <param name="annotation_file" textfile="$(find maptogridmap)/launch/annotations.ini" />
 </node>
     <!-- Run FIROS -->
@@ -367,7 +379,7 @@ Finally, add the following content to the end of the `docker-compose.yml` file:
             - DISPLAY=$DISPLAY
 ```
 
-## Prepare OPIL Human-Machine Inteface (HMI)
+## Prepare OPIL Human-Machine Interface (HMI)
 
 In this step you will configure the OPIL HMI module by appending the `docker-compose.yml` file with the following content. Replace `<ip-address>` in the `ocb_host` and `ngsi_proxy_host` fields with the one you wrote down in the prerequisites of this guide.
 
@@ -444,24 +456,7 @@ The `firos_config.json` describes the local and remote connection to the Context
 
 ### firos_robots.json
 
-This configuration describes which information FIROS should publish from the Context Broker into the Task Planner's ROS-instance, and which information FIROS should subscribe from ROS in order to publish outside.
-
-TP needs to subscribe to the topic of `/map/graph` which is provided by SP to generate the graph for the routing. The following topics are subscribed from RAN:
-
-```
-- /robot_opil_v2/current_motion
-- /robot_opil_v2/robot_description
-```
-
-The control assignments for RAN are published to following topics:
-
-```
-- /robot_opil_v2/motion_assignment
-- /robot_opil_v2/action_assignment
-- /robot_opil_v2/cancel_order
-```
-
-If you add more robots to the system you have to add the topics with the namespace here. For a detailed description see [TP documentation](../TP/opil_server_tp_install.md).
+This configuration describes which information is published from the Context Broker into the Task Planner's ROS-instance, and vice-versa.
 
 Copy this content to `firos_robots.json`:
 
@@ -502,9 +497,26 @@ Copy this content to `firos_robots.json`:
 }
 ```
 
+TP needs to subscribe to the topic of `/map/graph` which is provided by SP to generate the graph for the routing. The following topics are subscribed from RAN:
+
+```
+- /robot_opil_v2/current_motion
+- /robot_opil_v2/robot_description
+```
+
+The control assignments for RAN are published to the following topics:
+
+```
+- /robot_opil_v2/motion_assignment
+- /robot_opil_v2/action_assignment
+- /robot_opil_v2/cancel_order
+```
+
+If you add more robots to the system you have to add the topics with the namespace here. For a detailed description see [TP documentation](../TP/opil_server_tp_install.md).
+
 ### firos_whitelist.json
 
-The file `whitelist.json` is needed by FIROS to subscribe to the topics described in `robots.json`. All topics from `robots.json` must be listed here.
+The file `whitelist.json` is needed to subscribe to the topics described in `robots.json`. All topics from `robots.json` must be listed here.
 
 Copy this content to `firos_whitelist.json`:
 
@@ -544,7 +556,7 @@ Copy the following content to `mod_sw_tp.launch`:
   <include file="$(find mars_topology_launcher)/launch/mars_topology_launcher_generic.launch">
     <arg name="log_level" value="info" />
     <arg name="topo_file_type" value="opil_sp" />
-    <arg name="mars_vertex_footprint_radius" value="0.95" />
+    <arg name="mars_vertex_footprint_radius" value="0.64" />
   </include>
 
   <!-- ****** Router ***** -->
@@ -553,12 +565,15 @@ Copy the following content to `mod_sw_tp.launch`:
   <!-- ****** Logical Agent (robot_0) ***** -->
   <include file="$(find mars_agent_logical_agv)/launch/mars_agent_logical_agv.launch">
     <arg name="physical_robot_namespace" value=""/>
+    <arg name="node_name" value="ran_00000000000000000000000000000001" />
     <arg name="robot_name" value="robot_opil_v2" />
     <arg name="physical_agent_id" value="00000000-0000-0000-0000-000000000001" />
     <arg name="physical_agent_description" value="robot_0" />
-    <arg name="current_topology_entity_id" value="0a8b9081-d84c-5660-909c-134d55bf4966" />
-    <!-- p0 -->
-    <arg name="node_name" value="ran_00000000000000000000000000000001" />
+    <arg name="current_topology_entity_id" value="b54cb258-3da0-5dc8-bf9c-9de4bc228664" />
+    <!-- Parking spot: chrg_0 -->
+    <arg name="parking_spot_entity_id" default="b54cb258-3da0-5dc8-bf9c-9de4bc228664" />
+    <arg name="parking_spot_entity_type" default="10" />
+
   </include>
 
   <!-- ****** Firos ***** -->
@@ -580,7 +595,7 @@ Copy the following content to `ts_fiware_config.ini`, replacing `<ip-address>` w
 host = 0.0.0.0
 
 [taskplanner]
-host = <ip-address>
+host = ts
 PORT = 2906
 
 [contextbroker]
@@ -590,9 +605,9 @@ port = 1026
 [robots]
 ids = ran_00000000000000000000000000000001
 # Capabilities can be self defined in TL under Location -> Type
-types = Misc
+types = SmallLoadCarrier
 # Names of the robots
-names = MSM_Sim
+names = robot_opil_v2
 ```
 
 ### Append docker-compose.yml
@@ -924,6 +939,99 @@ Another RViz window should open.
 In the HMI, click on the "Task Management" tab. Copy-paste the following task language into the *Task specification* field and click "Send material flow".
 
 ```
+template Location
+    name = ""
+    type = ""
+end
+
+template Event
+    name = ""
+    type = ""
+end
+
+Location prod
+    name = "prod"
+    type = "SmallLoadCarrier"
+end
+
+Location wh_1
+    name = "wh_1"
+    type = "SmallLoadCarrier"
+end
+
+Location wh_3
+    name = "wh_3"
+    type = "SmallLoadCarrier"
+end
+
+Location pack_1_1
+    name = "pack_1_1"
+    type = "SmallLoadCarrier"
+end
+
+Event triggerGetNewMaterial
+    name = "startTaskButton1"
+    type = "Boolean"
+end
+
+Event triggerGetNewProduct
+    name = "startTaskButton2"
+    type = "Boolean"
+end
+
+Event agvLoadedAtStorage1
+    name = "loadedButton1"
+    type = "Boolean"
+end
+
+Event agvLoadedAtStorage3
+    name = "loadedButton3"
+    type = "Boolean"
+end
+
+Event agvUnloadedAtPacking1
+    name = "unloadedPacking"
+    type = "Boolean"
+end
+
+Event agvUnloadedAtProd
+    name = "unloadedProd"
+    type = "Boolean"
+end
+
+TransportOrderStep loadStorage1
+    Location wh_1
+    FinishedBy agvLoadedAtStorage1 == True 
+end
+
+TransportOrderStep loadStorage3
+    Location wh_3
+    FinishedBy agvLoadedAtStorage3 == True 
+end
+
+TransportOrderStep unloadPacking1
+    Location pack_1_1
+    FinishedBy agvUnloadedAtPacking1 == True
+end
+
+TransportOrderStep unloadWorkstation1
+    Location prod
+    FinishedBy agvUnloadedAtProd == True
+end
+
+task SupplyTaskFromStorage1ToWorkstation1
+    TriggeredBy triggerGetNewMaterial == True
+    Transport
+    from loadStorage1
+    to unloadWorkstation1
+end
+
+task SupplyTaskFromStorage3ToPackaging1
+    TriggeredBy triggerGetNewProduct == True
+    Transport
+    from loadStorage3
+    to unloadPacking1
+end
 
 ```
 
@@ -931,7 +1039,7 @@ In the HMI, click on the "Task Management" tab. Copy-paste the following task la
 
 Click on the HMI tab "Control". Create a new button with the name and id as `startTaskButton`.
 
-Push the newly created button. This triggers the task to start. In the "Task Management" tab you should see a transport order with the task info "*MovingToPickupDestination*". The AGV should start moving in the VC simulation.
+Click the newly created button. This triggers the task to start. In the "Task Management" tab you should see a transport order with the task info "*MovingToPickupDestination*". The AGV should start moving in the VC simulation.
 
 ## Stopping and removing containers
 
@@ -941,7 +1049,7 @@ Stopping containers:
 > docker-compose stop
 ```
 
-Stops running containers without removing them. They can be started again with `docker-compose start`.
+Stops all running containers without removing them. They can be started again with `docker-compose start`.
 
 Stopping and removing the containers:
 
