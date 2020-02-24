@@ -76,6 +76,7 @@ services:
      - ngsi_proxy_port=3000
      #- link_btn_txt={Text to be shown on the button}
      #- link_btn_url={URL to be opened}
+     #- task_mgmnt=BPO
     restart: always
     volumes:
       - ./public/uploads:/usr/src/app/public/uploads
