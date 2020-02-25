@@ -1054,9 +1054,9 @@ end
 
 ## Initiation with HMI button
 
-Click on the HMI tab "Control". Create a new button with the name and id as `startTaskButton`.
+Click on the HMI tab "Control". Create a new button with the name and id as `startTaskButton1`.
 
-Click the newly created button. This triggers the task to start. In the "Task Management" tab you should see a transport order with the task info "*MovingToPickupDestination*". The AGV should start moving in the VC simulation.
+Click the newly created button. This triggers the task `SupplyTaskFromStorage1ToWorkstation1` to start. In the "Task Management" tab you should see a transport order with the task info "*MovingToPickupDestination*". The AGV should start moving in the VC simulation.
 
 ## Stopping and removing containers
 
