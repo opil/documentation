@@ -954,7 +954,9 @@ docker_ts_1          /ros_entrypoint.sh /bin/sh ...   Up      0.0.0.0:2906->2906
 
 ```
 
-Another RViz window should open.
+Another RViz window should open, and TP should start building a topology. The final result should look like this: 
+
+![mtp_topology.png](./img/mtp_topology.png)
 
 ## Setting up a simple task
 
