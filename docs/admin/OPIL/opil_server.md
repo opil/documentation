@@ -2,6 +2,8 @@
 
 **IMPORTANT NOTE: THIS DOCUMENT IS STILL UNDER CONSTRUCTION**
 
+*The information in this guide may be outdated as OPIL undergoes development. Please refer to the documentation of OPIL modules for the latest information.*
+
 In this section you will install and configure the OPIL Server using an example layout provided on this page by following a step-by-step guide. At the end of this guide you will have a working OPIL Server setup. Finally, you will reset the configuration and then you can configure the OPIL Server with your own layout.
 
 It is possible to change the configuration (e.g. ports and filenames) with the capabilities described in [Docker compose file version 3 reference](https://docs.docker.com/compose/compose-file/). However, during this guide we will not address any configuration that is not absolutely required.
@@ -293,11 +295,11 @@ point_y = -6.00
 theta = 270
 distance = 1.8
 
-[wh_2]
-point_x = -4.50
-point_y = -6.00
-theta = 270
-distance = 1.8
+#[wh_2]
+#point_x = -4.50
+#point_y = -6.00
+#theta = 270
+#distance = 1.8
 
 [wh_3]
 point_x = -3.60
@@ -336,6 +338,8 @@ theta = 270
 distance = 1.0
 
 ```
+
+Due to a limitation in OPIL v3, the distance between two annotations cannot be shorter than the `cell_size` setting in `topology.launch`. For this reason, we have to comment out the point `[wh_2]`, which is too close to the nearby annotations.
 
 ### Prepare topology.launch
 
