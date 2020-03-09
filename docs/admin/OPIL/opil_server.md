@@ -41,7 +41,6 @@ Please follow these steps for installing the OPIL server:
 ## Verify docker environment
 
 In this step, you will verify that your `docker` environment is running and that it is not out of date. If you know that you do not have a `docker` environment set up, start with the "Updating and troubleshooting" section below. Please note that both `docker` and `docker-compose` are required to follow this guide.
->It is recommended to run all `docker` and `docker-compose` commands prefaced with `sudo` to avoid errors caused by privileges. However, depending on your OS and user settings this might not be required. If you want to avoid typing `sudo` before every `docker` command, follow [these steps](https://docs.docker.com/install/linux/linux-postinstall/).
 
 First, check the `docker` version by executing command:
 
@@ -757,6 +756,8 @@ services:
 ## Start the OPIL Server modules
 
 In this step you will start-up the docker containers you have configured during this guide. The start-up will be done in steps, mostly module-by-module, and you will verify the status and basic functionality of the started module(s) between each step.
+
+>It is recommended to run all `docker` and `docker-compose` commands prefaced with `sudo` to avoid errors caused by privileges. However, depending on your OS and user settings this might not be required. If you want to avoid typing `sudo` before every `docker` command, follow [these steps](https://docs.docker.com/install/linux/linux-postinstall/).
 
 ### Start the OPIL middleware
 
