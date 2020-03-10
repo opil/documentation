@@ -1,8 +1,6 @@
 # OPIL Server Installation
 
-**IMPORTANT NOTE: THIS DOCUMENT IS STILL UNDER CONSTRUCTION**
-
-*The information in this guide may be outdated as OPIL undergoes development. Please refer to the documentation of OPIL modules for the latest information.*
+**NOTE:** *The information in this guide may be outdated as OPIL undergoes development. Please refer to the documentation of OPIL modules for the latest information.*
 
 In this section you will install and configure the OPIL Server using an example layout provided on this page by following a step-by-step guide. At the end of this guide you will have a working OPIL Server setup. Finally, you will reset the configuration and then you can configure the OPIL Server with your own layout.
 
@@ -32,15 +30,16 @@ Please follow these steps for installing the OPIL server:
 
 ## Check prerequisites
 
-- Computer with Linux-based operating with docker and docker-compose installed.
-- You know the IP-address of your system. Write it down as you will need  it later in this guide. This will be referred as `<ip-address>` from now on.
+- Computer with Linux-based operating system with docker and docker-compose installed.
+- You know the IP-address of your system. Write it down as you will need  it later in this guide. This will be referred to as `<ip-address>` from now on.
 - The following PNG image: [demo_map.png](files/demo_map.png)
 - You must be familiar with Linux-based operating systems on a basic level to execute commands and edit files.
 - You have read the [introduction](../../start/index.md) and [deployment](../../start/deployment.md) pages and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
+- If you wish to test your installation with a simulated layout and robots, a computer with Windows operating system with Visual Components installed.
 
 ## Verify docker environment
 
-In this step, you will verify that your `docker` environment is running and that it is not out of date. If you know that you do not have a `docker` environment set up, start with the "Updating and troubleshooting" section below. Please note that both `docker` and `docker-compose` are required to follow this guide.
+In this step, you will verify that your `docker` environment is running and that it is not out of date. If you know that you do not have a `docker` environment set up, start with the "Troubleshooting and updating" section below. Please note that both `docker` and `docker-compose` are required to follow this guide.
 
 First, check the `docker` version by executing command:
 
@@ -65,7 +64,7 @@ The minimum required versions are listed in the table below but it's always a go
 
 ### Troubleshooting and updating the docker environment
 
-If you did not have `docker` environment set up or either of the commands resulted in an out-of-date version, in some error or other unexpected result see the following links respectively.
+If you did not have `docker` environment set up or either of the commands resulted in an out-of-date version, in some error, or other unexpected result see the following links respectively.
 
 For `docker` related instructions, see [docker installation guide](https://docs.docker.com/install/).  
 For `docker-compose` related instructions, see [docker-compose installation guide](https://docs.docker.com/compose/install/).
@@ -245,9 +244,9 @@ theta = 270
 
 Now you have determined the necessary information regarding the layout you are using in this guide and next you can start configuring the OPIL modules.
 
-## Prepare VC simulation
+### Reducing the layout
 
-( TBA )
+In this step we will mark some areas to be inaccessible to the AGV. We know the AGV will never need to enter some areas, and these can be blocked out of the layout to improve performance. Moreover, we don't want an AGV to enter the workstation areas or go between the warehouse racks. It is enough to simply mark the unwanted areas in the PNG file with a dark colour. Download the reduced layout file here: [demo_map_reduced.png](img/demo_map_reduced.png) and copy it to the same directory where you created `docker-compose.yml`.
 
 ## Prepare OPIL Central Sensing & Perception (SP)
 
@@ -265,7 +264,7 @@ occupied_thresh: 0.65
 free_thresh: 0.196
 ```
 
-Note: The value in the `image` field is `map.png`, regardless of our PNG file being named `demo_map.png`. This is intended, so please do not change this.
+Note: The value in the `image` field is `map.png`, regardless of our PNG file being named `demo_map_reduced.png`. This is intended, so please do not change this.
 
 For now, there is no need to adjust any of these parameters. Configuration possibilities regarding this file are explained in the [SP documentation](../SP/opil_local_sp_install.md).
 
@@ -373,7 +372,7 @@ Finally, add the following content to the end of the `docker-compose.yml` file:
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
             - ./annotations.ini:/annotations.ini:ro
             - ./demo_map.yaml:/map.yaml:ro
-            - ./demo_map.png:/map.png:ro
+            - ./demo_map_reduced.png:/map.png:ro
             - ./topology.launch:/topology.launch:ro
         environment:
             - FIWAREHOST=orion
@@ -686,7 +685,7 @@ services:
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
             - ./annotations.ini:/annotations.ini:ro
             - ./demo_map.yaml:/map.yaml:ro
-            - ./demo_map.png:/map.png:ro
+            - ./demo_map_reduced.png:/map.png:ro
             - ./topology.launch:/topology.launch:ro
         environment:
             - FIWAREHOST=orion
@@ -752,6 +751,22 @@ services:
         - /tmp/.X11-unix:/tmp/.X11-unix:rw
 
 ```
+
+## Prepare VC simulation
+
+The Visual Components simulation is a virtual replacement for the physical components in the OPIL system: robots and sensors. In this optional step you will configure a simulation connected to OPIL, so you can test your setup before deploying any hardware.
+
+Download this simulation layout file: [demo_factory.vcmx](files/demo_factory.vcmx) and open it in Visual Components. The simulation looks like this:
+
+![vc_layout.png](img/vc_layout.png)
+
+The layout is preconfigured with an AGV and a RAN Router component which connects the AGV to OPIL.
+
+Click on the RAN Router component in the bottom of the simulation window. In the Component Properties panel, select the Connections tab:
+
+![vc_ran_settings.png](img/vc_ran_settings.png)
+
+ Enter the `<ip-address>` that you wrote down in the beginning of this guide into the **OCB IP** field. Enter the IP address of the Windows computer where VC is running into the **Host IP** field.
 
 ## Start the OPIL Server modules
 
@@ -829,7 +844,7 @@ Next you will add the previously prepared layout as a visualization in the HMI. 
 
 ![hmi_floor_plan_upload.PNG](./img/hmi_floor_plan_upload.PNG)
 
-Click the Browse button, and find the `demo_map.png` file you downloaded in the beginning of this guide. Next, give a name for the layout and fill out the scale and offset values that were already calculated for the layout:
+Click the Browse button, and find the `demo_map.png` file you downloaded in the beginning of this guide. This image is only for visualization, so you can use the original image. Next, give a name for the layout and fill out the scale and offset values that were already calculated for the layout:
 
 ![hmi_floor_plan_scale.PGN](./img/hmi_floor_plan_scale.PNG)
 
@@ -922,17 +937,7 @@ docker_orion_1       /usr/bin/contextBroker -fg ...   Up      0.0.0.0:1026->1026
 docker_sp_1          /ros_entrypoint.sh bash          Up
 ```
 
-## Start the VC simulation
-
-First select the Router component and click the *Initialize OCB* button. You should see the following log message:
-
-```
-Context Broker entity robot_opil_v2 initialized
-```
-
-Then press the *Play* button to start the simulation.
-
-## Start the OPIL TP
+### Start the OPIL TP
 
 ```
 > docker-compose up -d ts
@@ -954,25 +959,29 @@ docker_ts_1          /ros_entrypoint.sh /bin/sh ...   Up      0.0.0.0:2906->2906
 
 ```
 
-Another RViz window should open, and TP should start building a topology. The final result should look like this: 
+A new RViz window should open, and TP should start building a topology. Move and zoom the view until you see it in the screen. The final result should look like this:
 
 ![mtp_topology.png](./img/mtp_topology.png)
 
+## Start the VC simulation
+
+If you have prepared the VC simulation, first select the RAN Router component and click the *Test connection* button to verify the connection to OPIL. If the connection is OK, click the *Initialize OCB* button. You should see the following output message:
+
+```
+Context Broker entity robot_opil_v2 initialized
+```
+
+Then press the *Play* button to start the simulation. The robot should appear in the "Overview" tab of HMI:
+
+![hmi_agv.png](img/hmi_agv.png)
+
 ## Setting up a simple task
+
+Transportation tasks are defined in a simple scripting language called Logistic Task Language (LoTLan). A full description of the language can be found in the [TP documentation](../../develop/TP/opil_tp_how_it_works.md).
 
 In the HMI, click on the "Task Management" tab. Copy-paste the following task language into the *Task specification* field and click "Send material flow".
 
 ```
-template Location
-    name = ""
-    type = ""
-end
-
-template Event
-    name = ""
-    type = ""
-end
-
 Location prod
     name = "prod"
     type = "SmallLoadCarrier"
@@ -983,38 +992,13 @@ Location wh_1
     type = "SmallLoadCarrier"
 end
 
-Location wh_3
-    name = "wh_3"
-    type = "SmallLoadCarrier"
-end
-
-Location pack_1_1
-    name = "pack_1_1"
-    type = "SmallLoadCarrier"
-end
-
 Event triggerGetNewMaterial
     name = "startTaskButton1"
     type = "Boolean"
 end
 
-Event triggerGetNewProduct
-    name = "startTaskButton2"
-    type = "Boolean"
-end
-
 Event agvLoadedAtStorage1
     name = "loadedButton1"
-    type = "Boolean"
-end
-
-Event agvLoadedAtStorage3
-    name = "loadedButton3"
-    type = "Boolean"
-end
-
-Event agvUnloadedAtPacking1
-    name = "unloadedPacking"
     type = "Boolean"
 end
 
@@ -1026,16 +1010,6 @@ end
 TransportOrderStep loadStorage1
     Location wh_1
     FinishedBy agvLoadedAtStorage1 == True 
-end
-
-TransportOrderStep loadStorage3
-    Location wh_3
-    FinishedBy agvLoadedAtStorage3 == True 
-end
-
-TransportOrderStep unloadPacking1
-    Location pack_1_1
-    FinishedBy agvUnloadedAtPacking1 == True
 end
 
 TransportOrderStep unloadWorkstation1
@@ -1050,20 +1024,19 @@ task SupplyTaskFromStorage1ToWorkstation1
     to unloadWorkstation1
 end
 
-task SupplyTaskFromStorage3ToPackaging1
-    TriggeredBy triggerGetNewProduct == True
-    Transport
-    from loadStorage3
-    to unloadPacking1
-end
-
 ```
+
+This specification configures a task to transport materials from `[wh_1]` in the warehouse area to the workstation `[prod]` in the production area. The task will start when a button called `startTaskButton1` is pressed. We will create this button in the HMI. The loading and unloading of the AGV wil be confirmed manually, also with HMI buttons. These events could also be triggered by physical buttons or other sensors connected to OPIL with [SAN](../SAN/opil_desc_san.md).
+
+The new specification should appear under "Sent material flows" and a new transport order should be activated:
+
+![hmi_task.png](img/hmi_task.png)
 
 ## Initiation with HMI button
 
-Click on the HMI tab "Control". Create a new button with the name and id as `startTaskButton1`.
+Click on the HMI tab "Control". Create a new button with the name and id as `startTaskButton1`. Create two more buttons: `loadedButton1` and `unloadedProd`.
 
-Click the newly created button. This triggers the task `SupplyTaskFromStorage1ToWorkstation1` to start. In the "Task Management" tab you should see a transport order with the task info "*MovingToPickupDestination*". The AGV should start moving in the VC simulation.
+Click the newly created `startTaskButton1`. This triggers the task `SupplyTaskFromStorage1ToWorkstation1` to start. In the "Task Management" tab you should see a transport order with the task info "*MovingToPickupDestination*". The AGV should start moving in the VC simulation.
 
 ## Stopping and removing containers
 
@@ -1075,10 +1048,19 @@ Stopping containers:
 
 Stops all running containers without removing them. They can be started again with `docker-compose start`.
 
-Stopping and removing the containers:
+Stopping and removing containers:
 
 ```
 > docker-compose down
 ```
 
 Stops containers and removes containers, networks, volumes, and images created by `docker-compose up`.
+
+## Next steps
+
+Congratulations! You now have a working OPIL Server setup. Here are some suggestions for what you can do next:
+
+- Create a new task specification to transport products from `[wh_3]` to the packaging station `[pack_1_1]`. [Example](files/guide_taskspec2.txt)
+- Configure your own layout. Follow the steps in [Prepare the layout](#prepare-the-layout) and see [SP documentation](../SP/opil_local_sp_install.md) for more info.
+- Connect a physical button or sensor to OPIL with [SAN](../SAN/opil_desc_san.md).
+- Connect your AGV to OPIL with [RAN](../RAN/opil_desc_ran.md).

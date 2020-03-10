@@ -1,0 +1,41 @@
+Location wh_3
+    name = "wh_3"
+    type = "SmallLoadCarrier"
+end
+
+Location pack_1_1
+    name = "pack_1_1"
+    type = "SmallLoadCarrier"
+end
+
+Event triggerGetNewProduct
+    name = "startTaskButton2"
+    type = "Boolean"
+end
+
+Event agvLoadedAtStorage3
+    name = "loadedButton3"
+    type = "Boolean"
+end
+
+Event agvUnloadedAtPacking1
+    name = "unloadedPacking"
+    type = "Boolean"
+end
+
+TransportOrderStep loadStorage3
+    Location wh_3
+    FinishedBy agvLoadedAtStorage3 == True 
+end
+
+TransportOrderStep unloadPacking1
+    Location pack_1_1
+    FinishedBy agvUnloadedAtPacking1 == True
+end
+
+task SupplyTaskFromStorage3ToPackaging1
+    TriggeredBy triggerGetNewProduct == True
+    Transport
+    from loadStorage3
+    to unloadPacking1
+end
