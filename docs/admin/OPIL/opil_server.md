@@ -90,7 +90,7 @@ services:
 
     ### Proxy for Context Broker ###
     ngsiproxy:
-        image: fiware/ngsiproxy:latest
+        image: fiware/ngsiproxy:1.2
         ports:
             - 3000:3000
 
@@ -367,7 +367,7 @@ Finally, add the following content to the end of the `docker-compose.yml` file:
 ``` yaml
     ### S&P ###
     sp:
-        image: l4ms/opil.sw.sp.central:latest
+        image: l4ms/opil.sw.sp.central:3.0.7-beta
         volumes:
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
             - ./annotations.ini:/annotations.ini:ro
@@ -394,7 +394,7 @@ In this step you will configure the OPIL HMI module by appending the `docker-com
         - ./mongo/data:/data/db
     ### HMI web app ###
     hmi:
-        image: l4ms/opil.sw.hmi:latest
+        image: l4ms/opil.sw.hmi:3.0.14-beta
         volumes:
             - ./public/uploads:/usr/src/app/public/uploads
         environment:
@@ -663,7 +663,7 @@ services:
 
     ### Proxy for Context Broker ###
     ngsiproxy:
-        image: fiware/ngsiproxy:latest
+        image: fiware/ngsiproxy:1.2
         ports:
             - 3000:3000
 
@@ -680,7 +680,7 @@ services:
 
     ### S&P ###
     sp:
-        image: l4ms/opil.sw.sp.central:latest
+        image: l4ms/opil.sw.sp.central:3.0.7-beta
         volumes:
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
             - ./annotations.ini:/annotations.ini:ro
@@ -702,7 +702,7 @@ services:
 
     ### HMI web app ###
     hmi:
-        image: l4ms/opil.sw.hmi:latest
+        image: l4ms/opil.sw.hmi:3.0.14-beta
         volumes:
             - ./public/uploads:/usr/src/app/public/uploads
         environment:
@@ -967,7 +967,7 @@ A new RViz window should open, and TP should start building a topology. Move and
 
 If you have prepared the VC simulation, first select the RAN Router component and click the *Test connection* button to verify the connection to OPIL. If the connection is OK, click the *Initialize OCB* button. You should see the following output message:
 
-```
+```sh
 Context Broker entity robot_opil_v2 initialized
 ```
 
@@ -1042,7 +1042,7 @@ Click the newly created `startTaskButton1`. This triggers the task `SupplyTaskFr
 
 Stopping containers:
 
-```
+```sh
 > docker-compose stop
 ```
 
@@ -1050,7 +1050,7 @@ Stops all running containers without removing them. They can be started again wi
 
 Stopping and removing containers:
 
-```
+```sh
 > docker-compose down
 ```
 
