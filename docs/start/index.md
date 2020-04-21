@@ -8,7 +8,7 @@ The table below listes the OPIL layers along with the modules of which they are 
 |Layer level | Layer name                 | Module Identifier  | Module name
 |-----------:|:--------------------------:|:------------------:|:----------------
 |1           | IoT Nodes                  | MOD.IOT.RAN        | Robot Agent Node
-|            |                            | MOD.IOT.HAN        | Human Agent Node
+
 |            |                            | MOD.IOT.SAN        | Sensor Agent Node
 |2           | Cyber Physical Middleware  | MOD.MW.CM          | Context Management
 |            |                            | MOD.MW.BDM         | Backend Device Management and protocol adapter
