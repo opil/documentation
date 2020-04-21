@@ -27,8 +27,6 @@ Agent nodes of Layer 1 are the components of the [Architecture](#architecture) t
 #### MOD.IOT.RAN (Robot Agent Node)
 The RAN (Robot Agent Node) allows controlling the robot and, as such, in OPIL it sits at Layer 1, namely between the Cyber Physical Middleware and the Robot Hardware. It provides two main functionalities: it manages robot navigation, based on ROS, and works as an interface between the robot hardware and the OPIL Cyber Physical Middleware, based on FIWARE Orion Context Broker. In order to accomplish the second functionality, the RAN "translates" and adapts FIWARE entities into something understandable by ROS, i.e. messages and services, and viceversa; in doing so, it accomplishes the goal set for the Communication/Messaging sub-module depicted by the OPIL [Architecture](#architecture).
 
-#### MOD.IOT.HAN (Human Agent Node)
-Human Agent Node (HAN) is the component responsible for displaying various information and data of the system for the human agents. The human agents can also give commands for the system via HAN. Currently, the human agents are capable of monitoring the robot and the sensors of the system. With HAN, the human agents can also control and give commands to RAN. HAN can be divided into background and foreground software components according to the used middleware component Wirecloud.
 
 #### MOD.IOT.SAN (Sensor Agent Node)
 The MOD.IOT.SAN (Sensor Agent Node) is responsible for connecting sensors of different types as well as the hardware they are attached to with the Cyber Physical Middleware. 
