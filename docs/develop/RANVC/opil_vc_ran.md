@@ -6,7 +6,7 @@ The VC-RAN (Visual Components Robot Agent Node) is the OPIL IoT Nodes layer modu
 
 ## 2 Components and structure
 
-Figure 1 presents the structure of VC-RAN. Router handles communication between the Orion Context Broker (OCB) and RanLogic components. Messages are transmitted using signals and interfaces in the simulation layout. For every AGV there is one RanLogic and one AgvAction component. From the OCB-messages received and delivered by the VC-Router, RanLogic filters those that contain the robot id of the AGV. RanLogic stores the data (motion and action assignments) to data structures based on the task id and receive time and handles the data delivery to the AGV (motion assignments) and AgvAction components (action assignments). RanLogic also maintains data structures for completed and cancelled tasks as well as for task variables such as current and last motion and action.
+Figure 1 presents the structure of VC-RAN. Router handles communication between the Orion Context Broker (OCB) and RanLogic components. Messages are transmitted using signals and interfaces in the simulation layout. For every AGV there is one RanLogic and one AgvAction component. From the OCB-messages received and delivered by the Router, RanLogic filters those that contain the robot id of the AGV. RanLogic stores the data (motion and action assignments) to data structures based on the task id and receive time and handles the data delivery to the AGV (motion assignments) and AgvAction components (action assignments). RanLogic also maintains data structures for completed and cancelled tasks as well as for task variables such as current and last motion and action.
 
 RanLogic sends description message every minute to Router, which delivers the message as is to OCB. RobotState message is sent by the AGV every second to RanLogic that then sends RAN-state message to Router. RanLogic likewise sends assignment status message to Router every second. Router delivers both RAN-state and assignment status messages to OCB. AGV and AgvAction components send a message after every completed assignment to RanLogic, which the RanLogic uses to update its data structures, task variables and state.
 
@@ -24,7 +24,7 @@ Tasks are executed in the order they are received. When a motion or action assig
 
 RanLogic is always in one of the finite states specified in Figure 2. Starting state is state-waiting, which changes to state-task after new task is received. When the first motion assignment belonging to the current task has been received, the state changes to state-motion and RanLogic will start sending motion assingments to the AGV. After all the motion assignments have been completed and the first action assignment belonging to current task has been received, state changes to state-action. In this state, RanLogic sends action assignments one by one to the AgvAction component until all the assignments are completed and RanLogic returns to state-waiting.
 
-![](./img/VC_RAN_state_2.png)
+![](./img/VC_RAN_state.png)
 
 <center>*Figure 2. RanLogic state machine.*</center>
 
