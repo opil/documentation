@@ -1,4 +1,4 @@
-![OPIL](../img/OPIL LOGO.png)
+![OPIL](./img/OPIL_LOGO.png)
 
 # Overview
 
