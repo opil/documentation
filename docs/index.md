@@ -1,3 +1,5 @@
+![OPIL](../img/OPIL LOGO.png)
+
 # Overview
 
 OPIL is the **Open Platform** for **Innovations** in **Logistcs**.
