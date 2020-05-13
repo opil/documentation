@@ -50,6 +50,7 @@ In the second round of pilot experiment one of the goals were to visualize the c
 This guide is a short version of the guide on how to setup the connection to the external OPC UA server:
 <https://iotagent-opcua.readthedocs.io/en/latest/user_and_programmers_manual/index.html>.
 
+This guide is tested both in Ubuntu linux and Windows 10.
 First, clone the prepared configuration for connection to OPC UA Server:
 ```
 git clone https://github.com/Engineering-Research-and-Development/iotagent-opcua
@@ -76,11 +77,100 @@ where **iotplcsrv** is defined in **docker-compose-external-server.yml** as `"io
 `configuration=api`
 3. Change header names to desired (will be used as header in subscription):
 ```fiware-service=opcua_muraplast```, ```fiware-service-path=/demo```
-4. To allow subscribing to more than 5 sensors add:
+4. To allow subscribing to more than 5 sensors (attributes of the same entity in this case) add:
 ```
 #SubscriptionsStrategy
 uniqueSubscription=true
 ```
+
+The example of used **docker-compose-external-server.yml** is here:
+```
+version: "3"
+
+services:
+  iotage:
+    hostname: iotage
+    image: iotagent4fiware/iotagent-opcua:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    networks:
+      - hostnet
+      - iotnet
+    ports:
+      - "4001:4001"
+      - "4081:8080"
+    extra_hosts:
+      - "iotplcsrv:192.168.0.18"
+    depends_on:
+      - iotmongo
+      - orion
+    volumes:
+      - ./AGECONF:/opt/iotagent-opcua/conf
+    #  - ./certificates:/opt/iotagent-opcua/certificates
+
+  iotmongo:
+    hostname: iotmongo
+    image: mongo:3.4
+    networks:
+      - iotnet
+    volumes:
+      - iotmongo_data:/data/db
+      - iotmongo_conf:/data/configdb
+
+  ################ OCB ################
+
+  orion:
+    hostname: orion
+    image: fiware/orion:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    networks:
+      - hostnet
+      - ocbnet
+    ports:
+      - "1026:1026"
+    depends_on:
+      - orion_mongo
+    entrypoint: /usr/bin/contextBroker -fg -multiservice -ngsiv1Autocast -statCounters -dbhost mongo
+
+  orion_mongo:
+    hostname: orion_mongo
+    image: mongo:3.4
+    networks:
+      ocbnet:
+        aliases:
+          - mongo
+    volumes:
+      - orion_mongo_data:/data/db
+      - orion_mongo_conf:/data/configdb
+    command: --nojournal
+
+volumes:
+  iotmongo_data:
+  iotmongo_conf:
+  orion_mongo_data:
+  orion_mongo_conf:
+
+networks:
+  hostnet:
+  iotnet:
+  ocbnet:
+```
+
+Since there are 21 sensors coming at 10 Hz it was necessary to limit the log files of standard output to max-size "200k" to prevent the disk usage out of space. The following section is put for each container producing large log files:
+```
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+``` 
 
 Start the connection by typing in terminal: 
 ```
@@ -130,6 +220,11 @@ services:
   # Quantum Leap is persisting Short Term History to Crate-DB
   quantumleap:
     image: smartsdk/quantumleap:latest
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     hostname: quantumleap
     container_name: fiware-quantumleap
     ports:
@@ -165,6 +260,24 @@ To have a clean restart type:
 ```
 docker-compose -f docker-compose-quantumleap-cratedb.yml down -v
 ```
+To see if there are any issues or warnings type:
+```
+docker logs db-crate
+```
+If you have a warning similar to:
+```
+[2020-05-05T12:24:10,322][WARN ][o.e.b.BootstrapChecks    ] [Monte Civrari] max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+```
+increase the virtual memory warning by typing in terminal:
+```
+sysctl -w vm.max_map_count=262144
+```
+To make the above setting permanent perform the following steps:
+
+1. edit the file /etc/sysctl.conf
+2. make entry vm.max_map_count=262144
+3. restart
+
 Prepare the following script **post_subscr_PLC.sh** to post subscriptions:
 ```
 curl --location --request POST 'http://localhost:1026/v2/subscriptions/' --header 'fiware-service: opcua_muraplast' --header 'fiware-servicepath: /demo' --header 'Content-Type: application/json' --data-raw '{
