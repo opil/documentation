@@ -19,6 +19,10 @@ This section describes the workflow of each submodule (TS and MTP) inside the TP
         - [Example OnDone Task](#example-ondone-task)
       - [Comments](#comments)
       - [Full Example](#full-example)
+        - [Example Simple Task](#full-example-simple-task)
+        - [Example TriggeredBy Task](#full-example-triggeredby-task)
+        - [Example OnDone Task](#full-example-ondone-task)
+        - [Example Infinite Loop](#full-example-infnite-loop)
   - [MTP](#mtp)
     - [Introduction](#introduction-1)
       - [Used Algorithm](#used-algorithm)
@@ -35,9 +39,9 @@ The TaskSupervisor is a system monitor that provides information about the ongoi
 
 The TaskSchedular has three divisions: 
 
-* **TaskSchedular**: The TaskSchedular is responsible for creating and monitoring the TaskManager. The TaskSchedular denotes a collection of one or more TaskManager.
-* **TaskManager**: The TaskManager is responsible for creating and monitoring tasks. A TaskManager denotes a collection of one or more tasks.
-* **Task**: A task is the lowest part of the TaskSchedular and describes a transport order that is being executed. Each task includes some information about what will be transported, from where to which destination, how this task will be triggered (e.g. a Sensor Event like a button needs to be pushed) and if there is a follow up/child task.
+* **TaskSchedular**: The *TaskSchedular* is responsible for creating and monitoring the TaskManager. The TaskSchedular denotes a collection of one or more TaskManager.
+* **TaskManager**: The *TaskManager* is responsible for creating and monitoring tasks. A TaskManager denotes a collection of one or more tasks.
+* **Task**: A *Task* is the lowest part of the TaskSchedular and describes a transport order that is being executed. Each task includes some information about what will be transported, from where to which destination, how this task will be triggered (e.g. a Sensor Event like a button needs to be pushed) and if there is a follow up/child task. Each task is executed only **once**. Repeating a task must me defined explicitly.
 
 An example of this TaskSchedular is depicted in the following listing:
 ```
@@ -81,7 +85,7 @@ This example shown in the figure above will be expanded in the course of time to
 
 #### Primitives
 
-A *Primitive* can contain multiple member variables, like pallets/storage places, multiple conveyer belts, or like sensors with the same capabilities. Therefore, a *Primitive* summarizes and specifies a set of *Instances*.
+A *Primitive* can contain multiple member variables, like pallets/storage places, multiple conveyer belts, or like sensors with the same capabilities. Therefore, a *Primitive* summarizes and specifies a set of *Instances*. 
 
 In the domain of logistics such a *Primitive* could be a location. Defining such a location is done via the *__template syntax__*:
 
@@ -109,6 +113,8 @@ end
 
 **Syntax**: It is important that the attributes inside a *template - end* definition begin with a lowercase character. The name has to start with an uppercase character. Each attribute also needs to be prefixed with four spaces (or a `\t`). Currently only the following 3 attributes are allowed: `name`, `type`, `timing`
 
+
+Definition of these templates is not required since they are already internally inside the TaskLanguage defined.
 
 #### Instances
 An *Instance* is the concrete object of a previously declared *Primitive*. Such set of *Instances* do not share any data other than the definition of their attributes.
@@ -203,8 +209,7 @@ Task {name}
     To          {transportOrderStep_D}
     TriggeredBy {none|event|time}
     OnDone      {none|followUpTask}
-    FinishedBy  {none|event|time}
-    Repeat      {none = once|1, ..., n|0 = forever}
+    FinishedBy  {none|event|time} 
 end
 ```
 
@@ -212,7 +217,7 @@ To simplify this, down in the following example, the simplest structure of a *Ta
 
 ##### Example Simple Task
 
-In its simplest form, a *Task* in *LoTLan* just describes that an item should be picked up at some location and be delivered to another location:
+In its simplest form, a *Task* in *LoTLan* just describes that an item should be picked up at some location and be delivered to another location, executed only once:
 
 ```text
 Task TransportGoodsPallet
@@ -313,8 +318,7 @@ Task TransportPalletTask
     From        loadGoodsPallet  # A pallet
     To          unloadGoodsPallet
     TriggeredBy buttonPallet == True  # More comments
-    OnDone      Refill
-    Repeat      5  # Repeat it 5 times!
+    OnDone      Refill 
 end
 ```
 
@@ -323,29 +327,51 @@ This example shows a mimicked multi-line comment that consists of three `#` that
 
 #### Full Example
 
+##### Full Example Simple Task
+Initiation of the two Locations goodsPallet, warehousePos1 and the two events agvLoadedAtGoodsPallet, agvLoadedAtWarehousePos1. The Task TransportGoodsPallet will be executed immediately once.
 
 ```text
-###
-# Defining a Primitive Location with the two attributes type and value
-###
-template Location
-    type = ""
-    name = ""
+Location goodsPallet
+    name = "productionArea_palletPlace"
+    type = "pallet"
 end
 
-template Event
-    name = ""
-    type = ""
+Location warehousePos1
+    name = "warehouseArea_pos1"
+    type = "pallet"
 end
 
-template Location
-    name = ""
-    type = ""
+Event agvLoadedAtGoodsPallet
+    name = "realSensorAgvLoadedWs1"
+    type = "Boolean"
 end
 
-###
-# Initiation of the two Locations goodsPallet, warehousePos1 and the three Events agvLoadedAtGoodsPallet, agvLoadedAtWarehousePos1, buttonPallet.
-###
+Event agvLoadedAtWarehousePos1
+    name = "realSensorAgvUnloadedWs2"
+    type = "Boolean"
+end
+
+TransportOrderStep loadGoodsPallet
+    Location goodsPallet  # Only one Location can be defined!
+    FinishedBy agvLoadedAtGoodsPallet == True 
+end
+
+TransportOrderStep unloadGoodsPallet
+    Location warehousePos1
+    FinishedBy agvLoadedAtWarehousePos1 == True
+end
+
+task TransportGoodsPallet
+    # Transport Order now needs TransportOrderSteps instead of regular instances
+    Transport
+    from loadGoodsPallet
+    to unloadGoodsPallet 
+end
+```
+##### Full Example TriggerdBy Task
+Initiation of the two Locations goodsPallet, warehousePos1 and the three Events agvLoadedAtGoodsPallet, agvLoadedAtWarehousePos1, buttonPallet. The Task TransportGoodsPallet will be executed once after the event of buttonPallet occured.
+
+```text
 Location goodsPallet  # Using the Primitive Location
     type = "pallet"
     name = "productionArea_palletPlace"
@@ -401,18 +427,75 @@ Task TransportGoodsPallet
     Transport
     From        loadGoodsPallet
     To          unloadGoodsPallet
+    TriggeredBy buttonPallet == True
+end
+```
+
+##### Full Example OnDone Task
+Initiation of the two Locations goodsPallet, warehousePos1 and the three Events agvLoadedAtGoodsPallet, agvLoadedAtWarehousePos1, buttonPallet. The Task TransportGoodsPallet will be executed once after the event of buttonPallet occured. The Task Refill will be executed when TransportGoodsPallet is finished.
+
+```text
+# Initiation of the two Locations goodsPallet, warehousePos1 and the three Events agvLoadedAtGoodsPallet, agvLoadedAtWarehousePos1, buttonPallet.
+###
+Location goodsPallet  # Using the Primitive Location
+    type = "pallet"
+    name = "productionArea_palletPlace"
+end
+
+Location warehousePos1
+    type = "pallet"
+    name = "warehouseArea_pos1"
+end
+
+Event agvLoadedAtGoodsPallet
+    type = "Boolean"
+    name = "LightBarrier"
+end
+
+Event agvLoadedAtWarehousePos1
+    type = "Boolean"
+    name = "LightBarrier"
+end
+
+Event buttonPallet
+    name = "A_Unique_Name_for_a_Button"
+    type = "Boolean"
 end
 
 ###
-# Creation of a Task that is triggered if agvLoadedAtGoodsPallet occurs
+# Creation of the TransportOrderSteps loadGoodsPallet and unloadGoodsPallet
 ###
-Task TransportGoodsPallet_2
+TransportOrderStep loadGoodsPallet
+    Location    goodsPallet
+    FinishedBy  agvLoadedAtGoodsPallet == True
+end
+
+TransportOrderStep unloadGoodsPallet
+    Location    warehousePos1
+    FinishedBy  agvLoadedAtWarehousePos1 == False
+end
+
+TransportOrderStep loadEmptyPallet
+    Location    warehousePos1
+    FinishedBy  agvLoadedAtWarehousePos1 == True
+end
+
+TransportOrderStep unloadEmptyPallet
+    Location    goodsPallet
+    FinishedBy  agvLoadedAtGoodsPallet == False
+end
+
+###
+# Creation of a Task that is triggered if event buttonPallet occurs
+###
+Task TransportGoodsPallet
     Transport
     From        loadGoodsPallet
     To          unloadGoodsPallet
     TriggeredBy buttonPallet == True
+    OnDone      Refill # If this Task is done, call Refill
 end
-
+ 
 ###
 # Creation of a Task that will call Refill when done
 ###
@@ -422,13 +505,50 @@ Task Refill
     To          unloadEmptyPallet
 end
 
-Task TransportGoodsPallet_3
-    Transport
-    From        loadGoodsPallet
-    To          unloadGoodsPallet
-    TriggeredBy buttonPallet == True
-    OnDone      Refill  # If this Task is done, call Refill
+```
+
+##### Full Example Infinite Loop
+Initiation of the two Locations goodsPallet, warehousePos1 and the two events agvLoadedAtGoodsPallet, agvLoadedAtWarehousePos1. The Task TransportGoodsPallet will be executed immediately and forever due to its self reference (OnDone).
+
+```text
+Location goodsPallet
+    name = "productionArea_palletPlace"
+    type = "pallet"
 end
+
+Location warehousePos1
+    name = "warehouseArea_pos1"
+    type = "pallet"
+end
+
+Event agvLoadedAtGoodsPallet
+    name = "realSensorAgvLoadedWs1"
+    type = "Boolean"
+end
+
+Event agvLoadedAtWarehousePos1
+    name = "realSensorAgvUnloadedWs2"
+    type = "Boolean"
+end
+
+TransportOrderStep loadGoodsPallet
+    Location goodsPallet  # Only one Location can be defined!
+    FinishedBy agvLoadedAtGoodsPallet == True 
+end
+
+TransportOrderStep unloadGoodsPallet
+    Location warehousePos1
+    FinishedBy agvLoadedAtWarehousePos1 == True
+end
+
+task TransportGoodsPallet
+    # Transport Order now needs TransportOrderSteps instead of regular instances
+    Transport
+    from loadGoodsPallet
+    to unloadGoodsPallet
+    OnDone TransportGoodsPallet
+end
+```
 ```
 
 ## MTP
