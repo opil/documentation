@@ -22,7 +22,7 @@ This section describes the workflow of each submodule (TS and MTP) inside the TP
         - [Example Simple Task](#full-example-simple-task)
         - [Example TriggeredBy Task](#full-example-triggeredby-task)
         - [Example OnDone Task](#full-example-ondone-task)
-        - [Example Infinite Loop](#full-example-infnite-loop)
+        - [Example Infinite Loop](#full-example-infinite-loop)
   - [MTP](#mtp)
     - [Introduction](#introduction-1)
       - [Used Algorithm](#used-algorithm)
