@@ -205,8 +205,8 @@ Generally speaking, a *Task* in *LoTLan* describes that a amount of items should
 ```text
 Task {name}
     Transport
-    From        {transportOrderStep_0}
-    To          {transportOrderStep_D}
+    from {transportOrderStep_0}
+    to {transportOrderStep_D}
     TriggeredBy {none|event|time}
     OnDone      {none|followUpTask}
     FinishedBy  {none|event|time} 
@@ -222,8 +222,8 @@ In its simplest form, a *Task* in *LoTLan* just describes that an item should be
 ```text
 Task TransportGoodsPallet
     Transport
-    From        loadGoodsPallet
-    To          unloadGoodsPallet
+    from        loadGoodsPallet
+    to          unloadGoodsPallet
 end
 ```
 
@@ -248,8 +248,8 @@ end
 
 Task TransportGoodsPallet_2
     Transport
-    From        loadGoodsPallet
-    To          unloadGoodsPallet
+    from        loadGoodsPallet
+    to          unloadGoodsPallet
     TriggeredBy buttonPallet == True
 end
 ```
@@ -280,22 +280,27 @@ TransportOrderStep unloadEmptyPallet
     FinishedBy  agvLoadedAtGoodsPallet == False
 end
 
-Task Refill
-    Transport
-    From        loadEmptyPallet
-    To          unloadEmptyPallet
-end
-
 Task TransportGoodsPallet_3
     Transport
-    From        loadGoodsPallet
-    To          unloadGoodsPallet
+    from        loadGoodsPallet
+    to          unloadGoodsPallet
     TriggeredBy buttonPallet == True
     OnDone      Refill
+end
+
+Task Refill
+    Transport
+    from loadEmptyPallet
+    to unloadEmptyPallet
 end
 ```
 
 In this example another *Task* is introduced. This *Task* *Refill* is the almost the same to the transport task as the formerly introduced *TransportGoodsPallet*, having as main difference that in this case it is te other way around. Furthermore, *TransportGoodsPallet_3* here shows now the *OnDone* statement that points to *Refill* an runs that *Task* if done. That means a concatenation of *Tasks* is allowed. Exploiting this behaviour infinite *Tasks* can be managed by pointing to each other. So *Refill* could also point to *TransportGoodsPallet_3* in a *OnDone* statement.
+
+At this point it is important to point out that the order of the tasks is **important**. *TransportGoodsPallet_3* is the starting point and *Refill* shall be executed after *TransportGoodsPallet_3* is finished. This leads to an order:
+
+*TransportGoodsPallet_3* --> *Refill*
+
 
 In terms of the introduced example production hall this *Task* looks like depicted in the following figure.
 
@@ -315,8 +320,8 @@ A comment starts with a hash character (`#`) that is not part of a string litera
 Task TransportPalletTask
     # Comment inside a task
     Transport
-    From        loadGoodsPallet  # A pallet
-    To          unloadGoodsPallet
+    from        loadGoodsPallet  # A pallet
+    to          unloadGoodsPallet
     TriggeredBy buttonPallet == True  # More comments
     OnDone      Refill 
 end
@@ -425,8 +430,8 @@ end
 ###
 Task TransportGoodsPallet
     Transport
-    From        loadGoodsPallet
-    To          unloadGoodsPallet
+    from        loadGoodsPallet
+    to          unloadGoodsPallet
     TriggeredBy buttonPallet == True
 end
 ```
@@ -490,8 +495,8 @@ end
 ###
 Task TransportGoodsPallet
     Transport
-    From        loadGoodsPallet
-    To          unloadGoodsPallet
+    from        loadGoodsPallet
+    to          unloadGoodsPallet
     TriggeredBy buttonPallet == True
     OnDone      Refill # If this Task is done, call Refill
 end
@@ -501,8 +506,8 @@ end
 ###
 Task Refill
     Transport
-    From        loadEmptyPallet
-    To          unloadEmptyPallet
+    from        loadEmptyPallet
+    to          unloadEmptyPallet
 end
 
 ```
