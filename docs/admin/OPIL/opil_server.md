@@ -350,7 +350,7 @@ Create a new file in the root directory called `topology.launch` and copy-paste 
 </node>
 <node name="rviz" pkg="rviz" type="rviz" args="-d $(find maptogridmap)/singlerobot.rviz" />
 <node name="map2gm" pkg="maptogridmap" type="map2gm" output="screen">
-        <param name="cell_size" type="double" value="1.3" />
+        <param name="cell_size" type="double" value="1.45" />
         <param name="annotation_file" textfile="$(find maptogridmap)/launch/annotations.ini" />
 </node>
     <!-- Run FIROS -->
@@ -394,7 +394,7 @@ In this step you will configure the OPIL HMI module by appending the `docker-com
         - ./mongo/data:/data/db
     ### HMI web app ###
     hmi:
-        image: l4ms/opil.sw.hmi:3.0.14-beta
+        image: l4ms/opil.sw.hmi:3.0.17-beta
         volumes:
             - ./public/uploads:/usr/src/app/public/uploads
         environment:
@@ -553,11 +553,15 @@ Copy the following content to `mod_sw_tp.launch`:
 
   <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 0 1 world map" />
 
+  <!-- ****** Yellow Pages ***** -->
+  <include file="$(find mars_yellow_pages)/launch/mars_yellow_pages.launch" />  
+
   <!--  ****** Topology *****  -->
   <include file="$(find mars_topology_launcher)/launch/mars_topology_launcher_generic.launch">
     <arg name="log_level" value="info" />
     <arg name="topo_file_type" value="opil_sp" />
-    <arg name="mars_vertex_footprint_radius" value="0.64" />
+    <arg name="mars_vertex_footprint_radius" value="0.72" />
+    <arg name="topology_launch_mode" default="container"/>
   </include>
 
   <!-- ****** Router ***** -->
@@ -572,6 +576,7 @@ Copy the following content to `mod_sw_tp.launch`:
     <arg name="physical_agent_description" value="robot_0" />
     <arg name="current_topology_entity_id" value="b54cb258-3da0-5dc8-bf9c-9de4bc228664" />
     <!-- Parking spot: chrg_0 -->
+    <arg name="parking_allowed" default="true" />
     <arg name="parking_spot_entity_id" default="b54cb258-3da0-5dc8-bf9c-9de4bc228664" />
     <arg name="parking_spot_entity_type" default="10" />
 
@@ -618,7 +623,7 @@ Finally, add the following content to the end of the `docker-compose.yml` file:
 ``` yaml
 ### TP ###
 ts:
-    image: l4ms/opil.sw.tp.ts:3.0.1-alpha
+    image: l4ms/opil.sw.tp.ts:3.1.5
     depends_on:
     - mtp
     - orion
@@ -626,12 +631,12 @@ ts:
     - PYTHONUNBUFFERED=1
     - "ROS_MASTER_URI=http://mtp:11311"
     volumes:
-    - ./ts_fiware_config.ini:/catkin_ws/src/taskplanner/fiware_config.ini
+    - ./ts_fiware_config.ini:/catkin_ws/src/tasksupervisor/fiware_config.ini
     ports:
     - "2906:2906"  
 
 mtp:
-    image: l4ms/opil.sw.tp.mtp:3.0.1-alpha
+    image: l4ms/opil.sw.tp.mtp:3.1.2
     depends_on:
     - orion
     environment:
@@ -702,7 +707,7 @@ services:
 
     ### HMI web app ###
     hmi:
-        image: l4ms/opil.sw.hmi:3.0.14-beta
+        image: l4ms/opil.sw.hmi:3.0.17-beta
         volumes:
             - ./public/uploads:/usr/src/app/public/uploads
         environment:
@@ -721,7 +726,7 @@ services:
 
     ### TP ###
     ts:
-        image: l4ms/opil.sw.tp.ts:3.0.1-alpha
+        image: l4ms/opil.sw.tp.ts:3.1.5
         depends_on:
         - mtp
         - orion
@@ -734,7 +739,7 @@ services:
         - "2906:2906"  
 
     mtp:
-        image: l4ms/opil.sw.tp.mtp:3.0.1-alpha
+        image: l4ms/opil.sw.tp.mtp:3.1.2
         depends_on:
         - orion
         environment:
