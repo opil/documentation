@@ -771,7 +771,7 @@ Click on the RAN Router component in the bottom of the simulation window. In the
 
 ![vc_ran_settings.png](img/vc_ran_settings.png)
 
- Enter the `<ip-address>` that you wrote down in the beginning of this guide into the **OCB IP** field. Enter the IP address of the Windows computer where VC is running into the **Host IP** field.
+ Enter the `<ip-address>` that you wrote down in the beginning of this guide into the **OCB IP** field. Enter the IP address of the Windows computer where VC is running into the **Host IP** field. You can use the *Test connection* button to check the OCB connection is OK.
 
 ## Start the OPIL Server modules
 
@@ -871,7 +871,7 @@ First execute the following command the enable the OPIL SP to use the display:
 And then start the OPIL SP module:
 
 ```
-> docker-compose up --build sp
+> docker-compose up sp
 ...
 Starting docker_sp_1 ... done
 ...
@@ -928,7 +928,7 @@ Other things to consider if you are following this guide and using a different l
 Finally, shutdown the SP by inputting Ctrl+C on the terminal window that is attached to the SP container. Now you can start the SP in detached mode:
 
 ```
-> docker-compose up -d --build sp
+> docker-compose up -d sp
 Starting docker_sp_1 ... done
 
 > docker-compose ps
@@ -970,13 +970,23 @@ A new RViz window should open, and TP should start building a topology. Move and
 
 ## Start the VC simulation
 
-If you have prepared the VC simulation, first select the RAN Router component and click the *Test connection* button to verify the connection to OPIL. If the connection is OK, click the *Initialize OCB* button. You should see the following output message:
+If you have prepared the VC simulation, first select the RAN Router component and click the *Test connection* button to verify the connection to OPIL. If the connection is OK, click the *Initialize OCB* button. You should see the following output:
 
-```sh
-Context Broker entity robot_opil_v2 initialized
-```
+> Context Broker entity robot_opil_v2 initialized
 
-Then press the *Play* button to start the simulation. The robot should appear in the "Overview" tab of HMI:
+You might see the message:
+
+> Entity doesn't exist. Failed to delete robot_opil_v2 entitity with response code 404
+
+on the first inititalization, this is normal, as the router tries to delete the old entity before initialization.
+Press the *Play* button to start the simulation. The output should resemble this:
+> Created subscription to location: /v2/subscriptions/5f0f13f1bc079d4847b07b01
+>
+> Created subscription to location: /v2/subscriptions/5f0f13f1bc079d4847b07b02
+>
+> Created subscription to location: /v2/subscriptions/5f0f13f1bc079d4847b07b03
+
+The robot should now appear in the "Overview" tab of HMI:
 
 ![hmi_agv.png](img/hmi_agv.png)
 
@@ -984,7 +994,7 @@ Then press the *Play* button to start the simulation. The robot should appear in
 
 Transportation tasks are defined in a simple scripting language called Logistic Task Language (LoTLan). A full description of the language can be found in the [TP documentation](../../develop/TP/opil_tp_how_it_works.md).
 
-In the HMI, click on the "Task Management" tab. Copy-paste the following task language into the *Task specification* field and click "Send material flow".
+In the HMI, click on the "Task Management" tab. Copy and paste the following task language into the *Task specification* field and click "Send material flow".
 
 ```
 Location prod
@@ -1042,6 +1052,46 @@ The new specification should appear under "Sent material flows" and a new transp
 Click on the HMI tab "Control". Create a new button with the name and id as `startTaskButton1`. Create two more buttons: `loadedButton1` and `unloadedProd`.
 
 Click the newly created `startTaskButton1`. This triggers the task `SupplyTaskFromStorage1ToWorkstation1` to start. In the "Task Management" tab you should see a transport order with the task info "*MovingToPickupDestination*". The AGV should start moving in the VC simulation.
+
+If the AGV does not move, there may be a connection problem with VC RAN subscriptions. Note the first subscription ID created by VC RAN earlier, and open the subscription in a web browser. In our example, the address would be `http://<ip-address>:1026/v2/subscriptions/5f0f13f1bc079d4847b07b01`.
+The following JSON response would indicate that OCB failed to send data back to VC RAN:
+
+```json
+{
+  "id": "5f0f13f1bc079d4847b07b01",
+  "description": "subsription to attribute motion_assignment",
+  "status": "failed",
+  "subject": {
+    "entities": [
+      {
+        "id": "robot_opil_v2",
+        "type": "ROBOT"
+      }
+    ],
+    "condition": {
+      "attrs": [
+        "motion_assignment"
+      ]
+    }
+  },
+  "notification": {
+    "timesSent": 12,
+    "lastNotification": "2020-07-15T14:26:57.00Z",
+    "attrs": [
+      "motion_assignment"
+    ],
+    "onlyChangedAttrs": false,
+    "attrsFormat": "normalized",
+    "http": {
+      "url": "http://10.0.0.13:8080/"
+    },
+    "lastFailure": "2020-07-15T14:26:59.00Z",
+    "lastFailureReason": "Couldn't connect to server"
+  }
+}
+```
+
+Check the Host IP setting in VC, and the network connection between OCB and the computer running Visual Components. As you can see from the "url" value, VC RAN uses port **8080** to receive notifications from OCB.
 
 ## Stopping and removing containers
 
