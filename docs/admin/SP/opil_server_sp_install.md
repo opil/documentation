@@ -7,7 +7,7 @@ There are two ways of installing the SP module. You can use the docker container
 
 There are two docker containers - the Central SP and the Local SP.
 The Central SP is located at 
-<https://hub.docker.com/r/l4ms/opil.sw.sp.central>
+<https://docker.ramp.eu/?page=1#!taglist/opil/opil.sw.sp.central>
 
 ### The Central SP docker 
 
