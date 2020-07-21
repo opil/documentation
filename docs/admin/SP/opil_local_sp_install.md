@@ -1,5 +1,3 @@
-
-
 # Local SP Installation
 
 There are two ways of installing the SP module. You can use the docker containers or compile it from the source.
@@ -8,7 +6,7 @@ There are two ways of installing the SP module. You can use the docker container
 
 There are two docker containers - the Central SP and the Local SP.
 The Local SP is located at 
-<https://hub.docker.com/r/l4ms/opil.iot.sp.local>
+<https://docker.ramp.eu/?page=1#!taglist/opil/opil.iot.sp.local>
 
 ### The Local SP as a standalone module
 
