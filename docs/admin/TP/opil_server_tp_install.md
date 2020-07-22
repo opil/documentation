@@ -13,6 +13,12 @@ The MOD.SW.TP Motion Task Planning receives the start and end destinations of th
 ## TS
 The Task Supervisor (TS) module receives task specification from the HMI Module in an appropriate formal language and parameterized task specification. The TS process the received task information and assigns transport order to the available Robots. The Task Supervisor is also able to send the current state information to the HMI. Any changes inside the system will be handled through this sub-module.
 
+# Installation
+
+The module can be found in the following address:
+
+https://docker.ramp.eu/?page=1#!taglist/opil/opil.sw.tp.ts
+
 # How to start the TP docker container
 This docker container starts the TP which receives the created graph of SP via orion.
 
