@@ -6,6 +6,12 @@ Any feedback on this document is highly welcome, including bug reports, typos or
 
 The Robot Agent Node (RAN) sits between OPIL and the Robot Hardware. It provides two main functionalities: it manages robot navigation, based on ROS, and works as an interface between the robot hardware and the OPIL Cyber Physical Middleware, based on FIWARE Orion Context Broker. In order to accomplish the second functionality, the RAN "translates" and adapts FIWARE entities into something understandable by ROS, i.e., messages and services, and viceversa.
 
+# Where to get the module 
+
+The latest version of the module can be found here:
+
+https://docker.ramp.eu/?page=1#!taglist/opil/opil.iot.ran
+
 # How to start the TP docker container
 This docker container starts the RAN which receives motion or action tasks from the TP.
 
