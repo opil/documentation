@@ -919,7 +919,7 @@ Next, verify the following things:
 
 - Scale and zero point: The gray grid that extends outside your demo layout should have its origin, i.e. bottom-left-hand corner at the intended zero point. If it does not match, you have an error in either the scale/resolution or zero-point coordinate in the `demo_map.yaml` file.
 - Annotations: Look at the yellow arrows in the layout and make sure that they are correctly positioned and orientated at intended labeled positions. If the annotations do not match, you have an error in the `annotations.ini` file.
-- OCB connection: Make a HTTP GET by using a web browser or some other tool to `http://<ip-address>/v2/entities` and check that you have a new entity called `map`. Please note that due to the size of that entity the GET request to OCB might take longer than before.
+- OCB connection: Make a HTTP GET by using a web browser or some other tool to `http://<ip-address>:1026/v2/entities` and check that you have a new entity called `map`. Please note that due to the size of that entity the GET request to OCB might take longer than before.
 
 Other things to consider if you are following this guide and using a different layout:
 
