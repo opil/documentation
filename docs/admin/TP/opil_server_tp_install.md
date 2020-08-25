@@ -27,7 +27,7 @@ To start a docker container prepare a docker-compose.yml following this example 
 ```yml
 services: 
   opil.mod.sw.tp.ts:
-    image: "l4ms/opil.sw.tp.ts:latest"
+    image: "ramp-dreg.eurodyn.com/opil/opil.sw.tp.ts:latest"
     depends_on: 
       - opil.mod.sw.tp.mtp
     environment: 
@@ -39,7 +39,7 @@ services:
       - "2906:2906" 
 
   opil.mod.sw.tp.mtp: 
-    image: "l4ms/opil.sw.tp.mtp:latest"
+    image: "ramp-dreg.eurodyn.com/opil/opil.sw.tp.mtp:latest"
     environment: 
       - "ROS_MASTER_URI=http://localhost:11311"
       - DISPLAY=$DISPLAY

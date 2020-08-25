@@ -367,7 +367,7 @@ Finally, add the following content to the end of the `docker-compose.yml` file:
 ``` yaml
     ### S&P ###
     sp:
-        image: l4ms/opil.sw.sp.central:3.0.7-beta
+        image: ramp-dreg.eurodyn.com/opil/opil.sw.sp.central:3.1.1
         volumes:
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
             - ./annotations.ini:/annotations.ini:ro
@@ -394,7 +394,7 @@ In this step you will configure the OPIL HMI module by appending the `docker-com
         - ./mongo/data:/data/db
     ### HMI web app ###
     hmi:
-        image: l4ms/opil.sw.hmi:3.0.17-beta
+        image: ramp-dreg.eurodyn.com/opil/opil.sw.hmi:3.0.18-beta
         volumes:
             - ./public/uploads:/usr/src/app/public/uploads
         environment:
@@ -623,7 +623,7 @@ Finally, add the following content to the end of the `docker-compose.yml` file:
 ``` yaml
 ### TP ###
 ts:
-    image: l4ms/opil.sw.tp.ts:3.1.5
+    image: ramp-dreg.eurodyn.com/opil/opil.sw.tp.ts:3.1.6
     depends_on:
     - mtp
     - orion
@@ -636,7 +636,7 @@ ts:
     - "2906:2906"  
 
 mtp:
-    image: l4ms/opil.sw.tp.mtp:3.1.2
+    image: ramp-dreg.eurodyn.com/opil/opil.sw.tp.mtp:3.1.1
     depends_on:
     - orion
     environment:
@@ -685,7 +685,7 @@ services:
 
     ### S&P ###
     sp:
-        image: l4ms/opil.sw.sp.central:3.0.7-beta
+        image: ramp-dreg.eurodyn.com/opil/opil.sw.sp.central:3.1.1
         volumes:
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
             - ./annotations.ini:/annotations.ini:ro
@@ -707,7 +707,7 @@ services:
 
     ### HMI web app ###
     hmi:
-        image: l4ms/opil.sw.hmi:3.0.17-beta
+        image: ramp-dreg.eurodyn.com/opil/opil.sw.hmi:3.0.18-beta
         volumes:
             - ./public/uploads:/usr/src/app/public/uploads
         environment:
@@ -726,7 +726,7 @@ services:
 
     ### TP ###
     ts:
-        image: l4ms/opil.sw.tp.ts:3.1.5
+        image: ramp-dreg.eurodyn.com/opil/opil.sw.tp.ts:3.1.6
         depends_on:
         - mtp
         - orion
@@ -739,7 +739,7 @@ services:
         - "2906:2906"  
 
     mtp:
-        image: l4ms/opil.sw.tp.mtp:3.1.2
+        image: ramp-dreg.eurodyn.com/opil/opil.sw.tp.mtp:3.1.1
         depends_on:
         - orion
         environment:

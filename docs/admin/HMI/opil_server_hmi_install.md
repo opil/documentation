@@ -66,7 +66,7 @@ services:
     volumes:
       - ./mongo/data:/data/db
  app:
-    image: l4ms/opil.sw.hmi:latest
+    image: ramp-dreg.eurodyn.com/opil/opil.sw.hmi:latest
     environment:
      - inituser=admin
      - initpw=admin
