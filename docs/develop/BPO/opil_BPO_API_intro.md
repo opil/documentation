@@ -13,8 +13,8 @@ Before starting the BPO docker container, you should start the [Central SP](http
 At first, you need to pull the latest docker images of the modules
 
 ```
-$docker pull l4ms/opil.sw.hmi:3.0.15-beta
-$docker pull l4ms/opil.sw.sp.central:latest
+$docker pull docker.ramp.eu/opil/opil.sw.hmi:3.0.18-beta
+$docker pull docker.ramp.eu/opil/opil.sw.sp.central:latest
 ```
 
 Next step is to setup the `docker-compose.yaml` files to run the docker containers. 
@@ -58,7 +58,7 @@ services:
 		 - ./mongo/data:/data/db
     hmiapp:
 	  container_name: hminode
-        image: l4ms/opil.sw.hmi:3.0.15-beta
+        image: docker.ramp.eu/opil/opil.sw.hmi:3.0.18-beta
         environment:
 		 - inituser=admin
 		 - initpw=admin
@@ -81,7 +81,7 @@ services:
 #Central Sensing & Perception
     sp:
         restart: always
-        image: l4ms/opil.sw.sp.central:latest
+        image: docker.ramp.eu/opil/opil.sw.sp.central:latest
         depends_on:
             - orion
         volumes:
@@ -114,7 +114,7 @@ At the address `http://localhost:1026/main`, you should see the HMI app. Use the
 ## How to start the BPO docker container
 Pull the latest docker image of the module
 ```
-$docker pull l4ms/opil.sw.bpo:1.1
+$docker pull docker.ramp.eu/opil/opil.sw.bpo:1.1
 ```
 
 Set up the BPO `docker-compose.yaml` the docker container
@@ -129,7 +129,7 @@ services:
       - "FIWAREHOST=<IP address or hostname of fiware>"
       - "HOST=<IP address or hostname of localhost>"
       - "NETINTERFACE=<netinterface of localhost>"
-    image: l4ms/opil.sw.bpo:1.1
+    image: docker.ramp.eu/opil/opil.sw.bpo:1.1
     network_mode: host
 version: "3"
 ```
@@ -194,7 +194,7 @@ This is an example of the BPO specification send by the HMI app. At the moment, 
 }
 ```
 
-`"locations": "Name"` defines the locations in the floor that the robots, humans and items could be. The names should be the same as the ones used in the annotation file as processed by the [l4ms/opil.sw.sp.central](https://hub.docker.com/r/l4ms/opil.sw.sp.central) docker container. `"anywhere"` determines all the defined locations that an agent (robot, human, item) could navigate. The robot agent could transport from location `"A"` to `"B", "C", "D", "F"`. `"on_robot_1"` defines the `"loading"` status when the robot is carrying an item. For the example above, the item can be loaded on the robot (notated as `"R"`) from locations `"A", "B", "C"` 
+`"locations": "Name"` defines the locations in the floor that the robots, humans and items could be. The names should be the same as the ones used in the annotation file as processed by the [opil/opil.sw.sp.central](https://docker.ramp.eu/?page=1#!taglist/opil/opil.sw.sp.central) docker container. `"anywhere"` determines all the defined locations that an agent (robot, human, item) could navigate. The robot agent could transport from location `"A"` to `"B", "C", "D", "F"`. `"on_robot_1"` defines the `"loading"` status when the robot is carrying an item. For the example above, the item can be loaded on the robot (notated as `"R"`) from locations `"A", "B", "C"` 
 ```
 "A":"R", "B":"R", "C":"R"
 ```
