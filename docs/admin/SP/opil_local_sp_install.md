@@ -39,7 +39,7 @@ services:
             -dbhost mongo -corsOrigin __ALL -inReqPayloadMaxSize 2097152
     splocal:
         restart: always
-        image: ramp-dreg.eurodyn.com/opil/opil.iot.sp.local:3.1.0
+        image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.0
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -101,7 +101,7 @@ services:
             -dbhost mongo -corsOrigin __ALL -inReqPayloadMaxSize 2097152
 #RAN
   	ran: 
-    	image: "ramp-dreg.eurodyn.com/opil/opil.iot.ran:3.1.1"
+    	image: "docker.ramp.eu/opil/opil.iot.ran:3.1.1"
     	environment: 
       		- "ROS_MASTER_URI=http://localhost:11311"
       		- DISPLAY=$DISPLAY
@@ -116,7 +116,7 @@ services:
 #S&P
   	splocal:
     	restart: always
-    	image: ramp-dreg.eurodyn.com/opil/opil.iot.sp.local:3.1.0
+    	image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.0
     	volumes:
             #- path on the host : path inside the container
       		- /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -713,7 +713,7 @@ services:
 #S&P
   	splocal:
     	restart: always
-    	image: ramp-dreg.eurodyn.com/opil/opil.iot.sp.local:3.1.0
+    	image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.0
     	volumes:
             #- path on the host : path inside the container
       		- /tmp/.X11-unix:/tmp/.X11-unix:rw

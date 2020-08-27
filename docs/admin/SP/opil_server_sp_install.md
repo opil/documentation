@@ -42,7 +42,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: ramp-dreg.eurodyn.com/opil/opil.sw.sp.central:3.1.1
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.1
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -336,7 +336,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: ramp-dreg.eurodyn.com/opil/opil.sw.sp.central:3.1.1
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.1
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -355,7 +355,7 @@ services:
             - "39002:39002"
     splocal:
         restart: always
-        image: ramp-dreg.eurodyn.com/opil/opil.iot.sp.local:3.1.0
+        image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.0
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
