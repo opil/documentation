@@ -283,7 +283,7 @@ services:
             
     mongo:
         restart: always
-        image: mongo:3.4
+        image: mongo:3.6
         command: --nojournal   
 ```
 Make a clean start of context broker: 

@@ -18,7 +18,7 @@ To install it you need to prepare a ***docker-compose.yml*** following this exam
 version: "3"
 services:      
     mongo:
-        image: mongo:3.4
+        image: mongo:3.6
         command: --nojournal
 
     ### Proxy for Context Broker ###
@@ -80,7 +80,7 @@ To install it you need to prepare a ***docker-compose.yml*** that also includes 
 version: "3"
 services:      
     mongo:
-        image: mongo:3.4
+        image: mongo:3.6
         command: --nojournal
 
     ### Proxy for Context Broker ###
@@ -1012,7 +1012,7 @@ services:
             
     mongo:
         restart: always
-        image: mongo:3.4
+        image: mongo:3.6
         command: --nojournal
 ```
 

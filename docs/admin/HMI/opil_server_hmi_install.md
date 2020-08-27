@@ -26,7 +26,7 @@ An example of middleware ***docker-compose.yml***:
 version: "3"
 services:
  mongo:
-   image: mongo:3.4
+   image: mongo:3.6
    command: --nojournal
  orion:
    image: fiware/orion

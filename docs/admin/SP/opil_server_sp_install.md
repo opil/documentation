@@ -20,7 +20,7 @@ To install it you need to prepare a docker-compose.yml following this example:
 version: "3"
 services:      
     mongo:
-        image: mongo:3.4
+        image: mongo:3.6
         command: --nojournal
 
     ### Proxy for Context Broker ###
@@ -314,7 +314,7 @@ This example uses the Local SP that contains the Stage simulator. Check how to p
 version: "3"
 services:      
     mongo:
-        image: mongo:3.4
+        image: mongo:3.6
         command: --nojournal
 
     ### Proxy for Context Broker ###
@@ -449,7 +449,7 @@ To test if entities are sent to OCB, prepare the following docker-compose.yml on
 version: "3"
 services:      
     mongo:
-        image: mongo:3.4
+        image: mongo:3.6
         command: --nojournal
 
     ### Proxy for Context Broker ###

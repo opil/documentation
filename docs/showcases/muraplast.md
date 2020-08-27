@@ -113,7 +113,7 @@ services:
 
   iotmongo:
     hostname: iotmongo
-    image: mongo:3.4
+    image: mongo:3.6
     networks:
       - iotnet
     volumes:
@@ -141,7 +141,7 @@ services:
 
   orion_mongo:
     hostname: orion_mongo
-    image: mongo:3.4
+    image: mongo:3.6
     networks:
       ocbnet:
         aliases:

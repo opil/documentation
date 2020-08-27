@@ -85,7 +85,7 @@ version: "3.1"
 services:
     ### Database for context broker ###
     mongo:
-        image: mongo:3.4
+        image: mongo:3.6
         command: --nojournal
 
     ### Proxy for Context Broker ###
@@ -663,7 +663,7 @@ version: "3.1"
 services:
     ### Database for Context Broker ###
     mongo:
-        image: mongo:3.4
+        image: mongo:3.6
         command: --nojournal
 
     ### Proxy for Context Broker ###
