@@ -7,7 +7,7 @@ These instructions is about how to start the BPO docker container given a task s
 
 
 ## How to start the HMI and Central SP docker containers
-Before starting the BPO docker container, you should start the [Central SP](https://hub.docker.com/r/l4ms/opil.sw.sp.central) and [HMI](https://hub.docker.com/r/l4ms/opil.sw.hmi) docker containers. It is also necessary to use the BPO Tab on the HMI module to send the specification required for the BPO setup.
+Before starting the BPO docker container, you should start the [Central SP](https://docker.ramp.eu/?page=1#!taglist/opil/opil.sw.sp.central) and [HMI](https://docker.ramp.eu/?page=1#!taglist/opil/opil.sw.hmi) docker containers. It is also necessary to use the BPO Tab on the HMI module to send the specification required for the BPO setup.
 
 
 At first, you need to pull the latest docker images of the modules
