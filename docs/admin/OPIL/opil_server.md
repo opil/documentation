@@ -171,8 +171,8 @@ Y = 383 px
 Finally you can determine the **zero point coordinate in meters** by combining the two previous results:
 
 ```
-X = 0,019553 * 659 px = 12.8854
-Y = 0,019553 * 383 px = 7.4888
+X = 0,019553 * 659 px * (-1) = -12.8854
+Y = 0,019553 * 383 px * (-1) = -7.4888
 ```
 
 Make sure to store your measurements and calculations as you are going to use them in the next steps. It is also possible that you may have to slightly adjust some values by 1 pixel or so for a perfect alignment. This will be checked later in this guide.
@@ -252,7 +252,7 @@ In this step we will mark some areas to be inaccessible to the AGV. We know the 
 
 ### Prepare demo_map.yaml
 
-In the root directory where you created `docker-compose.yml`, create a new file called `demo_map.yaml`. This file will include the configuration of the map scale and zero-point as well as a few additional parameters.
+In the root directory where you created `docker-compose.yml`, create a new file called `demo_map.yaml`. This file will include the configuration of the map scale (resolution) and **zero point coordinate in meters** (origin) as well as a few additional parameters.
 
 ```yaml
 #demo_map.yaml
@@ -266,7 +266,7 @@ free_thresh: 0.196
 
 Note: The value in the `image` field is `map.png`, regardless of our PNG file being named `demo_map_reduced.png`. This is intended, so please do not change this.
 
-For now, there is no need to adjust any of these parameters. Configuration possibilities regarding this file are explained in the [SP documentation](../SP/opil_local_sp_install.md).
+For now, there is no need to adjust any of these parameters. Configuration possibilities regarding this file are explained in the [SP documentation](../SP/opil_server_sp_install.md).
 
 ### Prepare annotations.ini
 
@@ -274,7 +274,7 @@ Create a new file in the root directory called `annotations.ini`.
 
 This file will include the annotations or labeled positions you have defined earlier. In addition to the previously defined positions and orientations you also need to define the approach distance.
 
-The distance defines the final movement to the position and it is always a straight line that is not affected by the motion path planning. In this guide you will use a distance of 1.8 meters for all positions as the forklift has forks that need to be aligned to the pallet before moving under the pallet. For further details, see  [SP documentation](../SP/opil_local_sp_install.md).
+The distance defines the final movement to the position and it is always a straight line that is not affected by the motion path planning. In this guide you will use a distance of 1.8 meters for all positions as the forklift has forks that need to be aligned to the pallet before moving under the pallet. For further details, see  [SP documentation](../SP/opil_server_sp_install.md).
 
 Using the position data defined earlier you can now add content to the `annotations.ini`:
 
@@ -923,7 +923,7 @@ Next, verify the following things:
 
 Other things to consider if you are following this guide and using a different layout:
 
-- If there are missing, too few or too many blue passages in the layout, try adjusting the `cell_size` in the `topology.launch` file or the `occupied_thresh` or `free_thresh` in the `demo_map.yaml` file. For more details, see [SP documentation](../SP/opil_local_sp_install.md).
+- If there are missing, too few or too many blue passages in the layout, try adjusting the `cell_size` in the `topology.launch` file or the `occupied_thresh` or `free_thresh` in the `demo_map.yaml` file. For more details, see [SP documentation](../SP/opil_server_sp_install.md).
 
 Finally, shutdown the SP by inputting Ctrl+C on the terminal window that is attached to the SP container. Now you can start the SP in detached mode:
 
@@ -1116,6 +1116,6 @@ Stops containers and removes containers, networks, volumes, and images created b
 Congratulations! You now have a working OPIL Server setup. Here are some suggestions for what you can do next:
 
 - Create a new task specification to transport products from `[wh_3]` to the packaging station `[pack_1_1]`. [Example](files/guide_taskspec2.txt)
-- Configure your own layout. Follow the steps in [Prepare the layout](#prepare-the-layout) and see [SP documentation](../SP/opil_local_sp_install.md) for more info.
+- Configure your own layout. Follow the steps in [Prepare the layout](#prepare-the-layout) and see [SP documentation](../SP/opil_server_sp_install.md) for more info.
 - Connect a physical button or sensor to OPIL with [SAN](../SAN/opil_desc_san.md).
 - Connect your AGV to OPIL with [RAN](../RAN/opil_desc_ran.md).
