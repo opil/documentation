@@ -394,7 +394,7 @@ In this step you will configure the OPIL HMI module by appending the `docker-com
         - ./mongo/data:/data/db
     ### HMI web app ###
     hmi:
-        image: docker.ramp.eu/opil/opil.sw.hmi:3.0.18-beta
+        image: docker.ramp.eu/opil/opil.sw.hmi:3.0.20-beta
         volumes:
             - ./public/uploads:/usr/src/app/public/uploads
         environment:
@@ -707,7 +707,7 @@ services:
 
     ### HMI web app ###
     hmi:
-        image: docker.ramp.eu/opil/opil.sw.hmi:3.0.18-beta
+        image: docker.ramp.eu/opil/opil.sw.hmi:3.0.20-beta
         volumes:
             - ./public/uploads:/usr/src/app/public/uploads
         environment:
