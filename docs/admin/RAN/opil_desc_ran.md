@@ -19,7 +19,7 @@ To perform an effective navigation, in addition to the sequence of points, the R
 
 ## RAN structure
 
-   ![Overall architecture](./img/RanArch1.jpg)
+   ![Overall architecture](./img/RanArch1.png)
    
    This schema shows how the RAN connects OPIL with the Hardware (AGV/Robot)
    
