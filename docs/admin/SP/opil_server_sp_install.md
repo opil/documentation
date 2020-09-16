@@ -42,7 +42,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.1
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.2
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -107,11 +107,13 @@ To install Firos v2:
 
 Install ROS packages:
 
-```sudo apt-get install ros-kinetic-navigation```
+```sudo apt-get install ros-$ROS_DISTRO-navigation```
 
-```sudo apt-get install ros-kinetic-gmapping```
+```sudo apt-get install ros-$ROS_DISTRO-gmapping```
 
-```sudo apt-get install ros-kinetic-teleop-twist-keyboard```
+```sudo apt-get install ros-$ROS_DISTRO-teleop-twist-keyboard```
+
+Supported $ROS_DISTRO are melodic and kinetic.
 
 Install from SourceCode:
 
@@ -277,16 +279,9 @@ sp_1         | Annotation vertex in the topology graph is at the occupied positi
 For the Task Planner it is important that topology vertices are always distanced greater or equal to **cell_size**. If annotations **coordinates**, **distance** and **theta** are chosen such that their topology vertices are distanced less than **cell_size** the docker will stop and you will see the message like this:
 
 ```
-sp_1         | [ERROR] [1580986001.861762508]: Annotations are too close!!! Change the coordinates of the annotation or decrease the cell size. Here are the details:
-sp_1         | The annotation 1:
-sp_1         | x: -3.6
-sp_1         | y: -6
-sp_1         | theta: 270
-sp_1         | distance: 1.8
-sp_1         | name: wh_3
-sp_1         | uuid: 348d975d-3bdd-5ccc-9871-da0cdd110f06
-sp_1         | 
-sp_1         | has the topology vertex at (-3.600000,-4.200000), which is closer than cell_size (1.000000 m) to the vertex (-4.500000,-4.200000) of the annotation 2:
+sp_1         | [ERROR] [1600176862.010453538]: Annotations are too close!!! Change the coordinates of the annotation or decrease the cell size. Here are the details:
+sp_1         | converting the map data to gridmap: cell size 1.450000, res=0.019600, width=1500, height=1080, xorigin=-12.885400, yorigin=-7.488800, size gridmap (20,14)
+sp_1         | The annotation wh_2 is too close to the annotation wh_1
 sp_1         | x: -4.5
 sp_1         | y: -6
 sp_1         | theta: 270
@@ -294,6 +289,15 @@ sp_1         | distance: 1.8
 sp_1         | name: wh_2
 sp_1         | uuid: f5d5d1d9-c8d2-5ff7-97af-8d1234eda8f8
 sp_1         | 
+sp_1         | x: -5.4
+sp_1         | y: -6
+sp_1         | theta: 270
+sp_1         | distance: 1.8
+sp_1         | name: wh_1
+sp_1         | uuid: d0b1e572-a338-570b-97ba-8ed8b1a2e4f0
+sp_1         | 
+sp_1         | The annotation wh_2 has the topology vertex at (-4.5, -4.2 ), which is closer than the cell_size 1.45 of the topology vertex at (-5.4, -4.2 ) of the annotation wh_1
+sp_1         | shutting down the topology calculation...
 ```
 
 After restarting docker-compose.yml,
@@ -336,7 +340,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.1
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.2
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw

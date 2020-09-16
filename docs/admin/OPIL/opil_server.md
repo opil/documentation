@@ -367,7 +367,7 @@ Finally, add the following content to the end of the `docker-compose.yml` file:
 ``` yaml
     ### S&P ###
     sp:
-        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.1
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.2
         volumes:
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
             - ./annotations.ini:/annotations.ini:ro
@@ -685,7 +685,7 @@ services:
 
     ### S&P ###
     sp:
-        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.1
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.2
         volumes:
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
             - ./annotations.ini:/annotations.ini:ro
