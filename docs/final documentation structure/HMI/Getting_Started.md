@@ -1,17 +1,11 @@
 # Introduction Human Machine Interface (HMI)
 
-## User management
+HMI (Human Machine Interface) is a software layer module of the OPIL architecture. It is a web application server
+with its own local database for storing data needed in this module. HMI serves a web browser user interface for the
+human agents to monitor and control OPIL data entities. Figure below shows the components and their connections to each other and to OPIL context management server using HTTP protocol.
 
-By installing the HMI module, a user with administrator role is created as well. This user is able to define other users with different user roles. Specific tabs and information windows of the user interface in the web browser can be restricted based on a user’s role. HTTP calls to the HMI web server and certain functions can be restricted as well. All the user data is stored in the local database. Additionally, HMI creates an entity to the OCB for HAN. This entity’s ID is the same unique ID as the user's in the local database.
+![MOD_SW_HMI.png](./img/MOD_SW_HMI.png)
 
-## Floorplan management
+Web application server is a Node.js application which uses Express.js back end framework. It has its own local MongoDB database to store information needed such as configuration data, user and floorplan information as well as user interface control buttons. HMI server offers a user authenticated access point to web browser clients and a REST API to manage and retrieve the data from the database. It also connects to Orion Context Broker to manage the entities this module has created such as sensor type control buttons.
 
-From the user interface it is possible to upload to the system floorplan images in png or jpg formats. User is asked to give a name of the floorplan, scale of the image in centimetres per pixel and x- and y-offset values in relation to the robots map. Currently user interface shows the latest uploaded floorplan of the saved ones.
-
-## Task management
-
-Task specifications at the moment are encoded by the user in written text snippets of the task specification language that are saved in the “TaskSpec” type of entities created to the OCB. Web application then subscribes and listens notifications from OCB’s “TaskSpecState” type of entities. User is able to cancel these task specifications and which entities are then removed from the OCB.
-
-## Viewing robot and sensor status
-
-User interface has its own views for following the robot status and sensor values information. Web application subscribes all type ‘ROBOT’ and type ‘SensorAgent’ entities. Robots view when notified: robot statuses, x- and y-positions and theta value. Sensors show when notified: sensor values in their own chart panel.
+Web browser user interface is created as a single page application implemented with Embedded JavaScript templating. It uses the FIWARE Ngsijs Javascript library to create a connection to the Orion Context Broker with the NGSI Proxy. Through this connection it retrieves and manages data of the entities from the broker and creates subscriptions to get notifications of the changes in certain entities. Notification data is used to update the views in the user interface. Following figures illustrates some of the views arranged as tabs.

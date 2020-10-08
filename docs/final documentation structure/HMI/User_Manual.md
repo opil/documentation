@@ -1,248 +1,78 @@
-## UUID
-#### Get a new UUID/v4
->    [GET] http://serveraddress/api/uuid
+# HMI User Manual
 
-## Floorplans
-#### Get all floorplans
->    [GET] http://serveraddress/api/fp
+## Login
+When HMI and OPIL is up and running, enter the HMI's URL to the web browser (host or IP address and the port number if configured other than 80 in the installation). 
 
-Response is a json list of objects like below.
-#### Get a floorplan
->    [GET] http://serveraddress/api/fp/{id}
+Enter the User ID and Password configured in the docker compose file (default is admin/admin).
 
-Parameter:
-id - Mongo _id of the floorplan document
-Example response (json):
-```json
-{   "_id":"5c481eb5d543750018c7c2a9",
-    "fieldname":"floorplan",
-    "originalname":"fp.png",
-    "encoding":"7bit",
-    "mimetype":"image/png",
-    "size":144208,
-    "filename":"floorplan-1548230325552.png",
-    "imgurl":"uploads/floorplan-1548230325552.png",
-    "name":"FP",
-    "scale":50,
-    "xoffset":5,
-    "yoffset":5,
-    "created":"2019-01-23T07:58:45.561Z",
-    "updated":"2019-01-23T07:58:45.566Z","__v":0
-}
-```
-#### Create a floorplan
->    [POST] http://serveraddress/api/fp
+![HMI_login.png](./img/HMI_login.png)
 
-Use enctype: 'multipart/form-data'
-Parameters example (html):
-```html
-<input type="file" name="floorplan" required />
-<input type="text" name="name" required />
-<input type="number" name="scale" required />
-<input type="number" name="xoffset" required />
-<input type="number" name="yoffset" required />
-```
-Example response (json):
-```json
-{   "_id":"5c481eb5d543750018c7c2a9",
-    "fieldname":"floorplan",
-    "originalname":"fp.png",
-    "encoding":"7bit",
-    "mimetype":"image/png",
-    "size":144208,
-    "filename":"floorplan-1548230325552.png",
-    "imgurl":"uploads/floorplan-1548230325552.png",
-    "name":"FP",
-    "scale":50,
-    "xoffset":5,
-    "yoffset":5,
-    "created":"2019-01-23T07:58:45.561Z",
-    "updated":"2019-01-23T07:58:45.566Z","__v":0
-}
-```
-Floorplan image is saved in: /public/uploads/ and is retrievable from http://serveraddress/{imgurl}.
-#### Update a floorplan
->    [PUT] http://serveraddress/api/fp/{id}
+You should see the user interface on the 'Overview' tab without much content.
 
-Parameter:  
-id - Mongo _id of the floorplan document  
-Update floorplan with only fields: `name`, `scale`, `xoffset`, `yoffset`.  
-Image is not possible to update, you should delete and create a new floorplan.  
-Use either of enctypes for the payload:  
-- application/x-www-form-urlencoded
-- application/json
-```json
-    {
-        "name": "newname",
-        "scale": 40,
-        "xoffset": 4,
-        "yoffset": 4
-    }
-```
+If the browser is not able to connect to the OCB, you will see an error message like below. In that case check the connection from your client device to the middleware (http://[OCB_IP]:1026/v2/entities). You should get empty brackets or list of the entities in the context broker. Check the docker-compose.yml file as well that the IP addresses are correct.
 
-Response is the updated floorplan object in json.
+![HMI_OCB_error.png](./img/HMI_OCB_error.png)
 
-#### Delete a floorplan
->    [DELETE] http://serveraddress/api/fp/{id}
+## User Management
+After login it would be good idea to change the admin password on the 'User Management' tab. From there it's possible to create other users to the HMI too. Users with role 'user' can't access this tab or create control buttons to the system and they see only buttons assigned to them or to all users.
 
-Parameter:
-id - Mongo _id of the floorplan document 
+![HMI_user_mgmnt.png](./img/HMI_user_mgmnt.png)
 
-Response is the deleted floorplan object in json.
 
-***
+## Floorplan Management
 
-## Users
+At this point you should have an image of the factory floor layout preferably in PNG format to upload to the HMI server. 
 
-#### Get all users
->    [GET] http://serveraddress/api/user
+From that image you have to determine the scale in meters per pixel. For example in the image below is drawn a red line between two known points on the factory floor as far as possible to each other. The distance measured is 17 meters. With image editing software the length of the line is measured to be 1214 pixels. So the scale is 17 m / 1214 px = 0.0140032948929.
 
-#### Get a user
->    [GET] http://serveraddress/api/user/{id}
+You should have already chosen the zero point of the OPIL system. To that point is then measured from the bottom left corner of the image X- and Y-offsets in pixels.
 
-#### Create a new user
->    [POST] http://serveraddress/api/user
+![demo_distance.png](./img/demo_distance.png)
 
-#### Update a user
->    [PUT] http://serveraddress/api/user/{id}
+In the 'Floorplan Management' tab you should then pick the image file, give it a name and enter the values determined previously.
 
-#### Delete a user
->    [DELETE] http://serveraddress/api/user/{id}
+![HMI_floorplan.png](./img/HMI_floorplan.png)
 
-***
+After uploading floorplan image is shown below. It's possible to replace this by uploading the floorplan again with different values for example.
 
-## Configs
+![HMI_floorplan2.png](./img/HMI_floorplan2.png)
 
-#### Get all configs
->    [GET] http://serveraddress/api/user
 
-#### Get a config
->    [GET] http://serveraddress/api/user/{id}
+## Task Management
 
-#### Create a new config
->    [POST] http://serveraddress/api/user
+On this tab the user is able to write or paste the task specifications in Logistic Task Language. For a detailed description see [TP documentation](../TP/User_Manual/how_it_works.md#logistic-task-language).
 
-#### Update a config
->    [PUT] http://serveraddress/api/user/{id}
+HMI creates an entity 'Materialflow' to the OCB. Sent task specifications are then listed below and TP updates the state of them if they are ok or not. The user is able to set them active or non-active and may delete them.
 
-#### Delete a config
->    [DELETE] http://serveraddress/api/user/{id}
+When a task is running TP updates the Transport orders list which the user is able to filter with checkboxes by task info.
 
-***
+![HMI_task_mgmnt.png](./img/HMI_task_mgmnt.png)
 
-## HMIButtons
-#### Get all HMIButtons
-Request:
->    [GET] localhost/api/hmibutton
 
-Response:
-```json
-[
-    {
-        "_id": "5d600ad3283a7d43b8d06abb",
-        "ocb_id": "123245489",
-        "text": "Call AGV",
-        "user_id": "user1",
-        "created": "2019-08-23T15:48:35.750Z",
-        "updated": "2019-08-23T15:48:35.750Z",
-        "__v": 0
-    }
-]
-```
-#### Get a HMIButton
-Request:
->    [GET] localhost/api/hmibutton/5d600ad3283a7d43b8d06abb
+## Control
 
-Response:
-```json
-{
-    "_id": "5d600ad3283a7d43b8d06abb",
-    "ocb_id": "123245489",
-    "text": "Call AGV",
-    "user_id": "user1",
-    "created": "2019-08-23T15:48:35.750Z",
-    "updated": "2019-08-23T15:48:35.750Z",
-    "__v": 0
-}
-```
-#### Create a HMIButton
-Request: (application/json OR application/x-www-form-urlencoded)
->    [POST] localhost/api/hmibutton
-```json
-{
-    "ocb_id": "123245489",
-    "text": "Call AGV",
-    "user_id": "user1"
-}
-```
-Response:
-```json
-{
-    "_id": "5d600ad3283a7d43b8d06abb",
-    "ocb_id": "123245489",
-    "text": "Call AGV",
-    "user_id": "user1",
-    "created": "2019-08-23T15:48:35.750Z",
-    "updated": "2019-08-23T15:48:35.750Z",
-    "__v": 0
-}
-```
-#### Update a HMIButton
-Request: (application/json OR application/x-www-form-urlencoded)
->    [PUT] localhost/api/hmibutton/5d600ad3283a7d43b8d06abbCaa
-```json
-{
-    "ocb_id": "123245489",
-    "text": "AGV call",
-    "user_id": "user1"
-}
-```
-Response:
-```json
-{
-    "_id": "5d600ad3283a7d43b8d06abb",
-    "ocb_id": "123245489",
-    "text": "AGV call",
-    "user_id": "user1",
-    "created": "2019-08-23T15:48:35.750Z",
-    "updated": "2019-08-23T15:52:19.331Z",
-    "__v": 0
-}
-```
-#### Delete a HMIButton
-Request:
->    [DELETE] localhost/api/hmibutton/5d5d6eea2764b9dd289e6266
+On 'Control' tab an administrator is able to create HMI buttons which can be used to trigger events in the task specification. Event's name should be entered in the id and the name input boxes. The buttons could be assigned to all users or to some individual user.
 
-Response:
-```json
-{
-    "_id": "5d600ad3283a7d43b8d06abb",
-    "ocb_id": "123245489",
-    "text": "AGV call",
-    "user_id": "user1",
-    "created": "2019-08-23T15:48:35.750Z",
-    "updated": "2019-08-23T15:52:19.331Z",
-    "__v": 0
-}
-```
+![HMI_control.png](./img/HMI_control.png)
 
-#### Create a Subscription to HMI local db
-Request: (application/json OR application/x-www-form-urlencoded)
->    [POST] localhost/api/subscription
+In the image below is created three buttons according to the task specification sent in the Task Management part before. HMI creates 'Sensor Agent' type entities to the OCB and updates the boolean value true whenever the button is pressed. HMI saves the configuration of the buttons to its local database so they are created again in case of HMI restart.
 
-Parameter subs_id should be the subscription id got when a subscription is created through NGSI Proxy
-```json
-{
-    "subs_id": "123245489"
-}
-```
-Response:
-```json
-{
-    "_id": "5d600ad3283a7d43b8d06abb",
-    "subs_id": "123245489",
-    "created": "2019-08-23T15:48:35.750Z",
-    "updated": "2019-08-23T15:48:35.750Z",
-    "__v": 0
-}
-```
+![HMI_control2.png](./img/HMI_control2.png)
+
+## Overview
+
+Floorplan image is loaded to the canvas on the 'Overview' tab. In the screenshot below HMI has not yet received any robot data and the Sensing & Perception graph is turned off.
+
+![HMI_overview.png](./img/HMI_overview.png)
+
+When HMI receives notifications of robot's motion it should appear on the floorplan as a blue dot. In the image below is S&P Graph turned on and S&P notifies HMI with graph updates. It's possible to get information about annotations, vertices and edges by moving the mouse cursor on top of them. Below the canvas is tables of robot and sensor data updated by notifications.
+
+![HMI_overview3.png](./img/HMI_overview3.png)
+
+
+## Sensor Data
+
+On this tab is drawn zoomable time series charts of sensor data showing their current value as well.
+
+![HMI_sensordata.png](./img/HMI_sensordata.png)
+
