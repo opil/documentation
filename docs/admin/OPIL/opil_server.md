@@ -285,7 +285,7 @@ Using the position data defined earlier you can now add content to the `annotati
 point_x = -6.00
 point_y = 10.50
 theta = 90
-distance = 1.8
+distance = 2.2
 
 [wh_1]
 point_x = -5.40
@@ -309,7 +309,7 @@ distance = 1.8
 point_x = 4.05
 point_y = 4.65
 theta = 90
-distance = 1.8
+distance = 2
 
 [pack_1_3]
 point_x = 5.75
