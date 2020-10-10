@@ -42,7 +42,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.2
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.3
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -65,22 +65,6 @@ This example uses the version 3 and it does not need links to enable services to
 When using the Central SP on big floorplans the parameter ***inReqPayloadMaxSize*** can be set to increase the maximal allowed size of any outgoing request messages. Setting it to 2097152 Bytes (2MB) should be enough for an average map with 30% occupied space with dimensions 65 m x 35 m and the resolution of the topology **cell_size** = 1 m. This setup requires 1327391 Bytes, while, by decreasing the **cell_size** to 0.5, requires 6687765 Bytes (approximately 4 times more). Similar increase of message size happens if your map is increased two times in width and height, for example 130 m x 70 m, with the **cell_size** = 1 m will require 6682759 Bytes (also 4 times more).
 
 
-To update the docker-compose to the working version for the version 3 (1.22) type: (NOTE: you should remove prior versions of docker-compose)
-```
-sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-```
-and then
-```
-chmod +x /usr/local/bin/docker-compose
-```
-To check the version type:
-```
-sudo docker-compose --version
-```
-You should see:
-```
-docker-compose version 1.22.0, build f46880fe
-```
 
 First, set up the display for viewing the rviz visualization and Stage:
 ```
@@ -255,9 +239,9 @@ distance = 1.8
 ```
 where
 
-* **W1**, **W2**, **W3**, **MoldingPallet** are the annotation labels
-* **point_x**, **point_y** are coordinates of the annotation
-* **theta** and **distance** determine where the topology vertex should be so that Task Planner can use this coordinates as the goal distanced for a defined **distance** from the annotation and oriented towards the annotation so that AGV has heading **theta** with respect to the positive x-axis. 
+* **W1**, **W2**, **W3**, **MoldingPallet** are the annotation labels which must be put inside `[]` and should not consist of any illegal character: `<>"'=;()+-* /`
+* **point_x**, **point_y** are coordinates of the annotation in meters
+* **theta** and **distance** determine where the topology vertex should be so that Task Planner can use this coordinates as the goal distanced for a defined **distance** (in meters) from the annotation and oriented towards the annotation so that AGV has heading **theta** (in degrees) with respect to the positive x-axis. 
 
 Coordinates of the annotations can be chosen arbitrary. They can be set as the middle of the pallet or the corner of the pallet, for example. The most important is to calculate the right position for the topology vertex, where an AGV will be placed in front of the annotation by setting the right distance, and orientation from the annotation coordinates.
 It is also important that the topology vertex is not close to obstacle, and that two annotations are not closer than **cell_size**. 
@@ -297,6 +281,14 @@ sp_1         | name: wh_1
 sp_1         | uuid: d0b1e572-a338-570b-97ba-8ed8b1a2e4f0
 sp_1         | 
 sp_1         | The annotation wh_2 has the topology vertex at (-4.5, -4.2 ), which is closer than the cell_size 1.45 of the topology vertex at (-5.4, -4.2 ) of the annotation wh_1
+sp_1         | shutting down the topology calculation...
+```
+
+OCB can not handle some special characters as the names of entities, and since the annotation labels are used in Task Planner it is necessary check if each label contains an illegal character: `<>"'=;()+-* /`. If, for example, the annotation label contains space the Central SP will shut down with the message like this:
+
+```
+sp_1         | The annotation name "pickup V_120_1" contains the illegal character " ". Please remove any character from the illegal characters: 
+sp_1         | <>"'=;()+-* /
 sp_1         | shutting down the topology calculation...
 ```
 
@@ -340,7 +332,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.2
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.3
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
