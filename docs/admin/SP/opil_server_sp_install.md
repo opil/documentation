@@ -169,18 +169,46 @@ After restarting docker-compose.yml, i.e.,
 sudo docker-compose up
 ```
  this is what should be the result:
+ 
+![topology 2m no annotation](./img/nographtopology.png) 
 
-![topology 2m](./img/terotopology.png)
+We can see all the red squares representing the occupied vertices in the graph meaning there are no vertices in topology graph. We can also see the output of docker like this:
+```
+sp_1         | header: 
+sp_1         |   seq: 0
+sp_1         |   stamp: 0.000000000
+sp_1         |   frame_id: 
+sp_1         | annotations[]
+sp_1         | 
+sp_1         | number of vertices: 0
+sp_1         | number of edges: 0
+```
+
+To have topology graph we need to have at least one annotation in the free space. Use the example `annotations.ini` file and put it in the same folder next to the docker-compose.yml:
+
+```
+#annotations.ini
+[W1]
+# coordinates
+point_x = -5.4
+point_y = -6.0
+theta = 270
+distance = 1.8
+```
+
+The result after restarting docker-compose.yml is as follows:
+
+![topology 2m](./img/terotopologynew.png)
 
 You should see the entities in, e.g. firefox, at the address <http://localhost:1026/v2/entities>. There should be a topic `/map/graph`.
-In this example, blue squares are the vertices of the graph placed regularly in the grid (distanced 2 meters), and blue line segments are the edges of the graph. Red squares are possible vertex positions which are occupied.
+In this example, blue squares are the vertices of the graph placed regularly in the grid (distanced 2 meters by default), and blue line segments are the edges of the graph. Red squares are possible vertex positions which are occupied or not reachable from the annotation coordinates according to transitions through graph edges.
 To zoom the rviz window use mouse scroll, to translate the view press shift key and mouse button at the same time.
 
 
 ### Setting the topology cell_size
 
 It can be seen that here the topology nodes are too rare and we are missing some of them in narrow passages. In the following we will change the size of the grid cell so that we do not miss topology nodes in the passages between the racks (however, this will be solved differently in future version of OPIL). In this example map the passage is 2.5 m wide, which means the size of the cell size should be half of it to include the worst case of the alignment of passages with the grid.
-To change the size of the grid cell for calculating the topology, prepare the `topology.launch` file:
+To change the size of the grid cell for calculating the topology, prepare the `topology.launch` file as follows:
 
 ### <a name="topologylaunch">topology.launch</a>
 ```
@@ -197,11 +225,11 @@ To change the size of the grid cell for calculating the topology, prepare the `t
     <node name="firos" pkg="firos" type="core.py" />
 </launch>
 ```
-where the **cell_size** is set to 1.0 m. 
+where the **cell_size** is set to 1.0 m, while default value, when `topology.launch` file is not used is 2.0 m. 
 To use the created topology.launch put it next to the docker-compose.yml file and restart docker-compose.yml.
 This is the result for changing the parameter **cell_size** to 1.0 m:
 
-![topology 1m](./img/topologytero1m.png)
+![topology 1m](./img/topologytero1mnew.png)
 
 ### <a name="prepannt">Setting the annotations</a>
 
@@ -239,7 +267,7 @@ distance = 1.8
 ```
 where
 
-* **W1**, **W2**, **W3**, **MoldingPallet** are the annotation labels which must be put inside `[]` and should not consist of any illegal character: `<>"'=;()+-* /`
+* **W1**, **W2**, **W3**, **MoldingPallet** are the annotation labels which must be put inside `[]` and should consist only of a combination of letters, numbers and _ (underscore)
 * **point_x**, **point_y** are coordinates of the annotation in meters
 * **theta** and **distance** determine where the topology vertex should be so that Task Planner can use this coordinates as the goal distanced for a defined **distance** (in meters) from the annotation and oriented towards the annotation so that AGV has heading **theta** (in degrees) with respect to the positive x-axis. 
 
@@ -284,11 +312,14 @@ sp_1         | The annotation wh_2 has the topology vertex at (-4.5, -4.2 ), whi
 sp_1         | shutting down the topology calculation...
 ```
 
-OCB can not handle some special characters as the names of entities, and since the annotation labels are used in Task Planner it is necessary check if each label contains an illegal character: `<>"'=;()+-* /`. If, for example, the annotation label contains space the Central SP will shut down with the message like this:
+OCB can not handle some special characters as the names of entities, and since the annotation labels are used in Task Planner it is necessary check if each label contains allowed characters which are only letters, numbers and underscore. Do not use any character from the list of illegal characters: <>"'=;()+-* /#$&,.!:?@[]^`{|}~. If, for example, the annotation label contains space the Central SP will shut down with the message like this:
 
 ```
-sp_1         | The annotation name "pickup V_120_1" contains the illegal character " ". Please remove any character from the illegal characters: 
-sp_1         | <>"'=;()+-* /
+sp_1         | [ERROR] [1602498794.277414318]: Annotation name contains an illegal character. Here are the details:
+sp_1         | The annotation name "pickup V_120_1" contains the illegal character " ".
+sp_1         | Please name annotations only with a combination of letters, numbers and _ (underscore).
+sp_1         | Do not use any character from the list of illegal characters: 
+sp_1         | <>"'=;()+-* /#$&,.!:?@[]^`{|}~
 sp_1         | shutting down the topology calculation...
 ```
 
