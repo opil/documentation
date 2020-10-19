@@ -3,7 +3,7 @@ site_url: https://opil-documentation.readthedocs.org
 repo_url: https://github.com/opil/documentation
 site_description: OPIL Documentation
 site_author: OPIL Team
-docs_dir: docs
+docs_dir: docs/final documentation structure
 site_dir: html
 
 markdown_extensions:
@@ -23,71 +23,46 @@ theme:
         - bash
         - yml
 pages:
-    - Home: index.md
-    - Getting Started:
-          - Introduction to OPIL architecture: start/index.md
-          - Deployment: start/deployment.md
-    - Showcases:
-          - Introduction: showcases/index.md
-          - Chemi: showcases/chemi.md
-          - Engino: showcases/engino.md
-          - Muraplast: showcases/muraplast.md
-    - Administrator's Guide:
-          - OPIL Networking: admin/OPIL/opil_networking.md
-          - OPIL Server: admin/OPIL/opil_server.md
-          - Task Planner:
-                - Description: admin/TP/opil_desc_tp_intro.md
-                - Installation, Configuration and Upgrades: admin/TP/opil_server_tp_install.md
-          - Human Machine Interface:
-                - Description: admin/HMI/opil_desc_HMI_intro.md
-                - Installation, Configuration and Upgrades: admin/HMI/opil_server_hmi_install.md
-          - Sensing and Perception - Central SP:
-                - Description: admin/SP/opil_desc_SP_intro.md
-                - Installation, Configuration and Upgrades: admin/SP/opil_server_sp_install.md
-          - Sensing and Perception - Local SP:
-                - Description: admin/SP/opil_desc_local_SP_intro.md
-                - Installation, Configuration and Upgrades: admin/SP/opil_local_sp_install.md
-          #        - Business Process Optimization (BPO):
-          #            - Description: admin/SP/opil_desc_local_SP_intro.md
-          #            - Installation, Configuration and Upgrades: admin/SP/opil_local_sp_install.md
-          - Robot Agent Node (RAN):
-                - Description: admin/RAN/opil_desc_ran.md
-                - Installation, Configuration and Upgrades: admin/RAN/opil_server_ran_install.md
-          - Sensor Agent Node (SAN):
-                - Description: admin/SAN/opil_desc_san.md
-                - Installation, Configuration and Upgrades: admin/SAN/opil_server_san_install.md
-          - Robot Agent Node (RAN) VC:
-                - Description: admin/RANVC/opil_desc_vc_ran.md
-                - Installation, Configuration and Upgrades: admin/RANVC/opil_server_ranvc_install.md
-          - Sensor Agent Node (SAN) VC:
-                - Description: admin/SANVC/opil_desc_vc_san.md
-                - Installation, Configuration and Upgrades: admin/SANVC/opil_server_sanvc_install.md
-    - Developer's Guide and API:
-          - Task Planner:
-                - Introduction to API: develop/TP/opil_tp_API_intro.md
-                - How it works: develop/TP/opil_tp_how_it_works.md
-                - Interfaces: develop/TP/opil_tp_interfaces.md
-          - Human Machine Interface:
-                - API: develop/HMI/opil_api_hmi.md
-                - Interfaces: develop/HMI/opil_interfaces_hmi.md
-          - Sensing & Perception - Central SP:
-                - API: develop/SP/opil_api_sp.md
-                - Interfaces: develop/SP/opil_sp_interfaces.md
-          - Sensing & Perception - Local SP:
-                - API: develop/SP/opil_api_local_sp.md
-                - Interfaces: develop/SP/opil_local_sp_interfaces.md
-          - Business Process Optimization (BPO):
-                - API: develop/BPO/opil_BPO_API_intro.md
-                - Interfaces: develop/BPO/opil_interfaces_BPO.md
-          - Robot Agent Node (RAN):
-                - API: develop/RAN/opil_tp_API_intro.md
-                - Interfaces: develop/RAN/opil_interfaces_ran.md
-          - Sensor Agent Node (SAN):
-                - API: develop/SAN/opil_api_san.md
-                - Drivers: develop/SAN/opil_drivers_san.md
-                - Configuration File: develop/SAN/opil_run_san.md
-          - Robot Agent Node (RAN) VC:
-                - API: develop/RANVC/opil_api_vc_ran.md
-          - Sensor Agent Node (SAN) VC:
-                - API: develop/SANVC/opil_api_vc_san.md
-          - Examples: develop/examples.md
+    - Home: OPIL_intro.md
+    - Business Process Optimization (BPO): BPO/Update Getting_Started___Installation_Guide.md
+    - Human Machine Interface (HMI):
+          - Getting Started: HMI/Getting_Started.md
+          - Installation Guide: HMI/Installation_Guide.md
+          - User Manual: HMI/User_Manual.md
+          - API: HMI/hmi_rest_api.md
+    - OPIL Intro: 
+          - OPIL Architecture: OPIL Intro/OPIL_Architecture.md
+          - OPIL Deployment: deployment.md
+          - OPIL Server: opil_server.md
+    - Robot Agent Node VC (RAN VC):
+          - RAN VC Documentation: /RAN VC/VC_RAN_documentation_v.06.md
+    - Robot Agent Node:
+          - Getting Started: RAN/Getting_Started.md
+          - Installation Guide: RAN/Installation_Guide.md
+          - User Manual: RAN/User_Manual.md
+    - Sensor Agent Node VC (RAN VC):
+          - SAN VC Documentation: /SAN VC/VC_SAN_documentation_v.05.md
+    - Sensor Agent Node:
+          - Getting Started: SAN/Getting_Started.md
+          - Installation Guide: SAN/Installation_Guide.md
+          - User Manual: 
+                - Configuration: SAN/User Manual/Configuration.md
+                -SAN API: SAN/User Manual/SAN_API.md
+                -SAN Drivers: SAN/User Manual/SAN_Drivers.md
+    - Sensing & Perception (SP):
+          - Central SP Getting Started: SP/Central_SP_Getting_Started.md
+          - Central SP Intallation Guide: SP/Central_SP_Installation_Guide.md
+          - Central SP User Guide API: SP/Central_SP_User_Guide1_API.md
+          - Central SP User Guide Interfaces: SP/Central_SP_User_Guide2_interfaces.md 
+          - Local SP Getting Started: SP/Local_SP_Getting_Started.md
+          - Local SP Intallation Guide: SP/Local_SP_Installation_Guide.md
+          - Local SP User Guide API: SP/Local_SP_User_Guide1_API.md
+          - Local SP User Guide Interfaces: SP/Local_SP_User_Guide2_interfaces.md 
+     - Task Planner (TP):
+          - Getting Started: TP/Getting_Started.md
+          - Installation Guide: TP/Installation_Guide.md
+          - User Manual:
+                - Configuration TP BPO: TP/User_Manual/config_tp_bpo.md
+                - How it works: TP/User_Manual/how_it_works.md
+                - Interfaces: TP/User_Manual/interfaces.md
+          
