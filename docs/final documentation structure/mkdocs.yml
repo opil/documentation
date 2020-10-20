@@ -3,7 +3,7 @@ site_url: https://opil-documentation.readthedocs.org
 repo_url: https://github.com/opil/documentation
 site_description: OPIL Documentation
 site_author: OPIL Team
-docs_dir: docs/final documentation structure
+docs_dir: final documentation structure
 site_dir: html
 
 markdown_extensions:
