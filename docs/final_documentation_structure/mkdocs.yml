@@ -58,7 +58,7 @@ pages:
           - Local SP Intallation Guide: SP/Local_SP_Installation_Guide.md
           - Local SP User Guide API: SP/Local_SP_User_Guide1_API.md
           - Local SP User Guide Interfaces: SP/Local_SP_User_Guide2_interfaces.md 
-     - Task Planner (TP):
+    - Task Planner (TP):
           - Getting Started: TP/Getting_Started.md
           - Installation Guide: TP/Installation_Guide.md
           - User Manual:
