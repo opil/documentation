@@ -47,8 +47,8 @@ pages:
           - Installation Guide: SAN/Installation_Guide.md
           - User Manual: 
                 - Configuration: SAN/User_manual/Configuration.md
-                -SAN API: SAN/User_manual/SAN_API.md
-                -SAN Drivers: SAN/User_manual/SAN_Drivers.md
+                - SAN API: SAN/User_manual/SAN_API.md
+                - SAN Drivers: SAN/User_manual/SAN_Drivers.md
     - Sensing & Perception (SP):
           - Central SP Getting Started: SP/Central_SP_Getting_Started.md
           - Central SP Intallation Guide: SP/Central_SP_Installation_Guide.md
