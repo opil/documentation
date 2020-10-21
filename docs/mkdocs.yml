@@ -23,8 +23,8 @@ theme:
             - bash
             - yml
 pages:
-      - Home: OPIL_intro.md
-      - Business Process Optimization (BPO): BPO\Getting_Started___Installation_Guide__User_Manual.md
+      - Home: index.md
+      - Business Process Optimization (BPO): BPO/Getting_Started___Installation_Guide__User_Manual.md
       - Human Machine Interface (HMI):
               - Getting Started: HMI/Getting_Started.md
               - Installation Guide: HMI/Installation_Guide.md
