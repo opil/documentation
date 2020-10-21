@@ -34,7 +34,7 @@ Please follow these steps for installing the OPIL server:
 - You know the IP-address of your system. Write it down as you will need  it later in this guide. This will be referred to as `<ip-address>` from now on.
 - The following PNG image: [demo_map.png](files/demo_map.png)
 - You must be familiar with Linux-based operating systems on a basic level to execute commands and edit files.
-- You have read the [introduction](../../start/index.md) and [deployment](../../start/deployment.md) pages and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
+- You have read the [introduction](../OPIL_intro.md) and [deployment](deployment.md) pages and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
 - If you wish to test your installation with a simulated layout and robots, a computer with Windows operating system with Visual Components installed.
 
 ## Verify docker environment
@@ -266,7 +266,7 @@ free_thresh: 0.196
 
 Note: The value in the `image` field is `map.png`, regardless of our PNG file being named `demo_map_reduced.png`. This is intended, so please do not change this.
 
-For now, there is no need to adjust any of these parameters. Configuration possibilities regarding this file are explained in the [SP documentation](../SP/opil_server_sp_install.md).
+For now, there is no need to adjust any of these parameters. Configuration possibilities regarding this file are explained in the [SP documentation](../SP/Central_SP_Installation_Guide.md).
 
 ### Prepare annotations.ini
 
@@ -274,7 +274,7 @@ Create a new file in the root directory called `annotations.ini`.
 
 This file will include the annotations or labeled positions you have defined earlier. In addition to the previously defined positions and orientations you also need to define the approach distance.
 
-The distance defines the final movement to the position and it is always a straight line that is not affected by the motion path planning. In this guide you will use a distance of 1.8 meters for all positions as the forklift has forks that need to be aligned to the pallet before moving under the pallet. For further details, see  [SP documentation](../SP/opil_server_sp_install.md).
+The distance defines the final movement to the position and it is always a straight line that is not affected by the motion path planning. In this guide you will use a distance of 1.8 meters for all positions as the forklift has forks that need to be aligned to the pallet before moving under the pallet. For further details, see  [SP documentation](../SP/Central_SP_Installation_Guide.md).
 
 Using the position data defined earlier you can now add content to the `annotations.ini`:
 
@@ -358,7 +358,7 @@ Create a new file in the root directory called `topology.launch` and copy-paste 
 </launch>
 ```
 
-For now you don't need to edit this file. Configuration possibilities regarding this file are explained in the  [SP documentation](../SP/opil_server_sp_install.md).
+For now you don't need to edit this file. Configuration possibilities regarding this file are explained in the  [SP documentation](../SP/Central_SP_Installation_Guide.md).
 
 ### Append docker-compose.yml
 
@@ -513,7 +513,7 @@ The control assignments for RAN are published to the following topics:
 - /robot_opil_v2/cancel_order
 ```
 
-If you add more robots to the system you have to add the topics with the namespace here. For a detailed description see [TP documentation](../TP/opil_server_tp_install.md).
+If you add more robots to the system you have to add the topics with the namespace here. For a detailed description see [TP documentation](../TP/Installation_Guide.md).
 
 ### firos_whitelist.json
 
@@ -590,7 +590,7 @@ Copy the following content to `mod_sw_tp.launch`:
 </launch>
 ```
 
-You will find a more detailed description of the launch file and the parameters in [TP documentation](../TP/opil_server_tp_install.md).
+You will find a more detailed description of the launch file and the parameters in [TP documentation](../TP/Installation_Guide.md).
 
 ### Configuration of TS
 
@@ -923,7 +923,7 @@ Next, verify the following things:
 
 Other things to consider if you are following this guide and using a different layout:
 
-- If there are missing, too few or too many blue passages in the layout, try adjusting the `cell_size` in the `topology.launch` file or the `occupied_thresh` or `free_thresh` in the `demo_map.yaml` file. For more details, see [SP documentation](../SP/opil_server_sp_install.md).
+- If there are missing, too few or too many blue passages in the layout, try adjusting the `cell_size` in the `topology.launch` file or the `occupied_thresh` or `free_thresh` in the `demo_map.yaml` file. For more details, see [SP documentation](../SP/Central_SP_Installation_Guide.md).
 
 Finally, shutdown the SP by inputting Ctrl+C on the terminal window that is attached to the SP container. Now you can start the SP in detached mode:
 
@@ -992,7 +992,7 @@ The robot should now appear in the "Overview" tab of HMI:
 
 ## Setting up a simple task
 
-Transportation tasks are defined in a simple scripting language called Logistic Task Language (LoTLan). A full description of the language can be found in the [TP documentation](../../develop/TP/opil_tp_how_it_works.md).
+Transportation tasks are defined in a simple scripting language called Logistic Task Language (LoTLan). A full description of the language can be found in the [TP documentation](../TP/User_Manual/how_it_works.md).
 
 In the HMI, click on the "Task Management" tab. Copy and paste the following task language into the *Task specification* field and click "Send material flow".
 
@@ -1041,7 +1041,7 @@ end
 
 ```
 
-This specification configures a task to transport materials from `[wh_1]` in the warehouse area to the workstation `[prod]` in the production area. The task will start when a button called `startTaskButton1` is pressed. We will create this button in the HMI. The loading and unloading of the AGV wil be confirmed manually, also with HMI buttons. These events could also be triggered by physical buttons or other sensors connected to OPIL with [SAN](../SAN/opil_desc_san.md).
+This specification configures a task to transport materials from `[wh_1]` in the warehouse area to the workstation `[prod]` in the production area. The task will start when a button called `startTaskButton1` is pressed. We will create this button in the HMI. The loading and unloading of the AGV wil be confirmed manually, also with HMI buttons. These events could also be triggered by physical buttons or other sensors connected to OPIL with [SAN](../SAN/Getting_Started.md).
 
 The new specification should appear under "Sent material flows" and a new transport order should be activated:
 
@@ -1116,6 +1116,6 @@ Stops containers and removes containers, networks, volumes, and images created b
 Congratulations! You now have a working OPIL Server setup. Here are some suggestions for what you can do next:
 
 - Create a new task specification to transport products from `[wh_3]` to the packaging station `[pack_1_1]`. [Example](files/guide_taskspec2.txt)
-- Configure your own layout. Follow the steps in [Prepare the layout](#prepare-the-layout) and see [SP documentation](../SP/opil_server_sp_install.md) for more info.
-- Connect a physical button or sensor to OPIL with [SAN](../SAN/opil_desc_san.md).
-- Connect your AGV to OPIL with [RAN](../RAN/opil_desc_ran.md).
+- Configure your own layout. Follow the steps in [Prepare the layout](#prepare-the-layout) and see [SP documentation](../SP/Central_SP_Installation_Guide.md) for more info.
+- Connect a physical button or sensor to OPIL with [SAN](../SAN/Getting_Started.md).
+- Connect your AGV to OPIL with [RAN](../RAN/Getting_Started.md).
