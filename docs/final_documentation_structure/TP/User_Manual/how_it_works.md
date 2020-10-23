@@ -19,10 +19,10 @@ This section describes the workflow of each submodule (TS and MTP) inside the TP
         - [Example OnDone Task](#example-ondone-task)
       - [Comments](#comments)
       - [Full Example](#full-example)
-        - [Example Simple Task](#full-example-simple-task)
-        - [Example TriggeredBy Task](#full-example-triggeredby-task)
-        - [Example OnDone Task](#full-example-ondone-task)
-        - [Example Infinite Loop](#full-example-infinite-loop)
+        - [Full Example Simple Task](#full-example-simple-task)
+        - [Full Example TriggerdBy Task](#full-example-triggerdby-task)
+        - [Full Example OnDone Task](#full-example-ondone-task)
+        - [Full Example Infinite Loop](#full-example-infinite-loop)
   - [MTP](#mtp)
     - [Introduction](#introduction-1)
       - [Used Algorithm](#used-algorithm)
@@ -554,7 +554,6 @@ task TransportGoodsPallet
     OnDone TransportGoodsPallet
 end
 ```
-```
 
 ## MTP
 
@@ -603,15 +602,17 @@ Free time windows and reservations of the topology are not cached and must be re
 
 #### Topology Agents 
 
-The topology agent depicts the current representation of the logistics environment in a topology. This topology is offered to other agents, for example to the routing agent. In the case where a new route is calculated, the topology will be updated with reservation (time slots) of the calculated path. The reservation describes a time, how long a vehicle or human will stay on a topology entity. In case of the topology, a topology entity can be represented by a vertex or an edge. One of the main tasks of a topology entity is the management of the reservations and calculation of free time slots for the routing through which new reservations can be calculated. 
+The topology agents depicts the current representation of the logistics environment as a graph based topology. This topology is offered to other agents, for example to the routing agent. In the case where a new route is calculated, the respective topology agents will be updated with reservation (time slots) of the calculated path. The reservation describes a time how long a vehicle or human will stay on a topology entity. In case of the topology, a topology entity can be represented by a vertex or an edge. One of the main tasks of a topology entity is the management of the reservations and calculation of free time slots for the routing through which new reservations can be calculated.  
 
-For the time of a reservation, the topology entity is exclusively reserved for an specific agent. The calculation of reservations are part of the routing and are entered by the routing agent. In order to access a topology entity, it must be first reserved by a logical agent. Only the agent with the next reservation receives the surcharge. Other agents can already request the point for an allocation, but have to wait until it is released from the previously allocating agent. To know when a point is traveled to or left, every topology entity has a footprint. The footprint describes an area that may not be navigated on if it has not been validly allocated, as well as an area that can be safely navigated on if it has been allocated. A footprint is described by a 2D polygon course. Every topology entity, vertex and edge, consists of such a footprint. 
+For the time of a reservation, the topology entity is exclusively reserved for an specific agent. The calculation of reservations are part of the routing and are entered by the routing agent. In order to access a topology entity, it must be first reserved by a logical agent. Only the agent with the next reservation receives the surcharge. Other agents can already request the point for an allocation, but have to wait until it is released from the previously allocating agent. To know when a point is traveled or left, every topology entity has a footprint. The footprint describes an area that may not be navigated on if it has not been validly allocated, as well as an area that can be safely navigated on if it has been allocated. A footprint is described by a 2D polygon course. Every topology entity, vertex and edge, consists of such a footprint. 
 
 Another important task of the topology is the management of important information like connections and restrictions. In case of a vertex, connections are edges which are connected with the vertex. In this case the vertex stores the ID of the connected edges, but has no further information. In case of an edge, the connecting vertex IDs (1 in case of an unidirectional edge, 2 in case of an bidirectional edge) are stored, also without further knowledge. It is the responsibility of the requesting agent to obtain further information from the adjacent agent. 
 
-Restrictions of a topology entity can be for example a maximum velocity, special vehicle types, a maximum payload, etc. A topology entity can also be locked for a specific time interval. During this period a reservation and allocation of the topology entity is not possible for an agent. Locks are very helpful if something went wrong on the shop floor, or e.g. a vehicle has a technical problem. In terms of delay, a delay propagation can be performed. In this case, the delayed logical agent informs the topology entity of the delay, causing it to postpone the reservation for the reporting as well as all of the following logical agents. All following logical agents will be informed of the delay by the topology entity.
+Restrictions of a topology entity can be for example a maximum velocity, special vehicle types, a maximum payload, etc. A topology entity can also be locked for a specific time interval. During this period a reservation and allocation of the topology entity is not possible for an agent. Locks are very helpful if something went wrong on the shop floor, or e.g. a vehicle has an technical problem. In terms of a delay, a delay propagation can be performed. In this case, the delayed logical agent informs the topology entity of the delay, causing it to postpone the reservation for the informing as well as all of the following logical agents. All following logical agents will be informed of the delay by the topology entity.
 
-![This figure shows times slots managed by topology entities. The planned path $p$ starts at $v_1$ and ends at $v_3$ ($p=[v_1, e_1, v_2, e_2, v_3$]). Each vertical time line corresponds to one topology entity (vertices: $v_1, v_2, v_3$ and edges: $e_1, e_2$). The grey colored reservation ($r_n$) illustrates a planned path of a vehicle. Between reservations of a topology entity, free time windows ($f_n$) can be built which can serve for new reservations.](./img/reservation_free_time_slots.png)
+To reduce the number of individual running agents in the system, the topology run inside a topology container. A topology container is a wrapper for an set of vertex and edge agents. In terms of running agents individually they can run inside the container which is on the system view only one agent. A container can run $1$ to $n$ vertex or edge agents and $1$ to $m$ topology container can run simultaneously whereby an specific edge or vertex agent can only run inside one container at a time. From the architecture point of view all the individual vertex and edge agents are available as described above and can be contacted through the container. For the communication only an additional container id is needed which specifies where the vertex or edge agent runs. Test have shown that a huge number of agents on the same machine dramatically increase the amount of memory and CPU usage. In terms of representing a graph by agents the amount of individual agents is very high. For e.g. $20$x$20$ $4$-connected graph consists of 400 vertex and 1668 edge agents which results in more then 2000 agents only for the topology. Under the assumption that a vertex in a real environment has only a distance of 1 meter and 4 neighbors it is easy to see that the amount of topology agents can be very huge. 
+
+![This figure shows times slots managed by topology entities. The planned path p starts at v_1 and ends at v_3 (p=[v_1, e_1, v_2, e_2, v_3]). Each vertical time line corresponds to one topology entity (vertices: v_1, v_2, v_3 and edges: e_1, e_2). The grey colored reservation (r_n) illustrates a planned path of a vehicle. Between reservations of a topology entity, free time windows (f_n) can be built which can serve for new reservations.](./img/reservation_free_time_slots.jpg)
 
 ![The picture shows parts of a topology. $v_1$ and $v_2$ depicts a vertex, $e_1$ depicts an edge. Each part of the topology is surrounded by a footprint in which an agent can move safely.](./img/topologie_footprint.png)
 

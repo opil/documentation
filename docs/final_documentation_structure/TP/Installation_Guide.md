@@ -95,7 +95,7 @@ A detailed description of firos is given here: https://firos.readthedocs.io/en/l
 
 The ***config.json*** describes the local and remote connection to the orion context broker. For a detailed description follow these instructions: https://firos.readthedocs.io/en/latest/install/configuration-files.html
 
-Copy this content to ***firos_config.json*** (preconfigured for RAN and TP v3.0.0-alpha):
+Copy this content to ***firos_config.json*** (preconfigured for RAN and TP v3.X and above):
 ```json
 {
   "environment": "docker",
@@ -124,7 +124,7 @@ Copy this content to ***firos_config.json*** (preconfigured for RAN and TP v3.0.
 
 ### firos_robots.json
 
-The ***robots.json*** subscribe to the topic of /map/graph which is provided by SP to generate the graph for the routing. In version 3.0.0-alpha only one robot is preconfigured. The data for the robot is published to following topics:
+The ***robots.json*** subscribe to the topic of /map/graph which is provided by SP to generate the graph for the routing. In version 3.X and above only one robot is preconfigured. The data for the robot is published to following topics:
 
 ```
 - /robot_opil_v2/motion_assignment
@@ -147,7 +147,7 @@ The following naming convention should be used:
 E.g.: /opil/iot/ran_fb3d75a1a82550ffb3e6e4b2bcae482e (uuid v5 for "robot_0")
 ```
 
-Copy this content to ***firos_robots.json*** (preconfigured for RAN and TP v3.0.0-alpha):
+Copy this content to ***firos_robots.json*** (preconfigured for RAN and TP v3.X and above):
 ```json
 {
     "map": {
@@ -189,7 +189,7 @@ Copy this content to ***firos_robots.json*** (preconfigured for RAN and TP v3.0.
 
 The ***whitelist.json*** is needed by firos to subscribe to the topics described in the robots.json. All topics from the robots.json must be listed here. For a more detailed description follow this instructions: https://firos.readthedocs.io/en/latest/install/configuration-files.html#whitelistjson
 
-Copy this content to ***firos_whitelist.json*** (preconfigured for RAN and TP v3.0.0-alpha):
+Copy this content to ***firos_whitelist.json*** (preconfigured for RAN and TP v3.X and above):
 ```json
 {
     "map": {
@@ -216,18 +216,22 @@ Copy this content to ***firos_whitelist.json*** (preconfigured for RAN and TP v3
 
 The MTP consist of three different modules: Topology, Router and Logical Agents. The topology is started by a module called *mars_topology_launcher* which listens to the topic /map/graph which is provided by SP. After a map is received, the topology is started automatically by the module. Subsequently the TP is ready to use.
 
-The whole configuration file is listed below (mod_sw_tp.launch, preconfigured for RAN and TP v3.0.0-alpha):
+The whole configuration file is listed below (mod_sw_tp.launch, preconfigured for RAN and TP v3.X and above):
 
 ```xml
 <launch>
 
   <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 0 0 0 1 world map" />
 
+  <!-- ****** Yellow Pages ***** -->
+  <include file="$(find mars_yellow_pages)/launch/mars_yellow_pages.launch" />
+
   <!--  ****** Topology *****  -->
   <include file="$(find mars_topology_launcher)/launch/mars_topology_launcher_generic.launch">
     <arg name="log_level" value="info" />
     <arg name="topo_file_type" value="opil_sp" />
     <arg name="mars_vertex_footprint_radius" value="0.95" />
+    <arg name="topology_launch_mode" default="container"/>
   </include>
 
   <!-- ****** Router ***** -->
@@ -235,13 +239,18 @@ The whole configuration file is listed below (mod_sw_tp.launch, preconfigured fo
 
   <!-- ****** Logical Agent (robot_0) ***** -->
   <include file="$(find mars_agent_logical_agv)/launch/mars_agent_logical_agv.launch">
-    <arg name="physical_robot_namespace" value=""/>
     <arg name="robot_name" value="robot_opil_v2" />
     <arg name="physical_agent_id" value="00000000-0000-0000-0000-000000000001" />
     <arg name="physical_agent_description" value="robot_0" />
-    <arg name="current_topology_entity_id" value="0a8b9081-d84c-5660-909c-134d55bf4966" />
-    <!-- p0 -->
+    <arg name="current_topology_entity_id" value="e53201ce-c3e3-53ed-b3df-daf27fcbb8e9" />
+    <!-- Parking spot: P0 -->
+    <arg name="parking_spot_entity_id" default="e53201ce-c3e3-53ed-b3df-daf27fcbb8e9" />
+    <arg name="parking_spot_entity_type" default="10" />
+    <arg name="parking_allowed" default="true" />
+
+    <!-- ZFT hall rb1 setup -->
     <arg name="node_name" value="ran_00000000000000000000000000000001" />
+    <arg name="physical_robot_namespace" value=""/>
   </include>
 
   <!-- ****** Firos ***** -->
@@ -259,11 +268,15 @@ Following you find a more detailed description of the launch file and the parame
 Following you can see the configuration for the topology launcher module:
 
 ```xml
+  <!-- ****** Yellow Pages ***** -->
+  <include file="$(find mars_yellow_pages)/launch/mars_yellow_pages.launch" />
+  
   <!--  ****** Topology *****  -->
   <include file="$(find mars_topology_launcher)/launch/mars_topology_launcher_generic.launch">
     <arg name="log_level" value="info" /> <!--log levels: debug, info, warn, error -->
     <arg name="topo_file_type" value="opil_sp" /> <!-- don't change this line -->
-    <arg name="mars_vertex_footprint_radius" value="0.95" /> <!-- IMPORTANT: This value must be smaller (mars_vertex_footprint_radius < cell_size) then the cell_size of SP!-->
+    <arg name="mars_vertex_footprint_radius" value="0.95" /> <!-- IMPORTANT: This value must be smaller (mars_vertex_footprint_radius < (cell_size / 2)) then the cell_size of SP!-->
+    <arg name="topology_launch_mode" default="container"/>
   </include>
 ```
 
@@ -276,9 +289,13 @@ The **topo_file_type** parameter tells the program which kind of topology is exp
 ```xml
 <arg name="topo_file_type" value="opil_sp" /> 
 ```
-The **mars_vertex_footprint_radius** describes the size of the bounding box which is created by the topology launcher around each vertex. Important: This value must be smaller (**mars_vertex_footprint_radius** < **cell_size**) then the **cell_size** of SP! Value is in meter.
+The **mars_vertex_footprint_radius** describes the size of the bounding box which is created by the topology launcher around each vertex. Important: This value must be smaller (**mars_vertex_footprint_radius** < **(cell_size / 2)**) then the half of the **cell_size** of SP! Value is in meter.
 ```xml
 <arg name="mars_vertex_footprint_radius" value="0.95" />
+```
+The **topology_launch_mode** sets the launch mode to **container**. This means that the topology is launched inside one container instead of individual agents. DON'T CHANGE THIS LINE!
+```xml
+<arg name="topology_launch_mode" default="container"/>
 ```
 
 ### Router
@@ -289,7 +306,7 @@ The Routing module which calculates the path for each robot can be started witho
 ```
 
 ### Logical Agent(s)
-Each RAN of the system is represented by a logical agent. The logical agents manages the high level tasks, like receiving and managing transport orders from the TS. For version 3.0.0-aplha, one AGV is preconfigured. 
+Each RAN of the system is represented by a logical agent. The logical agents manages the high level tasks, like receiving and managing transport orders from the TS. For version 3.X, one AGV is preconfigured. 
 
 ```xml
   <!-- ****** Logical Agent (robot_0) ***** -->
@@ -301,6 +318,7 @@ Each RAN of the system is represented by a logical agent. The logical agents man
     <!-- Parking spot: P0 -->
     <arg name="parking_spot_entity_id" default="e53201ce-c3e3-53ed-b3df-daf27fcbb8e9" />
     <arg name="parking_spot_entity_type" default="10" />
+    <arg name="parking_allowed" default="true" />
 
     <!-- ZFT hall rb1 setup -->
     <arg name="node_name" value="ran_00000000000000000000000000000001" />
@@ -308,7 +326,7 @@ Each RAN of the system is represented by a logical agent. The logical agents man
   </include>
 ```
 
-The parameter **physical_robot_namespace** configures the namespace used by the ran. For e.g.: /opil/iot/ (In v3.0.0-alpha no namespace is configured)
+The parameter **physical_robot_namespace** configures the namespace used by the ran. For e.g.: /opil/iot/ (In v3.X and above no namespace is configured)
 ```xml
 <arg name="physical_robot_namespace" value=""/>
 ```
@@ -346,6 +364,11 @@ ID of the node where the robot goes parking. A robot drives to this location if 
 Type of the parking node. Currently not used.
 ```xml
 <arg name="parking_spot_entity_type" default="10" />
+```
+
+Allows the AGV to go parking if it's idle.
+```xml
+    <arg name="parking_allowed" default="true" />
 ```
 
 ## Configuration of TS
