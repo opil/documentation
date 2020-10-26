@@ -67,6 +67,6 @@ In this last figure, the new local updates changed the topology even more and on
 
 # Next steps
 
-Follow the [Install instructions](./opil_server_sp_install.md).   
-For more details how everything works check the [API.](./../../develop/SP/opil_api_sp.md)     
+Follow the [Install instructions](./Central_SP_Installation_Guide.md).   
+For more details how everything works check the [API.](./Central_SP_User_Guide1_API.md)     
         

@@ -59,6 +59,6 @@ Tiny red squares (0.1 m) are the local map built from the laser readings while t
 
 ## Next steps
 
-Follow the [Install instructions](./opil_local_sp_install.md).
-For more details how everything works check the [API.](./../../develop/SP/opil_api_local_sp.md)     
+Follow the [Install instructions](./Local_SP_Installation_Guide.md).
+For more details how everything works check the [API.](./Local_SP_User_Guide1_API.md)     
         

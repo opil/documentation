@@ -1,4 +1,4 @@
-The following sections describe how other modules needs to be connected to the Local SP module. First, the workflow is listed with the repeated image from [SP introduction](./../../admin/SP/opil_desc_local_SP_intro.md) describing it. Then, each section is dedicated to the computer running the module to which the Local SP is connected.
+The following sections describe how other modules needs to be connected to the Local SP module. First, the workflow is listed with the repeated image from [SP introduction](./Local_SP_Getting_Started.md) describing it. Then, each section is dedicated to the computer running the module to which the Local SP is connected.
 
 # Workflow
 * Local SP is on an AGV next to RAN
@@ -25,8 +25,8 @@ terminal 1: roslaunch lam_simulator AndaOmnidriveamcltestZagrebdemo.launch
 terminal 2: roslaunch sensing_and_perception send_posewithcovariance.launch 
 ```
 
-To test different example maps repeat the commands from Section [Pose with covariance](opil_api_local_sp.md#poswithcov).
-The successful transmission of data can be seen as example in [topic /robot_0/pose_channel](opil_api_local_sp.md#examplepose).
+To test different example maps repeat the commands from Section [Pose with covariance](Local_SP_User_Guide1_API.md#poswithcov).
+The successful transmission of data can be seen as example in [topic /robot_0/pose_channel](Local_SP_User_Guide1_API.md#examplepose).
 
 ## Map updates collected at the AGV (laser data)
 
@@ -37,7 +37,7 @@ Then start the package _mapupdates_. This is an example with the simulator Stage
 terminal 1: roslaunch lam_simulator AndaOmnidriveamcltestZagrebdemo.launch
 terminal 2: roslaunch mapupdates startmapupdates.launch
 ```
-More detailed explanations and examples can be seen in Section [Map updates](opil_api_local_sp.md#mapupdates).
+More detailed explanations and examples can be seen in Section [Map updates](Local_SP_User_Guide1_API.md#mapupdates).
 
 ## <a name="localsp">Local SP sends the map updates and pose with covariance from AGV with ID name robot_0 through firos</a>
 
@@ -181,7 +181,7 @@ For receiving the topics through firos, robots.json and whitelist.json should lo
     }
 }
 ```
-Start firos and write a subscriber for the topics as suggested in Section [Writing a simple listener explaining the maplistener package](opil_api_local_sp.md#writelis).
+Start firos and write a subscriber for the topics as suggested in Section [Writing a simple listener explaining the maplistener package](Local_SP_User_Guide1_API.md#writelis).
 You can find the firos config files in test/config_files/TP_HMI_computer.
 
 # OPIL server computer with the Human Machine Interface - HMI

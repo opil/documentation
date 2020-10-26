@@ -1,4 +1,4 @@
-The following sections describe how other modules needs to be connected to the SP module. First, the workflow is listed with the repeated image from [SP introduction](./../../admin/SP/opil_desc_SP_intro.md) describing it. Then, each section is dedicated to the computer running the module to which the Central SP is connected.
+The following sections describe how other modules needs to be connected to the SP module. First, the workflow is listed with the repeated image from [SP introduction](./Central_SP_Getting_Started.md) describing it. Then, each section is dedicated to the computer running the module to which the Central SP is connected.
 
 # Workflow
 * Central SP is on the OPIL server
@@ -22,12 +22,12 @@ To start the calculation of the topology, a _map_server_ needs to be started fir
 terminal 1: roslaunch maptogridmap startmapserver.launch 
 terminal 2: roslaunch maptogridmap startmaptogridmap.launch
 ```
-More detailed explanations and examples can be seen in Section [Topology](opil_api_sp.md#topology).
+More detailed explanations and examples can be seen in Section [Topology](./Central_SP_User_Guide1_API.md#topology).
 
 
 ## <a name="sp">Topology sends updates through firos by integrating received local map updates from the Local SP</a>
 
-For this _mapupdates_ needs to be started on a Local SP. New obstacles are merged and new topology is calculated if _maptogridmap_ is running. An example can be seen in Section [Illustration of topology and map updates](./../../admin/SP/opil_desc_SP_intro.md#topologyupdates).
+For this _mapupdates_ needs to be started on a Local SP. New obstacles are merged and new topology is calculated if _maptogridmap_ is running. An example can be seen in Section [Illustration of topology and map updates](./Central_SP_Getting_Started.md#topologyupdates).
 
 ## Central SP sends the topology through firos for TP and HMI and receives the map updates from the Local SP with ID name robot_0
 
@@ -160,7 +160,7 @@ For receiving the topics through firos, robots.json and whitelist.json should lo
     }
 }
 ```
-Start firos and write a subscriber for the topics as suggested in Section [Writing a simple listener explaining the maplistener package](opil_api_sp.md#writelis).
+Start firos and write a subscriber for the topics as suggested in Section [Writing a simple listener explaining the maplistener package](./Central_SP_User_Guide1_API.md#writelis).
 You can find the firos config files in test/config_files/TP_HMI_computer.
 
 # OPIL server computer with the Human Machine Interface - HMI

@@ -493,7 +493,7 @@ where **ran** is the name of the RAN docker image, while **splocal** is the name
 
 Again, you need to set up the map as explained [previously](#prepmap) to obtain three files: `floorplan.png`, `floorplan.yaml`, `floorplan.world`.
 
-Then, RAN needs to be started without **fake_localization** and **map_server** so we will modify `mod_iot_ran.launch` explained in [RAN guide](../RAN/opil_server_ran_install.md) and name it `mod_iot_ran_no_fakelocalization.launch`:
+Then, RAN needs to be started without **fake_localization** and **map_server** so we will modify `mod_iot_ran.launch` explained in [RAN guide](../RAN/Installation_Guide.md) and name it `mod_iot_ran_no_fakelocalization.launch`:
 
 ### <a name="modiotran">mod_iot_ran_no_fakelocalization.launch</a>
 ```
@@ -619,7 +619,7 @@ Then, prepare `local_robot.launch` as follows:
 
 [local_robot.launch](#localrobotlaunch) is very similar to [local_robot_sim.launch](#localrobotsimlaunch) but it does not have Stage simulator, and it has changed topic names for **base_frame** and **scan_topic**.
 
-The last two files to prepare are for communication with OCB through **firos**: `firos_robots_localsp.json` and `firos_whitelist_localsp.json`. These files need to include both topics for RAN and topics for Local SP. We will reuse `firos_robots.json` and `firos_whitelist.json` explained in [RAN guide](../RAN/opil_server_ran_install.md), and put at the end Local SP topics as follows:
+The last two files to prepare are for communication with OCB through **firos**: `firos_robots_localsp.json` and `firos_whitelist_localsp.json`. These files need to include both topics for RAN and topics for Local SP. We will reuse `firos_robots.json` and `firos_whitelist.json` explained in [RAN guide](../RAN/Installation_Guide.md), and put at the end Local SP topics as follows:
 
 ### <a name="robotslocalsp">firos_robots_localsp.json</a>
 ```
@@ -751,7 +751,7 @@ You should be able to see entities in the OCB. If you also start the Central SP,
 
 ## <a name="fromscratch">Starting from Scratch</a>
 
-In this quick guide, everything will be started on the same computer where you installed ROS and this source code. For advanced configuration of starting at different computers check [Interfaces for Local SP](./../../develop/SP/opil_local_sp_interfaces.md#localsp). The example uses the Stage simulator, but testing it on a real robot assumes only removing the simulator and setting up your robot as explained here <http://wiki.ros.org/navigation/Tutorials/RobotSetup/TF>.
+In this quick guide, everything will be started on the same computer where you installed ROS and this source code. For advanced configuration of starting at different computers check [Interfaces for Local SP](./Local_SP_User_Guide2_interfaces.md#localsp). The example uses the Stage simulator, but testing it on a real robot assumes only removing the simulator and setting up your robot as explained here <http://wiki.ros.org/navigation/Tutorials/RobotSetup/TF>.
 
 * First, start the Stage simulator with the loaded example map and one AGV inside the map (red) and one box as the unknown obstacle (green):
 
@@ -1016,7 +1016,7 @@ services:
         command: --nojournal
 ```
 
-To test sending local map updates and pose with covariance to OCB put in firos/config all json files described in [Interfaces for Local SP](./../../develop/SP/opil_local_sp_interfaces.md#localsp).
+To test sending local map updates and pose with covariance to OCB put in firos/config all json files described in [Interfaces for Local SP](./Local_SP_User_Guide2_interfaces.md#localsp).
 Set the right IP addresses for your machine (endpoint), OPIL server (contextbroker) in firos/config/config.json. This example uses the local configuration:
 ```
 {
@@ -1055,21 +1055,7 @@ roslaunch sensing_and_perception local_robot_sim.launch
 ```
 This launch file starts the localization, local map updates and module for publishing Pose with Covariance, and firos. The launch file that does not start the simulator Stage because it will be started at RAN is **local_robot.launch**.
 
-For more examples on sending and receiving these topics through OCB check the Section [Examples](./../../develop/SP/opil_api_sp.md#examplesOCB).
+For more examples on sending and receiving these topics through OCB check the Section [Examples](./Local_SP_User_Guide1_API.md#examplesOCB).
 
 
-
-# Deinstallation
-
-There is currently no deinstallation how-to. Simply remove all unused docker images and remove the source code.
-
-
-# Upgrades
-
-This is the first appearance of SP module so there is no upgrade procedure.
-
-
-# Local SP Deprecated 
-
-Currently there are no deprecated features.
 

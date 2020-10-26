@@ -34,7 +34,7 @@ Please follow these steps for installing the OPIL server:
 - You know the IP-address of your system. Write it down as you will need  it later in this guide. This will be referred to as `<ip-address>` from now on.
 - The following PNG image: [demo_map.png](files/demo_map.png)
 - You must be familiar with Linux-based operating systems on a basic level to execute commands and edit files.
-- You have read the [introduction](../OPIL_intro.md) and [deployment](deployment.md) pages and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
+- You have read the [introduction](OPIL_Architecture.md) and [deployment](deployment.md) pages and are familiar with the basic concepts of OPIL and the purpose of each OPIL module.
 - If you wish to test your installation with a simulated layout and robots, a computer with Windows operating system with Visual Components installed.
 
 ## Verify docker environment

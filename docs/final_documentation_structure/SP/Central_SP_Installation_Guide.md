@@ -335,7 +335,7 @@ Four annotations are in this example, which change the coordinates of vertices w
 ## How to start the Local and Central SP docker containers together
 
 Prepare a following docker-compose.yml to start both Central and Local SP. This example uses the same machine for Local and Central SP, but you can also start them on different machines.
-This example uses the Local SP that contains the Stage simulator. Check how to prepare the Local SP [here](./opil_local_sp_install.md)
+This example uses the Local SP that contains the Stage simulator. Check how to prepare the Local SP [here](./Local_SP_Installation_Guide.md)
 
 ```
 version: "3"
@@ -410,7 +410,7 @@ One rviz window is from the Local SP, where you can see the AGV's pose (red arro
 
 ## <a name="fromscratch">Starting from Scratch</a>
 
-In this quick guide, everything will be started on the same computer where you installed ROS and this source code. For advanced configuration of starting at different computers check [Interfaces](./../../develop/SP/opil_sp_interfaces.md).
+In this quick guide, everything will be started on the same computer where you installed ROS and this source code. For advanced configuration of starting at different computers check [Interfaces](./Central_SP_User_Guide2_interfaces.md).
 
 * Start the map by launching the map_server package:
 ```
@@ -468,7 +468,7 @@ You can check the created topology in the topic graph by typing:
 rostopic echo /map/graph
 ```
 
-You can change the resolution of the global gridmap and topology (the distance between the nodes) by checking the Section [Topology](./../../develop/SP/opil_api_sp.md#topology). 
+You can change the resolution of the global gridmap and topology (the distance between the nodes) by checking the Section [Topology](./Central_SP_User_Guide1_API.md#topology). 
 
 
 To test if entities are sent to OCB, prepare the following docker-compose.yml on the machine where you want to have the OPIL server:
@@ -497,7 +497,7 @@ services:
             -dbhost mongo -corsOrigin __ALL -inReqPayloadMaxSize 2097152
 ```
 
-To test sending topology to OCB put in firos/config all json files described in [Interfaces for Central SP](./../../develop/SP/opil_sp_interfaces.md#sp).
+To test sending topology to OCB put in firos/config all json files described in [Interfaces for Central SP](./Central_SP_User_Guide2_interfaces.md#sp).
 Set the right IP addresses for your machine (endpoint), OPIL server (contextbroker) in firos/config/config.json. This example uses the local configuration:
 ```
 {
@@ -533,85 +533,9 @@ You can also start a single launch file which starts map_server, topology creati
 ```
 roslaunch maptogridmap topology.launch
 ``` 
-For more examples on sending and receiving these topics through OCB check the Section [Examples](./../../develop/SP/opil_api_sp.md#examplesOCB).
-
-# Deinstallation
-There is currently no deinstallation how-to. Simply remove all unused docker images and remove the source code.
-
-# Upgrades
-This is the first appearance of SP module so there is no upgrade procedure.
-
-# Deprecated Features
-
-Deprecated features are features that Central SP still supports but that are not maintained or evolved any longer, or will be used in the future. In particular:
+For more examples on sending and receiving these topics through OCB check the Section [Examples](./Central_SP_User_Guide1_API.md#examplesOCB).
 
 
-## Firos v1 did not allow arrays of custom ROS messages
-
-The topology is composed of nodes and edges. Since Firos is not supporting arrays of custom ROS messages it is divided into two ROS messages: nodes and edges.
-
-Nodes.msg
-
-	Header header	# standard ROS header
-	nav_msgs/MapMetaData info	# number of cells in x and y directions of the gridmap, the size of the cell
-	float64[] x	# x coordinate of the cell centre
-	float64[] y	# y coordinate of the cell centre
-	float64[] theta # orientation of the node used for annotations
-	string[] name	# e.g. vertex_0 or annotation name
-	string[] uuid	# unique id of a node
-	
-Edges.msg
-
-	Header header	# standard ROS header 
-	string[] uuid_src	# unique id of a source node of the edge
-	string[] uuid_dest	# unique id of a destination node of the edge
-	string[] name	# e.g. edge_0_1
-	string[] uuid	# unique id of an edge
-
-## Sending larger data on demand - a service mockup
-Since there is no service call supported yet in Firos, topic _do_serve_ is used as a service mockup. On another machine that wants to obtain the data, on topic _do_serve_ needs to be sent value "true" or 1. Large data are a) map topic created with _map_server_ from PNG or PGM file and b) gridmap topic created from the map by resampling to cells of size given by the parameter _cell_size_.
-
-### Testing sending map topic on request on machine_1:
-Remark: only a small map can be tested here around 10m x 7m - Andamapa.yaml.
-To test the sending of map topic the _mux_topicsmap.py_ program needs to be started which sends the map on the whitelisted topic only when master requests.
-Start all these steps:
-```
-terminal 1: roslaunch maptogridmap startmapserver.launch
-terminal 2: roslaunch maptogridmap startmaptogridmap.launch
-terminal 3: rosrun firos core.py (put in firos/config all json files from OPIL/config_files/machine_1)
-```
-(the next two steps are optional, e.g., it will work without terminal 4 and 5) 
-```
-terminal 4: roslaunch lam_simulator AndaOmnidriveamcltestZagrebdemo.launch
-terminal 5: rosrun sensing_and_perception pubPoseWithCovariance
-terminal 6: rosrun maptogridmap mux_topicsmap.py
-terminal 7: rostopic pub /map/do_serve std_msgs/Bool '{data: 1}'
-```
-Refresh firefox on http://OPIL_SERVER_IP:1026/v2/entities.
-There should be under id "map" the topic "realmap".
-
-### Testing sending gridmap topic on request:
-To test the sending of gridmap topic the _mux_topics.py_ program needs to be started which sends the gridmap on the whitelisted topic only when master requests.
-Start all previous steps (terminal 1, ..., terminal 7), but it works with starting only terminals 1,2,3.
-```
-terminal 8: rosrun maptogridmap mux_topics.py
-terminal 9: rostopic pub /map/do_serve std_msgs/Bool '{data: 1}'
-```
-Refresh firefox on http://OPIL_SERVER_IP:1026/v2/entities.
-There should be under id "map" the topic "realtopology".
-
-
-### Testing if topics are received on machine 2 through firos
-```
-terminal 1: roscore
-terminal 2: rosrun firos core.py (put in firos/config all json files from OPIL/config_files/machine_2)
-```
-_maptogridmap_ package needs to be on the machine_2 - it is not important that the source code is in there but only that msg files and CMakeLists.txt compiling them are there.
-Now you are able to echo these ros topics:
-```
-rostopic echo /map/realtopology (if test sending gridmap is on)
-rostopic echo /map/realmap (if test sending map is on)
-```
 
 
 
