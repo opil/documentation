@@ -14,28 +14,36 @@ HMI (Human Machine Interface) is a software layer module of the OPIL architectur
 
 An example of middleware ***docker-compose.yml***:
 ```yml
-version: "3"
+version: "3.1"
+
 services:
- mongo:
-   image: mongo:3.6
-   command: --nojournal
- orion:
-   image: fiware/orion
-   depends_on:
-     - mongo
-   ports:
-     - "1026:1026"
-   command: -dbhost mongo -corsOrigin __ALL
- ngsiproxy:
-   image: fiware/ngsiproxy
-   ports:
-     - "3000:3000"
+    ### Database for context broker ###
+    mongo:
+        image: mongo:3.6
+        command: --nojournal
+
+    ### Proxy for Context Broker ###
+    ngsiproxy:
+        image: fiware/ngsiproxy:1.2
+        ports:
+            - 3000:3000
+
+    ### Context Broker ###
+    orion:
+        image: fiware/orion:2.3.0
+        depends_on:
+            - mongo
+            - ngsiproxy
+        ports:
+            - 1026:1026
+        command:
+            -dbhost mongo -corsOrigin __ALL -inReqPayloadMaxSize 2097152
 ```
 
 **2. Start HMI web application**
 
     - HMI docker-compose service could be run in the same machine as OCB
-        - if so, combine services from YML below to the upper one
+        - if so, combine services from YML below to the upper one and uncomment the row '- orion' from depends_on
         - make necessary changes to environment variables
         - uncomment optional variables if needed
     - HMI web app uses its own instance of Mongo DB
@@ -49,33 +57,34 @@ services:
 
 HMI web app ***docker-compose.yml***:
 ```yml
-version: "3"
+version: "3.1"
 services:
- mongodb:
-    image: mongo:3.6
-    restart: always
-    volumes:
-      - ./mongo/data:/data/db
- app:
-    image: docker.ramp.eu/opil/opil.sw.hmi:latest
-    environment:
-     - inituser=admin
-     - initpw=admin
-     - ocb_host={IP address or hostname of OCB}
-     - ocb_port=1026
-     - ngsi_proxy_host={IP address or hostname of NGSI Proxy}
-     - ngsi_proxy_port=3000
-     #- link_btn_txt={Text to be shown on the button}
-     #- link_btn_url={URL to be opened}
-     #- task_mgmnt=BPO
-    restart: always
-    volumes:
-      - ./public/uploads:/usr/src/app/public/uploads
-    ports:
-      - "80:8081"
-    depends_on:
-      - mongodb
-    command: bash -c './wait-for mongodb:27017 -- node server.js'
+    ### Database for HMI ###
+    mongodb:
+        image: mongo:3.6
+        volumes:
+        - ./mongo/data:/data/db
+    ### HMI web app ###
+    hmi:
+        image: docker.ramp.eu/opil/opil.sw.hmi:latest
+        volumes:
+            - ./public/uploads:/usr/src/app/public/uploads
+        environment:
+            - inituser=admin
+            - initpw=admin
+            - ocb_host=<ip-address>
+            - ocb_port=1026
+            - ngsi_proxy_host=<ip-address>
+            - ngsi_proxy_port=3000
+            #- link_btn_txt={Text to be shown on the button}
+            #- link_btn_url={URL to be opened}
+            #- task_mgmnt=BPO
+        ports:
+            - "80:8081"
+        depends_on:
+            - mongodb
+            #- orion
+        command: bash -c './wait-for mongodb:27017 -- node server.js'
 ```
 
 **3. Open http://hostnameorIP with your web browser**
