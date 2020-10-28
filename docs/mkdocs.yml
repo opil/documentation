@@ -28,16 +28,16 @@ theme:
             - yml
 pages:
       - Home: index.md
+      - OPIL Intro:
+              - OPIL Architecture: OPIL_Intro/OPIL_Architecture.md
+              - OPIL Deployment: OPIL_Intro/deployment.md
+              - OPIL Server: OPIL_Intro/opil_server.md
       - Business Process Optimization (BPO): BPO/Getting_Started___Installation_Guide__User_Manual.md
       - Human Machine Interface (HMI):
               - Getting Started: HMI/Getting_Started.md
               - Installation Guide: HMI/Installation_Guide.md
               - User Manual: HMI/User_Manual.md
               - API: HMI/hmi_rest_api.md
-      - OPIL Intro:
-              - OPIL Architecture: OPIL_Intro/OPIL_Architecture.md
-              - OPIL Deployment: OPIL_Intro/deployment.md
-              - OPIL Server: OPIL_Intro/opil_server.md
       - Robot Agent Node VC (RAN VC):
               - RAN VC Documentation: RAN_VC/VC_RAN_documentation_v.0.6.md
       - Robot Agent Node:
