@@ -44,7 +44,7 @@ pages:
               - Getting Started: RAN/Getting_Started.md
               - Installation Guide: RAN/Installation_Guide.md
               - User Manual: RAN/User_Manual.md
-      - Sensor Agent Node VC (RAN VC):
+      - Sensor Agent Node VC (SAN VC):
               - SAN VC Documentation: SAN_VC/VC_SAN_documentation_v.0.5.md
       - Sensor Agent Node:
               - Getting Started: SAN/Getting_Started.md
