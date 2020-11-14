@@ -126,7 +126,7 @@ determines that we would like the item to be transported from location `"A"` (cu
 
 
 ## Send a Task Specification from HMI to BPO
-Open another tab on the web browser and go to `http://localhost:1026/main`. Use `admin` both as username and password to log in to the HMI app. Then, click on the BPO tab and write a task specification in the window according to the example above.  
+Open another tab on the web browser and go to `http://<IP or localhost>/main`. Use `admin` both as username and password to log in to the HMI app. Then, click on the BPO tab and write a task specification in the window according to the example above.  
 
 ![Write a task specification](./img/bpo_hmi_step1.png)
 
