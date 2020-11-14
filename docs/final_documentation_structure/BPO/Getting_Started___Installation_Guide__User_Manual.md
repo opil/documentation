@@ -50,7 +50,7 @@ $docker-compose up -d
 ```
 if you want to run the container in the background.
 
-To check if everything works properly, open a web browser (e.g. firefox) and go to `http://localhost:1026/v2/entities`. There should be a topic `/map/graph`.
+To check if everything works properly, open a web browser (e.g. firefox) and go to `http://<IP or localhost>:1026/v2/entities`. There should be a topic `/map/graph`.
 
 
 ## BPO Task Specification - Set Up Example
@@ -126,15 +126,15 @@ determines that we would like the item to be transported from location `"A"` (cu
 
 
 ## Send a Task Specification from HMI to BPO
-Open another tab on the web browser and go to `http://<IP or localhost>/main`. Use `admin` both as username and password to log in to the HMI app. Then, click on the BPO tab and write a task specification in the window according to the example above.  
+Open another tab on the web browser and go to `http://<IP or localhost>/main`. Use `admin` both as username and password to log in to the HMI app. Then, click on the BPO tab and create a task specification in the window according to the example above.  
 
-![Write a task specification](./img/bpo_hmi_step1.png)
+![Create a task specification](./img/bpo_hmi_step1.png)
 
 Then, click the red button of **"Send task specification"** existing under the window to assign the task specification to the BPO module.
 
 ![Send the task specification to BPO](./img/bpo_hmi_step2.png)
 
-You can also check that the `BPOSpecificationInput` entity has been added on OCB entities containing the task specification sent from the HMI. 
+You can also check that the `BPOSpecificationInput` entity has been added on orion entities (`http://<IP or localhost>:1026/v2/entities`) containing the task specification sent from the HMI. 
 
 ![BPO specification input on OCB](./img/orion1.png)
 
@@ -142,7 +142,7 @@ You can also check that the `BPOSpecificationInput` entity has been added on OCB
 
 ![BPO solution on HMI](./img/bpo_hmi_step3.png)
 
-Moreover, you can check the orion entities that the `opil_bpo.Results` entity is now added.
+Moreover, you can check the orion entities (`http://<IP or localhost>:1026/v2/entities`) that the `opil_bpo.Results` entity is now added.
 
 ![BPO results entity on OCB](./img/orion2.png)
 
