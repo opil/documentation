@@ -11,61 +11,6 @@ First step is to start the Orion Context Broker, the Central SP and the HMI dock
 
 It is also necessary to activate the BPO Tab on the HMI module to send the specification required for the BPO setup. To do so, enable the `- task_mgmnt=BPO` command of the environment variable of the hmi service in the docker-compose.yml file.
 
-Follow the guide to check if everything is working properly 
-
-At first, you need to pull the latest docker images of the modules
-
-```
-$docker pull docker.ramp.eu/opil/opil.sw.hmi:3.0.18-beta
-$docker pull docker.ramp.eu/opil/opil.sw.sp.central:latest
-```
-
-Next step is to setup the `docker-compose.yaml` files to run the docker containers. 
-In the first `docker-compose.yaml` file, you need to include the Orion Context Broker, the HMI app and the Central SP. You need to add the line to load the BPO tab on the HMI app to send the specially developed specification required for the BPO module. The `docker-compose.yaml` should be:
-
-> docker-compose.yaml
-```
-version: "3.1"
-services:
-    ### Database for HMI ###
-    mongodb:
-        image: mongo:3.6
-        volumes:
-        - ./mongo/data:/data/db
-    ### HMI web app ###
-    hmi:
-        image: docker.ramp.eu/opil/opil.sw.hmi:latest
-        volumes:
-            - ./public/uploads:/usr/src/app/public/uploads
-        environment:
-            - inituser=admin
-            - initpw=admin
-            - ocb_host=<ip-address>
-            - ocb_port=1026
-            - ngsi_proxy_host=<ip-address>
-            - ngsi_proxy_port=3000
-            #- link_btn_txt={Text to be shown on the button}
-            #- link_btn_url={URL to be opened}
-            - task_mgmnt=BPO
-        ports:
-            - "80:8081"
-        depends_on:
-            - mongodb
-            #- orion
-        command: bash -c './wait-for mongodb:27017 -- node server.js'
-```
-                   
-In the same folder with the docker-compose.yaml, save your annotations.ini and the map.yam/png files of the layout that the robot, human and items exist.
-Open a terminal on the directory where this docker-compose.yaml is located and run the command
-```
-$docker-compose up
-```
-
-Open a web browser, e.g. firefox, to see the entities at the address `http://localhost:1026/v2/entities`. There should be a topic `/map/graph`.
-
-
-Open another tab on the web browser. 
-At the address `http://localhost:1026/main`, you should see the HMI app. Use the `inituser` as username and the `initpw` as password to login the app and go to the BPO tab. 
 
 #Install from Docker Container
 The BPO docker container is located at [RAMP Docker Registry](https://docker.ramp.eu/?page=1#!taglist/opil/opil.sw.bpo).
