@@ -7,8 +7,11 @@ These instructions is about how to start the BPO docker container given a task s
 
 
 ## How to start the HMI and Central SP docker containers
-Before starting the BPO docker container, you should start the [Central SP](https://docker.ramp.eu/?page=1#!taglist/opil/opil.sw.sp.central) and [HMI](https://docker.ramp.eu/?page=1#!taglist/opil/opil.sw.hmi) docker containers. It is also necessary to use the BPO Tab on the HMI module to send the specification required for the BPO setup.
+First step is to start the Orion Context Broker, the Central SP and the HMI docker containers by folowing the installation guides of Central SP and HMI on [RAMP.eu](https://www.ramp.eu/#/documentationOpil). 
 
+It is also necessary to activate the BPO Tab on the HMI module to send the specification required for the BPO setup. To do so, enable the `- task_mgmnt=BPO` command of the environment variable of the hmi service in the docker-compose.yml file.
+
+Follow the guide to check if everything is working properly 
 
 At first, you need to pull the latest docker images of the modules
 
@@ -22,80 +25,34 @@ In the first `docker-compose.yaml` file, you need to include the Orion Context B
 
 > docker-compose.yaml
 ```
-version: "3"
+version: "3.1"
 services:
-
-#Context Broker
-    mongo:
-        restart: always
-        image: mongo:3.6
-        command: --nojournal    
-
-#Proxy for Context Broker
-    ngsiproxy:
-        image: fiware/ngsiproxy:latest
-        depends_on:
-            - mongo
-        ports:
-            - 3000:3000
-
-#Context Broker
-    orion:
-        image: fiware/orion
-        depends_on:
-            - mongo
-            - ngsiproxy
-        ports:
-            - 1026:1026
-        command:
-            -dbhost mongo -corsOrigin __ALL
-
-#Mongo Database
+    ### Database for HMI ###
     mongodb:
-	  image: mongo:3.6
-        restart: always
-    	  volumes:
-		 - ./mongo/data:/data/db
-    hmiapp:
-	  container_name: hminode
-        image: docker.ramp.eu/opil/opil.sw.hmi:3.0.18-beta
-        environment:
-		 - inituser=admin
-		 - initpw=admin
-		 - ocb_host=<IP orion host>
-		 - ocb_port=1026
-		 - ngsi_proxy_host=<IP ngsiproxy host>
-		 - ngsi_proxy_port=3000
-		 #- link_btn_txt=Open an External System
-		 #- link_btn_url=https://www.cut.ac.cy.com/
-		 - task_mgmnt=BPO
-	  restart: always
+        image: mongo:3.6
         volumes:
-		 - ./public/uploads:/usr/src/app/public/uploads
+        - ./mongo/data:/data/db
+    ### HMI web app ###
+    hmi:
+        image: docker.ramp.eu/opil/opil.sw.hmi:latest
+        volumes:
+            - ./public/uploads:/usr/src/app/public/uploads
+        environment:
+            - inituser=admin
+            - initpw=admin
+            - ocb_host=<ip-address>
+            - ocb_port=1026
+            - ngsi_proxy_host=<ip-address>
+            - ngsi_proxy_port=3000
+            #- link_btn_txt={Text to be shown on the button}
+            #- link_btn_url={URL to be opened}
+            - task_mgmnt=BPO
         ports:
-		 - "80:8081"
+            - "80:8081"
         depends_on:
-		 - mongodb
-	  command: bash -c './wait-for mongodb:27017 -- node server.js'
-
-#Central Sensing & Perception
-    sp:
-        restart: always
-        image: docker.ramp.eu/opil/opil.sw.sp.central:latest
-        depends_on:
-            - orion
-        volumes:
-            - /tmp/.X11-unix:/tmp/.X11-unix:rw
-            - ./annotations.ini:/annotations.ini:ro
-            - ./demo.yaml:/map.yaml:ro
-            - ./demo.png:/map.png:ro
-            - ./topology.launch:/topology.launch:ro
-        environment:
-            - FIWAREHOST=orion
-            - HOST=sp
-            - DISPLAY=$DISPLAY
-        ports: 
-            - "39002:39002"
+            - mongodb
+            #- orion
+        command: bash -c './wait-for mongodb:27017 -- node server.js'
 ```
                    
 In the same folder with the docker-compose.yaml, save your annotations.ini and the map.yam/png files of the layout that the robot, human and items exist.
@@ -110,14 +67,17 @@ Open a web browser, e.g. firefox, to see the entities at the address `http://loc
 Open another tab on the web browser. 
 At the address `http://localhost:1026/main`, you should see the HMI app. Use the `inituser` as username and the `initpw` as password to login the app and go to the BPO tab. 
 
-
-## How to start the BPO docker container
-Pull the latest docker image of the module
+#Install from Docker Container
+The BPO docker container is located at [RAMP Docker Registry](https://docker.ramp.eu/?page=1#!taglist/opil/opil.sw.bpo).
+Pull the latest docker image of the module using this command:
 ```
 $docker pull docker.ramp.eu/opil/opil.sw.bpo:1.1
 ```
 
-Set up the BPO `docker-compose.yaml` the docker container
+#How to start the BPO docker container
+To install the BPO module, you need to prepare a docker-compose.yml following this example.
+
+First step is to set up a docker-compose.yaml file as follows:
 
 > docker-compose.yaml
 ```
@@ -133,21 +93,23 @@ services:
     network_mode: host
 version: "3"
 ```
+The example uses the version 3 and it does not need links to enable services to communicate. It is assumed that for testing the BPO service will be on a local machine (localhost) and OCB, Central SP and HMI are started on another machine. Moreover, `FIWAREHOST` needs to be changed to IP address of the machine running OCB, `HOST` needs to be changed to IP address of the machine running the BPO docker container. `NETINTERFACE` needs to changed to netinterface of that local machine, too. 
 
-Open a terminal in the directory where the BPO `docker-compose.yaml` is located and run the command
+Then, go to the directory where you have created the `docker-compose.yaml` file and open a terminal. To start the BPO docker container, run the command below:
 ```
 $docker-compose up
 ```
+or 
+```
+$docker-compose up -d
+```
+if you want to run the container in the background.
+
+To check if everything works properly, open a web browser (e.g. firefox) and go to `http://localhost:1026/v2/entities`. There should be a topic `/map/graph`.
 
 
-## How to setup the BPO specification
-At the address `http://localhost:1026/main`, write the specification in the window of the BPO tab and click the red **"send specification"** button existing under the window. After that, you should see the specification assigned below the window and also the `/BPO/specification` entity at `http://localhost:1026/v2/entities`.
-
-30 seconds later, you should see the topic `bpo/results` at the address `http://localhost:1026/v2/entities`.
-
-
-## BPO specification explanation
-This is an example of the BPO specification send by the HMI app. At the moment, we address a single robot-human-item problem. Multiple robots-humans-items problem could be available soon in the following version of the BPO module.
+## BPO Task Specification - Set Up Example
+This is an example of the BPO task specification send by the HMI app. At the moment, we address a single robot-human-item problem. Multiple robots-humans-items problem could be available in the following version of the BPO module.
 
 > BPOSpecificationInput.json
 ```
@@ -194,7 +156,7 @@ This is an example of the BPO specification send by the HMI app. At the moment, 
 }
 ```
 
-`"locations": "Name"` defines the locations in the floor that the robots, humans and items could be. The names should be the same as the ones used in the annotation file as processed by the [opil/opil.sw.sp.central](https://docker.ramp.eu/?page=1#!taglist/opil/opil.sw.sp.central) docker container. `"anywhere"` determines all the defined locations that an agent (robot, human, item) could navigate. The robot agent could transport from location `"A"` to `"B", "C", "D", "F"`. `"on_robot_1"` defines the `"loading"` status when the robot is carrying an item. For the example above, the item can be loaded on the robot (notated as `"R"`) from locations `"A", "B", "C"` 
+`"locations": "Name"` defines the locations in the floor that the robots, humans and items could be. The names should be the same as the ones used in the annotation file as processed by the Central SP (see the relevant installation guide of [Central SP](https://opil-documentation.readthedocs.io/en/latest/SP/Central_SP_Installation_Guide.html)). `"anywhere"` determines all the defined locations that an agent (robot, human, item) could navigate. The robot agent could transport from location `"A"` to `"B", "C", "D", "F"`. `"on_robot_1"` defines the `"loading"` status when the robot is carrying an item. For the example above, the item can be loaded on the robot (notated as `"R"`) from locations `"A", "B", "C"` 
 ```
 "A":"R", "B":"R", "C":"R"
 ```
@@ -218,10 +180,12 @@ Since we have set up the environment, we can now determine the task that BPO is 
 determines that we would like the item to be transported from location `"A"` (current location extracted from the `"Starting_point"`) to location `"D"` (`"Starting_point_1"`).
 
 
+## Send a Task Specification from HMI to BPO
+Open another tab on the web browser and go to `http://localhost:1026/main`. Use `admin` both as username and password to log in to the HMI app. Then, click on the BPO tab. Following the example above, you can write a task specification in the window and after that click the red button of **"send specification"** existing under the window to assign the task specification to the BPO module.  You should se that a new entity of `BPOSpecificationInput` has been added on OCB entities containing the task specification sent from the HMI to the BPO. 15 seconds later, the solution provided by the BPO is visible in the `BPO Specification Output` section of the BPO tab in the HMI app. Moreover, you can check the orion entities that the `bpo/results` topic is now added.
+
 
 ## BPO results explanation
-
-Using the specification example above, the BPO module seeks for the optimal solution for the given task "Transport item at location C". The BPO result consists of the shortest path and the time needed for the agents to complete the given task. The shortest path determines the less actions that should be performed by the agents (robot, human, item) to complete the given task. Time is the seconds needed to complete the given task. Following the specification example, here is the path explanation.
+Following the task specification example above, the BPO module seeks for the optimal solution for the given task "Transport item at location C". The BPO result consists of the shortest path and the time needed for the agents to complete the given task. The shortest path determines the less actions that should be performed by the agents (robot, human, item) to complete the given task. Time is the seconds needed to complete the given task. Following the specification example, here is the path explanation.
 
 The BPO output published as topic `/bpo/results` has 2 attributes: 1. `path`, 2. `time`. The path has 7 steps: 
 ```
