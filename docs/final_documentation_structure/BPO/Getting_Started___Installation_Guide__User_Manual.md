@@ -127,18 +127,23 @@ determines that we would like the item to be transported from location `"A"` (cu
 
 ## Send a Task Specification from HMI to BPO
 Open another tab on the web browser and go to `http://localhost:1026/main`. Use `admin` both as username and password to log in to the HMI app. Then, click on the BPO tab and write a task specification in the window according to the example above.  
+
 ![Write a task specification](./img/bpo_hmi_step1.png)
 
 Then, click the red button of **"Send task specification"** existing under the window to assign the task specification to the BPO module.
+
 ![Send the task specification to BPO](./img/bpo_hmi_step2.png)
 
 You can also check that the `BPOSpecificationInput` entity has been added on OCB entities containing the task specification sent from the HMI. 
+
 ![BPO specification input on OCB](./img/orion1.png)
 
 15 seconds later, the solution provided by the BPO is visible in the `BPO Specification Outputs` section of the BPO tab on the HMI.
+
 ![BPO solution on HMI](./img/bpo_hmi_step3.png)
 
 Moreover, you can check the orion entities that the `bpo/results` topic is now added.
+
 ![bpo/results topic on OCB](./img/orion2.png)
 
 
