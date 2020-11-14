@@ -120,30 +120,30 @@ and could be `"unloaded"` from robot to `"A", "B", "C"`.
 
 Since we have set up the environment, we can now determine the task that BPO is going to solve. The task is the determimnation of the task sequence to the desired location that we would like to transport the item defined in `"Objective"`. For example, 
 ```
-"item_1":"C" 
+"item_1":"D" 
 ```
 determines that we would like the item to be transported from location `"A"` (current location extracted from the `"Starting_point"`) to location `"D"` (`"Starting_point_1"`).
 
 
 ## Send a Task Specification from HMI to BPO
-Open another tab on the web browser and go to `http://localhost:1026/main`. Use `admin` both as username and password to log in to the HMI app. Then, click on the BPO tab. Following the example above, you can write a task specification in the window.  
+Open another tab on the web browser and go to `http://localhost:1026/main`. Use `admin` both as username and password to log in to the HMI app. Then, click on the BPO tab and write a task specification in the window according to the example above.  
 ![Write a task specification](./img/bpo_hmi_step1.png)
 
-Then, click the red button of **"send specification"** existing under the window to assign the task specification to the BPO module.
+Then, click the red button of **"Send task specification"** existing under the window to assign the task specification to the BPO module.
 ![Send the task specification to BPO](./img/bpo_hmi_step2.png)
 
-You should se that a new entity of `BPOSpecificationInput` has been added on OCB entities containing the task specification sent from the HMI to the BPO. 
+You can also check that the `BPOSpecificationInput` entity has been added on OCB entities containing the task specification sent from the HMI. 
 ![BPO specification input on OCB](./img/orion1.png)
 
-15 seconds later, the solution provided by the BPO is visible in the `BPO Specification Output` section of the BPO tab in the HMI app.
+15 seconds later, the solution provided by the BPO is visible in the `BPO Specification Outputs` section of the BPO tab on the HMI.
 ![BPO solution on HMI](./img/bpo_hmi_step3.png)
 
 Moreover, you can check the orion entities that the `bpo/results` topic is now added.
-![`bpo/results` topic on OCB](./img/orion2.png)
+![bpo/results topic on OCB](./img/orion2.png)
 
 
 ## BPO results explanation
-Following the task specification example above, the BPO module seeks for the optimal solution for the given task "Transport item at location C". The BPO result consists of the shortest path and the time needed for the agents to complete the given task. The shortest path determines the less actions that should be performed by the agents (robot, human, item) to complete the given task. Time is the seconds needed to complete the given task. Following the specification example, here is the path explanation.
+Following the task specification example above, the BPO module seeks for the optimal solution for the given task "Transport item at location D". The BPO result consists of the shortest path and the time needed for the agents to complete the given task. The shortest path determines the less actions that should be performed by the agents (robot, human, item) to complete the given task. Time is the seconds needed to complete the given task. Following the task specification example, here is the path explanation.
 
 The BPO output published as topic `/bpo/results` has 2 attributes: 1. `path`, 2. `time`. The path has 7 steps: 
 ```
