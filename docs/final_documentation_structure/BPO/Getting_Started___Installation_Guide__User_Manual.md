@@ -50,7 +50,7 @@ $docker-compose up -d
 ```
 if you want to run the container in the background.
 
-To check if everything works properly, open a web browser (e.g. firefox) and go to `http://<IP or localhost>:1026/v2/entities`. There should be a topic `/map/graph`.
+To check if everything works properly, open a web browser (e.g. firefox) and go to `http://<ocb_IP>:1026/v2/entities`. There should be a topic `/map/graph`.
 
 
 ## BPO Task Specification - Set Up Example
@@ -134,7 +134,7 @@ Then, click the red button of **"Send task specification"** existing under the w
 
 ![Send the task specification to BPO](./img/bpo_hmi_step2.png)
 
-You can also check that the `BPOSpecificationInput` entity has been added on orion entities (`http://<IP or localhost>:1026/v2/entities`) containing the task specification sent from the HMI. 
+You can also check that the `BPOSpecificationInput` entity has been added on orion entities (`http://<ocb_IP>:1026/v2/entities`) containing the task specification sent from the HMI. 
 
 ![BPO specification input on OCB](./img/orion1.png)
 
@@ -142,7 +142,7 @@ You can also check that the `BPOSpecificationInput` entity has been added on ori
 
 ![BPO solution on HMI](./img/bpo_hmi_step3.png)
 
-Moreover, you can check the orion entities (`http://<IP or localhost>:1026/v2/entities`) that the `opil_bpo.Results` entity is now added.
+Moreover, you can check the orion entities (`http://<ocb_IP>:1026/v2/entities`) that the `opil_bpo.Results` entity is now added.
 
 ![BPO results entity on OCB](./img/orion2.png)
 
