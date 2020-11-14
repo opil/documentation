@@ -7,9 +7,11 @@ These instructions is about how to start the BPO docker container given a task s
 
 
 ## Formal Specification
-The *BPO* module is tasked with generating the optimal sequence of tasks based on the provided task specification. The *task specification (tspec)* is provided in the OPIL Task Specification Language. The *tspec* is then parsed by a parser in the Task Supervision module to generate the required input to *BPO*. The output of *BPO* is fed to the *Task Supervisor* in order to handle the task execution. As an example consider the following topology with two locations of interest (A and B). We assume that we want a worker to load items at location A to a robot and the robot to transport them to location B.
+In this section, we are going to describe the operation of the BPO module, to aid in its design and to analyze its behavior.
 
-![Topology example with A, B the locations of interest](./img/topo1.png)
+The BPO module is tasked with generating the optimal sequence of tasks based on the provided task specification. The task specification is then parsed by a parser in a language specifically developed for the module to generate the required input for the BPO. The output of the BPO is fed to the task supervisor in order to handle the task execution. As an example consider the following topology with two locations of interest (A and B). We assume that we want a worker to load items at location A to a robot and the robot to transport them to location B.
+
+![Topology example with A, B the locations of interest](./img/topology.png)
 
 ### Input Requirements 
 Below is the input to the BPO to carry out the sought task. 
@@ -35,7 +37,7 @@ i1, i2, …, in
 ### Definition of locations 
 List of location IDs of interest (based on the topology).
 
- Capital letters are for identifying location IDs.
+Capital letters are for identifying location IDs.
 ```
 A 340
 B 184
