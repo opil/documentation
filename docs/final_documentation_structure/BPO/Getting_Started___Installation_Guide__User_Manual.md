@@ -142,15 +142,15 @@ You can also check that the `BPOSpecificationInput` entity has been added on OCB
 
 ![BPO solution on HMI](./img/bpo_hmi_step3.png)
 
-Moreover, you can check the orion entities that the `bpo/results` topic is now added.
+Moreover, you can check the orion entities that the `opil_bpo.Results` entity is now added.
 
-![bpo/results topic on OCB](./img/orion2.png)
+![BPO results entity on OCB](./img/orion2.png)
 
 
 ## BPO results explanation
 Following the task specification example above, the BPO module seeks for the optimal solution for the given task "Transport item at location D". The BPO result consists of the shortest path and the time needed for the agents to complete the given task. The shortest path determines the less actions that should be performed by the agents (robot, human, item) to complete the given task. Time is the seconds needed to complete the given task. Following the task specification example, here is the path explanation.
 
-The BPO output published as topic `/bpo/results` has 2 attributes: 1. `path`, 2. `time`. The path has 7 steps: 
+The BPO output published on OCB as `opil_bpo.Results` entity has 2 attributes: 1. `path`, 2. `time`. The path has 7 steps: 
 ```
 FDA, ADA, AAA, AAR, ADR, DDR, DDD
 ```
