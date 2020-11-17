@@ -42,5 +42,3 @@ or
 $docker-compose up -d
 ```
 if you want to run the container in the background.
-
-To check if everything works properly, open a web browser (e.g. firefox) and go to `http://<ocb_IP>:1026/v2/entities`. There should be a topic `/map/graph`.
