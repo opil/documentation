@@ -1,11 +1,6 @@
 # BPO Installation
 You can use the docker container to install the BPO module.
 
-The Orion Context Broker, the Central SP and the HMI docker containers should be running beforehand. If you haven't yet installed these modules, you can use the installation guides of Central SP and HMI that are available on [RAMP.eu](https://www.ramp.eu/#/documentationOpil). 
-
-It is also necessary to activate the BPO Tab on the HMI module to send the specification required for the BPO setup. To do so, enable the `- task_mgmnt=BPO` command of the environment variable of the hmi service while you set up the docker-compose.yml file of the HMI module.
-
-
 ## Install from Docker Container
 The BPO docker container is located at [RAMP Docker Registry](https://docker.ramp.eu/?page=1#!taglist/opil/opil.sw.bpo).
 Pull the latest docker image of the module using this command:
@@ -14,6 +9,10 @@ $docker pull docker.ramp.eu/opil/opil.sw.bpo:1.1
 ```
 
 ## How to start the BPO docker container
+The Orion Context Broker, the Central SP and the HMI docker containers should be running beforehand. If you haven't yet installed these modules, you can use the installation guides of Central SP and HMI that are available on [RAMP.eu](https://www.ramp.eu/#/documentationOpil). 
+
+It is also necessary to activate the BPO Tab on the HMI module to send the specification required for the BPO setup. To do so, enable the `- task_mgmnt=BPO` command of the environment variable of the hmi service while you set up the docker-compose.yml file of the HMI module.
+
 To install the BPO module, you need to prepare a docker-compose.yml following this example.
 
 First step is to set up a docker-compose.yaml file as follows:
