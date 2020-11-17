@@ -1,5 +1,11 @@
-## BPO Task Specification - Set Up Example
-This is an example of the BPO task specification send by the HMI app. At the moment, we address a single robot-human-item problem. Multiple robots-humans-items problem could be available in the following version of the BPO module.
+# BPO Start guide
+In the following, a start guide of the BPO module is described in detail.  
+
+## BPO Task Specification
+To begin with, it is need to set up the required input of the BPO module, called task specification. The user creates the task specification on the HMI web interface and then, the HMI sends the task specification to the BPO module through the OCB. 
+
+### How to Set Up a Task Specification
+Here is an example of the task specification. At the moment, we address a single robot-human-item problem. Multiple robots-humans-items problem could be available in the following version of the BPO module.
 
 > BPOSpecificationInput.json
 ```
@@ -93,9 +99,11 @@ Moreover, you can check the orion entities (`http://<ocb_IP>:1026/v2/entities`) 
 
 
 ## BPO results explanation
-Following the task specification example above, the BPO module seeks for the optimal solution for the given task "Transport item at location D". The BPO result consists of the shortest path and the time needed for the agents to complete the given task. The shortest path determines the less actions that should be performed by the agents (robot, human, item) to complete the given task. Time is the seconds needed to complete the given task. Following the task specification example, here is the path explanation.
+The BPO module seeks for the optimal solution for the given task "Transport item at location D". The BPO result consists of the shortest path and the time needed for the agents to complete the given task. The shortest path determines the less actions that should be performed by the agents (robot, human, item) to complete the given task. Time is the seconds needed to complete the given task. Following the task specification example, here is the path explanation.
 
-The BPO output published on OCB as `opil_bpo.Results` entity has 2 attributes: 1. `path`, 2. `time`. The path has 7 steps: 
+The BPO output published on OCB as `opil_bpo.Results` entity has 2 attributes: 1. `path`, 2. `time`. 
+
+Following the given task specification example, the path will have 7 steps: 
 ```
 FDA, ADA, AAA, AAR, ADR, DDR, DDD
 ```
