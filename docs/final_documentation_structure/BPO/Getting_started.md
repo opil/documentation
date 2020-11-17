@@ -6,16 +6,17 @@ The Business Process Optimization (BPO or MOD.SW.BPO) module is a stand-alone co
 The required input of MOD.SW.BPO parsed in a language specifically developed for the module contains the environment definition, the current state of the agents (i.e. the current location of each agent) and a logistic task. (i.e. “Transport item_1 from location A to location B”) provided by the production manager utilizing the Human Machine Interface (HMI) module. The environment definition describes the agents involved with their capabilities and constraints. Capabilities contain the allowed state transitions whereas constraints contain the forbidden state transitions utilizing the topology map created by the Central Sensing and Perception (Central SP) module. The BPO module generates the optimal sequence of sub-tasks subject to the constraints imposed and the capabilities provided while satisfying the task specification in the sense that MOD.SW.BPO provides the sequence of the agents’ transitions in order to fulfil the given task plan. 
 
 
-## Getting Started
-The BPO module is integrated with HMI and Central SP modules. The user could send a task from the HMI to BPO. BPO utilizing the topology map of the Central SP module, provides the optimal task plan with the minimum total cost for the given task.
+## BPO module integration with OPIL modules
+The BPO module is integrated with HMI and Central SP modules. The user could send a task from the HMI to BPO. BPO utilizing the topology map of the Central SP module, provides the optimal task plan with the minimum total cost for the given task. The optimal task plan is fed to the Task Planner which handles the task execution.
 
-BPO receives the setup of the environment, the enable transitions from one location to another, the initial state of the agents as the initial location of each agent and a task defined as objective. A task could be "Transport item C at location A". BPO receives these information in a language specifically developed for the needs of this module. Finally, BPO produce the sequence of actions as steps of a shortest path from the initial state of the agents to a target and the time needed.
+BPO receives the setup of the environment, the enable transitions from one location to another, the initial state of the agents as the initial location of each agent and a task defined as objective. A task could be "Transport item C at location A". BPO receives these information in a language specifically developed for the needs of this module. Finally, BPO produce the sequence of actions as steps of a shortest path from the initial state of the agents to a target and the time needed. Then, the path is parsed from the Task Planner to handle the task execution.
 
 
-## Formal Specification
+## BPO Formal Specification 
 In this section, we are going to describe the operation of the BPO module, to aid in its design and to analyze its behavior.
 
-The BPO module is tasked with generating the optimal sequence of tasks based on the provided task specification. The task specification is then parsed by a parser in a language specifically developed for the module to generate the required input for the BPO. The output of the BPO is fed to the task supervisor in order to handle the task execution. As an example consider the following topology with two locations of interest (A and B). We assume that we want a worker to load items at location A to a robot and the robot to transport them to location B.
+### How the BPO module Works
+The BPO module is tasked with generating the optimal sequence of tasks based on the provided task specification. The task specification provided by the user is parsed by a parser in a language specifically developed for the module to generate the required input for the BPO module. The output of the BPO is fed to the Task Planner in order to handle the task execution. As an example consider the following topology with two locations of interest (A and B). We assume that we want a worker to load items at location A to a robot and the robot to transport them to location B.
 
 ![Topology example with A, B the locations of interest](./img/topology.png)
 
