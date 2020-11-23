@@ -58,11 +58,11 @@ pages:
                       - SAN Drivers: SAN/User_manual/SAN_Drivers.md
       - Sensing & Perception (SP):
               - Central SP Getting Started: SP/Central_SP_Getting_Started.md
-              - Central SP Intallation Guide: SP/Central_SP_Installation_Guide.md
+              - Central SP Installation Guide: SP/Central_SP_Installation_Guide.md
               - Central SP User Guide API: SP/Central_SP_User_Guide1_API.md
               - Central SP User Guide Interfaces: SP/Central_SP_User_Guide2_interfaces.md
               - Local SP Getting Started: SP/Local_SP_Getting_Started.md
-              - Local SP Intallation Guide: SP/Local_SP_Installation_Guide.md
+              - Local SP Installation Guide: SP/Local_SP_Installation_Guide.md
               - Local SP User Guide API: SP/Local_SP_User_Guide1_API.md
               - Local SP User Guide Interfaces: SP/Local_SP_User_Guide2_interfaces.md
       - Task Planner (TP):
