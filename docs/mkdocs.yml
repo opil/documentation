@@ -32,7 +32,10 @@ pages:
               - OPIL Architecture: OPIL_Intro/OPIL_Architecture.md
               - OPIL Deployment: OPIL_Intro/deployment.md
               - OPIL Server: OPIL_Intro/opil_server.md
-      - Business Process Optimization (BPO): BPO/Getting_Started___Installation_Guide__User_Manual.md
+      - Business Process Optimization (BPO): 
+              - Getting Started: BPO/Getting_started.md
+              - Installation Guide: BPO/Installation_Guide.md
+              - User Manual: BPO/User_Manual.md
       - Human Machine Interface (HMI):
               - Getting Started: HMI/Getting_Started.md
               - Installation Guide: HMI/Installation_Guide.md
