@@ -32,6 +32,11 @@ pages:
               - OPIL Architecture: OPIL_Intro/OPIL_Architecture.md
               - OPIL Deployment: OPIL_Intro/deployment.md
               - OPIL Server: OPIL_Intro/opil_server.md
+      - Showcases:
+              - Introduction: showcases/index.md
+              - Chemi: showcases/chemi.md
+              - Engino: showcases/engino.md
+              - Muraplast: showcases/muraplast.md
       - Business Process Optimization (BPO): 
               - Getting Started: BPO/Getting_started.md
               - Installation Guide: BPO/Installation_Guide.md
