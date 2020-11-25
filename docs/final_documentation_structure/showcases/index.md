@@ -1,0 +1,2 @@
+# Show cases
+L4MS will leverage from 3 AEs (Application Experiments), which will inspire other Manufacturing SMEs & mid-caps by showcasing the improvements and savings that can be reached in their processes by participating in L4MS. The 3 Uses Cases will be defined at the beginning of the project and implemented at the beginning of the second year, once OPIL and the Marketplace are ready. It would allow testing the tools and the ‘smartization’ methodology defined to support the AEs implementation.
