@@ -400,13 +400,13 @@ Describes the value of the derivative term of the PID controller inside the RAN.
 <param name="gain_kd" value="0.0001"/>
 ```
 
-Description of the footprint of an AGV as a polygon. Only the X value is set here. In the case of specifying the footprint, the center of the robot is assumed to be at (0.0, 0.0) and both clockwise and counterclockwise specifications are supported. Footprint is described in meter.
+Description of the footprint of an AGV as a polygon. Only the X value is set here. In the case of specifying the footprint, the center of the robot is assumed to be at (0.0, 0.0) and both clockwise and counterclockwise specifications are supported. Footprint is described in meter.  **IMPORTANT: The turning radius, longest site of the footprint, must be smaller then the "mars_vertex_footprint_radius" in TP (mod.sw.tp). (turning_radius < mars_vertex_footprint_radius)**
 
 ```xml
 <rosparam param="footprint_x">[0.35, -0.35, -0.35, 0.35]</rosparam>
 ```
 
-Description of the footprint of an AGV as a polygon. Only the Y value is set here. In the case of specifying the footprint, the center of the robot is assumed to be at (0.0, 0.0) and both clockwise and counterclockwise specifications are supported. Footprint is described in meter.
+Description of the footprint of an AGV as a polygon. Only the Y value is set here. In the case of specifying the footprint, the center of the robot is assumed to be at (0.0, 0.0) and both clockwise and counterclockwise specifications are supported. Footprint is described in meter. **IMPORTANT: The turning radius, longest site of the footprint, must be smaller then the "mars_vertex_footprint_radius" in TP (mod.sw.tp). (turning_radius < mars_vertex_footprint_radius)**
 ```xml
 <rosparam param="footprint_y">[0.25, 0.25, -0.25, -0.25]</rosparam>
 ```
