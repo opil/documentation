@@ -90,7 +90,7 @@ A detailed description of firos is given here: https://firos.readthedocs.io/en/l
 
 The ***config.json*** describes the local and remote connection to the orion context broker. For a detailed description follow these instructions: https://firos.readthedocs.io/en/latest/install/configuration-files.html
 
-Copy this content to ***firos_config.json*** (preconfigured for RAN v3.0.0-alpha):
+Copy this content to ***firos_config.json*** (preconfigured for RAN v3.x):
 ```json
 {
   "environment": "docker",
@@ -141,7 +141,7 @@ The following naming convention should be used:
 E.g.: /opil/iot/ran_fb3d75a1a82550ffb3e6e4b2bcae482e (uuid v5 for "robot_0")
 ```
 
-Copy this content to ***firos_robots.json*** (preconfigured for RAN and TP v3.0.0-alpha):
+Copy this content to ***firos_robots.json*** (preconfigured for RAN and TP v3.x):
 ```json
 {
     "robot_opil_v2": {
@@ -175,7 +175,7 @@ Copy this content to ***firos_robots.json*** (preconfigured for RAN and TP v3.0.
 
 The ***whitelist.json*** is needed by firos to subscribe to the topics described in the robots.json. All topics from the robots.json must be listed here. For a more detailed description follow this instructions: https://firos.readthedocs.io/en/latest/install/configuration-files.html#whitelistjson
 
-Copy this content to ***firos_whitelist.json*** (preconfigured for RAN and TP v3.0.0-alpha):
+Copy this content to ***firos_whitelist.json*** (preconfigured for RAN and TP v3.x):
 ```json
 {
     "robot_opil_v2": {
@@ -206,7 +206,7 @@ Copy the following configuration to the mod_iot_ran.launch file. A detailed desc
   <arg name="initial_pose_robot_1_y" default="0.0"/>
   <arg name="initial_pose_robot_1_a" default="0.0"/>
 
-  <arg name="robot_1_description" default="robot_description_default"/>
+  <arg name="robot_1_description" default="robot_description"/>
 
   <arg name="robot_1_ns" default="00000000000000000000000000000001"/>
 
@@ -254,6 +254,7 @@ Copy the following configuration to the mod_iot_ran.launch file. A detailed desc
 
 </launch>
 ```
+### Parameter description
 
 The parameter **robot_1_name** sets the name of the robot inside the RAN ROS node.
 ```xml
@@ -275,9 +276,9 @@ The parameter **initial_pose_robot_1_a** sets the current orientation of the rob
   <arg name="initial_pose_robot_1_a" default="0.0"/>
 ```
 
-The parameter **robot_1_description** sets the robot parameter for the simulation and robot description. DON'T CHANGE THIS LINE!
+The parameter **robot_1_description** sets the robot parameter for the simulation and robot description. The name must be the same as the name of the robot description file (default: "robot_description"). The file ending ".launch" must be ignored!
 ```xml
-  <arg name="robot_1_description" default="robot_description_default"/>
+  <arg name="robot_1_description" default="robot_description"/>
 ```
 
 The parameter **robot_1_id** sets the ID of the robot. The ID must be unique and can be random generated or from the robot name. The ID follows the UUID standard (https://en.wikipedia.org/wiki/Universally_unique_identifier). For generating a random UUID the v4 standard must be used, for generating a UUID from a given name UUID standard v5 must be used.
@@ -302,14 +303,14 @@ This line starts the build in simulation.
   <!--  ****** Stage simulation *****  -->
   <include file="$(find mars_simulation)/launch/opil_finnland_simulation.launch"/>
 ```
- Sets the namespace for the runs node(s). (In v3.0.0-alpha no namespace is used)
+ Sets the namespace for the runs node(s). (In v3.x no namespace is used)
 ```xml
   <!-- <group ns="/opil/iot"> -->
   .. some content ...
   <!-- </group> -->
 ```
 
-Starts the RAN node for one robot. Each robot needs an individual RAN. All needed parameters are configured via the arguments above (**arg**).
+Starts the RAN node for one robot. Each robot needs an individual RAN. All needed parameter are configured via the arguments above (**arg**).
 ```xml
   <include file="$(find mars_simulation_ctv_agent)/launch/mars_simulation_ctv_agent.launch">
   .. allot of parameter ...
@@ -328,6 +329,195 @@ Starts a transformation and a localization for the robot in the simulation. Dont
       <!--  ***************** Robot Model *****************  -->
       <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find mars_simulation)/urdf/ctv_1.xacro'" />
       <node pkg="robot_state_publisher" type="state_publisher" name="robot_1_state_publisher" />
+```
+
+## Robot description
+
+The robot description describes the capabilities of a robot. For e.g.: possible velocity, acceleration, dimensions, etc. 
+
+Copy the following configuration to the robot_description.launch file. A detailed description of the file can be found below.
+
+```xml
+<launch>
+	<!-- Robot Type -->
+	<param name="type" value="default"/>
+
+	<!-- Control parameter to configure the driving behaviour of the robot -->
+	<param name="gain_kp" value="1.5"/>
+	<param name="gain_ki" value="1.0"/>
+	<param name="gain_kd" value="0.0001"/>
+
+    <!-- Footprint of the AGV -->
+    <rosparam param="footprint_x">[0.35, -0.35, -0.35, 0.35]</rosparam>
+    <rosparam param="footprint_y">[0.25, 0.25, -0.25, -0.25]</rosparam>
+    <param name="min_height" value="0.383"/>
+    <param name="max_height" value="0.383"/>
+    <param name="payload" value="1.0"/>
+    <param name="max_pos_x_vel" value="1.1"/>
+    <param name="max_neg_x_vel" value="1.1"/>
+    <param name="max_pos_x_acc" value="0.5"/>
+    <param name="max_neg_x_acc" value="0.5"/>
+    <param name="max_pos_y_vel" value="0.0"/>
+    <param name="max_neg_y_vel" value="0.0"/>
+    <param name="max_pos_y_acc" value="0.0"/>
+    <param name="max_neg_y_acc" value="0.0"/>
+    <param name="max_pos_ang_vel" value="1.1"/>
+    <param name="max_neg_ang_vel" value="1.1"/>
+    <param name="max_pos_ang_acc" value="0.5"/>
+    <param name="max_neg_ang_acc" value="0.5"/>
+
+    <param name="velocity_control_sensitivity" value="1.0"/>
+    <param name="min_turning_radius" value="0.0"/>
+
+    <param name="batt_capacity" value="1.0"/>
+    <param name="batt_max_voltage" value="1.0"/>
+    <param name="vendor" value="default"/>
+    <param name="action_capability" value="default"/>
+	<param name="weight" value="1.0"/>
+</launch>
+```
+### Parameter description
+
+Describes the the type of the robot. This parameter is node further specified or used at the moment. Content is ignored. 
+
+```xml
+<param name="type" value="default"/>
+```
+
+Describes the value of the proportional term of the PID controller inside the RAN. Term is configured for the example simulation. Term must be individually determined for each AGV.
+
+```xml
+<param name="gain_kp" value="1.5"/>
+```
+Describes the value of the integral term of the PID controller inside the RAN. Term is configured for the example simulation. Term must be individually determined for each AGV.
+
+```xml
+<param name="gain_ki" value="1.0"/>
+```
+Describes the value of the derivative term of the PID controller inside the RAN. Term is configured for the example simulation. Term must be individually determined for each AGV.
+
+```xml
+<param name="gain_kd" value="0.0001"/>
+```
+
+Description of the footprint of an AGV as a polygon. Only the X value is set here. In the case of specifying the footprint, the center of the robot is assumed to be at (0.0, 0.0) and both clockwise and counterclockwise specifications are supported. Footprint is described in meter.
+
+```xml
+<rosparam param="footprint_x">[0.35, -0.35, -0.35, 0.35]</rosparam>
+```
+
+Description of the footprint of an AGV as a polygon. Only the Y value is set here. In the case of specifying the footprint, the center of the robot is assumed to be at (0.0, 0.0) and both clockwise and counterclockwise specifications are supported. Footprint is described in meter.
+```xml
+<rosparam param="footprint_y">[0.25, 0.25, -0.25, -0.25]</rosparam>
+```
+
+Minimal height in meter of the robot without the load.
+```xml
+<param name="min_height" value="0.383"/>
+```
+Maximal height in meter of the robot with load on top.
+```xml
+<param name="max_height" value="0.383"/>
+```
+
+Payload which the robot can carry in kilogram.
+```xml
+<param name="payload" value="1.0"/>
+```
+
+Maximum velocity of the robot in m/s in forward direction. 
+```xml
+<param name="max_pos_x_vel" value="1.1"/>
+```
+
+Maximum velocity of the robot in m/s in reverse direction. 
+```xml
+<param name="max_neg_x_vel" value="1.1"/>
+```
+
+Maximum acceleration of the robot in forward direction in m/s².
+```xml
+<param name="max_pos_x_acc" value="0.5"/>
+```
+
+Maximum brake acceleration of the robot in forward direction in m/s².
+```xml
+<param name="max_neg_x_acc" value="0.5"/>
+```
+
+Maximum velocity of the robot in m/s in left direction. 
+```xml
+<param name="max_pos_y_vel" value="0.0"/>
+```
+
+Maximum velocity of the robot in m/s in right direction. 
+```xml
+<param name="max_neg_y_vel" value="0.0"/>
+```
+
+Maximum acceleration of the robot in side direction in m/s².
+```xml
+<param name="max_pos_y_acc" value="0.0"/>
+```
+
+Maximum brake acceleration of the robot in side direction in m/s².
+```xml
+<param name="max_neg_y_acc" value="0.0"/>
+```
+
+Maximum angular velocity of the robot in rad/s. 
+```xml
+<param name="max_pos_ang_vel" value="1.1"/>
+```
+
+Maximum negative angular velocity of the robot in rad/s. 
+```xml
+<param name="max_neg_ang_vel" value="1.1"/>
+```
+
+Maximum angular acceleration of the robot in rad/s².
+```xml
+<param name="max_pos_ang_acc" value="0.5"/>
+```
+
+Maximum angular brake acceleration of the robot in rad/s².
+```xml
+<param name="max_neg_ang_acc" value="0.5"/>
+```
+
+This parameter is node further specified or used at the moment.
+```xml
+<param name="velocity_control_sensitivity" value="1.0"/>
+```
+
+Describes the type of drive. A differential drive is described by zero turing radius. Ackermann steering by its minimum turning radius. Only differential drive is supported by TP modul (mod.sw.tp).   
+```xml
+<param name="min_turning_radius" value="0.0"/>
+```
+
+Describes the battery capacity in Amp-hr (Ah). Parameter not used.
+```xml
+<param name="batt_capacity" value="1.0"/>
+```
+
+Describes the battery max voltage in volt (V). Parameter not used.
+```xml
+<param name="batt_max_voltage" value="1.0"/>
+```
+
+Describes the Vendor. This parameter is node further specified or used at the moment.
+```xml
+<param name="vendor" value="default"/>
+```
+
+This parameter is node further specified or used at the moment.
+```xml
+<param name="action_capability" value="default"/>
+```
+
+Weight of the robot without load.
+```xml
+<param name="weight" value="1.0"/>
 ```
 
 ## Simulation configuration
