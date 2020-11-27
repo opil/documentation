@@ -289,7 +289,7 @@ The **topo_file_type** parameter tells the program which kind of topology is exp
 ```xml
 <arg name="topo_file_type" value="opil_sp" /> 
 ```
-The **mars_vertex_footprint_radius** describes the size of the bounding box which is created by the topology launcher around each vertex. Important: This value must be smaller (**mars_vertex_footprint_radius** < **(cell_size / 2)**) then the half of the **cell_size** of SP! Value is in meter.
+The **mars_vertex_footprint_radius** describes the size of the bounding box which is created by the topology launcher around each vertex. Important: This value must be smaller (**mars_vertex_footprint_radius** < **(cell_size / 2)**) then the half of the **cell_size** of SP! Value is in meter. The next assumption is that the **mars_vertex_footprint_radius** is greater than the AGV turning radius defined in RANs robot description with the parameter **footprint_x** and **footprint_y**. It follows: **"AGV turning radius" < mars_vertex_footprint_radius < (cell_size / 2)**
 ```xml
 <arg name="mars_vertex_footprint_radius" value="0.95" />
 ```
