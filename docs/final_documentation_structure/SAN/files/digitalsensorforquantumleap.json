@@ -1,0 +1,104 @@
+[
+  {
+    "id": "pulse_1_ql",
+    "type": "SensorAgent_ql",
+    "measurementType": {
+      "type": "Text",
+      "value": "boolean",
+      "metadata": {
+        "dateCreated": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:01.00Z"
+        },
+        "dateModified": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:51.00Z"
+        }
+      }
+    },
+    "modifiedTime": {
+      "type": "Text",
+      "value": "2020-11-30T12:52:50.950854Z",
+      "metadata": {
+        "dateCreated": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:01.00Z"
+        },
+        "dateModified": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:51.00Z"
+        }
+      }
+    },
+    "readings": {
+      "type": "Number",
+      "value": 1,
+      "metadata": {
+        "dateCreated": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:01.00Z"
+        },
+        "dateModified": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:51.00Z"
+        }
+      }
+    },
+    "sanID": {
+      "type": "Text",
+      "value": "onoff_SAN",
+      "metadata": {
+        "dateCreated": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:01.00Z"
+        },
+        "dateModified": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:51.00Z"
+        }
+      }
+    },
+    "sensorID": {
+      "type": "Text",
+      "value": "pulse_1",
+      "metadata": {
+        "dateCreated": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:01.00Z"
+        },
+        "dateModified": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:51.00Z"
+        }
+      }
+    },
+    "sensorManufacturer": {
+      "type": "Text",
+      "value": "DemoCompany",
+      "metadata": {
+        "dateCreated": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:01.00Z"
+        },
+        "dateModified": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:51.00Z"
+        }
+      }
+    },
+    "sensorType": {
+      "type": "Text",
+      "value": "ON_OFF_SENSOR",
+      "metadata": {
+        "dateCreated": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:01.00Z"
+        },
+        "dateModified": {
+          "type": "DateTime",
+          "value": "2020-11-30T12:52:51.00Z"
+        }
+      }
+    }
+  }
+]

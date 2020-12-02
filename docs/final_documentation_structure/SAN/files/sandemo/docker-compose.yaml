@@ -1,0 +1,18 @@
+version: '3'
+services:
+    san:
+        image: sandemo:0.1
+        #give root permissions and name SAN
+        privileged: true
+        container_name: 'DEMO_SAN'
+        #show informational messages from SAN in interactive terminal
+        stdin_open: true
+        tty: true
+        #hijack host ip for internal server
+        network_mode: 'host'
+        #restart container in case of trouble unless stopped by user
+        restart: unless-stopped
+        #buildcontext
+        build:
+            context: ./
+            dockerfile: ./Dockerfile

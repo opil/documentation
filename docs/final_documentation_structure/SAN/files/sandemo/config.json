@@ -1,0 +1,52 @@
+{
+    "contextBroker": {
+        "host": "130.188.160.100",
+        "port": "1026"
+    },
+    "sanConfig": {
+        "sensors": [
+            {
+                "sensorID": "x_coordinate",
+                "operationMode": {
+                    "mode": "fixed-interval",
+                    "measurementInterval": "5" 
+                },    
+                "driver": "TrajectoryDriver",
+                "driverConfig": {
+                    "sensorType": "POSITION_SENSOR",
+                    "measurementType": "numeric",
+                    "sensorManufacturer": "DemoCompany"
+                },
+                "sanID": "xy_SAN"
+            },
+            {
+                "sensorID": "y_coordinate",
+                "operationMode": {
+                    "mode": "fixed-interval",
+                    "measurementInterval": "1" 
+                },    
+                "driver": "TrajectoryDriver",
+                "driverConfig": {
+                    "sensorType": "POSITION_SENSOR",
+                    "measurementType": "numeric",
+                    "sensorManufacturer": "DemoCompany"
+                },
+                "sanID": "xy_SAN"
+            },
+            {
+                "sensorID": "pulse_1",
+                "operationMode": {
+                    "mode": "fixed-interval",
+                    "measurementInterval": "1" 
+                },    
+                "driver": "PulseDriver",
+                "driverConfig": {
+                    "sensorType": "ON_OFF_SENSOR",
+                    "measurementType": "boolean",
+                    "sensorManufacturer": "DemoCompany"
+                },
+                "sanID": "onoff_SAN"
+            }
+        ]
+    }
+}

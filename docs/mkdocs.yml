@@ -61,6 +61,7 @@ pages:
                       - Configuration: SAN/User_manual/Configuration.md
                       - SAN API: SAN/User_manual/SAN_API.md
                       - SAN Drivers: SAN/User_manual/SAN_Drivers.md
+              - Connection to Grafana Guide: SAN/Grafana_Guide.md
       - Sensing & Perception (SP):
               - Central SP Getting Started: SP/Central_SP_Getting_Started.md
               - Central SP Installation Guide: SP/Central_SP_Installation_Guide.md

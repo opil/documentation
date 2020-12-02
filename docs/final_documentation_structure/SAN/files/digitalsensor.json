@@ -1,0 +1,51 @@
+[
+  {
+    "id": "pulse_1",
+    "type": "SensorAgent",
+    "measurementType": {
+      "type": "string",
+      "value": "boolean",
+      "metadata": {}
+    },
+    "modifiedTime": {
+      "type": "string",
+      "value": "2020-11-30T12:52:50.950854Z",
+      "metadata": {}
+    },
+    "readings": {
+      "type": "array",
+      "value": [
+        {
+          "type": "SensorReading",
+          "value": {
+            "reading": {
+              "type": "boolean",
+              "value": true
+            }
+          }
+        }
+      ],
+      "metadata": {}
+    },
+    "sanID": {
+      "type": "string",
+      "value": "onoff_SAN",
+      "metadata": {}
+    },
+    "sensorID": {
+      "type": "string",
+      "value": "pulse_1",
+      "metadata": {}
+    },
+    "sensorManufacturer": {
+      "type": "string",
+      "value": "DemoCompany",
+      "metadata": {}
+    },
+    "sensorType": {
+      "type": "string",
+      "value": "ON_OFF_SENSOR",
+      "metadata": {}
+    }
+  }
+]

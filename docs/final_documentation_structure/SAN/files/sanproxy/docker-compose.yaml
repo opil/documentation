@@ -1,0 +1,20 @@
+version: '3'
+services:
+    sanproxy:
+        image: sandemoproxy:0.1
+        #give root permissions and name SAN
+        privileged: true
+        container_name: 'DEMO_SANPROXY'
+        #show informational messages from SAN in interactive terminal
+        stdin_open: true
+        tty: true
+        #hijack host ip for internal server
+        network_mode: 'host'
+        #restart container in case of trouble unless stopped by user
+        restart: unless-stopped
+        ports: 
+            - "4440:4440"
+        #buildcontext
+        build:
+            context: ./
+            dockerfile: ./Dockerfile

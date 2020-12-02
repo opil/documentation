@@ -1,0 +1,149 @@
+[
+  {
+    "id": "x_coordinate",
+    "type": "SensorAgent",
+    "measurementType": {
+      "type": "string",
+      "value": "numeric",
+      "metadata": {}
+    },
+    "modifiedTime": {
+      "type": "string",
+      "value": "2020-11-30T12:52:47.538785Z",
+      "metadata": {}
+    },
+    "readings": {
+      "type": "array",
+      "value": [
+        {
+          "type": "SensorReading",
+          "value": {
+            "reading": {
+              "type": "number",
+              "value": -1.66977801
+            }
+          }
+        }
+      ],
+      "metadata": {}
+    },
+    "sanID": {
+      "type": "string",
+      "value": "xy_SAN",
+      "metadata": {}
+    },
+    "sensorID": {
+      "type": "string",
+      "value": "x_coordinate",
+      "metadata": {}
+    },
+    "sensorManufacturer": {
+      "type": "string",
+      "value": "DemoCompany",
+      "metadata": {}
+    },
+    "sensorType": {
+      "type": "string",
+      "value": "POSITION_SENSOR",
+      "metadata": {}
+    }
+  },
+  {
+    "id": "y_coordinate",
+    "type": "SensorAgent",
+    "measurementType": {
+      "type": "string",
+      "value": "numeric",
+      "metadata": {}
+    },
+    "modifiedTime": {
+      "type": "string",
+      "value": "2020-11-30T12:52:50.950628Z",
+      "metadata": {}
+    },
+    "readings": {
+      "type": "array",
+      "value": [
+        {
+          "type": "SensorReading",
+          "value": {
+            "reading": {
+              "type": "number",
+              "value": -1.707628505
+            }
+          }
+        }
+      ],
+      "metadata": {}
+    },
+    "sanID": {
+      "type": "string",
+      "value": "xy_SAN",
+      "metadata": {}
+    },
+    "sensorID": {
+      "type": "string",
+      "value": "y_coordinate",
+      "metadata": {}
+    },
+    "sensorManufacturer": {
+      "type": "string",
+      "value": "DemoCompany",
+      "metadata": {}
+    },
+    "sensorType": {
+      "type": "string",
+      "value": "POSITION_SENSOR",
+      "metadata": {}
+    }
+  },
+  {
+    "id": "pulse_1",
+    "type": "SensorAgent",
+    "measurementType": {
+      "type": "string",
+      "value": "boolean",
+      "metadata": {}
+    },
+    "modifiedTime": {
+      "type": "string",
+      "value": "2020-11-30T12:52:50.950854Z",
+      "metadata": {}
+    },
+    "readings": {
+      "type": "array",
+      "value": [
+        {
+          "type": "SensorReading",
+          "value": {
+            "reading": {
+              "type": "boolean",
+              "value": true
+            }
+          }
+        }
+      ],
+      "metadata": {}
+    },
+    "sanID": {
+      "type": "string",
+      "value": "onoff_SAN",
+      "metadata": {}
+    },
+    "sensorID": {
+      "type": "string",
+      "value": "pulse_1",
+      "metadata": {}
+    },
+    "sensorManufacturer": {
+      "type": "string",
+      "value": "DemoCompany",
+      "metadata": {}
+    },
+    "sensorType": {
+      "type": "string",
+      "value": "ON_OFF_SENSOR",
+      "metadata": {}
+    }
+  }
+]
