@@ -74,6 +74,6 @@ pages:
               - Getting Started: TP/Getting_Started.md
               - Installation Guide: TP/Installation_Guide.md
               - User Manual:
-                      - Configuration TP BPO: TP/User_Manual/config_tp_bpo.md
+#                      - Configuration TP BPO: TP/User_Manual/config_tp_bpo.md
                       - How it works: TP/User_Manual/how_it_works.md
                       - Interfaces: TP/User_Manual/interfaces.md
