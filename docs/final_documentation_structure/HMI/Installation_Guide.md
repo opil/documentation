@@ -76,6 +76,7 @@ services:
             - ocb_port=1026
             - ngsi_proxy_host=<ip-address>
             - ngsi_proxy_port=3000
+            - SESSION_SECRET=ChangeThisSecret
             #- link_btn_txt={Text to be shown on the button}
             #- link_btn_url={URL to be opened}
             #- task_mgmnt=BPO
