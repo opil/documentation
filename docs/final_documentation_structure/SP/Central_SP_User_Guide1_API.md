@@ -111,7 +111,8 @@ In this example it is set to 2.0m, which is a default value of two diameters of 
 
 ## Creation of Annotations in maptogridmap package
 
-Annotations can be loaded from file annotations.ini located in maptogridmap/launch folder, which is put as a parameter textfile inside the startmaptogridmap.launch file. In this example the first three annotations were used in Zagreb demo in Task planner, and P1 is put as an additional example for the IML map:
+Annotations can be defined through RViz **2D Nav Goal** button. This button listens to the topic `/annotation/goal`.
+Anternatively, annotations can be loaded from file annotations.ini located in maptogridmap/launch folder, which is put as a parameter textfile inside the startmaptogridmap.launch file. In this example the first three annotations were used in Zagreb demo in Task planner, and P1 is put as an additional example for the IML map:
 ```
 [loadingArea]
 # coordinates
@@ -141,9 +142,25 @@ point_y = 6.57
 theta = -90
 distance = 1.8
 ```
-The annotations are saved under the variable of type maptogridmap::Annotations inside of the maptogridmap package. All values must be in meters and degrees. From these values it is calculated where the AGV needs to be placed in front of the annotation according to the distance from the annotation and the orientation theta. It changes the values of the computed nodes from gridmap cells so that TP can use this nodes as goals.
+The annotations are saved under the variable of type maptogridmap::Annotations inside of the maptogridmap package:
 
-These four annotations change the coordinates of the cell centre of the grid map (but only free cells) and also change the name to the annotation name, e.g. loadingArea, unloadingArea, etc. The result can be seen in [topic /map/graph.](#exampleannot)
+Annotations.msg
+
+	Header header	# standard ROS header
+	Annotation[] annotations
+
+Annotation.msg
+
+	float64 x
+	float64 y
+	float64 theta
+	float64 distance
+	string name
+	string uuid	
+
+All values must be in meters and degrees. From these values it is calculated where the AGV needs to be placed in front of the annotation according to the distance from the annotation and the orientation theta. It changes the values of the computed nodes from gridmap cells so that TP can use this nodes as goals.
+
+These four annotations change the coordinates of the cell centre of the grid map (but only free cells) and also change the name to the annotation name, e.g. loadingArea, unloadingArea, etc. The result can be seen in [topic /map/graph](#exampleannot), while annotations can be seen in topic /map/annotations.
 
 The additional example explains the creation of one annotation in the topology graph. First, create the following file and save it under the name `annotations.ini`:
 ```
@@ -189,16 +206,39 @@ To read the topic in your own package you need to subscribe to it, include the h
 ```
 #include <maptogridmap/Graph.h>
 ```
-* write a message callback for Graph message, which draws a small square at each vertex:
+* write a message callback for Graph message, which draws a small square at each vertex and draw lines for each edge:
 ```
 void VisualizationPublisherGML::graphCallback(const maptogridmap::GraphConstPtr& gmMsg)
 {
   graphvertex.points.clear();
+  stc.points.clear();
   geometry_msgs::Point p; 
 	for (int i=0; i<gmMsg->vertices.size(); i++){
 		p.x=gmMsg->vertices[i].x;
 		p.y=gmMsg->vertices[i].y;
 		graphvertex.points.push_back(p);
+	}
+	int foundsrcdest;
+	for (int i=0; i<gmMsg->edges.size(); i++){
+		foundsrcdest=0;
+		for (int j=0; j<gmMsg->vertices.size(); j++){
+			if (gmMsg->vertices[j].uuid==gmMsg->edges[i].uuid_src){
+				p.x=gmMsg->vertices[j].x;
+				p.y=gmMsg->vertices[j].y;
+				stc.points.push_back(p);
+				foundsrcdest++;
+				if (foundsrcdest==2)
+					break;
+			}
+			if (gmMsg->vertices[j].uuid==gmMsg->edges[i].uuid_dest){
+				p.x=gmMsg->vertices[j].x;
+				p.y=gmMsg->vertices[j].y;
+				stc.points.push_back(p);
+				foundsrcdest++;
+				if (foundsrcdest==2)
+					break;
+			}
+		}
 	}
 }
 ```
@@ -286,7 +326,7 @@ rostopic echo /map/graph
 ```
 
 
-* <a name="exampleannot">Example output for the ICENT map - graph (vertices and edges) with loaded annotations</a>
+* <a name="exampleannot">Example output for the ICENT map - graph (vertices and edges) with the loaded annotations</a>
 <!--* Example output for the ICENT map - Nodes-->
 
 ```
@@ -305,207 +345,54 @@ vertices:
     theta: 0.0
     name: "loadingArea"
     uuid: "5204f8fa-34fb-5cad-b85e-654f19d4ebf5"
-    footprint: 
-      - 
-        x: 3.35
-        y: 1.71
-        z: 0.0
-      - 
-        x: 4.95
-        y: 1.71
-        z: 0.0
-      - 
-        x: 4.95
-        y: 3.31
-        z: 0.0
-      - 
-        x: 3.35
-        y: 3.31
-        z: 0.0
   - 
     x: 4.0
     y: 4.0
     theta: 0.0
     name: "vertex_10"
     uuid: "3dcd4aec-1a4f-5156-a517-17cdcf55ad47"
-    footprint: 
-      - 
-        x: 3.2
-        y: 3.2
-        z: 0.0
-      - 
-        x: 4.8
-        y: 3.2
-        z: 0.0
-      - 
-        x: 4.8
-        y: 4.8
-        z: 0.0
-      - 
-        x: 3.2
-        y: 4.8
-        z: 0.0
   - 
     x: 5.6
     y: 2.4
     theta: 0.0
     name: "vertex_13"
     uuid: "45a28b12-3dc3-5dc3-a687-14fc7fa3be89"
-    footprint: 
-      - 
-        x: 4.8
-        y: 1.6
-        z: 0.0
-      - 
-        x: 6.4
-        y: 1.6
-        z: 0.0
-      - 
-        x: 6.4
-        y: 3.2
-        z: 0.0
-      - 
-        x: 4.8
-        y: 3.2
-        z: 0.0
   - 
     x: 5.6
     y: 4.0
     theta: 0.0
     name: "vertex_14"
     uuid: "439be9e5-a52a-5cea-88e2-ab6150ffe578"
-    footprint: 
-      - 
-        x: 4.8
-        y: 3.2
-        z: 0.0
-      - 
-        x: 6.4
-        y: 3.2
-        z: 0.0
-      - 
-        x: 6.4
-        y: 4.8
-        z: 0.0
-      - 
-        x: 4.8
-        y: 4.8
-        z: 0.0
   - 
     x: 7.0
     y: 2.51
     theta: 0.0
     name: "unloadingArea"
     uuid: "9ba5016b-e219-513f-af73-ebce59f92a9b"
-    footprint: 
-      - 
-        x: 6.2
-        y: 1.71
-        z: 0.0
-      - 
-        x: 7.8
-        y: 1.71
-        z: 0.0
-      - 
-        x: 7.8
-        y: 3.31
-        z: 0.0
-      - 
-        x: 6.2
-        y: 3.31
-        z: 0.0
   - 
     x: 6.9
     y: 4.7
     theta: 90.0
     name: "waitingArea"
     uuid: "4109424b-20d0-5707-869c-dc62fea9a658"
-    footprint: 
-      - 
-        x: 6.1
-        y: 3.9
-        z: 0.0
-      - 
-        x: 7.7
-        y: 3.9
-        z: 0.0
-      - 
-        x: 7.7
-        y: 5.5
-        z: 0.0
-      - 
-        x: 6.1
-        y: 5.5
-        z: 0.0
   - 
     x: 12.0
     y: 0.8
     theta: 0.0
     name: "vertex_28"
     uuid: "8c4754ff-8571-5467-9da8-3da0d3ba8caa"
-    footprint: 
-      - 
-        x: 11.2
-        y: 0.0
-        z: 0.0
-      - 
-        x: 12.8
-        y: 0.0
-        z: 0.0
-      - 
-        x: 12.8
-        y: 1.6
-        z: 0.0
-      - 
-        x: 11.2
-        y: 1.6
-        z: 0.0
   - 
     x: 12.0
     y: 2.4
     theta: 0.0
     name: "vertex_29"
     uuid: "d30fd462-a84d-5940-b533-3f486e0b8561"
-    footprint: 
-      - 
-        x: 11.2
-        y: 1.6
-        z: 0.0
-      - 
-        x: 12.8
-        y: 1.6
-        z: 0.0
-      - 
-        x: 12.8
-        y: 3.2
-        z: 0.0
-      - 
-        x: 11.2
-        y: 3.2
-        z: 0.0
   - 
     x: 12.0
     y: 4.0
     theta: 0.0
     name: "vertex_30"
     uuid: "7d59bcca-aaac-51fc-b3da-3006bae4e835"
-    footprint: 
-      - 
-        x: 11.2
-        y: 3.2
-        z: 0.0
-      - 
-        x: 12.8
-        y: 3.2
-        z: 0.0
-      - 
-        x: 12.8
-        y: 4.8
-        z: 0.0
-      - 
-        x: 11.2
-        y: 4.8
-        z: 0.0
 edges: 
   - 
     uuid_src: "5204f8fa-34fb-5cad-b85e-654f19d4ebf5"

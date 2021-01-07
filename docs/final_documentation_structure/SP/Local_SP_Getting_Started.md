@@ -29,7 +29,7 @@ Every AGV sends this local map data as an update to a Central SP, which is on th
 The Central SP creates a topology map of the factory floorplan for the Task Planner (TP) and Human Machine Interface (HMI) using the local updates from AGVs and an initial map.
 The following figure explains the architecture of the SP modules with the given initial map of the factory (either after a SLAM process or extracted from a CAD drawing). Orange boxes are modules developed for SP, while blue ones are the standard ROS modules. Required inputs are map file with its parameter (PNG file), file with annotations (loading, unloading areas, etc.), laser data (SCAN) and odometry data (ODOM).
 
-![SP module architecture](./img/sp.png)
+![SP module architecture](./img/sp2.png)
 
 The functionalities of the Local SP module are listed as follows:
 

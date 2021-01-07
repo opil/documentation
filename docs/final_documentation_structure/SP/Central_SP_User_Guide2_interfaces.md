@@ -8,7 +8,7 @@ The following sections describe how other modules needs to be connected to the S
 * Map merging is done in the Central SP from map updates of up to three Local SPs (three AGVs) into one global gridmap from which the updated topology is calculated (later it will be from more than three Local SPs, i.e., AGVs)
 * HMI should have the initial map file, and ability to present map updates over the initial map 
 
-![SP module architecture](./img/sp.png)
+![SP module architecture](./img/sp2.png)
 
 
 # OPIL server computer with the Central SP
@@ -25,72 +25,35 @@ terminal 2: roslaunch maptogridmap startmaptogridmap.launch
 More detailed explanations and examples can be seen in Section [Topology](./Central_SP_User_Guide1_API.md#topology).
 
 
-## <a name="sp">Topology sends updates through firos by integrating received local map updates from the Local SP</a>
+## <a name="sp">Central SP sends the topology updates and annotations through firos by integrating received local map updates from the Local SP</a>
 
-For this _mapupdates_ needs to be started on a Local SP. New obstacles are merged and new topology is calculated if _maptogridmap_ is running. An example can be seen in Section [Illustration of topology and map updates](./Central_SP_Getting_Started.md#topologyupdates).
+For this _mapupdates_ needs to be started on the Local SP. New obstacles are merged and new topology is calculated if _maptogridmap_ is running. An example can be seen in Section [Illustration of topology and map updates](./Central_SP_Getting_Started.md#topologyupdates).
 
-## Central SP sends the topology through firos for TP and HMI and receives the map updates from the Local SP with ID name robot_0
 
-For sending the topology and receiving the map updates through firos, robots.json and whitelist.json should look like this:
+For sending the topology and receiving the map updates from up to three robots through firos, robots.json and whitelist.json should look like this:
 ### robots.json
 ```
 {
-	"map":{
+    "map":{
         "topics": {
             "graph": {
                 "msg": "maptogridmap.msg.Graph",
                 "type": "subscriber"
-            }
-        }
-    },
-	"robot_0":{
-		"topics": {
-			"newObstacles": {
-				"msg": "mapupdates.msg.NewObstacles",
-				"type": "publisher"
-			}
-		}
-	}
-}
-```
-### whitelist.json
-```
-{
-    "map": {
-        "subscriber": ["graph"],
-        "publisher": []
-    },
-    "robot_0": {
-        "subscriber": [],
-        "publisher": ["newObstacles"]
-    }
-}
-```
-You can find the firos config files in test/config_files/Central_SP_computer.
-After putting the json files to firos/config folder run firos as:
-```
-rosrun firos core.py
-```
-To test receiving of three robots to Central SP modify the config files accordingly:
-### robots.json
-```
-{
-	"map":{
-        "topics": {
-            "graph": {
-                "msg": "maptogridmap.msg.Graph",
+            },
+            "annotations": {
+                "msg": "maptogridmap.msg.Annotations",
                 "type": "subscriber"
             }
         }
     },
-	"robot_0":{
-		"topics": {
-			"newObstacles": {
-				"msg": "mapupdates.msg.NewObstacles",
-				"type": "publisher"
-			}
-		}
-	},
+    "robot_0":{
+        "topics": {
+            "newObstacles": {
+                "msg": "mapupdates.msg.NewObstacles",
+                "type": "publisher"
+            }
+        }
+    },
     "robot_1":{
         "topics": {
             "newObstacles": {
@@ -113,7 +76,7 @@ To test receiving of three robots to Central SP modify the config files accordin
 ```
 {
     "map": {
-        "subscriber": ["graph"],
+        "subscriber": ["graph","annotations"],
         "publisher": []
     },
     "robot_0": {
@@ -123,17 +86,23 @@ To test receiving of three robots to Central SP modify the config files accordin
     "robot_1": {
         "subscriber": [],
         "publisher": ["newObstacles"]
-    }"robot_2": {
+    },
+    "robot_2": {
         "subscriber": [],
         "publisher": ["newObstacles"]
     }
 }
 ```
+You can find the firos config files in test/config_files/Central_SP_computer.
+After putting the json files to firos/config folder run firos as:
+```
+rosrun firos core.py
+```
 
 
 # OPIL server computer with the Task Planner - TP
 
-## TP receives the topology through firos
+## TP receives the topology from the Central SP through firos
 
 For receiving the topology topics from the Central SP, the packages _maptogridmap_ needs to be in src folder because of the defined ROS messages that will be received through firos.
 
@@ -165,81 +134,40 @@ You can find the firos config files in test/config_files/TP_HMI_computer.
 
 # OPIL server computer with the Human Machine Interface - HMI
 
-## HMI receives the topology
+## HMI receives the topology and annotations
 
 HMI should have a map file presented visually.
 
-For receiving the topology from the Central SP here is how entities look in OCB (applying in Postman GET localhost:10100/robots):
+For receiving the topology and annotations from the Central SP here is how entities look in OCB (applying in Postman `GET localhost:1026/v2/entities`):
 
 ### Topology entities from the Central SP
 
 ```
-    {
-        "topics": [
-            {
-                "type": "maptogridmap.msg.Nodes",
-                "name": "nodes",
-                "structure": {
-                    "info": {
-                        "origin": {
-                            "position": {
-                                "y": "float64",
-                                "x": "float64",
-                                "z": "float64"
-                            },
-                            "orientation": {
-                                "y": "float64",
-                                "x": "float64",
-                                "z": "float64",
-                                "w": "float64"
-                            }
-                        },
-                        "width": "uint32",
-                        "map_load_time": {
-                            "secs": "int32",
-                            "nsecs": "int32"
-                        },
-                        "resolution": "float32",
-                        "height": "uint32"
-                    },
-                    "name": "string[]",
-                    "header": {
-                        "stamp": {
-                            "secs": "int32",
-                            "nsecs": "int32"
-                        },
-                        "frame_id": "string",
-                        "seq": "uint32"
-                    },
-                    "x": "float64[]",
-                    "y": "float64[]",
-                    "theta": "float64[]",
-                    "uuid": "string[]"
-                },
-                "pubsub": "subscriber"
-            },
-            {
-                "type": "maptogridmap.msg.Edges",
-                "name": "edges",
-                "structure": {
-                    "header": {
-                        "stamp": {
-                            "secs": "int32",
-                            "nsecs": "int32"
-                        },
-                        "frame_id": "string",
-                        "seq": "uint32"
-                    },
-                    "uuid": "string[]",
-                    "name": "string[]",
-                    "uuid_src": "string[]",
-                    "uuid_dest": "string[]"
-                },
-                "pubsub": "subscriber"
-            }
-        ],
-        "name": "map"
-    }
+{
+	'graph': {
+		'header': {
+			'stamp': {
+				'secs': 'int32',
+				'nsecs': 'int32'
+			},
+			'frame_id': 'string',
+			'seq': 'uint32'
+		},
+		'edges': 'maptogridmap/Edge[]', 
+		'vertices': 'maptogridmap/Vertex[]'
+	}, 
+	'annotations': {
+		'header': {
+			'stamp': {
+				'secs': 'int32', 
+				'nsecs': 'int32'
+			}, 
+			'frame_id': 'string', 
+			'seq': 'uint32'
+		}, 
+		'annotations': 'maptogridmap/Annotation[]'
+	}
+}
 ```
 
 
