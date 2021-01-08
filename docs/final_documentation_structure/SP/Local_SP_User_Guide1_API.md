@@ -30,15 +30,6 @@ ROS package which demonstrates localization and mapping in the Stage simulator. 
 
 ROS package for publishing AGV's pose with covariance to be sent to Orion Context Broker through firos.
 
-#### andymark_driver
-
-ROS drivers for omnidirectional Andymark platform. Teleoperation and control relies on the nodes provided by the _husky_ package.
-
-
-#### husky
-
-ROS package for interfacing with Clearpath Husky robot. It also includes nodes for teleoperation and control.
-
 
 #### odometry_correction
 
