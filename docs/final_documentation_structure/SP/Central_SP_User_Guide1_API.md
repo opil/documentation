@@ -213,15 +213,15 @@ void VisualizationPublisherGML::graphCallback(const maptogridmap::GraphConstPtr&
   graphvertex.points.clear();
   stc.points.clear();
   geometry_msgs::Point p; 
-	for (int i=0; i<gmMsg->vertices.size(); i++){
+	for (uint i=0; i<gmMsg->vertices.size(); i++){
 		p.x=gmMsg->vertices[i].x;
 		p.y=gmMsg->vertices[i].y;
 		graphvertex.points.push_back(p);
 	}
 	int foundsrcdest;
-	for (int i=0; i<gmMsg->edges.size(); i++){
+	for (uint i=0; i<gmMsg->edges.size(); i++){
 		foundsrcdest=0;
-		for (int j=0; j<gmMsg->vertices.size(); j++){
+		for (uint j=0; j<gmMsg->vertices.size(); j++){
 			if (gmMsg->vertices[j].uuid==gmMsg->edges[i].uuid_src){
 				p.x=gmMsg->vertices[j].x;
 				p.y=gmMsg->vertices[j].y;
@@ -267,66 +267,9 @@ terminal 2: roslaunch maptogridmap startmaptogridmap.launch
 terminal 3: rosrun maplistener mapls
 ```
 
-# <a name="examplesOCB">Examples</a>
-## Sending topology to OCB (machine_1):
-
-Use the following docker-compose.yml:
-```
-version: "3"
-services:      
-    #Context Broker
-    orion:        
-        image: fiware/orion
-        ports:
-            - 1026:1026
-        command: 
-            -dbhost mongo
-            
-    mongo:
-        restart: always
-        image: mongo:3.6
-        command: --nojournal   
-```
-Make a clean start of context broker: 
-```
-sudo docker-compose down
-sudo docker-compose up
-```
-Check in firefox if http://OPIL_SERVER_IP:1026/v2/entities is blank (replace OPIL_SERVER_IP with the correct IP address).
-
-On machine 1 start:
-
-* Uncomment the map you want to use (MP, IML or Anda) and comment the rest of maps in startmapserver.launch.
-```
-terminal 1: roslaunch maptogridmap startmapserver.launch
-terminal 2: roslaunch maptogridmap startmaptogridmap.launch
-```
-If you want to send the topics through firos, you need to put in firos/config all json files from test/config_files/machine_1. Set the right IP addresses for your machine (server), OPIL server (contextbroker), and interface name (check with ifconfig) in firos/config/config.json and then run firos:
-```
-terminal 3: rosrun firos core.py
-```
-
-Refresh firefox on http://OPIL_SERVER_IP:1026/v2/entities. There should be under id "map" topic "graph" with its values.
 
 
-
-
-## Receiving the topology through OCB (machine_2)
-
-If you want to receive the topics through firos, you need to put in firos/config all json files from test/config_files/machine_2:
-
-```
-terminal 1: roscore
-terminal 2: rosrun firos core.py
-```
-_maptogridmap_ package needs to be on the machine_2 - it is not important that the source code is in there but only that msg files and CMakeLists.txt compiling them are there.
-Now you are able to echo all ros topics:
-```
-rostopic echo /map/graph
-```
-
-
-* <a name="exampleannot">Example output for the ICENT map - graph (vertices and edges) with the loaded annotations</a>
+## <a name="exampleannot">Example output of the topology graph topic with the loaded annotations</a>
 <!--* Example output for the ICENT map - Nodes-->
 
 ```

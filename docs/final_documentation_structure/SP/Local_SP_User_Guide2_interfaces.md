@@ -26,7 +26,6 @@ terminal 2: roslaunch sensing_and_perception send_posewithcovariance.launch
 ```
 
 To test different example maps repeat the commands from Section [Pose with covariance](Local_SP_User_Guide1_API.md#poswithcov).
-The successful transmission of data can be seen as example in [topic /robot_0/pose_channel](Local_SP_User_Guide1_API.md#examplepose).
 
 ## Map updates collected at the AGV (laser data)
 
@@ -101,7 +100,7 @@ For receiving the map updates through firos, robots.json and whitelist.json shou
     }
 }
 ```
-You can find the firos config files in test/config_files/Central_SP_computer.
+You can find the firos config files in the Central SP module in the folder test/config_files/Central_SP_computer.
 After putting the json files to firos/config folder run firos as:
 ```
 rosrun firos core.py
@@ -182,7 +181,7 @@ For receiving the topics through firos, robots.json and whitelist.json should lo
 }
 ```
 Start firos and write a subscriber for the topics as suggested in Section [Writing a simple listener explaining the maplistener package](Local_SP_User_Guide1_API.md#writelis).
-You can find the firos config files in test/config_files/TP_HMI_computer.
+You can find the firos config files in the Central SP module in the folder test/config_files/TP_HMI_computer.
 
 # OPIL server computer with the Human Machine Interface - HMI
 

@@ -596,7 +596,7 @@ services:
             - "39002:39002"
     splocal:
         restart: always
-        image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.0
+        image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.1
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -617,7 +617,7 @@ services:
 The following figure presents the output after moving the green box in the Stage simulator:
 ![Local and central SP](./img/teromaplocalcentral.png)
 
-One RViz window is from the Local SP, where you can see the AGV's pose (red arrow) and the local updates (red tiny squares). Another RViz window is from the Central SP, where you can see the updates of the topology and new obstacles presented with blue tiny squares showing only the current position of the new obstacle. Vertices at the position of a new obstacle are removed from the topology (blue squares become red, and connections are removed). All new obstacles are processed as they are received so only new ones are sent. That is the reason why in the Local SP you can see a trail of the obstacle, while in the Central SP there is no fine obstacle trail but only the topology nodes changes.
+One RViz window is from the Local SP, where you can see the AGV's pose (red arrow) and the local updates (red tiny squares). Another RViz window is from the Central SP, where you can see the updates of the topology and new obstacles presented with blue tiny squares showing only the current position of the new obstacle. Vertices at the position of a new obstacle are removed from the topology (blue squares become red, and connections are removed). All new obstacles are processed as they are received so only new ones are sent. That is the reason why in the Local SP you can see a trail of the obstacle, while in the Central SP there is no fine obstacle trail but only the topology nodes changes. The topology is recovered after 5 seconds if no obstacles are detected in that area. If annotated vertex become occupied, the annotation is not removed, as was the case with initial setting the annotations. However, adding new annotations will not be possible at the locations that are currently occupied.
 
 
 
@@ -751,7 +751,6 @@ You can also start a single launch file which starts map_server, topology creati
 ```
 roslaunch maptogridmap topology.launch
 ``` 
-For more examples on sending and receiving these topics through OCB check the Section [Examples](./Central_SP_User_Guide1_API.md#examplesOCB).
 
 
 

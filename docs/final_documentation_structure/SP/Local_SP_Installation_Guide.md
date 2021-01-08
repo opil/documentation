@@ -39,7 +39,7 @@ services:
             -dbhost mongo -corsOrigin __ALL -inReqPayloadMaxSize 2097152
     splocal:
         restart: always
-        image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.0
+        image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.1
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -116,7 +116,7 @@ services:
 #S&P
   	splocal:
     	restart: always
-    	image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.0
+    	image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.1
     	volumes:
             #- path on the host : path inside the container
       		- /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -713,7 +713,7 @@ services:
 #S&P
   	splocal:
     	restart: always
-    	image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.0
+    	image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.1
     	volumes:
             #- path on the host : path inside the container
       		- /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -753,7 +753,7 @@ You should be able to see entities in the OCB. If you also start the Central SP,
 
 In this quick guide, everything will be started on the same computer where you installed ROS and this source code. For advanced configuration of starting at different computers check [Interfaces for Local SP](./Local_SP_User_Guide2_interfaces.md#localsp). The example uses the Stage simulator, but testing it on a real robot assumes only removing the simulator and setting up your robot as explained here <http://wiki.ros.org/navigation/Tutorials/RobotSetup/TF>.
 
-* First, start the Stage simulator with the loaded example map and one AGV inside the map (red) and one box as the unknown obstacle (green):
+**Step 1:** First, start the Stage simulator with the loaded example map and one AGV inside the map (red) and one box as the unknown obstacle (green) and AMCL localization:
 
 ```
 terminal 1: roslaunch lam_simulator AndaOmnidriveamcltestZagrebdemo.launch
@@ -763,7 +763,131 @@ The result should be the started rviz and the Stage simulator as presented here:
 
 The green dots are simulated laser readings, and the red arrow is the localized AGV.
 
-You can create your own simulation by preparing the map as explained in Section [Setting the map](#prepmap), with slightly different context and some additional files as explained here:
+You can create your own simulation by preparing the map as explained in Section [Setting the map](#prepmap), with slightly different context and some additional files as explained in Section [Creating your own simulation](#presim):
+
+**Step 2:** Then, launch the file `localization_and_mapping/sensing_and_perception/send_posewithcovariance.launch`, which will start the module for creating the topic for Pose with Covariance of the AGV:
+```
+<launch>
+
+     <!--- Run pubPoseWithCovariance node from sensing_and_perception package-->
+     <!-- Put args="1" if you are testing the robot with the id number 1 -->
+     <node name="publishPoseWithCovariance" pkg="sensing_and_perception" type="pubPoseWithCovariance" output="screen" args="0">	
+        <param name="amcl_topic" value="/amcl_pose" />
+        <param name="map_frame" value="/map" />
+        <param name="base_frame" value="/base_link" />
+    </node>
+
+</launch>
+```
+where
+
+*	**amcl_topic** for **amcl** localization needs to be set to correct one. The default one is **/amcl_pose**
+*	**map_frame** is usually **/map**, but if your robot has different name change this to correct one
+*	**base_frame** is usually **/base_link**, but if your robot has different name change this to correct one
+*	args="0" indicates the robot id and defines the topic prefix **robot_0**. If you have more robots, change the args value, which will create different topics names with respect to the robot id.
+
+```
+terminal 2: roslaunch sensing_and_perception send_posewithcovariance.launch 
+```
+You can type 'rostopic echo' to see the message of pose with covariance:
+```
+rostopic echo /robot_0/pose_channel
+```
+
+**Step 3:** Finally, launch the file `mapupdates/launch/startmapupdates.launch`, that starts the calculation of local map updates that the AGV sees as new obstacles which are not mapped in the initial map:
+```
+<launch>
+
+    <node name="mapup" pkg="mapupdates" type="mapup" output="screen" args="0" >
+        <param name="cell_size" type="double" value="0.1" />
+        <param name="laser_inverted" type="bool" value="0" />
+        <param name="scan_topic" value="/base_scan" />
+        <param name="map_frame" value="/map" />
+        <param name="map_service_name" value="/static_map" />
+    </node>
+
+</launch>
+```
+*	Here you need to put the right robot id by setting the args value, where in this example it is set to 0. This will create the topic prefix robot_0.
+*	**cell_size** defines the size of the fine gridmap used for local updates calculation, and the default value is 0.1m.
+*	**laser_inverted** needs to be set to 1 if your robot has upside down mounted laser scanner.
+*	**scan_topic** is set to the simulated **base_scan**, but use the right topic for your robot.
+*	**map_frame** is usually **map**, but use the right frame for your robot.
+*	**map_service_name** is usually **static_map**, but use the right topic for your robot.
+```
+terminal 3: roslaunch mapupdates startmapupdates.launch
+```
+You can check the topic of local map updates by typing: 
+```
+rostopic echo /robot_0/newObstacles
+```
+
+Next step is to send these topics to OCB.
+
+### <a name="preocb">Connection to OCB by starting firos</a>
+
+
+To send these entities to OCB, prepare the following docker-compose.yml on the machine where you want to have the OPIL server:
+```
+version: "3"
+services:      
+    #Context Broker
+    orion:        
+        image: fiware/orion
+        ports:
+            - 1026:1026
+        command: 
+            -dbhost mongo
+            
+    mongo:
+        restart: always
+        image: mongo:3.6
+        command: --nojournal
+```
+
+To test sending local map updates and pose with covariance to OCB put in firos/config all json files described in [Interfaces for Local SP](./Local_SP_User_Guide2_interfaces.md#localsp).
+Set the right IP addresses for your machine (endpoint), OPIL server (contextbroker) in firos/config/config.json. This example uses the local configuration:
+```
+{
+  "environment": "fof_lab",
+
+  "fof_lab": {
+    "server": {
+        "port"      : 10104
+    },
+    "contextbroker": {
+        "address"   : "127.0.0.1",
+        "port"      : 1026,
+        "subscription": {
+          "throttling": 0,
+          "subscription_length": 300,
+          "subscription_refresh_delay": 0.5
+        }
+    },
+    "endpoint": {
+      "address": "127.0.0.1",
+      "port": 39003
+    },
+    "log_level": "INFO"
+  }
+}
+```
+
+Run firos in a new terminal and check entities in a web browser at the address <http://OPIL_SERVER_IP:1026/v2/entities> or in Postman with `GET localhost:1026/v2/entities`.
+```
+terminal 5: rosrun firos core.py 
+```
+
+All previous steps can be replaced by calling a single launch file for the Local SP:
+```
+roslaunch sensing_and_perception local_robot_sim.launch 
+```
+where all previously expalained launch files needs to be updated.
+This launch file starts the localization, local map updates and module for publishing Pose with Covariance, and firos. The launch file that does not start the simulator Stage because it will be started at RAN host is **local_robot.launch**.
+
+
+
+### <a name="presim">Creating your own simulation</a>
 
 Four files need to be prepared with indicated paths in the source of this package: 
 
@@ -937,125 +1061,12 @@ Start the newly prepared simulation by typing:
 ```
 terminal 1: roslaunch lam_simulator demoamcltest.launch
 ```
-
-* Then, launch the file `localization_and_mapping/sensing_and_perception/send_posewithcovariance.launch`, which will start the module for creating the topic for Pose with Covariance of the AGV:
-```
-<launch>
-
-     <!--- Run pubPoseWithCovariance node from sensing_and_perception package-->
-     <!-- Put args="1" if you are testing the robot with the id number 1 -->
-     <node name="publishPoseWithCovariance" pkg="sensing_and_perception" type="pubPoseWithCovariance" output="screen" args="0">	
-        <param name="amcl_topic" value="/amcl_pose" />
-        <param name="map_frame" value="/map" />
-        <param name="base_frame" value="/base_link" />
-    </node>
-
-</launch>
-```
-where
-
-*	**amcl_topic** for **amcl** localization needs to be set to correct one. The default one is **/amcl_pose**
-*	**map_frame** is usually **/map**, but if your robot has different name change this to correct one
-*	**base_frame** is usually **/base_link**, but if your robot has different name change this to correct one
-*	args="0" indicates the robot id and defines the topic prefix **robot_0**. If you have more robots, change the args value, which will create different topics names with respect to the robot id.
-
+Then, start the remaining two steps:
 ```
 terminal 2: roslaunch sensing_and_perception send_posewithcovariance.launch 
 ```
-You can type 'rostopic echo' to see the message of pose with covariance:
-```
-rostopic echo /robot_0/pose_channel
-```
-
-* Finally, launch the file `mapupdates/launch/startmapupdates.launch`, that starts the calculation of local map updates that the AGV sees as new obstacles which are not mapped in the initial map:
-```
-<launch>
-
-    <node name="mapup" pkg="mapupdates" type="mapup" output="screen" args="0" >
-        <param name="cell_size" type="double" value="0.1" />
-        <param name="laser_inverted" type="bool" value="0" />
-        <param name="scan_topic" value="/base_scan" />
-        <param name="map_frame" value="/map" />
-        <param name="map_service_name" value="/static_map" />
-    </node>
-
-</launch>
-```
-*	Here you need to put the right robot id by setting the args value, where in this example it is set to 0. This will create the topic prefix robot_0.
-*	**cell_size** defines the size of the fine gridmap used for local updates calculation, and the default value is 0.1m.
-*	**laser_inverted** needs to be set to 1 if your robot has upside down mounted laser scanner.
-*	**scan_topic** is set to the simulated **base_scan**, but use the right topic for your robot.
-*	**map_frame** is usually **map**, but use the right frame for your robot.
-*	**map_service_name** is usually **static_map**, but use the right topic for your robot.
 ```
 terminal 3: roslaunch mapupdates startmapupdates.launch
 ```
-You can check the topic of local map updates by typing: 
-```
-rostopic echo /robot_0/newObstacles
-```
-<!--You can change the resolution of the local map updates by following the guide in Section [Map updates](./../../develop/SP/opil_api_local_sp.md#mapupdates).-->
-
-
-
-To test if entities are sent to OCB, prepare the following docker-compose.yml on the machine where you want to have the OPIL server:
-```
-version: "3"
-services:      
-    #Context Broker
-    orion:        
-        image: fiware/orion
-        ports:
-            - 1026:1026
-        command: 
-            -dbhost mongo
-            
-    mongo:
-        restart: always
-        image: mongo:3.6
-        command: --nojournal
-```
-
-To test sending local map updates and pose with covariance to OCB put in firos/config all json files described in [Interfaces for Local SP](./Local_SP_User_Guide2_interfaces.md#localsp).
-Set the right IP addresses for your machine (endpoint), OPIL server (contextbroker) in firos/config/config.json. This example uses the local configuration:
-```
-{
-  "environment": "fof_lab",
-
-  "fof_lab": {
-    "server": {
-        "port"      : 10104
-    },
-    "contextbroker": {
-        "address"   : "127.0.0.1",
-        "port"      : 1026,
-        "subscription": {
-          "throttling": 0,
-          "subscription_length": 300,
-          "subscription_refresh_delay": 0.5
-        }
-    },
-    "endpoint": {
-      "address": "127.0.0.1",
-      "port": 39003
-    },
-    "log_level": "INFO"
-  }
-}
-```
-
-Run firos in a new terminal and check entities in a web browser at the address <http://OPIL_SERVER_IP:1026/v2/entities>.
-```
-terminal 5: rosrun firos core.py 
-```
-
-All previous steps can be replaced by calling a single launch file for the Local SP:
-```
-roslaunch sensing_and_perception local_robot_sim.launch 
-```
-This launch file starts the localization, local map updates and module for publishing Pose with Covariance, and firos. The launch file that does not start the simulator Stage because it will be started at RAN is **local_robot.launch**.
-
-For more examples on sending and receiving these topics through OCB check the Section [Examples](./Local_SP_User_Guide1_API.md#examplesOCB).
-
-
+Next, you can check connection to OCB by starting firos as explained in Section [Connection to OCB by starting firos](#preocb).
 

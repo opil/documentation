@@ -1,16 +1,15 @@
-In the following the list of ROS packages is given with the short explanation.
-Afterwards, each package is explained with the followed examples.
+In the following the list of ROS packages is given with the short explanation. The modules are already explained in [Starting from Scratch.](./Local_SP_Installation_Guide.md#fromscratch). Here, each package is explained with some programming details and examples.
 
 # Overview of ROS packages for Local SP
 
-All ROS packages are in src folder. Here are explained only the ones belonging to the Local SP.
+All ROS packages of Local SP module are in src folder. Additional one will be taken from the Central SP module to explain how to write the listener of specific topic.
 
 
 ## mapupdates package
 
 A ROS package for creating local map updates from the range data (laser or kinect readings). This package is located on an AGV. An AGV needs to start this package with the robot ID number set to 0, 1, etc., so that published topic has corresponding name as /robot_0/newObstacles, /robot_1/newObstacles, etc.
 
-## maplistener package
+## maplistener package from the Central SP module
 
 A ROS package for testing subscribers to all created topics from mapupdates and visualizing them in rviz.
 
@@ -63,7 +62,11 @@ Since this topic will be send through firos to OCB, the unique robot id needs to
 
      <!--- Run pubPoseWithCovariance node from sensing_and_perception package-->
      <!-- Put args="1" if you are testing the robot with the id number 1 -->
-     <node name="publishPoseWithCovariance" pkg="sensing_and_perception" type="pubPoseWithCovariance" output="screen" args="0"/>	
+     <node name="publishPoseWithCovariance" pkg="sensing_and_perception" type="pubPoseWithCovariance" output="screen" args="0">	
+        <param name="amcl_topic" value="/amcl_pose" />
+        <param name="map_frame" value="/map" />
+        <param name="base_frame" value="/base_link" />
+    </node>
 
 </launch>
 ```
@@ -89,10 +92,34 @@ As the result you can echo the topic /robot_0/pose_channel:
 ```
 rostopic echo /robot_0/pose_channel
 ```
-If you want to send this topic through firos, use and adapt the config files in firos_config inside the localization_and_mapping metapackage (or from test/config_files/machine_1) and start firos by typing:
+If you want to send this topic through firos, put in firos/config all json files described in [Interfaces for Local SP](./Local_SP_User_Guide2_interfaces.md#localsp) and start firos by typing:
 ```
 terminal 3: rosrun firos core.py 
 ```
+
+Example output of the pose with covariance topic is as follows:
+```
+$rostopic echo /robot_0/pose_channel
+header: 
+  seq: 221
+  stamp: 
+    secs: 667
+    nsecs: 200000000
+  frame_id: "map"
+pose: 
+  pose: 
+    position: 
+      x: 5.89260851198
+      y: 4.54273166596
+      z: 0.0
+    orientation: 
+      x: 0.0
+      y: 0.0
+      z: 0.000341716300675
+      w: 0.999999941615
+  covariance: [0.2280276789742004, 0.00121444362006784, 0.0, 0.0, 0.0, 0.0, 0.00121444362006784, 0.2095520253272909, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.06568863093933444]
+```
+
 
 # SLAM
 
@@ -181,8 +208,10 @@ It is also important to set the robot id as args of the package, as is the examp
 
     <node name="mapup" pkg="mapupdates" type="mapup" output="screen" args="0" >
         <param name="cell_size" type="double" value="0.1" />
-        <param name="scan_topic" value="/base_scan" />
         <param name="laser_inverted" type="bool" value="0" />
+        <param name="scan_topic" value="/base_scan" />
+        <param name="map_frame" value="/map" />
+        <param name="map_service_name" value="/static_map" />
     </node>
 
 </launch>
@@ -203,9 +232,9 @@ x: [1.55, 0.6500000000000001, 0.6500000000000001, 0.6500000000000001, 0.65000000
 y: [4.25, 4.05, 3.95, 3.85, 3.75, 3.75, 3.65, 3.55, 3.65, 3.55, 3.55, 3.45, 3.55, 3.55, 3.45, 2.95, 2.85, 2.65, 2.55, 2.45, 2.35, 2.25, 2.25, 2.25, 2.15, 2.15, 2.05, 1.9500000000000002, 1.85, 1.7500000000000002, 1.7500000000000002, 1.7500000000000002, 1.7500000000000002, 1.6500000000000001, 1.55, 1.4500000000000002, 1.35, 1.2500000000000002, 1.35, 1.35, 1.2500000000000002, 1.35, 1.2500000000000002, 0.9500000000000001, 0.6500000000000001, 0.6500000000000001, 0.55, 0.45, 0.45, 0.45, 0.35000000000000003, 0.35000000000000003, 0.35000000000000003, 0.35000000000000003, 0.35000000000000003, 0.25, 0.15000000000000002, 0.15000000000000002, 0.25, 0.15000000000000002, 0.35000000000000003, 1.05, 1.05, 0.9500000000000001, 1.05, 0.8500000000000001, 0.7500000000000001, 0.45, 0.35000000000000003, 0.45, 0.45, 0.45, 0.35000000000000003, 1.2500000000000002, 1.2500000000000002, 1.1500000000000001, 1.05, 0.45, 0.45, 0.35000000000000003, 0.45, 0.55, 0.35000000000000003, 0.55, 1.05, 1.05, 0.45, 1.05, 1.1500000000000001, 0.25, 0.25, 0.25, 0.25, 1.6500000000000001, 1.7500000000000002, 1.85, 1.85, 1.85, 1.7500000000000002, 1.85, 1.9500000000000002, 3.25, 3.35, 3.45, 3.55, 3.55, 3.85, 3.95, 4.55, 4.65, 4.65, 4.75, 4.8500000000000005, 5.05, 5.15, 5.55, 5.55, 6.8500000000000005, 6.95, 6.95, 6.8500000000000005, 7.15, 7.3500000000000005, 7.3500000000000005, 7.3500000000000005, 7.3500000000000005, 7.3500000000000005, 7.45, 7.45, 7.45, 0.0, 0.0, 7.45, 7.15, 7.15, 7.25, 7.3500000000000005, 7.3500000000000005, 7.3500000000000005, 7.3500000000000005, 5.65, 5.55, 5.55, 5.55, 5.55, 5.55, 5.65, 5.65, 5.65, 5.65, 6.95, 6.95, 6.55, 6.45, 6.25, 5.95, 5.8500000000000005, 5.8500000000000005, 5.75, 5.65, 5.55, 5.8500000000000005, 5.75, 5.65, 5.55, 5.75, 5.65, 5.25, 4.95, 4.75, 4.65, 4.55]
 ``` 
 
-First start the AMCL localization in the known map and the simulator Stage in which laser data are simulated.
+First start the AMCL localization in the known map and the Stage simulator in which laser data are simulated.
 Then start the package mapupdates where new laser readings are compared to the cells of the gridmap. The package mapupdates converts the local laser readings to a global coordinate frame which can be visualized in rviz. This is used to test if the transformation is done correctly and marker points from topic /globalpoints_marker should be aligned in rviz over the simulated laser scan data.
-And finaly, start maptogridmap to visualize the new obstacles and topology updates. The package maptogridmap is subscribed to topic /robot_0/newObstacles and checks if points belong to the free grid cell and changes its occupancy accordingly. Nodes and edges are updated too:
+And finaly, start maptogridmap from the workspace with the Central SP to visualize the new obstacles and topology updates. The package maptogridmap is subscribed to topic /robot_0/newObstacles and checks if points belong to the free grid cell and changes its occupancy accordingly. Nodes and edges are updated too:
 
 ```
 terminal 1: roslaunch lam_simulator AndaOmnidriveamcltestZagrebdemo.launch
@@ -231,7 +260,7 @@ void VisualizationPublisherGML::newObstaclesCallback(const mapupdates::NewObstac
 {
   glp.points.clear();
   geometry_msgs::Point p; 
-	for (int i =0; i<msg->x.size(); i++){
+	for (uint i =0; i<msg->x.size(); i++){
 		p.x=msg->x[i];
 		p.y=msg->y[i];
 		glp.points.push_back(p);
@@ -266,93 +295,6 @@ terminal 2: roslaunch mapupdates startmapupdates.launch
 terminal 3: rosrun maplistener mapls
 ```
 
-# <a name="examplesOCB">Examples</a>
-## Sending pose with covariance and map updates to OCB (machine_2)
-
-Use the following docker-compose.yml:
-```
-version: "3"
-services:      
-    #Context Broker
-    orion:        
-        image: fiware/orion
-        ports:
-            - 1026:1026
-        command: 
-            -dbhost mongo
-            
-    mongo:
-        restart: always
-        image: mongo:3.6
-        command: --nojournal   
-```
-Make a clean start of context broker: 
-```
-sudo docker-compose down
-sudo docker-compose up
-```
-Check in firefox if http://OPIL_SERVER_IP:1026/v2/entities is blank (replace OPIL_SERVER_IP with the correct IP address).
-
-Start the stage simulator and AMCL localization: 
-```
-terminal 1: roslaunch lam_simulator AndaOmnidriveamcltestZagrebdemo.launch
-```
-Start sending pose with covariance:
-```
-terminal 2: roslaunch sensing_and_perception send_posewithcovariance.launch 
-```
-Start calculation of map updates:
-```
-terminal 3: roslaunch mapupdates startmapupdates.launch
-```
-If you want to send the topics through firos, you need to put in firos/config all json files from test/config_files/machine_2. Set the right IP addresses for your machine (server), OPIL server (contextbroker), and interface name (check with ifconfig) in firos/config/config.json and then run firos:
-```
-terminal 4: rosrun firos core.py
-```
-
-Now you can refresh firefox on http://OPIL_SERVER_IP:1026/v2/entities.
-There should be under id "robot_0" with topics "pose_channel" and "newObstacles".
-Simply move the robot in stage by dragging it with the mouse and refresh the firefox to see the update of pose_channel and newObstacles.
-
-
-## Receiving the pose with covariance and map updates through OCB (machine_1)
-
-If you want to receive the topics through firos, you need to put in firos/config all json files from test/config_files/machine_1:
-
-```
-terminal 1: roscore
-terminal 2: rosrun firos core.py
-```
-_mapupdates_ package needs to be on the machine_1 - it is not important that the source code is in there but only that msg files and CMakeLists.txt compiling them are there.
-Now you are able to echo all ros topics:
-```
-rostopic echo /robot_0/pose_channel
-rostopic echo /robot_0/newObstacles
-```
-
-* <a name="examplepose">Example output for the ICENT map - Pose with covariance</a>
-<!--* Example output for the ICENT map - Pose with covariance-->
-```
-$rostopic echo /robot_0/pose_channel
-header: 
-  seq: 221
-  stamp: 
-    secs: 667
-    nsecs: 200000000
-  frame_id: "map"
-pose: 
-  pose: 
-    position: 
-      x: 5.89260851198
-      y: 4.54273166596
-      z: 0.0
-    orientation: 
-      x: 0.0
-      y: 0.0
-      z: 0.000341716300675
-      w: 0.999999941615
-  covariance: [0.2280276789742004, 0.00121444362006784, 0.0, 0.0, 0.0, 0.0, 0.00121444362006784, 0.2095520253272909, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.06568863093933444]
-```
 
 
 
