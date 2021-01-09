@@ -39,7 +39,7 @@ services:
             -dbhost mongo -corsOrigin __ALL -inReqPayloadMaxSize 2097152
     splocal:
         restart: always
-        image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.1
+        image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.2
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -116,7 +116,7 @@ services:
 #S&P
   	splocal:
     	restart: always
-    	image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.1
+    	image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.2
     	volumes:
             #- path on the host : path inside the container
       		- /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -713,7 +713,7 @@ services:
 #S&P
   	splocal:
     	restart: always
-    	image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.1
+    	image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.2
     	volumes:
             #- path on the host : path inside the container
       		- /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -773,7 +773,7 @@ You can create your own simulation by preparing the map as explained in Section 
      <!-- Put args="1" if you are testing the robot with the id number 1 -->
      <node name="publishPoseWithCovariance" pkg="sensing_and_perception" type="pubPoseWithCovariance" output="screen" args="0">	
         <param name="amcl_topic" value="/amcl_pose" />
-        <param name="map_frame" value="/map" />
+        <param name="map_frame" value="map" />
         <param name="base_frame" value="/base_link" />
     </node>
 

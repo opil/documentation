@@ -42,7 +42,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.5
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.6
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -125,7 +125,7 @@ Remove all files from volumes section to see a default behavior of sp service in
 ```
     sp:
         restart: always
-        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.5
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.6
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -359,9 +359,10 @@ where
 * **point_x**, **point_y** are coordinates of the annotation in meters
 * **theta** and **distance** determine where the topology vertex should be so that Task Planner can use these coordinates as the goal distanced for a defined **distance** (in meters) from the annotation and oriented towards the annotation so that AGV has heading **theta** (in degrees) with respect to the positive x-axis. 
 
-We can change any parameter but the most important is to calculate the right position for the topology vertex, where an AGV will be placed in front of the annotation by setting the right distance, and orientation from the annotation coordinates. In the following we will see 5 invalid situations in case of which annotations will be modified or deleted automatically:
+We can change any parameter but the most important is to calculate the right position for the topology vertex, where an AGV will be placed in front of the annotation by setting the right distance, and orientation from the annotation coordinates. In the following we will see 6 invalid situations in case of which annotations will be modified or deleted automatically:
 
 * the annotation must not be in the occupied grid cell
+* the annotation must not be out of map borders
 * any two annotations must not be distanced closer than **cell_size**
 * any two annotations must not be placed into the same grid cell
 * annotations must not have an illegal character in their name
@@ -380,6 +381,19 @@ sp_1         | uuid: c825ba97-2dc3-5f57-b23e-9cdc041d23bf
 sp_1         | 
 sp_1         | [ WARN] [1609914366.115720685]: Annotation is occupied!!! Deleting occupied annotation... Add new annotation by pressing the 2D Nav Goal button in RViz or exit and edit manually annotations.ini file or decrease the cell size. Here are the details:
 sp_1         | The vertex of the annotation in the topology graph is at the occupied position (-6.071409,9.564437) for the cell_size = 1.250000 m.
+```
+
+If we choose the new annotation (or have it written in the annotations.ini file) out of the map borders the produced indices of topology vertex will have negative sign. As a result, that annotation will be deleted with the print of the invalid annotation:
+```
+sp_1         | x: -5.4862
+sp_1         | y: -9.40014
+sp_1         | theta: 0
+sp_1         | distance: 2
+sp_1         | name: location_4
+sp_1         | uuid: 50f07029-8249-54f1-adc0-90a04a734563
+sp_1         | 
+sp_1         | [ WARN] [1610166233.325708317]: Annotation is out of map borders!!! Deleting invalid annotation... Change the coordinates or exit and edit manually annotations.ini file or decrease the cell size. Here are the details:
+sp_1         | The vertex of the annotation in the topology graph is out of map borders with negative indices (4,-2)
 ```
 
 For the Task Planner it is important that topology vertices are always distanced greater or equal to **cell_size**. If we move annotations **W1** and **W2** closer by changing the x coordinates to -5 and -3.9, respectively the annotation further in the list (**W2**) will be deleted and the new one can be added as is explained in this message:
@@ -574,7 +588,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.5
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.6
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -596,7 +610,7 @@ services:
             - "39002:39002"
     splocal:
         restart: always
-        image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.1
+        image: docker.ramp.eu/opil/opil.iot.sp.local:3.1.2
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw

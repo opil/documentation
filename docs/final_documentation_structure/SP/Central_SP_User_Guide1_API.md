@@ -218,19 +218,10 @@ void VisualizationPublisherGML::graphCallback(const maptogridmap::GraphConstPtr&
 		p.y=gmMsg->vertices[i].y;
 		graphvertex.points.push_back(p);
 	}
-	int foundsrcdest;
 	for (uint i=0; i<gmMsg->edges.size(); i++){
-		foundsrcdest=0;
+		int foundsrcdest=0;
 		for (uint j=0; j<gmMsg->vertices.size(); j++){
-			if (gmMsg->vertices[j].uuid==gmMsg->edges[i].uuid_src){
-				p.x=gmMsg->vertices[j].x;
-				p.y=gmMsg->vertices[j].y;
-				stc.points.push_back(p);
-				foundsrcdest++;
-				if (foundsrcdest==2)
-					break;
-			}
-			if (gmMsg->vertices[j].uuid==gmMsg->edges[i].uuid_dest){
+			if ((gmMsg->vertices[j].uuid==gmMsg->edges[i].uuid_src)||(gmMsg->vertices[j].uuid==gmMsg->edges[i].uuid_dest)){
 				p.x=gmMsg->vertices[j].x;
 				p.y=gmMsg->vertices[j].y;
 				stc.points.push_back(p);
