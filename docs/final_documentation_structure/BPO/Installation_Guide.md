@@ -1,5 +1,5 @@
-# BPO Installation
-There are two ways to install the BPO module. You can use the docker container to install the BPO module or you can compile it using the source code repository.
+# BPO Installation Guide
+You can use the docker container to install the BPO module or you can compile it using the source code repository.
 
 ## 1. Docker Container
 ### 1.a) Install from Docker Container
