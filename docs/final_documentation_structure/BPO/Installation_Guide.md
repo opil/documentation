@@ -55,4 +55,13 @@ git clone https://gitlab.com/opil_group/mod.sw.bpo.git
 cd ..
 catkin_make
 ```
-Now, you can continue the implementation following the [User Manual](User_Manual.md) guide.
+### 2.a) Starting from source code
+To start the BPO service, you need to run the following commands on a computer where ROS kinetic is already installed.
+
+Open a terminal and launch the bpo_service_v5.launch file by running the following command
+```
+roslaunch opil_bpo bpo_service_v5.launch 
+```
+
+Congratulations! Now, the BPO service is running on your local computer.
+You can continue following the guidelines on [User Manual](User_Manual.md).
