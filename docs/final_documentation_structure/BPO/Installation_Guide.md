@@ -1,7 +1,8 @@
 # BPO Installation
-You can use the docker container to install the BPO module.
+There are two ways to install the BPO module. You can use the docker container to install the BPO module or you can compile it using the source code repository.
 
-## Install from Docker Container
+
+1. Install from Docker Container
 The BPO docker container is located at [RAMP Docker Registry](https://docker.ramp.eu/?page=1#!taglist/opil/opil.sw.bpo).
 Pull the latest docker image of the module using this command:
 ```
