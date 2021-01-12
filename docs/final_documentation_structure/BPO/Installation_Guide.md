@@ -47,7 +47,6 @@ if you want to run the container in the background.
 ## Install from source code
 Supported $ROS_DISTRO is kinetic.
 
-
 Clone the BPO repository to your catkin workspace. Then compile it with catkin_make in one folder up.
 ```
 cd <your_catkin_workspace>/src/
@@ -55,4 +54,4 @@ git clone https://gitlab.com/opil_group/mod.sw.bpo.git
 cd ..
 catkin_make
 ```
-To check if everything is working properly follow the [User Manual](User_Manual.md)
+To check if everything works as expected follow the [User Manual](User_Manual.md)
