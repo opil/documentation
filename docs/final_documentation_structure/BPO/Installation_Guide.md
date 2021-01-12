@@ -58,7 +58,7 @@ catkin_make
 ### 2.a) Starting from source code
 To start the BPO service, you need to run the following commands on a computer where ROS kinetic is already installed.
 
-Open a terminal and launch the bpo_service_v5.launch file by running the following command
+Open a terminal and launch the bpo_service_v5.launch file by running the following command.
 ```
 roslaunch opil_bpo bpo_service_v5.launch 
 ```
