@@ -42,7 +42,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.6
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.7
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -125,7 +125,7 @@ Remove all files from volumes section to see a default behavior of sp service in
 ```
     sp:
         restart: always
-        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.6
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.7
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -372,187 +372,47 @@ We can change any parameter but the most important is to calculate the right pos
 If we change the distance of **W3** to 1 this annotation will produce a topology vertex inside the occupied cell. As a result, that annotation will be deleted with the print of the occupied annotation:
 
 ```
-sp_1         | x: -6.1071
-sp_1         | y: 10.5638
-sp_1         | theta: 92.0454
-sp_1         | distance: 1
-sp_1         | name: W3
-sp_1         | uuid: c825ba97-2dc3-5f57-b23e-9cdc041d23bf
-sp_1         | 
-sp_1         | [ WARN] [1609914366.115720685]: Annotation is occupied!!! Deleting occupied annotation... Add new annotation by pressing the 2D Nav Goal button in RViz or exit and edit manually annotations.ini file or decrease the cell size. Here are the details:
-sp_1         | The vertex of the annotation in the topology graph is at the occupied position (-6.071409,9.564437) for the cell_size = 1.250000 m.
+sp_1         | [ WARN] [1610608956.795912603]: Annotation [W3] is occupied with its vertex 
+coordinates at (-6.071409, 9.564437) for the cell_size = 1.250000 m!!! Deleting occupied 
+annotation... Change the coordinates or exit and edit manually annotations.ini file.
 ```
 
 If we choose the new annotation (or have it written in the annotations.ini file) out of the map borders the produced indices of topology vertex will have negative sign. As a result, that annotation will be deleted with the print of the invalid annotation:
 ```
-sp_1         | x: -5.4862
-sp_1         | y: -9.40014
-sp_1         | theta: 0
-sp_1         | distance: 2
-sp_1         | name: location_4
-sp_1         | uuid: 50f07029-8249-54f1-adc0-90a04a734563
-sp_1         | 
-sp_1         | [ WARN] [1610166233.325708317]: Annotation is out of map borders!!! Deleting invalid annotation... Change the coordinates or exit and edit manually annotations.ini file or decrease the cell size. Here are the details:
-sp_1         | The vertex of the annotation in the topology graph is out of map borders with negative indices (4,-2)
+sp_1         | [ WARN] [1610166233.325708317]: Annotation [location_4] is out of map borders
+with its vertex map coordinates (-5, -3)!!! Deleting invalid annotation... Change the coordinates
+or exit and edit manually annotations.ini file.
 ```
 
 For the Task Planner it is important that topology vertices are always distanced greater or equal to **cell_size**. If we move annotations **W1** and **W2** closer by changing the x coordinates to -5 and -3.9, respectively the annotation further in the list (**W2**) will be deleted and the new one can be added as is explained in this message:
 
 ```
-sp_1         | [ WARN] [1609914691.798372432]: Annotations are too close!!! Deleting this annotation... Change the coordinates of the annotation or decrease the cell size. Here are the details:
-sp_1         | The annotation W1 is too close to the annotation W2
-sp_1         | x: -5
-sp_1         | y: -5.35605
-sp_1         | theta: -90
-sp_1         | distance: 2
-sp_1         | name: W1
-sp_1         | uuid: 2ce6ce99-b600-5301-828d-8e1568ddf775
-sp_1         | 
-sp_1         | x: -3.9
-sp_1         | y: -5.40986
-sp_1         | theta: -88.6361
-sp_1         | distance: 2
-sp_1         | name: W2
-sp_1         | uuid: 8aea17b9-be10-532c-885d-56a1c0bef332
-sp_1         | 
-sp_1         | The annotation W1 has the topology vertex at (-5, -3.35605 ), which is distanced for 1.0538(less than the cell_size = 1.25) from the topology vertex at (-3.9476, -3.41043 ) of the annotation W2
-sp_1         | spanning tree size 0 neighbour tree size 160
-sp_1         | number of vertices: 157
-sp_1         | number of edges: 224
-sp_1         | [ WARN] [1609914691.800894567]: Read the output carefully since some annotations from the file were deleted. Add new annotation by pressing the 2D Nav Goal button in RViz and select the position and hold to select the orientation of the goal!
+sp_1         | [ WARN] [1610609263.750513811]: The annotation [W2] has vertex coordinates at
+(-3.947605, -3.410427) which is less than the cell_size = 1.250000 m distanced from the 
+annotation [W1] vertex coordinates (-5.000000, -3.356050). Deleting the annotation [W2]... 
+Change the coordinates or decrease the cell size.
 ```
 
-If we change coordinates of **W1** and **W2** such that they are distanced more than the cell size but fall into the same grid cell, for example diagonally placed, then the annotation further in the list (**W2**) is deleted and the print message is as follows:
+If we change coordinates of **W1** to (-5.2, -5.5) and **W2** to (-4.2, -4.5) such that they are distanced more than the cell size but fall into the same grid cell, as in this example diagonally placed, then the annotation further in the list (**W2**) is deleted and the print message is as follows:
 ```
-sp_1         | [ WARN] [1609915266.383094167]: Annotations fall into the same grid cell!!! Deleting this annotation... Change the coordinates of the annotation or decrease the cell size. Here are the details:
-sp_1         | The annotation W1 is too close to the annotation W2
-sp_1         | x: -5.2
-sp_1         | y: -5.5
-sp_1         | theta: -90
-sp_1         | distance: 2
-sp_1         | name: W1
-sp_1         | uuid: 2ce6ce99-b600-5301-828d-8e1568ddf775
-sp_1         | 
-sp_1         | x: -4.2
-sp_1         | y: -4.5
-sp_1         | theta: -88.6361
-sp_1         | distance: 2
-sp_1         | name: W2
-sp_1         | uuid: 8aea17b9-be10-532c-885d-56a1c0bef332
-sp_1         | 
-sp_1         | Both annotations fall into the same topology vertex at (6, 3 )
-sp_1         | spanning tree size 0 neighbour tree size 160
-sp_1         | number of vertices: 156
-sp_1         | number of edges: 223
-sp_1         | [ WARN] [1609915266.385821097]: Read the output carefully since some annotations from the file were deleted. Add new annotation by pressing the 2D Nav Goal button in RViz and select the position and hold to select the orientation of the goal!
+sp_1         | [ WARN] [1610609554.110689769]: Annotations [W2] and [W1] fall into the same
+topology grid cell with map coordinates (6, 3). Deleting the annotation [W2]... Change the 
+coordinates or decrease the cell size.
 ```
 
 OCB can not handle some special characters as the names of entities, and since the annotation labels are used in Task Planner it is necessary to check if each label contains allowed characters which are only letters, numbers and underscore. If annotation contains a character from the list of illegal characters: <>"'=;()+-* /#$&,.!:?@[]^`{|}~ it will be deleted. For example, if we change the annotation name **W2** to **W 2** (adding a space) this annotation will be renamed to **location_** followed by the index suffix and we will see a message like this:
 
 ```
-sp_1         | [ WARN] [1609915498.633442035]: Annotation name contains an illegal character. Here are the details:
-sp_1         | converting the map data to gridmap: cell size 1.250000, res=0.019600, width=1500, height=1080, xorigin=-12.885400, yorigin=-7.488800, size gridmap (23,16)
-sp_1         | The annotation name "W 2" contains the illegal character " ".
-sp_1         | Please name annotations only with a combination of letters, numbers and _ (underscore).
-sp_1         | Do not use any character from the list of illegal characters: 
-sp_1         | <>"'=;()+-* /#$&,.!:?@[]^`{|}~
-sp_1         | Renaming to location_1
-sp_1         | header: 
-sp_1         |   seq: 0
-sp_1         |   stamp: 0.000000000
-sp_1         |   frame_id: 
-sp_1         | annotations[]
-sp_1         |   annotations[0]: 
-sp_1         |     x: -5.32123
-sp_1         |     y: -5.35605
-sp_1         |     theta: -90
-sp_1         |     distance: 2
-sp_1         |     name: W1
-sp_1         |     uuid: 2ce6ce99-b600-5301-828d-8e1568ddf775
-sp_1         |   annotations[1]: 
-sp_1         |     x: -3.48547
-sp_1         |     y: -5.40986
-sp_1         |     theta: -88.6361
-sp_1         |     distance: 2
-sp_1         |     name: location_1
-sp_1         |     uuid: de304190-e4ac-5022-a966-b83ef58926e8
-sp_1         |   annotations[2]: 
-sp_1         |     x: -6.1071
-sp_1         |     y: 10.5638
-sp_1         |     theta: 92.0454
-sp_1         |     distance: 2
-sp_1         |     name: W3
-sp_1         |     uuid: c825ba97-2dc3-5f57-b23e-9cdc041d23bf
-sp_1         |   annotations[3]: 
-sp_1         |     x: 3.94872
-sp_1         |     y: 5.30657
-sp_1         |     theta: 90
-sp_1         |     distance: 2
-sp_1         |     name: MoldingPallet
-sp_1         |     uuid: 61138907-a6b7-5ee4-b1ff-e5faa5c942a7
-sp_1         | 
-sp_1         | [ WARN] [1609915498.634468739]: Read the output carefully since some annotations from the file were renamed due to illegal character or duplicate naming! Add new annotation by pressing the 2D Nav Goal button in RViz and select the position and hold to select the orientation of the goal!
-sp_1         | spanning tree size 0 neighbour tree size 160
-sp_1         | number of vertices: 155
-sp_1         | number of edges: 222
-sp_1         | All annotations from the annotations.ini file are valid! You can add more annotations by pressing the 2D Nav Goal button in RViz and select the position and hold to select the orientation of the goal!
+sp_1         | [ WARN] [1610609655.754332965]: Annotation name [W 2] contains an illegal 
+character ' '. Please name the annotation only with a combination of letters, numbers and _
+(underscore). Do not use any character from the list of illegal characters 
+<>"'=;()+-\* /#$&,.!:?@[]^`{|}~. Renaming the annotation to [location_1]!
 ```
 
-Duplicate names are not allowed and in that case the name will be replaced with the default name **location_** followed by the index suffix. This message will give the details about the change:
+Duplicate names are not allowed and in that case the name will be replaced with the default name **location_** followed by the index suffix. If we change the annotation name **W2** to **W1**, which already exists, this message will appear:
 ```
-sp_1         | [ WARN] [1609915754.914926029]: Two annotations have the same name! Names must be unique! Here are the details:
-sp_1         | converting the map data to gridmap: cell size 1.250000, res=0.019600, width=1500, height=1080, xorigin=-12.885400, yorigin=-7.488800, size gridmap (23,16)
-sp_1         | The annotation 2 has the same name as the annotation 1
-sp_1         | x: -5.32123
-sp_1         | y: -5.35605
-sp_1         | theta: -90
-sp_1         | distance: 2
-sp_1         | name: W1
-sp_1         | uuid: 2ce6ce99-b600-5301-828d-8e1568ddf775
-sp_1         | 
-sp_1         | x: -5.32123
-sp_1         | y: -5.35605
-sp_1         | theta: -90
-sp_1         | distance: 2
-sp_1         | name: W1
-sp_1         | uuid: 2ce6ce99-b600-5301-828d-8e1568ddf775
-sp_1         | 
-sp_1         | Renaming to location_1
-sp_1         | header: 
-sp_1         |   seq: 0
-sp_1         |   stamp: 0.000000000
-sp_1         |   frame_id: 
-sp_1         | annotations[]
-sp_1         |   annotations[0]: 
-sp_1         |     x: -5.32123
-sp_1         |     y: -5.35605
-sp_1         |     theta: -90
-sp_1         |     distance: 2
-sp_1         |     name: W1
-sp_1         |     uuid: 2ce6ce99-b600-5301-828d-8e1568ddf775
-sp_1         |   annotations[1]: 
-sp_1         |     x: -3.48547
-sp_1         |     y: -5.40986
-sp_1         |     theta: -88.6361
-sp_1         |     distance: 2
-sp_1         |     name: location_1
-sp_1         |     uuid: 2ce6ce99-b600-5301-828d-8e1568ddf775
-sp_1         |   annotations[2]: 
-sp_1         |     x: -6.1071
-sp_1         |     y: 10.5638
-sp_1         |     theta: 92.0454
-sp_1         |     distance: 2
-sp_1         |     name: W3
-sp_1         |     uuid: c825ba97-2dc3-5f57-b23e-9cdc041d23bf
-sp_1         |   annotations[3]: 
-sp_1         |     x: 3.94872
-sp_1         |     y: 5.30657
-sp_1         |     theta: 90
-sp_1         |     distance: 2
-sp_1         |     name: MoldingPallet
-sp_1         |     uuid: 61138907-a6b7-5ee4-b1ff-e5faa5c942a7
-sp_1         | 
-sp_1         | [ WARN] [1609915754.916218667]: Read the output carefully since some annotations from the file were renamed due to illegal character or duplicate naming! Add new annotation by pressing the 2D Nav Goal button in RViz and select the position and hold to select the orientation of the goal!
+sp_1         | [ WARN] [1610609823.826776902]: Two annotations have the same name [W1]! Names 
+must be unique! Renaming to [location_1]!
 ```
 
 
@@ -588,7 +448,7 @@ services:
 #S&P
     sp:
         restart: always
-        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.6
+        image: docker.ramp.eu/opil/opil.sw.sp.central:3.1.7
         volumes:
             #- path on the host : path inside the container
             - /tmp/.X11-unix:/tmp/.X11-unix:rw
