@@ -31,9 +31,6 @@ ROS package which demonstrates localization and mapping in the Stage simulator. 
 ROS package for publishing AGV's pose with covariance to be sent to Orion Context Broker through firos.
 
 
-#### odometry_correction
-
-ROS package which relies on _robot_pose_ekf_ to fuse robot odometry with IMU data to improve the odometry estimation.
 
 
 
